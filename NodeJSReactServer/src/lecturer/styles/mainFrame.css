@@ -1,0 +1,63 @@
+.Menubar{
+  overflow: hidden;
+  position: fixed;
+  top: 0;
+  height:55px;
+  width: 100%;
+  background-color: white;
+  box-shadow: 0px 0px 10px #888888;
+  z-index: 2;
+}
+
+.title{
+  position: absolute;
+  height: 43px;
+  left: 101px;
+  top: 122px;
+
+  font-family: Rubik;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 36px;
+  line-height: 43px;
+
+  color: #000000;
+}
+
+.moduleBox{
+  position: absolute;
+  left: 101px;
+  top: 230px;
+  width: 1223px;
+  height: 496px;
+
+  border: 1px solid #C4C4C4;
+  box-sizing: border-box;
+  border-radius: 8px;
+}
+.optionSelectorBox::-webkit-scrollbar {
+    display: none;
+}
+
+.optionSelectorBox {
+  overflow-y: scroll;
+  -ms-overflow-style: none;
+  float: left;
+  height: 100%;
+  width: 25%;
+  background-color: #555;
+  border-radius: 8px 0px 0px 8px;
+}
+.breakDownSelectorBox {
+  float:left;
+  height: 100%;
+  width: 25%;
+  background-color: lightblue;
+}
+.detailBox {
+  float:left;
+  height: 100%;
+  width: 50%;
+  background-color: lightgray;
+  border-radius: 0px 8px 8px 0px;
+}
