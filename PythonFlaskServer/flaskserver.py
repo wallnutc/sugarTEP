@@ -389,8 +389,6 @@ def coordinatorGraphs():
   json_data.append(makeStackedWeeksJSON(weekly_module_values, module_names))
   return json.dumps(json_data[0])
   
-if __name__ == '__main__':
-    app.run(debug=True)
 
 #
 #  mydb = mysql.connector.connect(
