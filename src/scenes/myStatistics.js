@@ -1,7 +1,6 @@
 import React ,{Components} from 'react';
 import FilterSelector from '../components/FilterSelector';
 import Header from "../components/header";
-import Items_list from "../components/items_list";
 import CanvasComponent from "../components/canvasComponent"
 
 function MyStatistics () {
@@ -12,7 +11,7 @@ function MyStatistics () {
         <div className="header">
           <Header imgPath = {headerContent.imgPath}  title = {headerContent.title}/>
         </div>
-        <div style= {{position: 'fixed',top:'150px'}}>
+        <div className="main" >
           <CanvasComponent />
         </div>
 

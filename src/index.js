@@ -2,12 +2,20 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
+import Student from './student/Student';
+import Lecturer from './lecturer/Lecturer';
 import { BrowserRouter, Switch, Route} from 'react-router-dom';
 import * as serviceWorker from './serviceWorker';
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+  <BrowserRouter>
+  <Switch>
+    <Route path='/' exact={true} component={App} />
+    <Route path='/student' component={Student} />
+    <Route path='/lecturer' component={Lecturer} />
+  </Switch>
+</BrowserRouter>
   </React.StrictMode>,
   document.getElementById('root')
 );

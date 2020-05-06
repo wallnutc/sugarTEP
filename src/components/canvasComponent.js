@@ -1,25 +1,11 @@
-import React ,{Components, useEffect} from 'react';
-import StackedColumnChart from './stackedColumnChart';
-import PieChart from './pieChart';
-
+import React ,{Components, useState, useEffect} from 'react';
+import TimelineChart from './timeline';
 function CanvasComponent (){
-  console.log("entreeeii");
-  useEffect(() => {
+  return (
+      <div>
+        <TimelineChart consoleID = "1" label = "Engineering" type = "activity"/>
+      </div>);
 
-      fetch('http://mvroso.pythonanywhere.com/coordinatorGraphs').then(res => res.json()).then(res => {
-          console.log(res);
-
-      });
-  }, []);
-
-        return (
-          <div >
-            <PieChart />
-            <StackedColumnChart/>
-
-          </div>
-        );
 
 }
-
 export default CanvasComponent;

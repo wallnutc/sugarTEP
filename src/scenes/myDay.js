@@ -1,12 +1,12 @@
 import React ,{Component} from 'react';
 import FilterSelector from '../components/FilterSelector';
 import Header from "../components/header";
-import Items_list from "../components/items_list";
 import ListRenderer from "../components/listRenderer";
-import MakeChart from "./JSONFetchExample";
+
+
 class MyDay extends Component {
-  constructor(){
-    super();
+  constructor(props){
+    super(props);
     this.headerContent = {title:"My Day", imgPath: require("../images/icons/myDay.svg")};
     this.state = {myDay:[
       {
@@ -63,8 +63,8 @@ class MyDay extends Component {
     }
   ]
   };
-  }
 
+  }
 
 
 render(){
@@ -79,8 +79,8 @@ render(){
         </div>
       </div>
       <div className="main" >
-        <MakeChart />
         <ListRenderer renderContent={this.state.myDay}/>
+        }
       </div>
     </div>
   );

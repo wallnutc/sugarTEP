@@ -1,0 +1,74 @@
+/*    display: none;  background: transparent;
+
+-ms-overflow-style: none;
+
+
+
+
+*/
+.selectorBox::-webkit-scrollbar {
+    width: 8px;
+}
+
+.selectorBox::-webkit-scrollbar-track {
+
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0);
+    border-radius: 0px;
+
+}
+
+.selectorBox::-webkit-scrollbar-thumb {
+    border-radius: 4px;
+    background-color: gray;
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5);
+}
+
+.selectorBox {
+  height: 380px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+
+}
+
+
+.detailBox::-webkit-scrollbar {
+    display: none;
+}
+
+.detailBox {
+  height: 380px;
+  overflow-y: scroll;
+  -ms-overflow-style: none;
+
+}
+
+
+
+.btn {
+  border: none;
+  outline: none;
+  padding: 10px 16px;
+  background-color: #f1f1f1;
+  cursor: pointer;
+}
+
+.active {
+  background-color: #666;
+  color: white;
+}
+
+.MuiTab-wrapper{
+  align-items: flex-start !important;
+}
+
+.MuiExpansionPanelSummary-content.Mui-expanded{
+  margin: 0 !important;
+}
+
+.MuiExpansionPanelSummary-content{
+  margin: 0 !important;
+
+}
+.MuiExpansionPanel-rounded{
+    border-radius: 8px !important;
+}

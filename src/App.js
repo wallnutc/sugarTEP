@@ -1,38 +1,29 @@
 import React ,{Component} from 'react';
-import './styles/mainFrame.css';
-import TopMenuBar from './components/menu';
-import FilterSelector from './components/FilterSelector';
-import SimpleBottomNavigation from './components/bottom_Navigation';
-import Items_list from "./components/items_list";
-
-import Lectures from "./scenes/lectures";
-import MyActivities from "./scenes/myActivities";
-import MyDay from "./scenes/myDay";
-import SelfGuidedStudy from './scenes/selfGuidedStudy';
-import MyStatistics from './scenes/myStatistics';
-
-import Pag1 from "./scenes/pag1";
-import Pag2 from "./scenes/pag2";
-
-
-function CoreSceneRenderer (props){
-  switch(props.coreScene) {
-    case 'lectures':
-      return (<Lectures />);
-    case 'myActivities':
-      return (<MyActivities />);
-    case 'myDay':
-      return (<MyDay />);
-    case 'selfGuidedStudy':
-      return (<SelfGuidedStudy />);
-    case 'myStatistics':
-      return (<MyStatistics />);
-    default:
-      return (<MyDay />);
-  }
-}
+import { BrowserRouter, Switch, Route} from 'react-router-dom';
 
 class App extends Component  {
+
+
+
+
+    render(){
+      return (
+        <div className="App">
+        <ul>
+          <li><a href="/student"> student </a></li>
+          <li><a href="/lecturer"> lecturer </a></li>
+          <li>Coordinator</li>
+        </ul>
+        </div>
+      );
+    }
+
+}
+
+export default App;
+
+
+{/*
   state = {coreScene: 'myDay'};
 
   changeCoreScene = (coreSceneIndex)=>{
@@ -55,34 +46,4 @@ class App extends Component  {
     }
   }
 
-    render(){
-      return (
-        <div className="App">
-          <div className="Menubar">
-            <TopMenuBar />
-          </div>
-
-          <div>
-            <CoreSceneRenderer coreScene={this.state.coreScene}/>
-          </div>
-
-          <div className="BottomNavigation">
-            <SimpleBottomNavigation coreScene={this.changeCoreScene}/>
-          </div>
-        </div>
-      );
-    }
-
-}
-
-export default App;
-
-
-{/*
-  <BrowserRouter>
-  <Switch>
-    <Route path='/lectures' component={Lectures} />
-    <Route path='/myday' component={MyDay} />
-  </Switch>
-</BrowserRouter>
 */}
