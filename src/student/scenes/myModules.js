@@ -30,7 +30,7 @@ const GeneralInformation = ((props) =>
         <ExpansionPanelDetails >
           <div style = {{textAlign: 'justify', fontWeight: 'normal', fontSize: '14px', lineHeight: '17px'}}>
             <div> Description: </div>
-            <div style = {{fontWeight: 300}}> Lorem ipsum dolor sit amet, consectetur adipiscing elit, ed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam </div>
+            <div style = {{fontWeight: 300}}> {props.description} </div>
             <div style = {{margin:'12px 0 0 0 '}}> Professors: </div>
             <div style = {{fontWeight: 300}}> {props.prof} </div>
           </div>
@@ -93,7 +93,7 @@ function ModulePanel (props) {
             </div>
 
               <div style={{position:'relative', top:'130px'}}>
-              <GeneralInformation prof = {props.module.module_lecturer} />
+              <GeneralInformation prof = {props.module.module_lecturer} description = {props.module.module_description}/>
               <Workload moduleID = {props.module.module_ID} label = {props.module.module_name}/>
               </div>
 

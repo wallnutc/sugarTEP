@@ -4,7 +4,7 @@ import Header from "../components/header";
 import TimelineComponent from "../components/timelineComponent";
 import PieCourseComponent from "../components/pieCourseComponent";
 
-function MyStatistics () {
+function MyStatistics (props) {
 
   const headerContent = {title:"My Statistics", imgPath: require("../images/icons/myStatistics.svg")};
     return (
@@ -15,16 +15,16 @@ function MyStatistics () {
 
         <div className="main">
           <div style = {{position: 'relative', height: 1000}}>
-          <TimelineComponent courseID = "1" label = "Engineering year 2"/></div>
+          <TimelineComponent courseID = {props.student.course_ID} label = {props.student.label}/></div>
         
           <div style = {{position: 'relative',height: 700}}>
-          <PieCourseComponent courseID = "1" label = "Engineering year 2" type = "module"/></div>
+          <PieCourseComponent courseID = {props.student.course_ID} label = {props.student.label} type = "module"/></div>
 
           <div style = {{position: 'relative',height: 700}}>
-          <PieCourseComponent courseID = "1" label = "Engineering year 2" type = "activity"/></div>
+          <PieCourseComponent courseID = {props.student.course_ID} label = {props.student.label} type = "activity"/></div>
 
           <div style = {{position: 'relative',height: 700}}>
-          <PieCourseComponent courseID = "1" label = "Engineering year 2" type = "grade"/></div>
+          <PieCourseComponent courseID = {props.student.courseID} label = {props.student.label} type = "grade"/></div>
         </div>
 
       </div>

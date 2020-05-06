@@ -70,7 +70,7 @@ function PieComponent (props){
         return (
             <ReactFusioncharts
                 type= "doughnut2d"
-                width= "100%"
+                width= "90%"
                 height= "90%"
                 dataFormat= "json"
                 dataSource= {datasource}

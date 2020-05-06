@@ -24,7 +24,7 @@ function CoreSceneRenderer (props){
     case 'myModules':
       return (<MyModules modules={props.modules.modules}/>);
     case 'myStatistics':
-      return (<MyStatistics />);
+      return (<MyStatistics student={props.modules.student}/>);
     default:
       return (<MyDay />);
   }
@@ -174,9 +174,11 @@ class Student extends Component  {
       .then(res => res.json())
       .then(
         (result) => {
+          console.log(result);
           this.setState({
             isLoaded: true,
-            modules: result
+            modules: result.modules,
+            student: result.student
           });
           this.setActivities (this.state.modules);
           this.setClasses(this.state.modules);

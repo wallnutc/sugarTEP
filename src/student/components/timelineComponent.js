@@ -47,8 +47,11 @@ function TimelineComponent(props){
         }
         ],
         xAxis: {
-        binning: binning
-        },
+          binning: {
+            "day": [1,6],
+            "month": [1]
+          }
+        }
     };
 
     const timeseriesDs = {
