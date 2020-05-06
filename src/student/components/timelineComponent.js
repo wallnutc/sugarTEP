@@ -56,7 +56,7 @@ function TimelineComponent(props){
 
     const timeseriesDs = {
         type: "timeseries",
-        width: "100%",
+        width: "90%",
         height: "100%",
         dataSource: dataSource
     }
