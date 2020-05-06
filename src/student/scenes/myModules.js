@@ -32,7 +32,7 @@ const GeneralInformation = ((props) =>
             <div> Description: </div>
             <div style = {{fontWeight: 300}}> {props.description} </div>
             <div style = {{margin:'12px 0 0 0 '}}> Professors: </div>
-            <div style = {{fontWeight: 300}}> {props.prof} </div>
+            <div style = {{fontWeight: 300}}> {props.prof} | {props.email} </div>
           </div>
         </ExpansionPanelDetails >
       </ExpansionPanel>
@@ -61,7 +61,6 @@ const Workload = ((props) =>
 
 function ModulePanel (props) {
   console.log("dentro do panel:");
-  console.log(props.module);
   const mainStyle = {
     left: "0",
     right:"0",
@@ -79,56 +78,62 @@ function ModulePanel (props) {
     lineHeight: '21px',
     padding: '15px',
   };
-  return( <div style={{overflow:'scroll',position:'fixed',top: '55px', width:'100%',bottom:'72px', zIndex:1, backgroundColor:'white'}}>
-            <div style={{position:'fixed',height: '130px', width:'100%',backgroundColor:'white',zIndex:2}}>
-              <IconButton onClick = {()=>props.onClick(false)}
-              style={{position:'fixed',top: '55px',margin:'15px 24px'}} aria-label="delete" color="primary">
-                  <ArrowBackIosIcon color='action'/>
-              </IconButton>
-              <div style={mainStyle}>
-                <SchoolIcon style ={{fontSize: '45px', verticalAlign:'middle', float:'left',  padding: '20px 25px'}}/>
-                {/*<img  src={headerContent.imgPath} style={imgStyle}/>*/}
-                <h2 style={titleStyle}> {props.module.module_code} - {props.module.module_name} </h2>
+  if(props.module != undefined){
+    return( <div style={{overflow:'scroll',position:'fixed',top: '55px', width:'100%',bottom:'72px', zIndex:1, backgroundColor:'white'}}>
+              <div style={{position:'fixed',height: '130px', width:'100%',backgroundColor:'white',zIndex:2}}>
+                <IconButton onClick = {()=>props.onClick(false)}
+                style={{position:'fixed',top: '55px',margin:'15px 24px'}} aria-label="delete" color="primary">
+                    <ArrowBackIosIcon color='action'/>
+                </IconButton>
+                <div style={mainStyle}>
+                  <SchoolIcon style ={{fontSize: '45px', verticalAlign:'middle', float:'left',  padding: '20px 25px'}}/>
+                  {/*<img  src={headerContent.imgPath} style={imgStyle}/>*/}
+                  <h2 style={titleStyle}> {props.module.module_code} - {props.module.module_name} </h2>
+                </div>
               </div>
+
+                <div style={{position:'relative', top:'130px'}}>
+                <GeneralInformation prof = {props.module.module_lecturer} description = {props.module.module_description} email = {props.module.module_lecturer_email}/>
+                <Workload moduleID = {props.module.module_ID} label = {props.module.module_name}/>
+                </div>
+
             </div>
 
-              <div style={{position:'relative', top:'130px'}}>
-              <GeneralInformation prof = {props.module.module_lecturer} description = {props.module.module_description}/>
-              <Workload moduleID = {props.module.module_ID} label = {props.module.module_name}/>
-              </div>
 
-          </div>
-
-
-  );
+    );
+  }
+  else return <h4 style={{textAlign: "center"}}>Loading...</h4>;
 }
 
 
 function ModuleButton (props) {
-  return(<div style={{margin:'7px 24px'}}>
-    <Button fullWidth onClick = {()=>props.onClick(props.module.module_code)}
-    style={{backgroundColor:'#e3e3e3',textAlign:'left',justifyContent:'left',textTransform: 'none',}}startIcon={<SchoolIcon color='action' style={{verticalAlign:'middle', fontSize: '45px'}} />} children ={
-        <div>
-          <div style={{fontFamily: 'Rubik'}}>{props.module.module_code} - {props.module.module_name} </div>
-          <div style={{fontWeight:'300',fontSize: '14px'}}>Prof. {props.module.module_lecturer} </div>
-        </div>
-    } />
-    </div>
+  if(props.module != undefined){
+    return(<div style={{margin:'7px 24px'}} class="MuiPaper-root MuiExpansionPanel-root MuiExpansionPanel-rounded MuiPaper-elevation1 MuiPaper-rounded">
+      <Button fullWidth onClick = {()=>props.onClick(props.module.module_code)} class="MuiButtonBase-root MuiExpansionPanelSummary-root" tabindex="0" role="button" aria-disabled="false" aria-expanded="false" style="padding: 0px;"
+      style={{textAlign:'left',justifyContent:'left',textTransform: 'none',}} startIcon={<SchoolIcon color='action' style={{verticalAlign:'middle', fontSize: '45px', padding: "0px 20px"}} />} children ={
+          <div style={{width: '100%', padding: '10px 0px', fontFamily: 'Rubik', fontStyle: 'normal'}}>
+            <div style={{fontWeight:'300',fontSize: '10px'}}>Prof. {props.module.module_lecturer} </div>
+            <div style={{fontFamily: 'Rubik'}}>{props.module.module_code} - {props.module.module_name} </div>
+          </div>
+      } />
+      </div>
 
-  );
+    );
+  }
+  else return <h4 style={{textAlign: "center"}}>Loading...</h4>;
 }
 
 export default function MyModules (props) {
   const [moduleSelected,setModuleSelected] = useState(false);
   const [selectedID,setSelectedID] = useState();
-
-  function selectModule(id) {
-    setModuleSelected(true);
-    setSelectedID(id);
-    console.log("id selected:" + id)
-}
-
   const headerContent = {title:"My Modules", imgPath: require("../images/icons/selfGuidedStudy.svg")};
+  if(props.modules != undefined){
+
+    function selectModule(id) {
+      setModuleSelected(true);
+      setSelectedID(id);
+      console.log("id selected:" + id)
+    }
     return (
       <div >
         <div className="header">
@@ -153,6 +158,8 @@ export default function MyModules (props) {
 
       </div>
     );
+  }
+  else return <h4 style={{textAlign: "center"}}>Loading...</h4>;
 }
 
 {/*

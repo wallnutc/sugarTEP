@@ -54,6 +54,12 @@
   margin-bottom: 100px;
   z-index: -2;
 }
+.charts{
+  text-align: center;
+  margin-top: 195px;
+  margin-bottom: 100px;
+  z-index: -2;
+}
 .chartjs-render-monitor{
   width:600px;
 }
