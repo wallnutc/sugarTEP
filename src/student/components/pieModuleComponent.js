@@ -30,12 +30,12 @@ function PieComponent (props){
 
         if (props.type == "hours"){
           data = module;
-          caption = "Year Breakdown by Module Hours";
+          caption = "Year Breakdown by Hours";
           centerlabel = "$label: $value hours";
         }
         else if (props.type == "grade"){
           data = grade;
-          caption = "Year Breakdown by Activity Type Grade";
+          caption = "Year Breakdown by Grade";
           centerlabel = "$label: $value%"
         }
         const datasource = {
@@ -44,17 +44,32 @@ function PieComponent (props){
             bgColor: "#ffffff",
             startingAngle: "310",
             showBorder: "0",
-            legendNumColumns: "1",
+            showLabels: "0",
+            showValues: "0",
+            legendCaption: "Activities",
+            legendCaptionBold: "1",
+            legendItemFont: "Rubik",
+            legendShadow: "1",
+            legendBorderColor: "#CCCCCC",
+            legendBgAlpha: "20",
+            legendBorderThickness: "1",
+            legendCaptionFont: "Rubik",
+            legendCaptionFontSize: "14",
+            legendCaptionFontColor: "#333333",
+            pieRadius: "100%",
             plotHighlightEffect: "fadeout",
             legendPosition: "bottom",
+            legendBgColor: "#ffffff",
             legendAllowDrag: "0",
             legendScrollBgColor: "#ffffff",
             showLegend: "1",
             defaultCenterLabel: props.label,
             centerlabel: centerlabel,
             centerLabelBold: "1",
+            enableMultiSlicing: "0",
+            useEllipsesWhenOverflow:"1",
+            centerLabelBold: "1",
             showTooltip: "0",
-            showLabels: "0",
             decimals: "1",
             theme: "fusion"
           },
@@ -63,8 +78,8 @@ function PieComponent (props){
         
         return (
             <ReactFusioncharts
-                type= "pie2d"
-                width= "90%"
+                type= "doughnut2d"
+                width= "100%"
                 height= "90%"
                 dataFormat= "json"
                 dataSource= {datasource}

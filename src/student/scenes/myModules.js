@@ -49,8 +49,8 @@ const Workload = ((props) =>
             <div style = {{width:'100%', height: '100%', textAlign: 'justify', fontWeight: 'normal', fontSize: '14px', lineHeight: '17px'}}>
               <div style = {{fontWeight: 300}}> Total amount of workload which you are expected to have during the module, including lectures, activities and guided study time.</div>
               <div style = {{margin:'12px 0 0 0 ', fontWeight: 300, color:'#AFAFAF' }}> view by: </div>
-              <div style = {{position: 'relative', height:250}}> <PieModuleComponent moduleID = {props.moduleID} label = {props.label} type = "hours"/> </div>
-              <div style = {{position: 'relative', height:250}}> <PieModuleComponent moduleID = {props.moduleID} label = {props.label} type = "grade"/> </div>
+              <div style = {{position: 'relative', height:550}}> <PieModuleComponent moduleID = {props.moduleID} label = {props.label} type = "hours"/> </div>
+              <div style = {{position: 'relative', height:550}}> <PieModuleComponent moduleID = {props.moduleID} label = {props.label} type = "grade"/> </div>
              </div>
           </ExpansionPanelDetails >
         </ExpansionPanel>

@@ -23,6 +23,13 @@ function TimelineComponent(props){
     const schema = response.schema;
     const binning = response.bin;
     const dataSource = {
+        navigator: {
+          enabled: 0
+        },
+        legend: {
+          enabled: 1,
+          position: "right"
+        },
         chart: {
         },
         caption: {
@@ -56,7 +63,7 @@ function TimelineComponent(props){
 
     const timeseriesDs = {
         type: "timeseries",
-        width: "80%",
+        width: "95%",
         height: "100%",
         dataSource: dataSource
     }

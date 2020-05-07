@@ -13,12 +13,11 @@ import MyStatistics from './scenes/myStatistics';
 
 
 function CoreSceneRenderer (props){
-
   switch(props.coreScene) {
     case 'lectures':
-      return (<Lectures classes={props.modules.classes}/>);
+      return (<Lectures filter={props.modules.modulesFilter} classes={props.modules.classes}/>);
     case 'myActivities':
-      return (<MyActivities activities={props.modules.activities}/>);
+      return (<MyActivities filter={props.modules.modulesFilter} activities={props.modules.activities} student_ID={props.modules.student.student_ID}/>);
     case 'myDay':
       return (<MyDay activities={props.modules.activities} classes={props.modules.classes}/>);
     case 'myModules':
@@ -104,6 +103,8 @@ class Student extends Component  {
           modules:[],
           classes:[],
           activities:[],
+          modulesFilter:[],
+          student:{},
 
 };
 
@@ -141,12 +142,12 @@ class Student extends Component  {
     })
 
     })
-    //tempLec.sort((a,b) => (new Date(a.date) > new Date(b.date))&&(parseInt(a.start_time.split(':')[0]) > parseInt(b.start_time.split(':')[0])) ? 1 : ((new Date(a.date) == new Date(b.date))&&(parseInt(a.start_time.split(':')[0]) == parseInt(b.start_time.split(':'))[0]) ? 0 : -1));
-    //console.log(tempLec);
+    console.log("classes here");
     sortClasses(tempLec);
     this.setState({
       classes: tempLec
     });
+
   }
 
   setActivities (modules){
@@ -168,6 +169,15 @@ class Student extends Component  {
     });
 
   }
+  setModuleFilter (modules){
+    const temp =[{value:"all modules",label:'all modules'}];
+    //const temp =[];
+    modules.map((module) => { temp.push({value:module.module_code,label:module.module_name})} );
+
+    this.setState({
+      modulesFilter: temp
+    });
+  }
 
   componentDidMount() {
     fetch('http://mvroso.pythonanywhere.com/modulesByStudent1')
@@ -181,7 +191,11 @@ class Student extends Component  {
             student: result.student
           });
           this.setActivities (this.state.modules);
+          console.log(this.state.activities);
           this.setClasses(this.state.modules);
+          console.log(this.state.classes);
+          this.setModuleFilter (this.state.modules);
+          console.log(this.state.modulesFilter);
         },
         (error) => {
           this.setState({

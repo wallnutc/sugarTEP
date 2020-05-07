@@ -7,7 +7,7 @@ import InfiniteScroll from "react-infinite-scroll-component";
 
 
 function MyDay (props) {
-  const today = "2018-Sep-14";
+  const today = "2018-09-14";
   const today2 = "2018-09-14T00:00:00"
   const headerContent = {title:"My Day", imgPath: require("../images/icons/myDay.svg")};
   const batch = 5;

@@ -28,20 +28,23 @@ function PieComponent (props){
         var caption = null;
         var data = null;
         var centerlabel = null;
-
+        var legendcaption = null;
         if (props.type == "module"){
           data = module;
           caption = "Year Breakdown by Module Hours";
+          legendcaption = "Modules";
           centerlabel = "$label: $value hours";
         }
         else if (props.type == "activity"){
           data = activity;
           caption = "Year Breakdown by Activity Type Hours";
+          legendcaption = "Activities";
           centerlabel = "$label: $value hours";
         }
         else if (props.type == "grade"){
           data = grade;
           caption = "Year Breakdown by Average Activity Type Grade";
+          legendcaption = "Activities";
           centerlabel = "$label: $value%"
         }
         const datasource = {
@@ -51,8 +54,21 @@ function PieComponent (props){
             startingAngle: "310",
             showBorder: "0",
             legendNumColumns: "1",
+            enableMultiSlicing: "0",
             plotHighlightEffect: "fadeout",
             legendPosition: "bottom",
+            legendCaption: legendcaption,
+            legendCaptionBold: "1",
+            legendItemFont: "Rubik",
+            legendShadow: "1",
+            legendBorderColor: "#CCCCCC",
+            legendBgAlpha: "20",
+            legendBorderThickness: "1",
+            legendCaptionFont: "Rubik",
+            legendCaptionFontSize: "14",
+            legendCaptionFontColor: "#333333",
+            pieRadius: "100%",
+            legendBgColor: "#ffffff",
             legendAllowDrag: "0",
             legendScrollBgColor: "#ffffff",
             showLegend: "1",
@@ -70,7 +86,7 @@ function PieComponent (props){
         return (
             <ReactFusioncharts
                 type= "doughnut2d"
-                width= "90%"
+                width= "80%"
                 height= "90%"
                 dataFormat= "json"
                 dataSource= {datasource}
