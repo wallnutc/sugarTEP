@@ -171,7 +171,7 @@ class Student extends Component  {
 
   }
   setModuleFilter (modules){
-    const temp =[{value:"All Modules",label:'All Modules'}];
+    const temp =[{value:"all modules",label:'All Modules'}];
     //const temp =[];
     modules.map((module) => { temp.push({value:module.module_code,label:module.module_name})} );
 

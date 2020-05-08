@@ -111,41 +111,41 @@ export function ActivityProgressPopup (props) {
   // console.log(questions);
   // console.log("answers");
   // console.log(answers);
-  const updateProgress = () =>{
+  const updateProgress = (props) =>{
     console.log("progress updated");
-    // var data = {
-    //   studentID: props.student,
-    //   activityID: props.activity.activity_ID,
-    //   hours: timeSpent,
-    //   submitted: 0
-    // };
-    // fetch("http://mvroso.pythonAnywhere.com/updateStudentProgress", {
-    //               method: "POST",
-    //               cache: "no-cache",
-    //               body: JSON.stringify(data),
-    //               headers: new Headers({"content-type": "application/json"})
-    //           }).then(res => {
-    //               console.log("Request complete! response:", res);
-    //           });
+     var data = {
+       studentID: props.student,
+       activityID: props.activity.activity_ID,
+       hours: timeSpent,
+       submitted: 0
+     };
+     fetch("http://mvroso.pythonAnywhere.com/updateStudentProgress", {
+                   method: "POST",
+                   cache: "no-cache",
+                   body: JSON.stringify(data),
+                   headers: new Headers({"content-type": "application/json"})
+               }).then(res => {
+                   console.log("Request complete! response:", res);
+               });
     setUpdated(true);
   }
-  const finishActivity = () =>{
+  const finishActivity = (props) =>{
     console.log("activity finished");
-    // var data = {
-    //   studentID: props.student,
-    //   activityID: props.activity.activity_ID,
-    //   hours: timeSpent,
-    //   submitted: 1
-    // };
-    //     console.log(data);
-    // fetch("http://mvroso.pythonAnywhere.com/updateStudentProgress", {
-    //               method: "POST",
-    //               cache: "no-cache",
-    //               body: JSON.stringify(data),
-    //               headers: new Headers({"content-type": "application/json"})
-    //           }).then(res => {
-    //               console.log("Request complete! response:", res);
-    //           });
+     var data = {
+       studentID: props.student,
+       activityID: props.activity.activity_ID,
+       hours: timeSpent,
+       submitted: 1
+     };
+         console.log(data);
+     fetch("http://mvroso.pythonAnywhere.com/updateStudentProgress", {
+                   method: "POST",
+                   cache: "no-cache",
+                   body: JSON.stringify(data),
+                   headers: new Headers({"content-type": "application/json"})
+               }).then(res => {
+                   console.log("Request complete! response:", res);
+               });
     setFinished(true);
   }
   const submitFeedback = () => {
@@ -238,7 +238,7 @@ return (
               {props.activity.feedback.map((feedback)=><div style={{margin:'8px',height: '120px',backgroundColor:'white',boxShadow:' 0px 4px 4px rgba(0, 0, 0, 0.1)'}} > <LikertScale callback={getFeedbackState} feedback={feedback} /> </div>)}
               <div style={{margin:'24px'}}>
           <Button fullWidth onClick={submitFeedback}
-          style={{lineHeight:0, height: '18px',borderRadius:'9px',textTransform: 'none', padding:0, backgroundColor:'#414141',}} children ={<span style={{inlineHeight:'0',color:'white'}}>submit feedback</span>}></Button>
+          style={{lineHeight:0, height: '18px',borderRadius:'9px',textTransform: 'none', padding:0, backgroundColor:'#414141',}} children ={<span style={{inlineHeight:'0',color:'white'}}>Submit Feedback</span>}></Button>
           </div>
           </div>:
 
