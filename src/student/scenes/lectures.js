@@ -17,7 +17,7 @@ import {
 import {ClassFeedbackPopup} from '../components/popups';
 
 function Lectures (props) {
-  window.scrollTo(0, 0);
+
     const headerContent = {title:"Lectures", imgPath: require("../images/icons/lectures.svg")};
     const batch = 5;
     const [selectedModule, setSelectedModule] = useState(props.filter.length == 0 ? "null": props.filter[0].value);
@@ -145,7 +145,7 @@ function Lectures (props) {
             </MuiPickersUtilsProvider>
             {showPopup ?
             <ClassFeedbackPopup
-                      lecture={popupClass}
+                      class={popupClass}
                       closePopup={togglePopup}
             />  : null
             }

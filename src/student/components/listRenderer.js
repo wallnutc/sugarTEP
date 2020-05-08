@@ -17,7 +17,7 @@ import icon_study_bold from '../images/icons/lectures_disabled.png';
 import IconLecture from '../images/icons/lectures.svg';
 import AssignmentIcon from '@material-ui/icons/Assignment';
 import MenuBookIcon from '@material-ui/icons/MenuBook';
-
+import LocationOnOutlinedIcon from '@material-ui/icons/LocationOnOutlined';
 const useStyles = makeStyles((theme) => ({
   root: {
     width: '100%',
@@ -99,18 +99,19 @@ export function LecturePanel(props) {
                 {props.item.title}
               </div>
               <div style = {{fontWeight: 300, fontSize: '14px', lineHeight: '17px',color:'#4d4d4d'}} >
-                <ScheduleIcon color='action' style={{verticalAlign:"middle",fontSize: '14px'}}/> <span style = {{color:'#4d4d4d'}}>{start[0]+':'+start[1]} - {end[0]+':'+end[1]} - {day + '/' + month + '/' + year}</span>
+                <ScheduleIcon color='action' style={{verticalAlign:"middle",fontSize: '14px'}}/> <span style = {{color:'#4d4d4d'}}>{start[0]+':'+start[1]} - {end[0]+':'+end[1]} </span>
+                <span style={{marginRight:'16px',float:'right'}}><LocationOnOutlinedIcon color='action' style={{fontSize:'14px'}}/> {props.item.location}</span>
               </div>
             </div>
           </div>
           </ExpansionPanelSummary>
       <ExpansionPanelDetails >
         <div style={{width:'100%'}} >
-            <div style = {{fontWeight: 300, fontSize: '13px', lineHeight: '15px', lineHeight: '15px', color:'#7E7E7E'}}>
-              {props.item.description}
+            <div style = {{margin:'8px',fontWeight:'normal', fontSize: '15px', lineHeight: '15px', color:'#7E7E7E'}}>
+              Description
             </div>
-            <div style = {{margin:'14px 0',font:'Rubik',textAlign: 'justify', fontWeight: 'normal', fontSize: '14px', lineHeight: '17px'}}>
-              no feedback yet <span style={{float:'right'}}><GradeIcon color='action'/> <GradeIcon color='action'/><GradeIcon color='action'/><GradeIcon color='action'/><GradeIcon color='action'/></span>
+            <div style = {{margin:'8px 8px 16px 8px',fontWeight: 300, fontSize: '13px', lineHeight: '15px',color:'#7E7E7E'}}>
+              {props.item.description}
             </div>
             <div>
               <Button fullWidth onClick={()=>props.onClick(props.item)}
@@ -170,7 +171,7 @@ export function ActivityPanel(props) {
           </div>
           <div style={{width:'100%',verticalAlign:'middle',display: 'inline-block' }}>
             <div style={{position:'relative',top:'5px',width:'80%', float:'left', verticalAlign:'middle'}}>
-              <ProgressBar variant="determinate" value ={50} />
+              <ProgressBar variant="determinate" value ={30} />
             </div>
             <div style={{float:'right'}}> {props.item.estimated_time} hours</div>
           </div>
@@ -180,14 +181,17 @@ export function ActivityPanel(props) {
           </div>
           <div style={{width:'100%',verticalAlign:'middle',display: 'inline-block' }}>
             <div style={{position:'relative',top:'5px',width:'80%', float:'left', verticalAlign:'middle'}}>
-              <ProgressBar variant="determinate" value={5} />
+              <ProgressBar variant="determinate" value={props.item.time_spent==null || props.item.estimated_time== null ? 5: 30*props.item.time_spent/props.item.estimated_time} />
             </div>
-            <div style={{float:'right'}}> {props.item.time_spent} hours</div>
+            <div style={{float:'right'}}> {props.item.time_spent==null? 0:props.item.time_spent} hours</div>
           </div>
           <div style={{margin:'17px 0'}}>
-            <Button fullWidth onClick={()=>props.onClick(props.item)}
-            style={{lineHeight:0, height: '18px',borderRadius:'9px',textTransform: 'none', padding:0, backgroundColor:'#414141',}} children ={<span style={{inlineHeight:'0',color:'white'}}>Update progress</span>}></Button>
-          </div>
+            {props.item.submitted == 1 ?<div>activity finished</div>:
+              <Button fullWidth onClick={()=>props.onClick(props.item)}
+              style={{lineHeight:0, height: '18px',borderRadius:'9px',textTransform: 'none', padding:0, backgroundColor:'#414141',}} children ={<span style={{inlineHeight:'0',color:'white'}}>Update progress</span>}></Button>
+
+            }
+            </div>
 
           <div style={{margin:'17px 0'}}>
             <span > Description </span>

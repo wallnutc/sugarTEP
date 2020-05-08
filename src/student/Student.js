@@ -13,13 +13,14 @@ import MyStatistics from './scenes/myStatistics';
 
 
 function CoreSceneRenderer (props){
+    window.scrollTo(0, 0);
   switch(props.coreScene) {
     case 'lectures':
       return (<Lectures filter={props.modules.modulesFilter} classes={props.modules.classes}/>);
     case 'myActivities':
       return (<MyActivities filter={props.modules.modulesFilter} activities={props.modules.activities} student_ID={props.modules.student.student_ID}/>);
     case 'myDay':
-      return (<MyDay activities={props.modules.activities} classes={props.modules.classes}/>);
+      return (<MyDay isLoaded = {props.isLoaded} activities={props.modules.activities} classes={props.modules.classes}/>);
     case 'myModules':
       return (<MyModules modules={props.modules.modules}/>);
     case 'myStatistics':
@@ -214,7 +215,7 @@ class Student extends Component  {
           </div>
 
           <div>
-            <CoreSceneRenderer coreScene={this.state.coreScene} modules={this.state}/>
+            <CoreSceneRenderer coreScene={this.state.coreScene} isLoaded= {this.state.isLoaded}modules={this.state}/>
           </div>
 
           <div className="BottomNavigation">
