@@ -76,11 +76,11 @@ style={{lineHeight:0, height: '18px',borderRadius:'9px',textTransform: 'none', p
   <CheckCircleOutlineRoundedIcon size='big' color='action' style={{fontSize:'50px',textAlign: 'center'}} />
   </div>
 <div style={{display:'flex',justifyContent:'center', fontWeight: '300',fontSize: '18px', lineHeight: '21px'}}> You did it! </div>
-<div style={{display:'flex',justifyContent:'center', fontWeight: '300',fontSize: '12px', lineHeight: '14px'}}> your progress has been saved </div>
+<div style={{display:'flex',justifyContent:'center', fontWeight: '300',fontSize: '12px', lineHeight: '14px'}}> Your progress has been saved </div>
 
 <div style={{margin:'24px'}}>
 <Button fullWidth onClick={props.closePopup}
-style={{lineHeight:0, height: '18px',borderRadius:'9px',textTransform: 'none', padding:0, backgroundColor:'#414141',}} children ={<span style={{inlineHeight:'0',color:'white'}}>thanks!</span>}></Button>
+style={{lineHeight:0, height: '18px',borderRadius:'9px',textTransform: 'none', padding:0, backgroundColor:'#414141',}} children ={<span style={{inlineHeight:'0',color:'white'}}>Back</span>}></Button>
 </div>
 </div>
 
@@ -222,11 +222,11 @@ return (
           <CheckCircleOutlineRoundedIcon size='big' color='action' style={{fontSize:'50px',textAlign: 'center'}} />
           </div>
         <div style={{display:'flex',justifyContent:'center', fontWeight: '300',fontSize: '18px', lineHeight: '21px'}}> Great! </div>
-        <div style={{display:'flex',justifyContent:'center', fontWeight: '300',fontSize: '12px', lineHeight: '14px'}}> your progress was updated, keep going </div>
+        <div style={{display:'flex',justifyContent:'center', fontWeight: '300',fontSize: '12px', lineHeight: '14px'}}> Your progress was successfully updated </div>
 
         <div style={{margin:'24px'}}>
         <Button fullWidth onClick={props.closePopup}
-        style={{lineHeight:0, height: '18px',borderRadius:'9px',textTransform: 'none', padding:0, backgroundColor:'#414141',}} children ={<span style={{inlineHeight:'0',color:'white'}}>cool!</span>}></Button>
+        style={{lineHeight:0, height: '18px',borderRadius:'9px',textTransform: 'none', padding:0, backgroundColor:'#414141',}} children ={<span style={{inlineHeight:'0',color:'white'}}>Back</span>}></Button>
         </div>
       </div> :(!feedback ?   <div className='popup\_inner' style={{ fontFamily: 'Rubik', overflow:'scroll',overflowX:'hidden',position: 'absolute',left: '10%',
               right: '10%',   top: '10%', bottom: '10%',  margin: 'auto',borderRadius: '6px', background: '#F6F7FA'}}>

@@ -115,7 +115,7 @@ export function LecturePanel(props) {
             </div>
             <div>
               <Button fullWidth onClick={()=>props.onClick(props.item)}
-              style={{lineHeight:0,float:'right',height: '18px',borderRadius:'9px',textTransform: 'none', padding:0, backgroundColor:'#414141',}} children ={<span style={{inlineHeight:'0',color:'white'}}>give feedback</span>}></Button>
+              style={{lineHeight:0,float:'right',height: '18px',borderRadius:'9px',textTransform: 'none', padding:0, backgroundColor:'#414141',}} children ={<span style={{inlineHeight:'0',color:'white'}}>Provide Feedback</span>}></Button>
             </div>
         </div>
       </ExpansionPanelDetails >
