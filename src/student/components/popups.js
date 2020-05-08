@@ -111,8 +111,8 @@ export function ActivityProgressPopup (props) {
   // console.log(questions);
   // console.log("answers");
   // console.log(answers);
-  const updateProgress = (props) =>{
-    console.log("progress updated");
+  const updateProgress = () =>{
+    console.log(props.activity);
      var data = {
        studentID: props.student,
        activityID: props.activity.activity_ID,
@@ -129,7 +129,7 @@ export function ActivityProgressPopup (props) {
                });
     setUpdated(true);
   }
-  const finishActivity = (props) =>{
+  const finishActivity = () =>{
     console.log("activity finished");
      var data = {
        studentID: props.student,
