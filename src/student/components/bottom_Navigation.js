@@ -21,7 +21,7 @@ const useStyles = makeStyles({
   },
 });
 
-
+const mainBlue = "#0061D2";
 
 export default function SimpleBottomNavigation({coreScene})  {
   const classes = useStyles();
@@ -36,11 +36,11 @@ export default function SimpleBottomNavigation({coreScene})  {
       showLabels
       className={classes.root}
     >
-      <BottomNavigationAction style={{minWidth:0}} label="Classes" icon={<MenuBookIcon style={{fontSize:'35px'}} />} />
-      <BottomNavigationAction style={{minWidth:0}} label="Activities" icon={<AssignmentIcon style={{fontSize:'35px'}} />} />
-      <BottomNavigationAction style={{minWidth:0}} label="Schedule" icon={<CalendarTodayIcon style={{fontSize:'35px'}}/>} />
-      <BottomNavigationAction style={{minWidth:0}} label="Modules" icon={<SchoolIcon style={{fontSize:'35px'}}/>} />
-      <BottomNavigationAction style={{minWidth:0}} label="Statistics" icon={<AssessmentIcon style={{fontSize:'35px'}}/>} />
+      <BottomNavigationAction style={{minWidth:0, color: mainBlue}} label="Classes" icon={<MenuBookIcon style={{fontSize:'35px', color: mainBlue}} />} />
+      <BottomNavigationAction style={{minWidth:0, color: mainBlue}} label="Activities" icon={<AssignmentIcon style={{fontSize:'35px', color: mainBlue}} />} />
+      <BottomNavigationAction style={{minWidth:0, color: mainBlue}} label="Schedule" icon={<CalendarTodayIcon style={{fontSize:'35px', color: mainBlue}}/>} />
+      <BottomNavigationAction style={{minWidth:0, color: mainBlue}} label="Modules" icon={<SchoolIcon style={{fontSize:'35px', color: mainBlue}}/>} />
+      <BottomNavigationAction style={{minWidth:0, color: mainBlue}} label="Statistics" icon={<AssessmentIcon style={{fontSize:'35px', color: mainBlue}}/>} />
     </BottomNavigation>
   );
 }

@@ -6,11 +6,10 @@ import ReactFusioncharts from "react-fusioncharts";
 charts(FusionCharts);
 
 
-function PieComponent (props){
+function StudentPieComponent (props){
     const [response,setResponse] = useState({});
     useEffect(() => {
-      var url = 'http://mvroso.pythonanywhere.com/activityTypePieChartsByModule' + props.moduleID.toString();
-      console.log(url);
+      var url = 'http://mvroso.pythonanywhere.com/studentsByModule' + props.moduleID.toString();
       fetch(url)
          .then((response) => response.json())
          .then((responseJson) => {
@@ -20,23 +19,10 @@ function PieComponent (props){
            console.error(error);
          });
     },[]);
-    if(response.ByHours != undefined){
-        const module = response.ByHours;
-        const grade = response.ByGrade;
-        var caption = null;
-        var data = null;
-        var centerlabel = null;
-
-        if (props.type == "hours"){
-          data = module;
-          caption = "Year Breakdown by Hours";
-          centerlabel = "$label: $value hours";
-        }
-        else if (props.type == "grade"){
-          data = grade;
-          caption = "Year Breakdown by Grade";
-          centerlabel = "$label: $value%"
-        }
+    
+    if(response.pie != undefined){
+        const data = response.pie;
+        var caption = "My Class by Courses";
         const datasource = {
           chart: {
             caption: caption,
@@ -45,26 +31,21 @@ function PieComponent (props){
             showBorder: "0",
             showLabels: "0",
             showValues: "0",
-            legendCaption: "Activities",
+            legendCaption: "Courses",
             legendCaptionBold: "1",
             legendItemFont: "Rubik",
             legendShadow: "1",
             legendBorderColor: "#CCCCCC",
-            legendBgAlpha: "20",
+            legendBgAlpha: "10",
             legendBorderThickness: "1",
             legendCaptionFont: "Rubik",
             legendCaptionFontSize: "14",
             legendCaptionFontColor: "#333333",
-            pieRadius: "80%",
             plotHighlightEffect: "fadeout",
-            legendPosition: "bottom",
+            legendPosition: "left",
             legendBgColor: "#ffffff",
             legendAllowDrag: "0",
-            legendScrollBgColor: "#ffffff",
             showLegend: "1",
-            defaultCenterLabel: props.label,
-            centerlabel: centerlabel,
-            centerLabelBold: "1",
             enableMultiSlicing: "0",
             useEllipsesWhenOverflow:"1",
             centerLabelBold: "1",
@@ -77,7 +58,7 @@ function PieComponent (props){
         
         return (
             <ReactFusioncharts
-                type= "doughnut2d"
+                type= "pie2d"
                 width= "100%"
                 height= "90%"
                 dataFormat= "json"
@@ -91,4 +72,4 @@ function PieComponent (props){
     }
   };
   
-  export default PieComponent;
+  export default StudentPieComponent;

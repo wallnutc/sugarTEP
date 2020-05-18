@@ -5,7 +5,7 @@ import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import Typography from '@material-ui/core/Typography';
 import PersonIcon from '@material-ui/icons/Person';
-import VerticalTabs from "./verticalTab3";
+import VerticalTabs from "./verticalTab";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -51,7 +51,8 @@ export default function ControlledExpansionPanels(props) {
     const handleChange = (panel) => (event, isExpanded) => {
         setExpanded(isExpanded ? panel : false);
     };
-
+    console.log("panel");
+    console.log(props.modules);
 
     return (
         <div className={classes.root}>
@@ -60,19 +61,14 @@ export default function ControlledExpansionPanels(props) {
 
                 <ExpansionPanelSummary style = {{padding:0,margin:0}}>
                 { expanded? <div style = {{ position:'relative', height: '100px', width:'317px', backgroundColor:'#414141', borderRadius: '8px 0px 0px 0px',fontFamily: 'Rubik', fontStyle: 'normal'}}>
-                <p style = {{position:'relative',top:'24',left:'29px', fontWeight: '500', fontSize: '18px', display: 'flex', alignItems: 'center', color: '#FFFFFF'}}> 3E7 - Engineering Math </p>
-                <Typography style={{position:'relative', verticalAlign:'middle' , left:'29px', float:'left', fontSize: '15px', fontWeight:'500', color: 'white', paddingBottom: '0.5px'}}> <PersonIcon className={classes.iconS} style={{ fontSize: 22 , verticalAlign:'middle'}} /> 35 &nbsp; <b>ECTS</b> 10</Typography>
+                <p style = {{position:'relative',top:'24',left:'29px', fontWeight: '500', fontSize: '18px', display: 'flex', alignItems: 'center', color: '#FFFFFF'}}> {props.module.module_code + ' - ' + props.module.module_name} </p>
+    <Typography style={{position:'relative', verticalAlign:'middle' , left:'29px', float:'left', fontSize: '15px', fontWeight:'500', color: 'white', paddingBottom: '0.5px'}}> <PersonIcon className={classes.iconS} style={{ fontSize: 22 , verticalAlign:'middle'}} /> {props.module.total_students} &nbsp; <b>ECTS</b> {props.module.credits}</Typography>
                 </div>
                 :
                   <div style={{height:'76px', width:'100%', padding:'0px 30px',backgroundColor:'#D6D6D6', borderRadius: '8px', verticalAlign:'middle'}}>
                     <div style={{position:'relative',top:'27px'}}>
-                    <Typography className={classes.heading} ><b>3E7 - Engineering Maths &nbsp;&nbsp;&nbsp;</b></Typography>
-
-                    <Typography className={classes.secondaryHeading}> <PersonIcon fontSize="small" style = {{verticalAlign:'middle'}} /> 35 &nbsp;&nbsp;&nbsp; <b>ECTS</b> 10 </Typography>
-                    </div>
-                    <div style = {{float:'right',position:'relative', top:'15px'}}>
-                      <Typography className={classes.timeHead}><b>Tuesday</b>: 10.45 - 11.45 AM </Typography>
-                      <Typography className={classes.timeHead}><b>Thursday</b>: 10.45 - 11.45 AM </Typography>
+                    <Typography className={classes.heading} ><b>{props.module.module_code + ' - ' + props.module.module_name} &nbsp;&nbsp;&nbsp;</b></Typography>
+                    <Typography className={classes.secondaryHeading}> <PersonIcon fontSize="small" style = {{verticalAlign:'middle'}} /> {props.module.total_students} &nbsp;&nbsp;&nbsp; <b>ECTS</b> {props.module.credits} </Typography>
                     </div>
                   </div>
                 }
@@ -81,7 +77,7 @@ export default function ControlledExpansionPanels(props) {
 
                 <ExpansionPanelDetails className={classes.expanded}>
                         <div style={{position:'relative'}}>
-                        <VerticalTabs/>
+                        <VerticalTabs today={props.today} module={props.module} classes={props.module.classes}/>
                         </div>
                 </ExpansionPanelDetails>
             </ExpansionPanel>

@@ -11,13 +11,11 @@ import Grid from '@material-ui/core/Grid';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import ScheduleIcon from '@material-ui/icons/Schedule';
 import GradeIcon from '@material-ui/icons/Grade';
-import icon_lecture_bold from '../images/icons/lectures.svg';
-import icon_assignment_bold from '../images/icons/myActivities.svg';
-import icon_study_bold from '../images/icons/lectures_disabled.png';
-import IconLecture from '../images/icons/lectures.svg';
 import AssignmentIcon from '@material-ui/icons/Assignment';
 import MenuBookIcon from '@material-ui/icons/MenuBook';
 import LocationOnOutlinedIcon from '@material-ui/icons/LocationOnOutlined';
+import FeedbackDial from "./feedbackDialComponent";
+import FeedbackBar from "./feedbackBarComponent";
 const useStyles = makeStyles((theme) => ({
   root: {
     width: '100%',
@@ -64,7 +62,7 @@ const ProgressBar = withStyles({
   },
   barColorPrimary:{
     borderRadius:'6px',
-    backgroundColor:'white'
+    backgroundColor:'#414141'
   },
   colorPrimary:{
     borderRadius:'6px',
@@ -85,38 +83,38 @@ export function LecturePanel(props) {
   const end = props.item.end_time.split(':');
   return (
     <div style={{padding:'7px 24px'}}>
-      <ExpansionPanel style={{backgroundColor:props.item.colour}} >
+      <ExpansionPanel >
           <ExpansionPanelSummary  style = {{padding:'0 0 0 0'}}>
           <div style = {{width:'100%',padding:'10px 0', fontFamily: 'Rubik', fontStyle: 'normal'}}>
             <div style = {{float:'left', padding:'0 20px ',height:'100%'}}>
               <MenuBookIcon color='action' style={{fontSize:'45px'}} />
             </div>
             <div>
-              <div style = {{fontWeight: 300, fontSize: '10px', lineHeight: '12px'}} >
-                {props.item.module_code} - {props.item.module_name} | Prof. {props.item.module_lecturer}
-              </div>
               <div style = {{fontWeight: 'normal', fontSize: '14px', lineHeight: '17px'}}>
                 {props.item.title}
               </div>
-              <div style = {{fontWeight: 300, fontSize: '14px', lineHeight: '17px'}} >
-                <ScheduleIcon color='action' style={{verticalAlign:"middle",fontSize: '14px'}}/> <span >{start[0]+':'+start[1]} - {end[0]+':'+end[1]} </span>
-                <span style={{marginRight:'16px',float:'right'}}><LocationOnOutlinedIcon color='action' style={{fontSize:'14px'}}/> {props.item.location}</span>
+              <div style = {{fontWeight: 300, fontSize: '14px', lineHeight: '17px',color:'#4d4d4d'}} >
+                <ScheduleIcon color='action' style={{verticalAlign:"middle",fontSize: '14px'}}/> <span style = {{color:'#4d4d4d'}}>{day+'/'+month} <br/> {start[0]+':'+start[1]} - {end[0]+':'+end[1]} </span>
               </div>
             </div>
           </div>
           </ExpansionPanelSummary>
       <ExpansionPanelDetails >
         <div style={{width:'100%'}} >
-            <div style = {{margin:'8px',fontWeight:'normal', fontSize: '15px', lineHeight: '15px'}}>
+            <span style={{marginRight:'16px',float:'right'}}><LocationOnOutlinedIcon color='action' style={{fontSize:'14px'}}/> {props.item.location}</span>
+            <div style = {{margin:'8px',fontWeight:'normal', fontSize: '15px', lineHeight: '15px', color:'#7E7E7E'}}>
               Description
             </div>
-            <div style = {{margin:'8px 8px 16px 8px',fontWeight: 300, fontSize: '13px', lineHeight: '15px'}}>
+            <div style = {{margin:'8px 8px 16px 8px',fontWeight: 300, fontSize: '13px', lineHeight: '15px',color:'#7E7E7E'}}>
               {props.item.description}
             </div>
-            <div>
-              <Button fullWidth onClick={()=>props.onClick(props.item)}
-              style={{lineHeight:0,float:'right',height: '18px',borderRadius:'9px',textTransform: 'none', padding:0, backgroundColor:'white',}} children ={<span style={{inlineHeight:'0',color:'primary'}}>Provide Feedback</span>}></Button>
-            </div>
+            {
+              <div>
+                <Button fullWidth onClick={()=>{props.changeTab(1);}}
+                style={{lineHeight:0,float:'right',height: '18px',borderRadius:'9px',textTransform: 'none', padding:0, backgroundColor:'#414141',}} children ={<span style={{inlineHeight:'0',color:'white'}}>check details</span>}></Button>
+              </div>
+              }
+
         </div>
       </ExpansionPanelDetails >
       </ExpansionPanel>
@@ -136,7 +134,7 @@ export function ActivityPanel(props) {
   const startDateYear = dueDate.getFullYear();
   return (
     <div style={{padding:'7px 24px'}}>
-      <ExpansionPanel style={{backgroundColor: props.item.colour}}>
+      <ExpansionPanel >
           <ExpansionPanelSummary  style = {{padding:'0 0 0 0'}}>
           <div style = {{width:'100%',padding:'10px 0', fontFamily: 'Rubik', fontStyle: 'normal'}}>
           <div style = {{float:'left',height:'100%', padding:'0 20px '}}>
@@ -144,14 +142,11 @@ export function ActivityPanel(props) {
 
           </div>
           <div>
-            <div style = {{fontWeight: 300, fontSize: '10px', lineHeight: '12px'}} >
-              {props.item.module_code} - {props.item.module_name} | Prof. {props.item.module_lecturer}
-            </div>
             <div style = {{fontWeight: 'normal', fontSize: '14px', lineHeight: '17px'}}>
               {props.item.title}
             </div>
-            <div style = {{fontWeight: 300, fontSize: '14px', lineHeight: '17px'}} >
-              <ScheduleIcon color='action' style={{verticalAlign:"middle",fontSize: '14px'}}/> <span> Due date: {dueDateDay + '/' + dueDateMonth + '/' + dueDateYear} </span>
+            <div style = {{fontWeight: 300, fontSize: '14px', lineHeight: '17px',color:'#4d4d4d'}} >
+              <ScheduleIcon color='action' style={{verticalAlign:"middle",fontSize: '14px'}}/> <span style = {{color:'#4d4d4d'}}> Due date: {dueDateDay + '/' + dueDateMonth + '/' + dueDateYear} </span>
             </div>
           </div>
           <div>
@@ -167,31 +162,10 @@ export function ActivityPanel(props) {
             Grade percentage - {props.item.grade_percentage}%
           </div>
           <div>
-            Estimated worktime
-          </div>
-          <div style={{width:'100%',verticalAlign:'middle',display: 'inline-block' }}>
-            <div style={{position:'relative',top:'5px',width:'80%', float:'left', verticalAlign:'middle'}}>
-              <ProgressBar variant="determinate" value ={30} />
-            </div>
-            <div style={{float:'right'}}> {props.item.estimated_time} hours</div>
+            Estimated worktime - {props.item.estimated_time} hours
           </div>
 
-          <div style={{marginTop:'10px'}}>
-            Accumulated worktime
-          </div>
-          <div style={{width:'100%',verticalAlign:'middle',display: 'inline-block' }}>
-            <div style={{position:'relative',top:'5px',width:'80%', float:'left', verticalAlign:'middle'}}>
-              <ProgressBar variant="determinate" value={props.item.time_spent==null || props.item.estimated_time== null ? 5: 30*props.item.time_spent/props.item.estimated_time} />
-            </div>
-            <div style={{float:'right'}}> {props.item.time_spent==null? 0:props.item.time_spent} hours</div>
-          </div>
-          <div style={{margin:'17px 0'}}>
-            {props.item.submitted == 1 ?<div>Activity Finished</div>:
-              <Button fullWidth onClick={()=>props.onClick(props.item)}
-              style={{lineHeight:0, height: '18px',borderRadius:'9px',textTransform: 'none', padding:0, backgroundColor:'white',}} children ={<span style={{inlineHeight:'0',color:'primary'}}>Update Progress</span>}></Button>
 
-            }
-            </div>
 
           <div style={{margin:'17px 0'}}>
             <span > Description </span>
@@ -202,6 +176,51 @@ export function ActivityPanel(props) {
             <span > Grading description </span>
             <div style = {{fontWeight: 300}}> {props.item.grading_description} </div>
           </div>
+          <div style={{margin:'17px 0'}}>
+            {
+              <Button fullWidth onClick={()=>{props.changeTab(2);props.selectActivity(props.item.activity_ID)}}
+              style={{lineHeight:0, height: '18px',borderRadius:'9px',textTransform: 'none', padding:0, backgroundColor:'#414141',}} children ={<span style={{inlineHeight:'0',color:'white'}}>check details</span>}></Button>
+
+            }
+            </div>
+        </div>
+      </ExpansionPanelDetails >
+      </ExpansionPanel>
+    </div>
+  );
+}
+
+export function FeedbackPanel(props) {
+  // const date = new Date(props.item.date);
+  //
+  console.log("Feedback Panel");
+  console.log(props);
+
+  //***************needed Props: activityID, activity type (Class or Activity), questionName
+
+  // const day = String(date.getDate()).padStart(2, '0');
+  // const month = String(date.getMonth() + 1).padStart(2, '0');
+  // const year = date.getFullYear();
+  //
+  // const start = props.item.start_time.split(':');
+  // const end = props.item.end_time.split(':');
+  return (
+    <div style={{padding:'7px 24px'}}>
+      <ExpansionPanel >
+          <ExpansionPanelSummary  style = {{padding:'0 0 0 0'}}>
+          <div style = {{width:'100%',padding:'10px 0', fontFamily: 'Rubik', fontStyle: 'normal'}}>
+            <div style = {{float:'left', padding:'0 20px ',height:'100%'}}>
+              <MenuBookIcon color='action' style={{fontSize:'45px'}} />
+            </div>
+            <div>
+              <div style = {{fontWeight: 'normal', fontSize: '14px', lineHeight: '47px', position: 'relative', height:75, width:200, float: "left"}}>{props.questionName}</div>
+              <div style = {{position: 'relative', height:75, width:100, float: "left"}}><FeedbackDial activityID= {props.activityID} questionName={props.questionName} type={props.type}/></div>
+            </div>
+          </div>
+          </ExpansionPanelSummary>
+      <ExpansionPanelDetails >
+        <div style={{width:'100%', height: 300}} >
+        <FeedbackBar activityID= {props.activityID} questionName={props.questionName} type={props.type}/>
         </div>
       </ExpansionPanelDetails >
       </ExpansionPanel>

@@ -10,7 +10,7 @@ import MyDay from "./scenes/myDay";
 import MyModules from './scenes/myModules';
 import MyStatistics from './scenes/myStatistics';
 
-
+const mainBlue = "#0061D2";
 
 function CoreSceneRenderer (props){
     window.scrollTo(0, 0);
@@ -171,7 +171,7 @@ class Student extends Component  {
 
   }
   setModuleFilter (modules){
-    const temp =[{value:"all modules",label:'All Modules'}];
+    const temp =[{value:"All Modules",label:'All Modules'}];
     //const temp =[];
     modules.map((module) => { temp.push({value:module.module_code,label:module.module_name})} );
 
@@ -206,11 +206,10 @@ class Student extends Component  {
         }
       );
     }
-
     render(){
       return (
         <div className="App">
-          <div className="Menubar">
+          <div className="Menubar" style = {{backgroundColor: mainBlue}}>
             <TopMenuBar />
           </div>
 

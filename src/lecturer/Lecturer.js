@@ -2,66 +2,104 @@ import React ,{Component} from 'react';
 import TopMenuBar from './components/menu';
 import './styles/mainFrame.css';
 import ExpansionPanel from './components/ExpaMod.js';
+import PropTypes from 'prop-types';
+import { makeStyles } from '@material-ui/core/styles';
+import AppBar from '@material-ui/core/AppBar';
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
+import Typography from '@material-ui/core/Typography';
+import Box from '@material-ui/core/Box';
 
+function sortActivities(activities){
+  activities.sort((a,b) => (new Date(a.due_date) > new Date(b.due_date)) ? 1 : ((new Date(b.due_date) > new Date(a.due_date)) ? -1 : 0));
+}
+function sortClasses(classes){
+  classes.sort((a,b) => (new Date(a.date+'T'+a.start_time) > new Date(b.date+'T'+b.start_time)) ? 1 : ((new Date(b.date+'T'+b.start_time) > new Date(a.date+'T'+a.start_time)) ? -1 : 0));
+}
 class Lecturer extends Component  {
+  constructor(props) {
+  super(props);
+  this.state = {
+    isLoaded: false,
+    modules:[],
+    today:{},
+    value: 0,
+    };
+}
+
+
+
+
+  componentDidMount() {
+    fetch('http://mvroso.pythonanywhere.com/modulesByStaff9')
+      .then(res => res.json())
+      .then(
+        (result) => {
+          console.log(result);
+          this.setState({
+            isLoaded: true,
+            modules: result.myModules,
+            contmodules: result.contributedModules,
+            today:new Date("2018-11-25T00:00:00"),
+            //student: result.student
+          });
+          console.log("before");
+          console.log(this.state.contmodules);
+          console.log(this.state.today);
+          this.state.modules.map((item) => {sortClasses(item.classes); sortActivities(item.activities);});
+          this.state.contmodules.map((item) => {sortClasses(item.classes); sortActivities(item.activities);});
+          console.log("after");
+          console.log(this.state.modules);
+          console.log("modules len");
+          console.log(this.state.modules.length);
+        },
+        (error) => {
+          this.setState({
+            isLoaded: true,
+            error
+          });
+        }
+      );
+    }
+
 
 
     render(){
       return (
         <div >
-          <div className = 'Menubar'>
-            <TopMenuBar />
-          </div>
-          <div className = 'title'>
-            <p> My Modules</p>
-          </div>
-          <div className = 'moduleBox'>
-            <div style ={{margin:'100px 0px'}}>
-            <ExpansionPanel  defaultExpanded={true}/>
-            </div>
-            <div style ={{margin:'100px 0px'}}>
-            <ExpansionPanel />
-            </div>
-            <div style ={{margin:'100px 0px'}}>
-            <ExpansionPanel />
-            </div>
-            <div style ={{margin:'100px 0px'}}>
-            <ExpansionPanel />
-            </div>
-            <div style ={{margin:'100px 0px'}}>
-            <ExpansionPanel />
-            </div>
-            <div style ={{margin:'100px 0px'}}>
-            <ExpansionPanel />
-            </div>
-
-          {/*
-            <div className = 'optionSelectorBox'>
-              <h2>
-                OPTION SELECTOR BOX
-              </h2>
-              <p>
-
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Risus viverra adipiscing at in tellus integer feugiat scelerisque. Id ornare arcu odio ut sem nulla pharetra diam. Tincidunt ornare massa eget egestas purus viverra. Nunc lobortis mattis aliquam faucibus purus in. Condimentum lacinia quis vel eros donec ac odio tempor orci. Cras semper auctor neque vitae tempus quam pellentesque nec. Accumsan tortor posuere ac ut. Enim sit amet venenatis urna cursus eget nunc scelerisque. Egestas sed tempus urna et pharetra pharetra massa massa. Sem et tortor consequat id. Commodo sed egestas egestas fringilla phasellus faucibus scelerisque. Nullam non nisi est sit amet facilisis magna etiam tempor. Phasellus vestibulum lorem sed risus ultricies tristique. Commodo viverra maecenas accumsan lacus vel facilisis volutpat. Pulvinar etiam non quam lacus suspendisse faucibus interdum posuere. Justo donec enim diam vulputate ut pharetra sit amet. Facilisis mauris sit amet massa vitae tortor. Dignissim sodales ut eu sem integer vitae justo. Tortor vitae purus faucibus ornare suspendisse. Pharetra vel turpis nunc eget lorem dolor. A iaculis at erat pellentesque adipiscing commodo elit. Sed pulvinar proin gravida hendrerit lectus a. Sed felis eget velit aliquet sagittis. Pretium lectus quam id leo in. Mi eget mauris pharetra et ultrices neque ornare aenean. Gravida neque convallis a cras semper auctor neque vitae tempus. Proin sagittis nisl rhoncus mattis rhoncus urna neque viverra. Varius morbi enim nunc faucibus a pellentesque sit amet porttitor.
-              </p>
-            </div>
-            <div className = 'breakDownSelectorBox'>
-              <h2>
-                BREAKDOWN SELECTOR BOX
-              </h2>
-            </div>
-            <div className = 'detailBox' >
-              <h2>
-                DETAIL BOX
-              </h2>
-            </div>
-
-            <VerticalTabs />*/}
-
+        <div className = 'Menubar'>
+          <TopMenuBar />
+        </div>
+        <div style={{position:'fixed',top:'100px'}}>
 
           </div>
+            <div className = 'title'>
+              <p> My Modules</p>
+            </div>
+            <div className = 'moduleBox'>
+            {this.state.isLoaded ? this.state.modules.map((module)=> <div style ={{margin:'50px 0px'}}>
+                      <ExpansionPanel  today={this.state.today} module={module}/>
+                      </div>)
+                      :null }
 
-          <div style={{position:'absolute',top:'2000px',height:'500px',width:'500px'}}>
+            </div>
+
+
+
+            <div className='title'>
+              <p> My Contributed Modules</p>
+            </div>
+
+            <div className = 'moduleBox'>
+            {this.state.isLoaded ? this.state.contmodules.map((module)=> <div style ={{margin:'50px 0px'}}>
+
+                      <ExpansionPanel  today={this.state.today} module={module}/>
+                      </div>)
+                      :null }
+            </div>
+
+
+            <div style={{position:'absolute',top:'2000px',height:'500px',width:'500px'}}>
           </div>
         </div>
 

@@ -18,9 +18,9 @@ import {ActivityProgressPopup} from '../components/popups';
 function MyActivities (props) {
   const batch = 5;
   const headerContent = {title:"My Activities", imgPath: require("../images/icons/myActivities.svg")};
-  const [selectedDate, setSelectedDate] = useState(new Date('2018-10-22T00:00:00'));
+  const [selectedDate, setSelectedDate] = useState(new Date('2018-09-14T00:00:00'));
   const [selectedModule, setSelectedModule] = useState(props.filter.length == 0 ? "null": props.filter[0].value);
-  const [activities, setActivities] = useState(()=>selectedModule=="all modules" ? props.activities.filter(item => new Date(item.due_date)> selectedDate) : props.activities.filter( item => item.module_code==selectedModule).filter(item => new Date(item.due_date)> selectedDate));
+  const [activities, setActivities] = useState(()=>selectedModule=="All Modules" ? props.activities.filter(item => new Date(item.due_date)> selectedDate) : props.activities.filter( item => item.module_code==selectedModule).filter(item => new Date(item.due_date)> selectedDate));
   const [activitiesForRender,setActivitiesForRender] = useState(()=> activities.length <=batch ? activities: activities.slice(0,batch))
   const [renderIndex, setRenderIndex] = useState(batch);
   const [hasMore,setHasMore] =  useState(true);
@@ -59,7 +59,7 @@ setRenderIndex(end);
 
 const handleDateChange = (date) => {
 setSelectedDate(date);
-if(selectedModule != "all modules" ){
+if(selectedModule != "All Modules" ){
   const tempActivities = props.activities.filter( item => item.module_code==selectedModule).filter(item => new Date(item.due_date)> date);
   setActivities(tempActivities);
   setActivitiesForRender(()=>tempActivities.length <=batch ? tempActivities: tempActivities.slice(0,batch));
@@ -80,7 +80,7 @@ const handleChange = (event) => {
   // console.log("onChange:")
   // console.log(event.target.value);
   // console.log(event.target.value==null);
-  if(event.target.value != "all modules" ){
+  if(event.target.value != "All Modules" ){
     const tempActivities = props.activities.filter( item => item.module_code==event.target.value).filter(item => new Date(item.due_date)> selectedDate);
     // console.log("atualizei:");
     setActivities(tempActivities);

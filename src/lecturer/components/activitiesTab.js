@@ -1,17 +1,11 @@
-import React from 'react';
+import React, { useState,useEffect } from 'react';
 import Button from '@material-ui/core/Button';
 import '../styles/lecturesTab.css';
-import { makeStyles, withStyles } from '@material-ui/core/styles';
+import {makeStyles, withStyles, useTheme} from '@material-ui/core/styles';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
-import Avatar from '@material-ui/core/Avatar';
-import Chip from '@material-ui/core/Chip';
-import FaceIcon from '@material-ui/icons/Face';
-import DoneIcon from '@material-ui/icons/Done';
-import ButtonGroup from '@material-ui/core/ButtonGroup';
-import AccessTimeIcon from '@material-ui/icons/AccessTime';
 import TextField from '@material-ui/core/TextField';
 import StackedColumnChart from './stackedColumnChart';
 import TodayIcon from '@material-ui/icons/Today';
@@ -19,39 +13,58 @@ import ScheduleIcon from '@material-ui/icons/Schedule';
 import MenuItem from '@material-ui/core/MenuItem';
 import IconButton from '@material-ui/core/IconButton';
 import AddBoxIcon from '@material-ui/icons/AddBox';
+import AssignmentIcon from '@material-ui/icons/Assignment';
+import DatePick from './datePicker';
+import {FeedbackPanel} from "./listRenderer";
+import 'date-fns';
+import DateFnsUtils from '@date-io/date-fns';
+import {
+  MuiPickersUtilsProvider,
+  KeyboardTimePicker,
+  KeyboardDatePicker,
+} from '@material-ui/pickers';
+import Input from '@material-ui/core/Input';
+import InputLabel from '@material-ui/core/InputLabel';
+import ListItemText from '@material-ui/core/ListItemText';
+import Select from '@material-ui/core/Select';
+import Chip from '@material-ui/core/Chip';
+import ClearRoundedIcon from '@material-ui/icons/ClearRounded';
 
-var response = {
-  "labels": "Teaching 1,Teaching 2,Teaching 3,Teaching 4,Teaching 5,Teaching 6,Teaching 7,Teaching 8,Teaching 9,Teaching 10,Teaching 11,Teaching 12,Revision 1,Exams 1,Christmas 1,Christmas 2,Christmas 3,Christmas 4,Christmas 5,Teaching 13,Teaching 14,Teaching 15,Teaching 16,Teaching 17,Teaching 18,Teaching 19,Teaching 20,Teaching 21,Teaching 22,Teaching 23,Teaching 24,Revision 2,Exams 2",
-  "datasets": [
-        {
-        "label": "Engineering Design II",
-        "data": "4.0,6.1,7.8,7.8,7.6,6.9,1.9,6.5,7.9,6.9,6.3,4.6,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0"
-        },
-        {
-        "label": "Mechanics",
-        "data": "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3.0,4.0,7.7,5.7,9.2,5.5,1.5,5.5,4.0,4.0,4.0,4.0,12.0,12.0"
-        },
-        {
-        "label": "Electrical Engineering",
-        "data": "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3.8,8.2,6.2,8.2,6.2,6.7,1.0,4.7,4.7,4.7,4.7,7.7,9,2"
-        },
-        {
-        "label": "Chemistry",
-        "data": "3.7,8.7,5.7,5.7,4.7,8.7,2.0,9.7,5.7,9.7,5.7,9.7,5.0,7.0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0"
-        },
-        {
-        "label": "Physics",
-        "data": "2.5,3.5,3.5,3.5,3.5,3.5,1.0,3.5,3.5,3.5,3.5,12.5,10.0,10.0,0,0,0,0,0,0,4.3,1.3,5.6,1.3,5.6,1.3,5.6,1.3,5.6,1.3,1.3,0,2"
-        },
-        {
-        "label": "Engineering Maths II",
-        "data": "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5.5,6.5,6.5,6.5,6.5,6.2,0.7,6.2,6.5,6.5,5.5,9.5,7.5,9.5"
-        },
-        ],
-  "startAxis": "Teaching 1",
-  "endAxis": "Exams 2"
+const ITEM_HEIGHT = 48;
+const ITEM_PADDING_TOP = 8;
+const MenuProps = {
+  PaperProps: {
+    style: {
+      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+      width: 250,
+    },
+  },
 };
-
+function getStyles(name, newFeedback, theme) {
+  return {
+    fontWeight:
+      newFeedback.indexOf(name) === -1
+        ? theme.typography.fontWeightRegular
+        : theme.typography.fontWeightMedium,
+  };
+}
+const useStylesChips = makeStyles((theme) => ({
+  formControl: {
+    margin: theme.spacing(1),
+    minWidth: 120,
+    maxWidth: 300,
+  },
+  chips: {
+    display: 'flex',
+    flexWrap: 'wrap',
+  },
+  chip: {
+    margin: 2,
+  },
+  noLabel: {
+    marginTop: theme.spacing(3),
+  },
+}));
 
 const BootstrapButton = withStyles({
   root: {
@@ -59,11 +72,12 @@ const BootstrapButton = withStyles({
     textAlign:'left',
     boxShadow: 'none',
     textTransform: 'none',
+      color: 'white',
     fontSize: 16,
     padding: '6px 12px ',
     border: '1px solid',
     lineHeight: 1.5,
-    backgroundColor: '#F1F1F1',
+    backgroundColor: '#C389DB',
     borderColor: 'transparent',
     fontFamily: [
       '-apple-system',
@@ -78,27 +92,21 @@ const BootstrapButton = withStyles({
       '"Segoe UI Symbol"',
     ].join(','),
     '&:hover': {
-      backgroundColor: '#b5b5b5',
-      borderColor: '#b5b5b5',
+      backgroundColor: '#C389DB',
+      borderColor: '#C389DB',
       boxShadow: 'none',
     },
     '&:active': {
       boxShadow: 'none',
-      backgroundColor: 'red',
+      backgroundColor: '#C389DB',
       borderColor: 'transparent',
     },
     '&:focus': {
-      backgroundColor: '#9A9A9A',
+      backgroundColor: '#4A006E',
 
     },
   },
 })(Button);
-
-
-
-
-
-
 
 
 function TabPanel(props) {
@@ -130,7 +138,7 @@ const AntTabs = withStyles({
     '& > div': {
       maxWidth: 40,
       width: '100%',
-      backgroundColor: 'black',
+      backgroundColor: '#4A006E',
     },
   }
 })((props) => <Tabs {...props} TabIndicatorProps={{ children: <div /> }} />);
@@ -141,6 +149,7 @@ const AntTab = withStyles((theme) => ({
     minWidth: 72,
     fontWeight: theme.typography.fontWeightRegular,
     marginRight: theme.spacing(4),
+      fontSize: '16px',
     fontFamily: [
       '-apple-system',
       'BlinkMacSystemFont',
@@ -158,11 +167,11 @@ const AntTab = withStyles((theme) => ({
       opacity: 1,
     },
     '&$selected': {
-      color: 'black',
+      color: '#4A006E',
       fontWeight: theme.typography.fontWeightMedium,
     },
     '&:focus': {
-      color: 'black',
+      color: '#4A006E',
     },
   },
   selected: {},
@@ -180,7 +189,10 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-function SelectorBox() {
+function SelectorBox(props) {
+  console.log("activity tab");
+  console.log(props.activities);
+  const now = new Date("2018-10-25T00:00:00");
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
 
@@ -191,10 +203,11 @@ function SelectorBox() {
   return (
     <div  className={classes.root} style = {{height:'400px',borderRight: '1px solid #C4C4C4',}}>
 
+
       <div className={classes.demo1}>
         <AntTabs value={value} onChange={handleChange} aria-label="ant example" centered>
-          <AntTab label="Taught" />
           <AntTab label="Scheduled" />
+          <AntTab label="Delivered" />
         </AntTabs>
       </div>
       <div>
@@ -202,155 +215,1058 @@ function SelectorBox() {
 
       <TabPanel  value={value} index={0} >
         <div className = 'selectorBox' >
-        <div style = {{margin:'8px 0'}}> <BootstrapButton  size = 'large' fullWidth startIcon ={<TodayIcon color='action' style={{fontSize: 40 }} />} children={<div><div style={{fontFamily: 'Rubik'}}>Lecture 5</div><div style={{fontWeight:'300',fontSize: '14px'}}><ScheduleIcon color='action' style={{verticalAlign:'middle',fontWeight:'300',fontSize: '14px'}} /> <span style={{verticalAlign:'middle'}}>Today</span></div></div>} />
-        </div>
-        <div style = {{margin:'8px 0'}}> <BootstrapButton  size = 'large' fullWidth startIcon ={<TodayIcon color='action' style={{fontSize: 40 }} />} children={<div><div style={{fontFamily: 'Rubik'}}>Lecture 4</div><div style={{fontWeight:'300',fontSize: '14px'}}><ScheduleIcon color='action' style={{verticalAlign:'middle',fontWeight:'300',fontSize: '14px'}} /> <span style={{verticalAlign:'middle'}}>25th March</span></div></div>} />
-        </div>
-        <div style = {{margin:'8px 0'}}> <BootstrapButton  size = 'large' fullWidth startIcon ={<TodayIcon color='action' style={{fontSize: 40 }} />} children={<div><div style={{fontFamily: 'Rubik'}}>Lecture 3</div><div style={{fontWeight:'300',fontSize: '14px'}}><ScheduleIcon color='action' style={{verticalAlign:'middle',fontWeight:'300',fontSize: '14px'}} /> <span style={{verticalAlign:'middle'}}> 20th March</span></div></div>} />
-        </div>
-        <div style = {{margin:'8px 0'}}> <BootstrapButton  size = 'large' fullWidth startIcon ={<TodayIcon color='action' style={{fontSize: 40 }} />} children={<div><div style={{fontFamily: 'Rubik'}}>Lecture 2</div><div style={{fontWeight:'300',fontSize: '14px'}}><ScheduleIcon color='action' style={{verticalAlign:'middle',fontWeight:'300',fontSize: '14px'}} /> <span style={{verticalAlign:'middle'}}> 18th March</span></div></div>} />
-        </div>
-        <div style = {{margin:'8px 0'}}> <BootstrapButton  size = 'large' fullWidth startIcon ={<TodayIcon color='action' style={{fontSize: 40 }} />} children={<div><div style={{fontFamily: 'Rubik'}}>Lecture 1</div><div style={{fontWeight:'300',fontSize: '14px'}}><ScheduleIcon color='action' style={{verticalAlign:'middle',fontWeight:'300',fontSize: '14px'}} /> <span style={{verticalAlign:'middle'}}>13th March</span></div></div>} />
-        </div>
-        <div style = {{margin:'8px 0'}}> <BootstrapButton  size = 'large' fullWidth startIcon ={<TodayIcon color='action' style={{fontSize: 40 }} />} children={<div><div style={{fontFamily: 'Rubik'}}>Lecture 1</div><div style={{fontWeight:'300',fontSize: '14px'}}><ScheduleIcon color='action' style={{verticalAlign:'middle',fontWeight:'300',fontSize: '14px'}} /> <span style={{verticalAlign:'middle'}}>13th March</span></div></div>} />
-        </div>
-        <div style = {{margin:'8px 0'}}> <BootstrapButton  size = 'large' fullWidth startIcon ={<TodayIcon color='action' style={{fontSize: 40 }} />} children={<div><div style={{fontFamily: 'Rubik'}}>Lecture 1</div><div style={{fontWeight:'300',fontSize: '14px'}}><ScheduleIcon color='action' style={{verticalAlign:'middle',fontWeight:'300',fontSize: '14px'}} /> <span style={{verticalAlign:'middle'}}>13th March</span></div></div>} />
-        </div>
-        <div style = {{margin:'8px 0'}}> <BootstrapButton  size = 'large' fullWidth startIcon ={<TodayIcon color='action' style={{fontSize: 40 }} />} children={<div><div style={{fontFamily: 'Rubik'}}>Lecture 1</div><div style={{fontWeight:'300',fontSize: '14px'}}><ScheduleIcon color='action' style={{verticalAlign:'middle',fontWeight:'300',fontSize: '14px'}} /> <span style={{verticalAlign:'middle'}}>13th March</span></div></div>} />
-        </div>
-        <div style = {{margin:'8px 0'}}> <BootstrapButton  size = 'large' fullWidth startIcon ={<TodayIcon color='action' style={{fontSize: 40 }} />} children={<div><div style={{fontFamily: 'Rubik'}}>Lecture 1</div><div style={{fontWeight:'300',fontSize: '14px'}}><ScheduleIcon color='action' style={{verticalAlign:'middle',fontWeight:'300',fontSize: '14px'}} /> <span style={{verticalAlign:'middle'}}>13th March</span></div></div>} />
-        </div>
+        {props.activities.filter((activity) => new Date(activity.due_date)>= props.today).map((activity) =>
+          <div style = {{margin:'8px 0'}}>
+          <BootstrapButton  size = 'large' fullWidth
+          style = {{backgroundColor: activity.activity_ID == props.inFocusID? '#4A006E': '#C389DB'}}
+          startIcon ={<AssignmentIcon style={{fontSize: 40, fill: '#4A006E' }} />}
+          onClick={()=> props.onClick(activity.activity_ID)}
+          children={
+            <div>
+            <div style={{fontFamily: 'Rubik'}}>{activity.title}</div>
+            <div style={{fontWeight:'300',fontSize: '14px'}}><ScheduleIcon style={{verticalAlign:'middle',fontWeight:'300',fontSize: '14px'}} />
+              <span style={{verticalAlign:'middle'}}>{activity.due_date}</span>
+            </div>
+            </div>} />
+                </div>)}
+
         </div>
       </TabPanel>
       <TabPanel value={value} index={1}>
-        <div style = {{margin:'8px 0'}}> <BootstrapButton  size = 'large' fullWidth startIcon ={<TodayIcon color='action' style={{fontSize: 40 }} />} children={<div><div style={{fontFamily: 'Rubik'}}>Lecture 6</div><div style={{fontWeight:'300',fontSize: '14px'}}><ScheduleIcon color='action' style={{verticalAlign:'middle',fontWeight:'300',fontSize: '14px'}} /> <span style={{verticalAlign:'middle'}}>1st April </span></div></div>} />
-        </div>
-        <div style = {{margin:'8px 0'}}> <BootstrapButton  size = 'large' fullWidth startIcon ={<TodayIcon color='action' style={{fontSize: 40 }} />} children={<div><div style={{fontFamily: 'Rubik'}}>Lecture 7</div><div style={{fontWeight:'300',fontSize: '14px'}}><ScheduleIcon color='action' style={{verticalAlign:'middle',fontWeight:'300',fontSize: '14px'}} /> <span style={{verticalAlign:'middle'}}>3rd April</span></div></div>} />
-        </div>
-
+      <div className = 'selectorBox' >
+      {props.activities.filter((activity) => new Date(activity.due_date)< props.today).map((activity) =>
+        <div style = {{margin:'8px 0'}}>
+        <BootstrapButton  size = 'large' fullWidth
+        style = {{backgroundColor: activity.activity_ID == props.inFocusID? '#4A006E': '#C389DB'}}
+        startIcon ={<AssignmentIcon style={{fontSize: 40, fill: '#4A006E' }} />}
+        onClick={()=> props.onClick(activity.activity_ID)}
+        children={
+          <div>
+          <div style={{fontFamily: 'Rubik'}}>{activity.title}</div>
+          <div style={{fontWeight:'300',fontSize: '14px'}}><ScheduleIcon style={{verticalAlign:'middle',fontWeight:'300',fontSize: '14px'}} />
+            <span style={{verticalAlign:'middle'}}>{activity.due_date}</span>
+          </div>
+          </div>} />
+              </div>)}
+              </div>
         </TabPanel>
       </div>
     </div>
   );
 }
 
-function DetailBox() {
+const feedbackOptions = [
+  {
+      feedback_ID: 11,
+      feedback_title: "Workload - Modules",
+      feedback_description: "The workload for this assessment was manageable."
+  },
+  {
+      feedback_ID: 12,
+      feedback_title: "Workload - Program",
+      feedback_description: "The timing of this assessment deadline was different to the deadlines of my other modules."
+  },
+  {
+      feedback_ID: 13,
+      feedback_title: "Criteria ",
+      feedback_description: "I was given criteria to follow."
+  },
+  {
+      feedback_ID: 14,
+      feedback_title: "Criteria - Understanding",
+      feedback_description: "I understood the criteria"
+  },
+  {
+      feedback_ID: 15,
+      feedback_title: "Rubrics",
+      feedback_description: "I was given rubrics to follow"
+  },
+  {
+      feedback_ID: 16,
+      feedback_title: "Rubrics - Understanding",
+      feedback_description: "I understood the rubrics"
+  },
+  {
+      feedback_ID: 17,
+      feedback_title: "Knowledge",
+      feedback_description: "The assessment methods allow me to demonstrate my knowledge."
+  },
+  {
+      feedback_ID: 18,
+      feedback_title: "Skills",
+      feedback_description: "The assessment methods allow me to demonstrate my skills and competencies"
+  },
+  {
+      feedback_ID: 19,
+      feedback_title: "Learning Outcomes",
+      feedback_description: "The assessment aligned with the Learning/Programme Outcomes"
+  },
+  {
+      feedback_ID: 20,
+      feedback_title: "Reflection",
+      feedback_description: "The assessment methods encouraged me to self-reflect"
+  },
+  {
+      feedback_ID: 21,
+      feedback_title: "Relevance",
+      feedback_description: "The assessment methods assessed relevance to real life skills "
+  }
+]
+
+function DetailBox(props) {
+  const theme = useTheme();
+  const classesChips = useStylesChips();
   const classes = useStyles();
-  const [value, setValue] = React.useState(0);
+  const [value, setValue] = useState(0);
+  const [title, setTitle] = useState(props.activity.title);
+  const [startDate, setStartDate] = useState(new Date(props.activity.start_date));
+  const [dueDate, setDueDate] = useState(new Date(props.activity.due_date));
+  const [gradePercentage, setGradePercentage] = useState(props.activity.grade_percentage);
+  const [gradingDescription, setGradingDescription] = useState(props.activity.grading_description);
+  const [description, setDescription] = useState(props.activity.description);
+  const [estimatedTime, setEstimatedTime] = useState(props.activity.estimated_time);
+  const [feedback, setFeedback] = useState(props.activity.feedback);
+  const typeList = [
+  {
+    value: 1,
+    label: 'Examination',
+  },
+  {
+    value: 2,
+    label: 'MCQ',
+  },
+  {
+    value: 3,
+    label: 'Report',
+  },
+  {
+    value: 4,
+    label: 'Homework Question',
+  },
+  {
+    value: 5,
+    label: 'Performance',
+  },
+  {
+    value: 6,
+    label: 'Software',
+  },
+  {
+    value: 7,
+    label: 'Presentation',
+  },
+  {
+    value: 8,
+    label: 'Other',
+  },
+  {
+    value: 9,
+    label: 'Artefact',
+  },
+  {
+    value: 10,
+    label: 'Lab Report',
+  },
+  {
+    value: 11,
+    label: 'Poster',
+  },
+  {
+    value: 12,
+    label: 'Simulation',
+  },
+  {
+    value: 13,
+    label: 'Lecture',
+  },
+  {
+    value: 14,
+    label: 'Tutorial',
+  },
+  {
+    value: 15,
+    label: 'Laboratory',
+  },
+  {
+    value: 16,
+    label: 'Self-Directed Study',
+  },
+];
+
+const [activityTypeID, setActivityTypeID] = useState((typeList.find((item)=>item.label==props.activity.activityType)).value);
+
+
+  const [newFeedback, setNewFeedback] = useState([]);
+    useEffect(() => {
+      console.log("use effect");
+      console.log(props.activity);
+      setTitle(props.activity.title);
+      setStartDate(new Date(props.activity.start_date));
+      setDueDate(new Date(props.activity.due_date));
+      setGradePercentage(props.activity.grade_percentage);
+      setGradingDescription(props.activity.grading_description);
+      setDescription(props.activity.description==null? props.activity.description: "None");
+      setEstimatedTime(props.activity.estimated_time);
+      setActivityTypeID(typeList.find((item)=>item.label==props.activity.activityType).value);
+      setFeedback(props.activity.feedback);
+    },[props.activity]);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-  const currencies = [
-    {
-      value: 'USD',
-      label: '$',
-    },
-    {
-      value: 'EUR',
-      label: '€',
-    },
-    {
-      value: 'BTC',
-      label: '฿',
-    },
-    {
-      value: 'JPY',
-      label: '¥',
-    },
-  ];
-  const [currency, setCurrency] = React.useState('EUR');
 
-const handleChangeClassroom = (event) => {
-  setCurrency(event.target.value);
-};
-  return (
-    <div className={classes.root}>
+  const saveActivity = () => {
+    let feedbackArray = []
+    const start = startDate.getFullYear()+'-'+("0" + (parseInt(startDate.getMonth())+1).toString()).slice(-2) + '-' + ("0" + startDate.getDate()).slice(-2) +' 00:00:00';
+    const end = dueDate.getFullYear()+'-'+("0" + (parseInt(dueDate.getMonth())+1).toString()).slice(-2) + '-' + ("0" + dueDate.getDate()).slice(-2) +' 00:00:00';
+    feedback.map((item)=>feedbackArray.push(item.feedback_ID));
+    newFeedback.map((item)=>feedbackArray.push(item.feedback_ID));
+
+    var data = {
+      activityID:props.activity.activity_ID,
+      moduleID:props.moduleID,
+      start: start,
+			end: end,
+			hours: estimatedTime,
+			grade: gradePercentage,
+			type: typeList.find((item)=>item.value==activityTypeID).label,
+			title: title,
+			description: description,
+      gradingDescription: gradingDescription,
+    };
+    fetch("http://mvroso.pythonanywhere.com/updateActivity", {
+                method: "POST",
+                cache: "no-cache",
+                body: JSON.stringify(data),
+                headers: new Headers({"content-type": "application/json"})
+            }).then(res => {
+                console.log("Request complete! response:", res);
+              });
+    var fdata = {
+      activityID: props.lecture.class_ID,
+      type: 2,
+      feedback: feedbackArray
+    };
+    fetch("http://mvroso.pythonanywhere.com/setFeedback", {
+                method: "POST",
+                cache: "no-cache",
+                body: JSON.stringify(fdata),
+                headers: new Headers({"content-type": "application/json"})
+            }).then(res => {
+                console.log("Request complete! response:", res);
+              });
+  }
+  if (props.edit > 0) {
+    return (
+      <div className={classes.root}>
+      {new Date(props.activity.due_date)< props.today ?
       <div className={classes.demo1}>
         <AntTabs value={value} onChange={handleChange} aria-label="ant example" style={{marginLeft:'27px',}}>
-          <AntTab label="Feedback" />
-          <AntTab label="Visualize" />
-        </AntTabs>
-      </div>
+                  <AntTab label="Feedback" />
+                  <AntTab label="Details" />
+                  </AntTabs>
+                </div>
+                  :
+                  <div className={classes.demo1}>
+                    <AntTabs value={value} onChange={handleChange} aria-label="ant example" style={{marginLeft:'27px',}}>
+                      <AntTab label="Details" />
+                      <AntTab label="Edit"/>
+                    </AntTabs>
+                </div>
 
-      <TabPanel  value={value} index={0}>
-        <div className = 'detailBox'>
+              }
 
-          <div style = {{margin:'8px 0'}}>
-
-            <StackedColumnChart response = {response} />
-          </div>
-
-          <div style = {{margin:'10px 0'}}>
-            <MultilineTextFields />
-            <Button type='submit' variant="contained" color="default" disableElevation fullWidth style={{textTransform: 'none'}}> add note </Button>
-          </div>
-        </div>
-      </TabPanel>
-      <TabPanel  value={value} index={1}>
-        <div className = 'detailBox'>
+        {new Date(props.activity.due_date) >= props.today ?
           <div>
-            <span> Modular Inequalities | </span>
-            <span> Today 10:00 - 11:45 AM</span>
+          <TabPanel  value={value} index={0}>
+          <div className = 'detailBox'>
+          <div style={{margin:'5px'}}>
+          <label For="title">Activity Title</label><br/>
+            <TextField
+                id="title"
+                fullWidth
+                value={props.activity.title}
+                variant="outlined"
+                />
           </div>
-          <div>
-            <span> Content </span> <br/>
+            <div style={{display:'flex',margin:'5px'}} >
+            <div>
+              <label For="start">Start Date</label>
+              <TextField
+                  id="dedicationTime"
+
+                  value={props.activity.start_date}
+                  variant="outlined"
+                  />
+            </div>
+            <div>
+              <label For="end" >End Date </label>
+              <TextField
+                  id="dedicationTime"
+
+                  value={props.activity.due_date}
+                  variant="outlined"
+                  />
+            </div>
+            <div>
+            <label For="dedicationTime" > Dedication Time </label><br/>
+                <TextField
+                    id="dedicationTime"
+                    value={props.activity.estimated_time}
+                    variant="outlined"
+                    />
+            </div>
+
+            </div>
+            <div>
+            <span> Description </span> <br/>
             <TextField
               multiline
               id="standard-read-only-input"
-              defaultValue="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Risus viverra adipiscing at in tellus integer feugiat scelerisque. Id ornare arcu odio ut sem nulla pharetra diam. Tincidunt ornare massa eget egestas purus viverra. Nunc lobortis mattis aliquam faucibus purus in. Condimentum lacinia quis vel eros donec ac odio tempor orci. Cras semper auctor neque vitae tempus quam pellentesque nec. Accumsan tortor posuere ac ut. Enim sit amet venenatis urna cursus eget nunc scelerisque. Egestas sed tempus urna et pharetra pharetra massa massa. Sem et tortor consequat id. Commodo sed egestas egestas fringilla phasellus faucibus scelerisque. Nullam non nisi est sit amet facilisis magna etiam tempor. Phasellus vestibulum lorem sed risus ultricies tristique. Commodo viverra maecenas accumsan lacus vel facilisis volutpat. Pulvinar etiam non quam lacus suspendisse faucibus interdum posuere. Justo donec enim diam vulputate ut pharetra sit amet. Facilisis mauris sit amet massa vitae tortor."
+              value={props.activity.description==null? "":props.activity.description}
               fullWidth
               variant="outlined"
               rows={5}
               InputProps={{
                 readOnly: true,
               }}/>
-          </div>
-          <div>
-            <span> Classroom </span><br/>
-            <TextField
-                     id="outlined-select-currency"
-                     select
-                     fullWidth
-                     value={currency}
-                     onChange={handleChangeClassroom}
-                     helperText="Please select your currency"
-                     variant="outlined"
-                   >
-                     {currencies.map((option) => (
-                       <MenuItem key={option.value} value={option.value}>
-                         {option.label}
-                       </MenuItem>
-                     ))}
-                   </TextField>
-          </div>
-          <div>
-            Activities
-            <IconButton aria-label="delete">
-              <AddBoxIcon />
-            </IconButton>
-          </div>
-          <div>
-            <BootstrapButton  size = 'large' fullWidth startIcon ={<TodayIcon color='action' style={{fontSize: 40 }} />} children={<div><div style={{fontFamily: 'Rubik'}}>Lecture 3</div><div style={{fontWeight:'300',fontSize: '14px'}}><ScheduleIcon color='action' style={{verticalAlign:'middle',fontWeight:'300',fontSize: '14px'}} /> <span style={{verticalAlign:'middle'}}> 20th March</span></div></div>} />
-          </div>
-          <div>
-            Activities
-            <IconButton aria-label="delete">
-              <AddBoxIcon />
-            </IconButton>
-          </div>
-          <div>
-            <BootstrapButton  size = 'large' fullWidth startIcon ={<TodayIcon color='action' style={{fontSize: 40 }} />} children={<div><div style={{fontFamily: 'Rubik'}}>Lecture 3</div><div style={{fontWeight:'300',fontSize: '14px'}}><ScheduleIcon color='action' style={{verticalAlign:'middle',fontWeight:'300',fontSize: '14px'}} /> <span style={{verticalAlign:'middle'}}> 20th March</span></div></div>} />
+            </div>
+            <div>
+              <span> Grade Percentage </span><br/>
+              <TextField
+                      id="outlined-select-currency"
+                      value={props.activity.grade_percentage}
+                      variant="outlined"
+                    />
+
+            </div>
+            <div>
+              <span> Grading Description </span> <br/>
+              <TextField
+                multiline
+                id="standard-read-only-input"
+                value={props.activity.grading_description}
+                fullWidth
+                variant="outlined"
+                rows={5}
+                InputProps={{
+                  readOnly: true,
+                }}/>
+            </div>
+            <div>
+              <span> Assignment Type </span><br/>
+              <TextField
+                      id="outlined-select-currency"
+                      fullWidth
+                      value={props.activity.activityType}
+                      variant="outlined"
+                    />
+
+            </div>
+            <div style={{margin:'5px 0px'}}>
+              Feedback Questions
+            </div>
+            {props.activity.feedback.length==0? <div>No Feedback Set</div>:
+              props.activity.feedback.map((item)=>
+              <div style={{margin:'5px',padding:'5px',border:'1px solid gray',borderRadius:'5px'}}> <b>{item.feedback_title}</b> <br/>{item.feedback_description}
+               </div>
+
+            )
+            }
+            {/*
+              <div>
+                Activities
+              </div>
+              <div>
+                <BootstrapButton  size = 'large' fullWidth startIcon ={<AssignmentIcon color='action' style={{fontSize: 40, fill: '#4A006E' }} />} children={<div><div style={{fontFamily: 'Rubik'}}>Lecture 3</div><div style={{fontWeight:'300',fontSize: '14px'}}><ScheduleIcon color='action' style={{verticalAlign:'middle',fontWeight:'300',fontSize: '14px'}} /> <span style={{verticalAlign:'middle'}}> 20th March</span></div></div>} />
+              </div>
+
+              */
+            }
+
+
           </div>
 
+          </TabPanel>
+          <TabPanel  value={value} index={1}>
+            <div className = 'detailBox'>
+            <div style={{margin:'5px'}}>
+            <label For="title">Activity Title</label><br/>
+              <TextField
+                  id="title"
+                  fullWidth
+                  value={title}
+                  variant="outlined"
+                  onChange={(e)=>setTitle(e.target.value)}
+                  />
+            </div>
+              <div style={{display:'flex',margin:'5px'}} >
+              <div>
+                <label For="startDate">Start Date</label>
+                <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                      <KeyboardDatePicker
+                        disableToolbar
+                        variant="inline"
+                        format="MM/dd/yyyy"
+                        margin="normal"
+                        id="startDate"
+                        label="start date"
+                        value={startDate}
+                        onChange={(date) => setStartDate(date)}
+                        KeyboardButtonProps={{
+                          'aria-label': 'change date',
+                        }}
+                      />
+                  </MuiPickersUtilsProvider>
+
+              </div>
+              <div>
+                <label For="dueDate" >End Date </label>
+                <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                      <KeyboardDatePicker
+                        disableToolbar
+                        variant="inline"
+                        format="MM/dd/yyyy"
+                        margin="normal"
+                        id="dueDate"
+                        label="due date"
+                        value={dueDate}
+                        onChange={(date) => setDueDate(date)}
+                        KeyboardButtonProps={{
+                          'aria-label': 'change date',
+                        }}
+                      />
+                  </MuiPickersUtilsProvider>
+
+              </div>
+              <div>
+              <label For="dedicationTime" >Dedication Time </label><br/>
+                  <TextField
+                      id="dedicationTime"
+                      value={estimatedTime}
+                      variant="outlined"
+                      onChange={(e) => setEstimatedTime(e.target.value)}
+                      />
+              </div>
+
+              </div>
+              <div>
+                <span> Description </span> <br/>
+                <TextField
+                  multiline
+                  id="description"
+                  value={description}
+                  fullWidth
+                  variant="outlined"
+                  rows={5}
+                  onChange={(e) => setDescription(e.target.value)}
+                  />
+              </div>
+              <div>
+                <span> Grade Percentage </span><br/>
+                <TextField
+                        id="outlined-select-currency"
+                        value={gradePercentage}
+                        variant="outlined"
+                        onChange={(e) => setGradePercentage(e.target.value)}
+                      />
+
+              </div>
+              <div>
+                <span> Grading Description </span> <br/>
+                <TextField
+                  multiline
+                  id="standard-read-only-input"
+                  value={gradingDescription}
+                  fullWidth
+                  variant="outlined"
+                  rows={5}
+                  onChange={(e)=>setGradingDescription(e.target.value)}
+                  />
+              </div>
+              <div>
+                <span> Assignment Type </span><br/>
+                <InputLabel id="select-assignment-type">Select Type</InputLabel>
+                <TextField
+                    id="activityType"
+                    select
+                    value={activityTypeID}
+                    onChange={(e)=>setActivityTypeID(e.target.value)}
+                  >
+                    {typeList.map((option) => (
+                      <MenuItem key={option.value} value={option.value}>
+                        {option.label}
+                      </MenuItem>
+                    ))}
+                  </TextField>
+
+              </div>
+              {/*
+                <div>
+                  Linked to lectures
+                  <IconButton aria-label="delete">
+                    <AddBoxIcon />
+                  </IconButton>
+                </div>
+                <div>
+                  <BootstrapButton  size = 'large' fullWidth startIcon ={<AssignmentIcon color='action' style={{fontSize: 40, fill: '#4A006E' }} />} children={<div><div style={{fontFamily: 'Rubik'}}>Lecture 3</div><div style={{fontWeight:'300',fontSize: '14px'}}><ScheduleIcon color='action' style={{verticalAlign:'middle',fontWeight:'300',fontSize: '14px'}} /> <span style={{verticalAlign:'middle'}}> 20th March</span></div></div>} />
+                </div>
+                */}
+
+            <div style={{margin:'10px 0px'}}>
+              Feedback Questions
+              <InputLabel id="select-feedback">Add Feedback</InputLabel>
+              <Select
+                labelId="select-feedback"
+                id="selectFeedback"
+                multiple
+                value={newFeedback}
+                onChange={(e)=>setNewFeedback(e.target.value)}
+                input={<Input id="select-multiple-chip" />}
+                renderValue={(selected) => (
+                  <div className={classesChips.chips}>
+                    {selected.map((value) => (
+                      <Chip key={value.feedback_ID} label={value.feedback_title} className={classesChips.chip} />
+                    ))}
+                  </div>
+                )}
+                MenuProps={MenuProps}
+              >
+                {feedbackOptions.map((item) => (
+                  <MenuItem key={item.feedback_ID} value={item} style={getStyles(item.feedback_title, newFeedback, theme)}>
+                    {item.feedback_title}
+                  </MenuItem>
+                ))}
+              </Select>
+            </div>
+            {feedback.length==0? <div></div>:
+              feedback.map((item)=>
+              <div style={{margin:'5px',padding:'5px',border:'1px solid gray',borderRadius:'5px'}}> <b>{item.feedback_title}</b> <br/>{item.feedback_description}
+              <IconButton aria-label="delete"  onClick={()=>{setFeedback(feedback.filter((i)=>i.feedback_title!=item.feedback_title));}}>
+                <ClearRoundedIcon  />
+              </IconButton>
+               </div>
+
+            )
+            }
+            <div style={{margin:'15px'}}>
+            <Button fullWidth size = 'large' variant="contained" onClick={()=>saveActivity()}> SAVE </Button>
+            </div>
+            </div>
+
+          </TabPanel>
+          </div>
+
+        :
         <div>
-        <Button > add note </Button>
-        </div>
-        </div>
+        <TabPanel  value={value} index={0}>
+          <div className = 'detailBox'>
 
-      </TabPanel>
-    </div>
-  );
+            <div style = {{margin:'8px 0'}}>
+            {props.activity.feedback.map((item)=> <FeedbackPanel activityID={props.activity.activity_ID} questionName={item.feedback_title} type='Activity'/>)}
+
+  {/*<FeedbackPanel activityID={props.activity.activity_ID} questionName='Speed' type='Activity'/>
+    <FeedbackPanel activityID='2' questionName='Clarity' type='Activity'/>
+            <FeedbackPanel activityID='2' questionName='Relation To Module' type='Activity'/> */}
+            </div>
+
+            <div style = {{margin:'10px 0'}}>
+              <MultilineTextFields />
+              <Button type='submit' variant="contained" color="default" disableElevation fullWidth style={{textTransform: 'none'}}> Add Note </Button>
+            </div>
+          </div>
+        </TabPanel>
+        <TabPanel  value={value} index={1}>
+          <div className = 'detailBox'>
+          <div style={{margin:'5px'}}>
+          <label For="title">Activity Title</label><br/>
+            <TextField
+                id="title"
+                fullWidth
+                value={props.activity.title}
+                variant="outlined"
+                />
+          </div>
+            <div style={{display:'flex',margin:'5px'}} >
+            <div>
+              <label For="start">Start Date</label>
+              <TextField
+                  id="dedicationTime"
+
+                  value={props.activity.start_date}
+                  variant="outlined"
+                  />
+            </div>
+            <div>
+              <label For="end" >End Date </label>
+              <TextField
+                  id="dedicationTime"
+
+                  value={props.activity.due_date}
+                  variant="outlined"
+                  />
+            </div>
+            <div>
+            <label For="dedicationTime" >Dedication Time </label><br/>
+                <TextField
+                    id="dedicationTime"
+                    value={props.activity.estimated_time}
+                    variant="outlined"
+                    />
+            </div>
+
+            </div>
+            <div>
+            <span> Description </span> <br/>
+            <TextField
+              multiline
+              id="standard-read-only-input"
+              value={props.activity.description==null? "":props.activity.description}
+              fullWidth
+              variant="outlined"
+              rows={5}
+              InputProps={{
+                readOnly: true,
+              }}/>
+            </div>
+            <div>
+              <span> Grade Percentage </span><br/>
+              <TextField
+                      id="outlined-select-currency"
+                      value={props.activity.grade_percentage}
+                      variant="outlined"
+                    />
+
+            </div>
+            <div>
+              <span> Grading Description </span> <br/>
+              <TextField
+                multiline
+                id="standard-read-only-input"
+                value={props.activity.grading_description}
+                fullWidth
+                variant="outlined"
+                rows={5}
+                InputProps={{
+                  readOnly: true,
+                }}/>
+            </div>
+            <div>
+              <span> Assignment Type </span><br/>
+              <TextField
+                      id="outlined-select-currency"
+                      fullWidth
+                      value={props.activity.activityType}
+                      variant="outlined"
+                    />
+
+            </div>
+
+            <div style = {{margin:'10px 0'}}>
+            {/*props.lecture.notes.map((note) => <TextField
+                        multiline
+                        id="standard-read-only-input"
+                        defaultValue={note}
+                        fullWidth
+                        variant="outlined"
+                        rows={5}
+                        InputProps={{
+                          readOnly: true,
+                        }}/>)*/}
+
+              <MultilineTextFields />
+              <Button type='submit' variant="contained" color="default" disableElevation fullWidth style={{textTransform: 'none'}}> Add Note </Button>
+            </div>
+          </div>
+
+        </TabPanel>
+        </div>}
+
+      </div>
+    );
+  }
+  else {
+    return (
+      <div className={classes.root}>
+      {new Date(props.activity.due_date)< props.today ?
+      <div className={classes.demo1}>
+        <AntTabs value={value} onChange={handleChange} aria-label="ant example" style={{marginLeft:'27px',}}>
+                  <AntTab label="Feedback" />
+                  <AntTab label="Details" />
+                  </AntTabs>
+                </div>
+                  :
+                  <div className={classes.demo1}>
+                    <AntTabs value={value} onChange={handleChange} aria-label="ant example" style={{marginLeft:'27px',}}>
+                      <AntTab label="Details" />
+                    </AntTabs>
+                </div>
+
+              }
+
+        {new Date(props.activity.due_date) >= props.today ?
+          <div>
+          <TabPanel  value={value} index={0}>
+          <div className = 'detailBox'>
+          <div style={{margin:'5px'}}>
+          <label For="title">Activity Title</label><br/>
+            <TextField
+                id="title"
+                fullWidth
+                value={props.activity.title}
+                variant="outlined"
+                />
+          </div>
+            <div style={{display:'flex',margin:'5px'}} >
+            <div>
+              <label For="start">Start Date</label>
+              <TextField
+                  id="dedicationTime"
+
+                  value={props.activity.start_date}
+                  variant="outlined"
+                  />
+            </div>
+            <div>
+              <label For="end" >End Date </label>
+              <TextField
+                  id="dedicationTime"
+
+                  value={props.activity.due_date}
+                  variant="outlined"
+                  />
+            </div>
+            <div>
+            <label For="dedicationTime" > Dedication Time </label><br/>
+                <TextField
+                    id="dedicationTime"
+                    value={props.activity.estimated_time}
+                    variant="outlined"
+                    />
+            </div>
+
+            </div>
+            <div>
+            <span> Description </span> <br/>
+            <TextField
+              multiline
+              id="standard-read-only-input"
+              value={props.activity.description==null? "":props.activity.description}
+              fullWidth
+              variant="outlined"
+              rows={5}
+              InputProps={{
+                readOnly: true,
+              }}/>
+            </div>
+            <div>
+              <span> Grade Percentage </span><br/>
+              <TextField
+                       id="outlined-select-currency"
+                       value={props.activity.grade_percentage}
+                       variant="outlined"
+                     />
+
+            </div>
+            <div>
+              <span> Grading Description </span> <br/>
+              <TextField
+                multiline
+                id="standard-read-only-input"
+                value={props.activity.grading_description}
+                fullWidth
+                variant="outlined"
+                rows={5}
+                InputProps={{
+                  readOnly: true,
+                }}/>
+            </div>
+            <div>
+              <span> Assignment Type </span><br/>
+              <TextField
+                       id="outlined-select-currency"
+                       fullWidth
+                       value={props.activity.activityType}
+                       variant="outlined"
+                     />
+
+            </div>
+            {/*
+              <div>
+                Activities
+              </div>
+              <div>
+                <BootstrapButton  size = 'large' fullWidth startIcon ={<AssignmentIcon color='action' style={{fontSize: 40, fill: '#4A006E' }} />} children={<div><div style={{fontFamily: 'Rubik'}}>Lecture 3</div><div style={{fontWeight:'300',fontSize: '14px'}}><ScheduleIcon color='action' style={{verticalAlign:'middle',fontWeight:'300',fontSize: '14px'}} /> <span style={{verticalAlign:'middle'}}> 20th March</span></div></div>} />
+              </div>
+
+              */
+            }
+
+
+          </div>
+
+          </TabPanel>
+          <TabPanel  value={value} index={1}>
+            <div className = 'detailBox'>
+            <div style={{margin:'5px'}}>
+            <label For="title">Activity Title</label><br/>
+              <TextField
+                  id="title"
+                  fullWidth
+                  value={title}
+                  variant="outlined"
+                  onChange={(e)=>setTitle(e.target.value)}
+                  />
+            </div>
+              <div style={{display:'flex',margin:'5px'}} >
+              <div>
+                <label For="startDate">Start Date</label>
+                <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                       <KeyboardDatePicker
+                         disableToolbar
+                         variant="inline"
+                         format="MM/dd/yyyy"
+                         margin="normal"
+                         id="startDate"
+                         label="start date"
+                         value={startDate}
+                         onChange={(date) => setStartDate(date)}
+                         KeyboardButtonProps={{
+                           'aria-label': 'change date',
+                         }}
+                       />
+                   </MuiPickersUtilsProvider>
+
+              </div>
+              <div>
+                <label For="dueDate" >End Date </label>
+                <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                       <KeyboardDatePicker
+                         disableToolbar
+                         variant="inline"
+                         format="MM/dd/yyyy"
+                         margin="normal"
+                         id="dueDate"
+                         label="due date"
+                         value={dueDate}
+                         onChange={(date) => setDueDate(date)}
+                         KeyboardButtonProps={{
+                           'aria-label': 'change date',
+                         }}
+                       />
+                   </MuiPickersUtilsProvider>
+
+              </div>
+              <div>
+              <label For="dedicationTime" >Dedication Time </label><br/>
+                  <TextField
+                      id="dedicationTime"
+                      value={estimatedTime}
+                      variant="outlined"
+                      onChange={(e) => setEstimatedTime(e.target.value)}
+                      />
+              </div>
+
+              </div>
+              <div>
+                <span> Description </span> <br/>
+                <TextField
+                  multiline
+                  id="description"
+                  value={description}
+                  fullWidth
+                  variant="outlined"
+                  rows={5}
+                  onChange={(e) => setDescription(e.target.value)}
+                  />
+              </div>
+              <div>
+                <span> Grade Percentage </span><br/>
+                <TextField
+                         id="outlined-select-currency"
+                         value={gradePercentage}
+                         variant="outlined"
+                         onChange={(e) => setGradePercentage(e.target.value)}
+                       />
+
+              </div>
+              <div>
+                <span> Grading Description </span> <br/>
+                <TextField
+                  multiline
+                  id="standard-read-only-input"
+                  value={gradingDescription}
+                  fullWidth
+                  variant="outlined"
+                  rows={5}
+                  onChange={(e)=>setGradingDescription(e.target.value)}
+                  />
+              </div>
+              <div>
+                <span> Assignment Type </span><br/>
+                <TextField
+                    id="activityType"
+                    select
+                    value={activityTypeID}
+                    onChange={(e)=>setActivityTypeID(e.target.value)}
+                  >
+                    {typeList.map((option) => (
+                      <MenuItem key={option.value} value={option.value}>
+                        {option.label}
+                      </MenuItem>
+                    ))}
+                  </TextField>
+
+              </div>
+              {/*
+                <div>
+                  Linked to lectures
+                  <IconButton aria-label="delete">
+                    <AddBoxIcon />
+                  </IconButton>
+                </div>
+                <div>
+                  <BootstrapButton  size = 'large' fullWidth startIcon ={<AssignmentIcon color='action' style={{fontSize: 40, fill: '#4A006E' }} />} children={<div><div style={{fontFamily: 'Rubik'}}>Lecture 3</div><div style={{fontWeight:'300',fontSize: '14px'}}><ScheduleIcon color='action' style={{verticalAlign:'middle',fontWeight:'300',fontSize: '14px'}} /> <span style={{verticalAlign:'middle'}}> 20th March</span></div></div>} />
+                </div>
+                */}
+
+
+            <div style={{margin:'15px'}}>
+            <Button fullWidth size = 'large' variant="contained" onClick={()=>saveActivity()}> SAVE </Button>
+            </div>
+            </div>
+
+          </TabPanel>
+          </div>
+
+        :
+        <div>
+        <TabPanel  value={value} index={0}>
+          <div className = 'detailBox'>
+
+            <div style = {{margin:'8px 0'}}>
+            {props.activity.feedback.map((item)=> <FeedbackPanel activityID={props.activity.activity_ID} questionName={item.feedback_title} type='Activity'/>)}
+
+  {/*<FeedbackPanel activityID={props.activity.activity_ID} questionName='Speed' type='Activity'/>
+     <FeedbackPanel activityID='2' questionName='Clarity' type='Activity'/>
+            <FeedbackPanel activityID='2' questionName='Relation To Module' type='Activity'/> */}
+            </div>
+
+            <div style = {{margin:'10px 0'}}>
+              <MultilineTextFields />
+              <Button type='submit' variant="contained" color="default" disableElevation fullWidth style={{textTransform: 'none'}}> Add Note </Button>
+            </div>
+          </div>
+        </TabPanel>
+        <TabPanel  value={value} index={1}>
+          <div className = 'detailBox'>
+          <div style={{margin:'5px'}}>
+          <label For="title">Activity Title</label><br/>
+            <TextField
+                id="title"
+                fullWidth
+                value={props.activity.title}
+                variant="outlined"
+                />
+          </div>
+            <div style={{display:'flex',margin:'5px'}} >
+            <div>
+              <label For="start">Start Date</label>
+              <TextField
+                  id="dedicationTime"
+
+                  value={props.activity.start_date}
+                  variant="outlined"
+                  />
+            </div>
+            <div>
+              <label For="end" >End Date </label>
+              <TextField
+                  id="dedicationTime"
+
+                  value={props.activity.due_date}
+                  variant="outlined"
+                  />
+            </div>
+            <div>
+            <label For="dedicationTime" >Dedication Time </label><br/>
+                <TextField
+                    id="dedicationTime"
+                    value={props.activity.estimated_time}
+                    variant="outlined"
+                    />
+            </div>
+
+            </div>
+            <div>
+            <span> Description </span> <br/>
+            <TextField
+              multiline
+              id="standard-read-only-input"
+              value={props.activity.description==null? "":props.activity.description}
+              fullWidth
+              variant="outlined"
+              rows={5}
+              InputProps={{
+                readOnly: true,
+              }}/>
+            </div>
+            <div>
+              <span> Grade Percentage </span><br/>
+              <TextField
+                       id="outlined-select-currency"
+                       value={props.activity.grade_percentage}
+                       variant="outlined"
+                     />
+
+            </div>
+            <div>
+              <span> Grading Description </span> <br/>
+              <TextField
+                multiline
+                id="standard-read-only-input"
+                value={props.activity.grading_description}
+                fullWidth
+                variant="outlined"
+                rows={5}
+                InputProps={{
+                  readOnly: true,
+                }}/>
+            </div>
+            <div>
+              <span> Assignment Type </span><br/>
+              <TextField
+                       id="outlined-select-currency"
+                       fullWidth
+                       value={props.activity.activityType}
+                       variant="outlined"
+                     />
+
+            </div>
+
+            <div style = {{margin:'10px 0'}}>
+            {/*props.lecture.notes.map((note) => <TextField
+                        multiline
+                        id="standard-read-only-input"
+                        defaultValue={note}
+                        fullWidth
+                        variant="outlined"
+                        rows={5}
+                        InputProps={{
+                          readOnly: true,
+                        }}/>)*/}
+
+              <MultilineTextFields />
+              <Button type='submit' variant="contained" color="default" disableElevation fullWidth style={{textTransform: 'none'}}> Add Note </Button>
+            </div>
+          </div>
+
+        </TabPanel>
+        </div>}
+
+      </div>
+    );
+  }
 }
 
 const useStylesTextField = makeStyles((theme) => ({
@@ -358,7 +1274,6 @@ const useStylesTextField = makeStyles((theme) => ({
     '& .MuiTextField-root': {
       margin: theme.spacing(0),
       width: '100%',
-      margin: '11px 0'
     },
   },
 }));
@@ -389,31 +1304,44 @@ function MultilineTextFields() {
 
 
 
-export default function lecturesTab() {
-  const style = {
+export default function ActivityTab(props) {
+      const [focusID, setFocusID] = React.useState(() => {
+        var i;
+        for(i=0;i<props.activities.length;i++){
+          if(new Date(props.activities[i].due_date)>=props.today){
+            return (props.activities[i].activity_ID);
+            break;
+          }
+        }
+        return null;
 
+      });
+  const activityInFocus = props.activities.find((activity)=>activity.activity_ID  == props.focusID);
+  console.log("activity in focus");
+
+
+
+  function handleChange(newValue) {
+    console.log("changed! : " + newValue);
+    setFocusID(newValue);
   }
   return (
     <div style = {{margin:0,padding:0}}>
       <div  style = {{float:'left',height:'500px',width:'32.5%',}}>
-
         <div style = {{position:'relative', top:'27px', left:'35px', fontFamily: 'Rubik', fontStyle: 'normal', fontWeight: '300', fontSize: '14px',
- lineHeight: '17px', display: 'flex', alignItems: 'center', color: '#414141'}} >Class Status </div>
-
+ lineHeight: '17px', display: 'flex', alignItems: 'center', color: '#414141'}} >Activity Status </div>
       <div style = {{ position:'relative', top:'30px',marginRight:'auto', marginLeft:'auto'}}>
-        <SelectorBox />
+        <SelectorBox today={props.today} inFocusID={props.focusID} activities={props.activities} onClick = {props.handleChange}/>
       </div>
 
       </div>
-      <div className = 'detailBoxx'style = {{float:'left',height:'500px',width:'67%', }}>
+      <div className = 'detailBox' style = {{float:'left',height:'500px',width:'67%', }}>
       <div style = {{position:'relative', top:'27px', left:'35px', fontFamily: 'Rubik', fontStyle: 'normal', fontWeight: '300', fontSize: '14px',
 lineHeight: '17px', display: 'flex', alignItems: 'center', color: '#414141'}} > Mode </div>
         <div style = {{position:'relative', top:'30px',marginRight:'auto', marginLeft:'auto'}}>
-          <DetailBox />
+          <DetailBox today={props.today} activity={activityInFocus} edit = {props.edit} moduleID={props.moduleID}/>
         </div>
       </div>
     </div>
   );
 }
-
-{/*boxShadow: '0 0 0 0.2rem rgba(207,207,207,.5)',*/}

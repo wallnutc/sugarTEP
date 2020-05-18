@@ -10,7 +10,7 @@ import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpansionPanelActions from '@material-ui/core/ExpansionPanelActions';
 import PieModuleComponent from '../components/pieModuleComponent';
-
+const mainBlue = "#0061D2";
 const Summary = (props) => <div style = {{width:'100%',padding:'10px 0', fontFamily: 'Rubik', fontStyle: 'normal'}}>
   <div style = {{float:'left', padding:'0 20px '}}>
     <SchoolIcon style ={{fontSize: '45px', verticalAlign:'middle'}}/>
@@ -23,7 +23,7 @@ const Summary = (props) => <div style = {{width:'100%',padding:'10px 0', fontFam
 
 const GeneralInformation = ((props) =>
     <div style={{padding:'7px 24px'}}>
-      <ExpansionPanel >
+      <ExpansionPanel style= {{backgroundColor:props.colour}}>
         <ExpansionPanelSummary  style = {{padding:'0 0 0 0'}}>
           <Summary title= {"General Information"} />
         </ExpansionPanelSummary>
@@ -41,11 +41,11 @@ const GeneralInformation = ((props) =>
 
 const Workload = ((props) =>
       <div style={{padding:'7px 24px'}}>
-        <ExpansionPanel >
+        <ExpansionPanel style = {{backgroundColor:props.colour}}>
           <ExpansionPanelSummary  style = {{padding:'0 0 0 0'}}>
             <Summary title= {"Workload"} />
           </ExpansionPanelSummary>
-          <ExpansionPanelDetails >
+          <ExpansionPanelDetails style = {{backgroundColor: 'white'}}>
             <div style = {{width:'100%', height: '100%', textAlign: 'justify', fontWeight: 'normal', fontSize: '14px', lineHeight: '17px'}}>
               <div style = {{fontWeight: 300}}> Total amount of workload which you are expected to have during the module, including lectures, activities and guided study time.</div>
               <div style = {{margin:'12px 0 0 0 ', fontWeight: 300, color:'#AFAFAF' }}> view by: </div>
@@ -77,9 +77,10 @@ function ModulePanel (props) {
     fontSize: '18px',
     lineHeight: '21px',
     padding: '15px',
+    color: props.module.colour
   };
   if(props.module != undefined){
-    return( <div style={{overflow:'scroll',position:'fixed',top: '55px', width:'100%',bottom:'72px', zIndex:1, backgroundColor:'white'}}>
+    return( <div style={{overflow:'scroll',position:'fixed',top: '55px', width:'100%',bottom:'72px', zIndex:1, backgroundColor: 'white'}}>
               <div style={{position:'fixed',height: '130px', width:'100%',backgroundColor:'white',zIndex:2}}>
                 <IconButton onClick = {()=>props.onClick(false)}
                 style={{position:'fixed',top: '55px',margin:'15px 24px'}} aria-label="delete" color="primary">
@@ -93,8 +94,8 @@ function ModulePanel (props) {
               </div>
 
                 <div style={{position:'relative', top:'130px'}}>
-                <GeneralInformation prof = {props.module.module_lecturer} description = {props.module.module_description} email = {props.module.module_lecturer_email}/>
-                <Workload moduleID = {props.module.module_ID} label = {props.module.module_name}/>
+                <GeneralInformation colour = {props.module.colour} prof = {props.module.module_lecturer} description = {props.module.module_description} email = {props.module.module_lecturer_email}/>
+                <Workload colour = {props.module.colour} moduleID = {props.module.module_ID} label = {props.module.module_name}/>
                 </div>
 
             </div>
@@ -108,7 +109,7 @@ function ModulePanel (props) {
 
 function ModuleButton (props) {
   if(props.module != undefined){
-    return(<div style={{margin:'7px 24px'}} class="MuiPaper-root MuiExpansionPanel-root MuiExpansionPanel-rounded MuiPaper-elevation1 MuiPaper-rounded">
+    return(<div style={{margin:'7px 24px',backgroundColor: props.module.colour}} class="MuiPaper-root MuiExpansionPanel-root MuiExpansionPanel-rounded MuiPaper-elevation1 MuiPaper-rounded">
       <Button fullWidth onClick = {()=>props.onClick(props.module.module_code)} class="MuiButtonBase-root MuiExpansionPanelSummary-root" tabindex="0" role="button" aria-disabled="false" aria-expanded="false" style="padding: 0px;"
       style={{textAlign:'left',justifyContent:'left',textTransform: 'none',}} startIcon={<SchoolIcon color='action' style={{verticalAlign:'middle', fontSize: '45px', padding: "0px 20px"}} />} children ={
           <div style={{width: '100%', padding: '10px 0px', fontFamily: 'Rubik', fontStyle: 'normal'}}>
@@ -144,11 +145,10 @@ export default function MyModules (props) {
             <FilterSelector />
           </div>
         </div>
-        <div className="main" >
+        <div className="main">
       {
         props.modules.map((module ) => <ModuleButton module={module} onClick={selectModule}/>)
       }
-          <ModuleButton module={props.modules[0]} onClick={selectModule}/>
 
         </div>
 

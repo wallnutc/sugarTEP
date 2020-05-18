@@ -23,17 +23,19 @@ function TimelineComponent(props){
     const schema = response.schema;
     const binning = response.bin;
     const dataSource = {
+        chart: {
+        },
         navigator: {
           enabled: 0
         },
         legend: {
           enabled: 0,
-          position: "right"
+          position: "bottom"
         },
         chart: {
         },
         caption: {
-        text: "Total Hours Over Year By Module"
+        text: "Total Hours Over Year"
         },
         subcaption: {
         text: props.label
@@ -63,8 +65,8 @@ function TimelineComponent(props){
 
     const timeseriesDs = {
         type: "timeseries",
-        width: "95%",
-        height: "100%",
+        width: 480,
+        height: 350,
         dataSource: dataSource
     }
     const fusionTable = new FusionCharts.DataStore().createDataTable(data,schema);

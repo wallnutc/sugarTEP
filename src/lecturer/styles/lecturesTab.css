@@ -38,6 +38,7 @@
 .detailBox {
   height: 380px;
   overflow-y: scroll;
+  overflow-x: visible;
   -ms-overflow-style: none;
 
 }

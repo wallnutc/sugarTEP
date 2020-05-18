@@ -10,11 +10,12 @@
 }
 
 .title{
-  position: absolute;
+  /*position: absolute;
   height: 43px;
   left: 101px;
-  top: 122px;
-
+  top: 122px;*/
+  margin-top: 122px;
+  margin-left: 101px;
   font-family: Rubik;
   font-style: normal;
   font-weight: 500;
@@ -26,10 +27,11 @@
 
 .moduleBox{
 
-  position: absolute;
-  top: 80px;
-  padding: 80px;
-  width:63%;
+  /*position: absolute;*/
+  /*top: 80px;*/
+  /*padding: 80px;*/
+  margin-left: 100px;
+  width:75%;
 
 }
 .optionSelectorBox::-webkit-scrollbar {

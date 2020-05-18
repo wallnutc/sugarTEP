@@ -1,5 +1,5 @@
 import React from 'react';
-
+const mainBlue = "#0061D2";
 function Header (props) {
     const mainStyle = {
       left: "0",
@@ -21,13 +21,14 @@ function Header (props) {
       fontSize: '18px',
       lineHeight: '21px',
       padding: '15px',
+      color: mainBlue
     };
 
 
     return (
       <div >
         <div style={mainStyle}>
-          <img  src={props.imgPath} style={imgStyle}/>
+          <img src={props.imgPath} style={imgStyle}/>
           <h2 style={titleStyle}> {props.title} </h2>
         </div>
       </div>

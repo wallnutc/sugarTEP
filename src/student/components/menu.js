@@ -18,17 +18,16 @@ export default function SimpleMenu() {
   const handleClose = () => {
     setAnchorEl(null);
   };
-
   return (
-    <div>
+    <div >
       <div style={{float: 'left'}}>
-      <Button aria-controls="simple-menu" aria-haspopup="true" style={{height:"55px"}} >
+      <Button aria-controls="simple-menu" aria-haspopup="true" style={{height:"55px", color: 'white'}} >
         <AccountCircleIcon   />
       </Button>
 
       </div>
       <div style={{float: "right"}}>
-        <Button aria-controls="simple-menu" aria-haspopup="true" style={{height:"55px"}} onClick={handleClick}  >
+        <Button aria-controls="simple-menu" aria-haspopup="true" style={{height:"55px", color: 'white'}} onClick={handleClick}  >
           <SettingsIcon />
         </Button>
         <Menu

@@ -17,12 +17,12 @@ import {
 import {ClassFeedbackPopup} from '../components/popups';
 
 function Lectures (props) {
-
+  window.scrollTo(0, 0);
     const headerContent = {title:"Lectures", imgPath: require("../images/icons/lectures.svg")};
     const batch = 5;
     const [selectedModule, setSelectedModule] = useState(props.filter.length == 0 ? "null": props.filter[0].value);
-    const [selectedDate, setSelectedDate] = useState(new Date('2019-03-18T00:00:00'));
-    const [classes,setClasses] = useState(()=>selectedModule=="all modules" ? props.classes.filter(item => new Date(item.date)> selectedDate) : props.classes.filter( item => item.module_code==selectedModule).filter(item => new Date(item.date)> selectedDate))
+    const [selectedDate, setSelectedDate] = useState(new Date('2018-09-14T00:00:00'));
+    const [classes,setClasses] = useState(()=>selectedModule=="All Modules" ? props.classes.filter(item => new Date(item.date)> selectedDate) : props.classes.filter( item => item.module_code==selectedModule).filter(item => new Date(item.date)> selectedDate))
     const [classesForRender,setclassesForRender] = useState(()=>classes.length <=batch ? classes: classes.slice(0,batch))
     const [renderIndex, setRenderIndex] = useState(batch);
     const [hasMore,setHasMore] =  useState(true);
@@ -37,7 +37,7 @@ function Lectures (props) {
     console.log(classes);
     const handleDateChange = (date) => {
       setSelectedDate(date);
-      if(selectedModule != "all modules" ){
+      if(selectedModule != "All Modules" ){
         const tempClasses = props.classes.filter( item => item.module_code==selectedModule).filter(item => new Date(item.date)> date);
         setClasses(tempClasses);
         setclassesForRender(()=>tempClasses.length <=batch ? tempClasses: tempClasses.slice(0,batch));
@@ -81,7 +81,7 @@ function Lectures (props) {
       // console.log("onChange:")
       // console.log(event.target.value);
       // console.log(event.target.value==null);
-      if(event.target.value != "all modules" ){
+      if(event.target.value != "All Modules" ){
         const tempClasses = props.classes.filter( item => item.module_code==event.target.value).filter(item => new Date(item.date)> selectedDate);
         // console.log("atualizei:");
         setClasses(tempClasses);
@@ -145,7 +145,7 @@ function Lectures (props) {
             </MuiPickersUtilsProvider>
             {showPopup ?
             <ClassFeedbackPopup
-                      class={popupClass}
+                      lecture={popupClass}
                       closePopup={togglePopup}
             />  : null
             }

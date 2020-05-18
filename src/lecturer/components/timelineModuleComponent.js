@@ -4,10 +4,10 @@ import TimeSeries from "fusioncharts/fusioncharts.timeseries";
 import ReactFC from 'react-fusioncharts';
 ReactFC.fcRoot(FusionCharts, TimeSeries);
 
-function TimelineComponent(props){
+function TimelineModuleComponent(props){
   const [response,setResponse] = useState({});
   useEffect(() => {
-    var url = 'http://mvroso.pythonanywhere.com/timelineByCourse' + props.courseID;
+    var url = 'http://mvroso.pythonanywhere.com/timelineByModule' + props.moduleID;
     console.log(url);
     fetch(url)
        .then((response) => response.json())
@@ -19,7 +19,7 @@ function TimelineComponent(props){
        });
   },[]);
   if(response.byActivity != undefined){
-    const data = response.byModule;
+    const data = response.byActivity;
     const schema = response.schema;
     const binning = response.bin;
     const dataSource = {
@@ -33,7 +33,7 @@ function TimelineComponent(props){
         chart: {
         },
         caption: {
-        text: "Total Hours Over Year By Module"
+        text: "Total Hours Over Year"
         },
         subcaption: {
         text: props.label
@@ -55,7 +55,7 @@ function TimelineComponent(props){
         ],
         xAxis: {
           binning: {
-            "day": [1,6],
+            "day": [6],
             "month": [1]
           }
         }
@@ -64,7 +64,7 @@ function TimelineComponent(props){
     const timeseriesDs = {
         type: "timeseries",
         width: "95%",
-        height: "100%",
+        height: "95%",
         dataSource: dataSource
     }
     const fusionTable = new FusionCharts.DataStore().createDataTable(data,schema);
@@ -79,4 +79,4 @@ function TimelineComponent(props){
   else return <div></div>
 };
 
-export default TimelineComponent;
+export default TimelineModuleComponent;

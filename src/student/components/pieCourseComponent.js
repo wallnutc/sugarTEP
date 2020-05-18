@@ -77,6 +77,7 @@ function PieComponent (props){
             centerLabelBold: "1",
             showTooltip: "0",
             showLabels: "0",
+            showValues: "0",
             decimals: "1",
             theme: "fusion"
           },
