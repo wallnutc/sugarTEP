@@ -145,7 +145,7 @@ function Lectures (props) {
             </MuiPickersUtilsProvider>
             {showPopup ?
             <ClassFeedbackPopup
-                      lecture={popupClass}
+                      class={popupClass}
                       closePopup={togglePopup}
             />  : null
             }
