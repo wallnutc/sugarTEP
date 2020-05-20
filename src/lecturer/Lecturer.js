@@ -10,6 +10,8 @@ import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 
+const mainBlue = "#0061D2";
+
 function sortActivities(activities){
   activities.sort((a,b) => (new Date(a.due_date) > new Date(b.due_date)) ? 1 : ((new Date(b.due_date) > new Date(a.due_date)) ? -1 : 0));
 }
@@ -67,13 +69,13 @@ class Lecturer extends Component  {
     render(){
       return (
         <div >
-        <div className = 'Menubar'>
+        <div className = 'Menubar' style={{backgroundColor: mainBlue}}>
           <TopMenuBar />
         </div>
         <div style={{position:'fixed',top:'100px'}}>
 
           </div>
-            <div className = 'title'>
+            <div className = 'title' style= {{color: mainBlue}}>
               <p> My Modules</p>
             </div>
             <div className = 'moduleBox'>
@@ -86,7 +88,7 @@ class Lecturer extends Component  {
 
 
 
-            <div className='title'>
+            <div className='title' style= {{color: mainBlue}}>
               <p> My Contributed Modules</p>
             </div>
 

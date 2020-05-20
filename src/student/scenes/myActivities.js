@@ -1,5 +1,4 @@
 import React,{useState,useEffect} from 'react';
-import FilterSelector from '../components/FilterSelector';
 import Header from "../components/header";
 import ListRenderer,{ActivityPanel} from "../components/listRenderer";
 import InfiniteScroll from "react-infinite-scroll-component";
@@ -14,11 +13,12 @@ import {
   KeyboardDatePicker,
 } from '@material-ui/pickers';
 import {ActivityProgressPopup} from '../components/popups';
-
+import FilterMenu,{DateFilter} from '../components/filterMenu';
+const mainBlue = "#0061D2";
 function MyActivities (props) {
   const batch = 5;
   const headerContent = {title:"My Activities", imgPath: require("../images/icons/myActivities.svg")};
-  const [selectedDate, setSelectedDate] = useState(new Date('2018-09-14T00:00:00'));
+  const [selectedDate, setSelectedDate] = useState(new Date('2019-03-14T00:00:00'));
   const [selectedModule, setSelectedModule] = useState(props.filter.length == 0 ? "null": props.filter[0].value);
   const [activities, setActivities] = useState(()=>selectedModule=="All Modules" ? props.activities.filter(item => new Date(item.due_date)> selectedDate) : props.activities.filter( item => item.module_code==selectedModule).filter(item => new Date(item.due_date)> selectedDate));
   const [activitiesForRender,setActivitiesForRender] = useState(()=> activities.length <=batch ? activities: activities.slice(0,batch))
@@ -26,7 +26,10 @@ function MyActivities (props) {
   const [hasMore,setHasMore] =  useState(true);
   const [popupActivity,setPopupActivity] = useState({})
   console.log("activities");
-  console.log(activities);
+  console.log(selectedDate);
+  console.log(new Date('2018-10-22T00:00:00'));
+  console.log(selectedDate==new Date('2018-10-22T00:00:00'));
+  console.log(selectedDate.getTime()===new Date('2018-10-22T00:00:00').getTime());
   console.log("selected activity:");
   console.log(popupActivity);
   const [showPopup,setShowPopup] = useState(false);
@@ -59,7 +62,9 @@ setRenderIndex(end);
 
 const handleDateChange = (date) => {
 setSelectedDate(date);
+console.log("entrei");
 if(selectedModule != "All Modules" ){
+
   const tempActivities = props.activities.filter( item => item.module_code==selectedModule).filter(item => new Date(item.due_date)> date);
   setActivities(tempActivities);
   setActivitiesForRender(()=>tempActivities.length <=batch ? tempActivities: tempActivities.slice(0,batch));
@@ -68,6 +73,7 @@ if(selectedModule != "All Modules" ){
   window.scrollTo(0, 0);
 }
 else{
+
   setActivities(props.activities.filter(item => new Date(item.due_date)> date));
   setActivitiesForRender(()=>props.activities.length <=batch ? props.activities.filter(item => new Date(item.due_date)> date): props.activities.filter(item => new Date(item.due_date)> date).slice(0,batch));
   setRenderIndex(batch);
@@ -75,13 +81,13 @@ else{
   window.scrollTo(0, 0);
 }
 };
-const handleChange = (event) => {
-  setSelectedModule(event.target.value);
+const handleChange = (module_code) => {
+  setSelectedModule(module_code);
   // console.log("onChange:")
-  // console.log(event.target.value);
-  // console.log(event.target.value==null);
-  if(event.target.value != "All Modules" ){
-    const tempActivities = props.activities.filter( item => item.module_code==event.target.value).filter(item => new Date(item.due_date)> selectedDate);
+  // console.log(module_code);
+  // console.log(module_code==null);
+  if(module_code != "All Modules" ){
+    const tempActivities = props.activities.filter( item => item.module_code==module_code).filter(item => new Date(item.due_date)> selectedDate);
     // console.log("atualizei:");
     setActivities(tempActivities);
     // console.log("quantidade total: " +　tempActivities.length);
@@ -108,40 +114,11 @@ const handleChange = (event) => {
         </div>
         <div className="filter">
           <div>
-          <div style={{display: 'flex',justifyContent: 'center'}}>
-          <TextField
-            id="native-filter"
-            select
-            label=""
-            value={selectedModule}
-            onChange={handleChange}
-            SelectProps={{
-              native: true,
-            }}
-            helperText=""
-          >
-            {props.filter.map((option) => (
-              <option key={option.value} value={option.value}>
-                {option.label}
-              </option>
-            ))}
-          </TextField>
-          </div>
-          <div style={{display: 'flex',justifyContent: 'center'}}>
-            <MuiPickersUtilsProvider utils={DateFnsUtils}>
-              <KeyboardDatePicker
-                margin="normal"
-                id="date-picker-dialog"
-                label=""
-                format="dd/MM/yyyy"
-                value={selectedDate}
-                onChange={handleDateChange}
-                KeyboardButtonProps={{
-                  'aria-label': 'change date',
-                }}
-              />
-            </MuiPickersUtilsProvider>
 
+          <div style={{padding:"0 16px", display:'flex', color: mainBlue}}>
+            <span style={{margin:'16px 8px'}}><FilterMenu default={selectedModule=="All Modules"? true:false} callback={handleChange} label='Modules' options={props.filter}/> </span>
+            <span style={{margin:'16px 8px'}}><DateFilter default={selectedDate.getTime()===new Date('2018-10-22T00:00:00').getTime()? true:false} callback={handleDateChange} label='Date' date={selectedDate}/></span>
+          </div>
             {showPopup ?
             <ActivityProgressPopup
                       activity={popupActivity}
@@ -150,18 +127,17 @@ const handleChange = (event) => {
             />  : null
             }
           </div>
-          </div>
         </div>
 
-        <div className="main" >
+        <div className="main" style={{}}>
 
         <InfiniteScroll
           dataLength={activitiesForRender.length}
           next={fetchMoreData}
           hasMore={hasMore}
-          loader={<h4 style={{ textAlign: "center" }}>Loading...</h4>}
+          loader={<h4 style={{ textAlign: "center", color: mainBlue}}>Loading...</h4>}
           endMessage={
-            <p style={{ textAlign: "center" }}>
+            <p style={{ textAlign: "center",color: mainBlue }}>
               <b>Yay! You have seen it all</b>
             </p>
           }
@@ -177,7 +153,8 @@ const handleChange = (event) => {
                       margin:'16px 0 0 24px',
                       fontFamily: 'Rubik',
                        fontStyle: 'normal',
-                       fontSize: '17px'
+                       fontSize: '17px',
+                       color: mainBlue
                      }}> { weekTag[(new Date(i.due_date)).getDay()]} | {String(new Date(i.due_date).getDate()).padStart(2, '0')}/{String(new Date(i.due_date).getMonth() + 1).padStart(2, '0')} </div>
                     <ActivityPanel onClick={togglePopup} item={i} />
                   </div>

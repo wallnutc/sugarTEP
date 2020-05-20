@@ -1,5 +1,4 @@
 import React ,{Components, useState} from 'react';
-import FilterSelector from '../components/FilterSelector';
 import Header from "../components/header";
 import Button from '@material-ui/core/Button';
 import SchoolIcon from '@material-ui/icons/School';
@@ -9,12 +8,12 @@ import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpansionPanelActions from '@material-ui/core/ExpansionPanelActions';
-import PieModuleComponent from '../components/pieModuleComponent';
+import PieModuleComponent from '../components/graph_components/pieModuleComponent';
 const mainBlue = "#0061D2";
-const Summary = (props) => <div style = {{width:'100%',padding:'10px 0', fontFamily: 'Rubik', fontStyle: 'normal'}}>
-  <div style = {{float:'left', padding:'0 20px '}}>
-    <SchoolIcon style ={{fontSize: '45px', verticalAlign:'middle'}}/>
-    <span style = {{marginLeft:'24px',fontWeight: 'normal', fontSize: '14px', lineHeight: '17px'}}>
+const Summary = (props) => <div style = {{width:'100%',padding:'10px 0', fontFamily: 'Rubik', fontStyle: 'normal', color: 'white'}}>
+  <div style = {{float:'left', padding:'0 20px ', color: 'white'}}>
+    <SchoolIcon style ={{fontSize: '45px', verticalAlign:'middle', color: 'white'}}/>
+    <span style = {{marginLeft:'24px',fontWeight: 'normal', fontSize: '14px', lineHeight: '17px', color: 'white'}}>
       {props.title}
     </span>
   </div>
@@ -23,7 +22,7 @@ const Summary = (props) => <div style = {{width:'100%',padding:'10px 0', fontFam
 
 const GeneralInformation = ((props) =>
     <div style={{padding:'7px 24px'}}>
-      <ExpansionPanel style= {{backgroundColor:props.colour}}>
+      <ExpansionPanel style= {{backgroundColor:props.colour, color: 'white'}}>
         <ExpansionPanelSummary  style = {{padding:'0 0 0 0'}}>
           <Summary title= {"General Information"} />
         </ExpansionPanelSummary>
@@ -41,7 +40,7 @@ const GeneralInformation = ((props) =>
 
 const Workload = ((props) =>
       <div style={{padding:'7px 24px'}}>
-        <ExpansionPanel style = {{backgroundColor:props.colour}}>
+        <ExpansionPanel style = {{backgroundColor:props.colour, color:'white'}}>
           <ExpansionPanelSummary  style = {{padding:'0 0 0 0'}}>
             <Summary title= {"Workload"} />
           </ExpansionPanelSummary>
@@ -83,11 +82,11 @@ function ModulePanel (props) {
     return( <div style={{overflow:'scroll',position:'fixed',top: '55px', width:'100%',bottom:'72px', zIndex:1, backgroundColor: 'white'}}>
               <div style={{position:'fixed',height: '130px', width:'100%',backgroundColor:'white',zIndex:2}}>
                 <IconButton onClick = {()=>props.onClick(false)}
-                style={{position:'fixed',top: '55px',margin:'15px 24px'}} aria-label="delete" color="primary">
+                style={{position:'fixed',top: '55px',margin:'15px 24px', color:props.module.color}} aria-label="delete" color="primary">
                     <ArrowBackIosIcon color='action'/>
                 </IconButton>
                 <div style={mainStyle}>
-                  <SchoolIcon style ={{fontSize: '45px', verticalAlign:'middle', float:'left',  padding: '20px 25px'}}/>
+                  <SchoolIcon style ={{fontSize: '45px', verticalAlign:'middle', float:'left',  padding: '20px 25px', color: 'white'}}/>
                   {/*<img  src={headerContent.imgPath} style={imgStyle}/>*/}
                   <h2 style={titleStyle}> {props.module.module_code} - {props.module.module_name} </h2>
                 </div>
@@ -109,10 +108,10 @@ function ModulePanel (props) {
 
 function ModuleButton (props) {
   if(props.module != undefined){
-    return(<div style={{margin:'7px 24px',backgroundColor: props.module.colour}} class="MuiPaper-root MuiExpansionPanel-root MuiExpansionPanel-rounded MuiPaper-elevation1 MuiPaper-rounded">
+    return(<div style={{margin:'7px 24px',backgroundColor: props.module.colour, color: 'white'}} class="MuiPaper-root MuiExpansionPanel-root MuiExpansionPanel-rounded MuiPaper-elevation1 MuiPaper-rounded">
       <Button fullWidth onClick = {()=>props.onClick(props.module.module_code)} class="MuiButtonBase-root MuiExpansionPanelSummary-root" tabindex="0" role="button" aria-disabled="false" aria-expanded="false" style="padding: 0px;"
-      style={{textAlign:'left',justifyContent:'left',textTransform: 'none',}} startIcon={<SchoolIcon color='action' style={{verticalAlign:'middle', fontSize: '45px', padding: "0px 20px"}} />} children ={
-          <div style={{width: '100%', padding: '10px 0px', fontFamily: 'Rubik', fontStyle: 'normal'}}>
+      style={{textAlign:'left',justifyContent:'left',textTransform: 'none',}} startIcon={<SchoolIcon color='action' style={{verticalAlign:'middle', fontSize: '45px', padding: "0px 20px", color: 'white'}} />} children ={
+          <div style={{width: '100%', padding: '10px 0px', fontFamily: 'Rubik', fontStyle: 'normal', color: 'white'}}>
             <div style={{fontWeight:'300',fontSize: '10px'}}>Prof. {props.module.module_lecturer} </div>
             <div style={{fontFamily: 'Rubik'}}>{props.module.module_code} - {props.module.module_name} </div>
           </div>
@@ -140,11 +139,6 @@ export default function MyModules (props) {
         <div className="header">
           <Header imgPath = {headerContent.imgPath}  title = {headerContent.title}/>
         </div>
-        <div className="filter">
-          <div style={{}}>
-            <FilterSelector />
-          </div>
-        </div>
         <div className="main">
       {
         props.modules.map((module ) => <ModuleButton module={module} onClick={selectModule}/>)
@@ -159,7 +153,7 @@ export default function MyModules (props) {
       </div>
     );
   }
-  else return <h4 style={{textAlign: "center"}}>Loading...</h4>;
+  else return <h4 style={{textAlign: "center", color:mainBlue}}>Loading...</h4>;
 }
 
 {/*

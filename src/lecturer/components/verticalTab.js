@@ -116,40 +116,40 @@ export default function VerticalTabs(props) {
           onChange={handleChange}
           aria-label="Vertical tabs example"
           className={classes.tabs}
-          indicatorColor="primary"
-          textColor="secondary"
-          TabIndicatorProps={{style: {background:'#AD59D4'}}}
+          indicatorColor={props.module.colour}
+          textColor= {props.module.colour}
+          TabIndicatorProps={{style: {background:props.module.colour}}}
         >
 
           <Tab fullWidth style = {{ height:'100px',maxWidth:'500px', textTransform: 'none', fontSize:18}} label={<div style={{marginLeft:'30px'}}>
-            <CastForEducationIcon color='action'  style={{fontSize:"50px",verticalAlign:'middle'}}/> Homepage</div>} {...a11yProps(0)} />
+            <CastForEducationIcon color='action'  style={{fontSize:"50px",verticalAlign:'middle', color: props.module.colour}}/> Homepage</div>} {...a11yProps(0)} />
 
 
           <Tab fullWidth style = {{ height:'100px',maxWidth:'500px', textTransform: 'none', fontSize:18}} label={<div style={{marginLeft:'30px'}}>
-            <LocalLibraryIcon color='action' style={{fontSize:"50px",verticalAlign:'middle'}} /> Lectures</div>} {...a11yProps(1)} />
+            <LocalLibraryIcon color='action' style={{fontSize:"50px",verticalAlign:'middle', color: props.module.colour}} /> Classes</div>} {...a11yProps(1)} />
 
 
           <Tab fullWidth style = {{ height:'100px',maxWidth:'500px', textTransform: 'none', fontSize:18 }} label={<div style={{marginLeft:'30px'}}>
-            <ComputerIcon color='action' style={{fontSize:"50px",verticalAlign:'middle'}} /> Activities</div>} {...a11yProps(2)} />
+            <ComputerIcon color='action' style={{fontSize:"50px",verticalAlign:'middle', color: props.module.colour}} /> Activities</div>} {...a11yProps(2)} />
 
           <Tab fullWidth style = {{ height:'100px',maxWidth:'500px', textTransform: 'none', fontSize:18 }} label={<div style={{marginLeft:'30px'}}>
-            <BarChartIcon color='action' style={{fontSize:"50px",verticalAlign:'middle'}} /> Student Experience</div>} {...a11yProps(4)} />
+            <BarChartIcon color='action' style={{fontSize:"50px",verticalAlign:'middle', color: props.module.colour}} /> Student Experience</div>} {...a11yProps(4)} />
 
 
         </Tabs>
         </div>
         <div style = {{position:'relative', left:'317px',top:'-100px',float: 'right', width:'906px', backgroundColor:'white'}}>
         <TabPanel value={value} index={0}>
-          <OverviewTab selectActivity={handleFocusAcitivityIDChange}changeTab={setValue} today={props.today} activities={props.module.activities} classes={props.module.classes} module_ID = {props.module.module_ID} module_name = {props.module.module_name}/>
+          <OverviewTab selectActivity={handleFocusAcitivityIDChange}changeTab={setValue} colour = {props.module.colour} today={props.today} activities={props.module.activities} classes={props.module.classes} module_ID = {props.module.module_ID} module_name = {props.module.module_name}/>
         </TabPanel>
         <TabPanel value={value} index={1}>
-          <LecturesTab today={props.today} activities={props.module.activities} classes={props.module.classes} edit={props.module.edit} moduleID = {props.module.module_ID}/>
+          <LecturesTab today={props.today} activities={props.module.activities} colour = {props.module.colour} classes={props.module.classes} edit={props.module.edit} moduleID = {props.module.module_ID}/>
         </TabPanel>
         <TabPanel value={value} index={2}>
-            <ActivitiesTab handleChange={handleFocusAcitivityIDChange} focusID={focusAcitivityID} today={props.today} activities={props.module.activities} edit={props.module.edit} moduleID = {props.module.module_ID}/>
+            <ActivitiesTab handleChange={handleFocusAcitivityIDChange} focusID={focusAcitivityID} colour = {props.module.colour} today={props.today} activities={props.module.activities} edit={props.module.edit} moduleID = {props.module.module_ID}/>
         </TabPanel>
         <TabPanel value={value} index={3}>
-          <StudentExperienceTab moduleCode={props.module.module_code} module_ID = {props.module.module_ID} module_name = {props.module.module_name}/>
+          <StudentExperienceTab moduleCode={props.module.module_code} colour = {props.module.colour} module_ID = {props.module.module_ID} module_name = {props.module.module_name}/>
         </TabPanel>
         </div>
       </div>

@@ -25,6 +25,7 @@ import FeedbackBarComponent from "../components/feedbackBarComponent";
 import FeedbackDialComponent from "../components/feedbackDialComponent";
 import PieModuleComponent from '../components/pieModuleComponent';
 import {LecturePanel,ActivityPanel,FeedbackPanel} from "./listRenderer";
+import invert from 'invert-color';
 
 const BootstrapButton = withStyles({
   root: {
@@ -103,7 +104,7 @@ const AntTabs = withStyles({
     '& > div': {
       maxWidth: 40,
       width: '100%',
-      backgroundColor: 'black',
+      backgroundColor: '#4A006E',
     },
   }
 })((props) => <Tabs {...props} TabIndicatorProps={{ children: <div /> }} />);
@@ -114,6 +115,7 @@ const AntTab = withStyles((theme) => ({
     minWidth: 72,
     fontWeight: theme.typography.fontWeightRegular,
     marginRight: theme.spacing(4),
+    fontSize: '16px',
     fontFamily: [
       '-apple-system',
       'BlinkMacSystemFont',
@@ -127,15 +129,12 @@ const AntTab = withStyles((theme) => ({
       '"Segoe UI Symbol"',
     ].join(','),
     '&:hover': {
-      color: 'black',
       opacity: 1,
     },
     '&$selected': {
-      color: 'black',
       fontWeight: theme.typography.fontWeightMedium,
     },
     '&:focus': {
-      color: 'black',
     },
   },
   selected: {},
@@ -157,7 +156,7 @@ function SelectorBox(props) {
   console.log(props.classes);
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
-
+  const colour = props.colour
   const nextClass=props.classes.find((lecture) => new Date(lecture.date+'T'+lecture.end_time)>= props.today);
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -168,7 +167,7 @@ function SelectorBox(props) {
       <div className={classes.demo1}>
       </div>
       <div className = 'selectorBox' style={{margin:'8px', borderRadius:'8px'}} >
-        <div style={{fontStyle:"normal", fontFamily:"Rubik", color:"#666"}}>
+        <div style={{fontStyle:"normal", fontFamily:"Rubik"}}>
         Next Lecture
         </div>
         {
@@ -176,7 +175,7 @@ function SelectorBox(props) {
           <LecturePanel changeTab={props.changeTab} item = {nextClass} />
         </div>
       }
-      <div style={{fontStyle:"normal", fontFamily:"Rubik", color:"#666"}}>
+      <div style={{fontStyle:"normal", fontFamily:"Rubik"}}>
       Next Activities
       </div>
       {props.activities.filter((activity) => new Date(activity.due_date)>= props.today).map((activity) =>
@@ -238,8 +237,8 @@ function DetailBox(props) {
     <div className={classes.root}>
     <div className={classes.demo1}>
       <AntTabs value={value} onChange={handleChange} aria-label="ant example" style={{marginLeft:'27px',}}>
-                <AntTab label="General Breakdown" />
-                <AntTab label="Latest Feedback " />
+                <AntTab label="General Breakdown" style= {{color: props.colour}} TabIndicatorProps={{style: {backgroundColor:props.colour}}}/>
+                <AntTab label="Latest Feedback " style= {{color: props.colour}} TabIndicatorProps={{style: {backgroundColor:props.colour}}}/>
                 </AntTabs>
               </div>
 
@@ -248,7 +247,7 @@ function DetailBox(props) {
 
                   <div style = {{margin:'8px 0'}}>
                   <div style = {{position: 'relative', height:350,width:260, float: "left"}}> <PieModuleComponent moduleID = {props.moduleID} label = {props.module_name} type = "hours"/> </div>
-                  <div style = {{position: 'relative', height:350,width:260, float: "left"}}> <PieModuleComponent moduleID = "9" label = {props.module_name} type = "grade"/> </div>
+                  <div style = {{position: 'relative', height:350,width:260, float: "left"}}> <PieModuleComponent moduleID = {props.moduleID} label = {props.module_name} type = "grade"/> </div>
                   </div>
 
                   <div style = {{margin:'10px 0'}}>
@@ -264,7 +263,7 @@ function DetailBox(props) {
                               }}/>)*/}
 
                     <MultilineTextFields />
-                    <Button type='submit' variant="contained" color="default" disableElevation fullWidth style={{textTransform: 'none'}}> Add Note </Button>
+                    <Button type='submit' variant="contained" color="default" disableElevation fullWidth style = {{backgroundColor: props.colour, color: invert(props.colour, true)}}> Add Note </Button>
                   </div>
                 </div>
               </TabPanel>
@@ -272,7 +271,7 @@ function DetailBox(props) {
                 <div className = 'detailBox'>
                 {previousClass!=null? <div>
                   Previous Class - {previousClass.title} - {previousClass.date + ' | ' + previousClass.start_time +'- '+previousClass.end_time }
-                  {previousClass.feedback.length==0 ? <div> No Feedback For This Class</div>:
+                  {previousClass.feedback.length==0 ? <div> No feedback for this class</div>:
                     previousClass.feedback.map((item)=> <FeedbackPanel activityID={previousClass.class_ID} questionName={item.feedback_title} type='Class'/>)}
 
                   </div>: <div>No classes taught yet.</div>}
@@ -341,7 +340,7 @@ export default function OverviewTab(props) {
  lineHeight: '17px', display: 'flex', alignItems: 'center', color: '#414141'}} >Upcoming </div>
 
       <div style = {{ position:'relative', top:'87px',marginRight:'auto', marginLeft:'auto'}}>
-        <SelectorBox selectActivity={props.selectActivity} changeTab={props.changeTab} today={props.today} inFocusID={focusID} activities={props.activities} classes={props.classes}　onClick = {handleChange} />
+        <SelectorBox selectActivity={props.selectActivity} changeTab={props.changeTab} today={props.today} inFocusID={focusID} colour={props.colour} activities={props.activities} classes={props.classes}　onClick = {handleChange} />
       </div>
 
       </div>
@@ -350,7 +349,7 @@ export default function OverviewTab(props) {
 lineHeight: '17px', display: 'flex', alignItems: 'center', color: '#414141'}} > Summaries </div>
         <div style = {{position:'relative', top:'30px',marginRight:'auto', marginLeft:'auto'}}>
 
-          <DetailBox today={props.today} activities={props.activities} classes={props.classes} moduleID = {props.module_ID} module_name = {props.module_name} />
+          <DetailBox today={props.today} activities={props.activities} classes={props.classes} colour={props.colour} moduleID = {props.module_ID} module_name = {props.module_name} />
         </div>
       </div>
     </div>

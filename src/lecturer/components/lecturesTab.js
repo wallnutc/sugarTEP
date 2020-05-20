@@ -32,6 +32,7 @@ import InputLabel from '@material-ui/core/InputLabel';
 import ListItemText from '@material-ui/core/ListItemText';
 import Select from '@material-ui/core/Select';
 import ClearRoundedIcon from '@material-ui/icons/ClearRounded';
+import invert from 'invert-color';
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -158,6 +159,7 @@ const AntTab = withStyles((theme) => ({
     minWidth: 72,
     fontWeight: theme.typography.fontWeightRegular,
     marginRight: theme.spacing(4),
+    fontSize: '16px',
     fontFamily: [
       '-apple-system',
       'BlinkMacSystemFont',
@@ -200,16 +202,17 @@ const useStyles = makeStyles((theme) => ({
 function SelectorBox(props) {
   const now = new Date("2019-02-01T00:00:00");
   const classes = useStyles();
+  console.log("Class", props.classes);
   const [value, setValue] = React.useState(0);
   const taughtLecturesSelectors = props.classes.filter((lecture) => new Date(lecture.date+'T'+lecture.end_time)< props.today
   ).map((lecture) =>
-  <div style = {{margin:'8px 0'}}>
-    <BootstrapButton style = {{backgroundColor: lecture.date+lecture.start_time == props.inFocusID? '#9A9A9A': '#F1F1F1'}} onClick = { () =>  props.onClick(lecture.date+lecture.start_time)}  size = 'large' fullWidth startIcon ={<TodayIcon color='action' style={{fontSize: 40 }}/>} children={
+  <div style = {{margin:'8px 0', color: lecture.date+lecture.start_time == props.inFocusID? 'black': invert(lecture.colour, true)}}>
+    <BootstrapButton style = {{backgroundColor: lecture.date+lecture.start_time == props.inFocusID? '#F1F1F1': lecture.colour}} onClick = { () =>  props.onClick(lecture.date+lecture.start_time)}  size = 'large' fullWidth startIcon ={<TodayIcon color='action' style={{fontSize: 40, color: lecture.date+lecture.start_time == props.inFocusID? 'black': invert(lecture.colour, true) }}/>} children={
       <div>
-        <div style={{fontFamily: 'Rubik'}}>{lecture.title}</div>
+        <div style={{fontFamily: 'Rubik', color: lecture.date+lecture.start_time == props.inFocusID? 'black': invert(lecture.colour, true)}}>{lecture.title}</div>
         <div style={{fontWeight:'300',fontSize: '14px'}}>
-          <ScheduleIcon color='action' style={{verticalAlign:'middle',fontWeight:'300',fontSize: '14px'}} />
-          <span style={{verticalAlign:'middle'}}>{lecture.date}</span>
+          <ScheduleIcon color='action' style={{verticalAlign:'middle',fontWeight:'300',fontSize: '14px', color: lecture.date+lecture.start_time == props.inFocusID? 'black': invert(lecture.colour, true)}} />
+          <span style={{verticalAlign:'middle', color: lecture.date+lecture.start_time == props.inFocusID? 'black': invert(lecture.colour, true)}}>{lecture.date}</span>
         </div>
       </div>} />
   </div>
@@ -217,13 +220,13 @@ function SelectorBox(props) {
 
   const scheduledLecturesSelectors = props.classes.filter((lecture) => new Date(lecture.date+'T'+lecture.end_time)>= props.today
   ).map((lecture) =>
-  <div style = {{margin:'8px 0'}}>
-    <BootstrapButton style = {{backgroundColor: lecture.date+lecture.start_time  == props.inFocusID? '#9A9A9A': '#F1F1F1'}} onClick = { () =>  props.onClick(lecture.date+lecture.start_time)}  size = 'large' fullWidth startIcon ={<TodayIcon color='action' style={{fontSize: 40 }}/>} children={
+  <div style = {{margin:'8px 0', color: lecture.date+lecture.start_time == props.inFocusID? 'black': invert(lecture.colour, true)}}>
+    <BootstrapButton style = {{backgroundColor: lecture.date+lecture.start_time  == props.inFocusID? '#F1F1F1': lecture.colour }} onClick = { () =>  props.onClick(lecture.date+lecture.start_time)}  size = 'large' fullWidth startIcon ={<TodayIcon color='action' style={{fontSize: 40,color: lecture.date+lecture.start_time == props.inFocusID? 'black': invert(lecture.colour, true) }}/>} children={
       <div>
-        <div style={{fontFamily: 'Rubik'}}>{lecture.title}</div>
+        <div style={{fontFamily: 'Rubik', color: lecture.date+lecture.start_time == props.inFocusID? 'black': invert(lecture.colour, true)}}>{lecture.title}</div>
         <div style={{fontWeight:'300',fontSize: '14px'}}>
-          <ScheduleIcon color='action' style={{verticalAlign:'middle',fontWeight:'300',fontSize: '14px'}} />
-          <span style={{verticalAlign:'middle'}}>{lecture.date}</span>
+          <ScheduleIcon color='action' style={{verticalAlign:'middle',fontWeight:'300',fontSize: '14px', color: lecture.date+lecture.start_time == props.inFocusID? 'black': invert(lecture.colour, true)}} />
+          <span style={{verticalAlign:'middle', color: lecture.date+lecture.start_time == props.inFocusID? 'black': invert(lecture.colour, true)}}>{lecture.date}</span>
         </div>
       </div>} />
   </div>
@@ -238,8 +241,8 @@ function SelectorBox(props) {
 
       <div className={classes.demo1}>
         <AntTabs value={value} onChange={handleChange} aria-label="ant example" centered>
-          <AntTab label="Scheduled" />
-          <AntTab label="Taught" />
+          <AntTab label="Scheduled" style={{color: props.colour}}/>
+          <AntTab label="Taught" style={{color: props.colour}}/>
         </AntTabs>
       </div>
       <div>
@@ -426,15 +429,15 @@ const saveNote = () => {
           {new Date(props.lecture.date+'T'+props.lecture.end_time)< props.today ?
           <div className={classes.demo1}>
             <AntTabs value={value} onChange={handleChange} aria-label="ant example" style={{marginLeft:'27px',}}>
-                      <AntTab label="Feedback" />
-                      <AntTab label="Details" />
+                      <AntTab label="Feedback" style={{color: props.colour}}/>
+                      <AntTab label="Details" style={{color: props.colour}}/>
                       </AntTabs>
                     </div>
                       :
                       <div className={classes.demo1}>
                         <AntTabs value={value} onChange={handleChange} aria-label="ant example" style={{marginLeft:'27px',}}>
-                      <AntTab label="Details" />
-                      <AntTab label="Edit" />
+                      <AntTab label="Details" style={{color: props.colour}}/>
+                      <AntTab label="Edit" style={{color: props.colour}}/>
                       </AntTabs>
                     </div>
 
@@ -443,7 +446,7 @@ const saveNote = () => {
 
   {new Date(props.lecture.date+'T'+props.lecture.end_time)< props.today ?  <div>
         <TabPanel  value={value} index={0}>
-          <div className = 'detailBox'>
+          <div className = 'detailBox' style = {{color: props.colour}}>
 
             <div style = {{margin:'8px 0'}}>
   { props.lecture.feedback.length==0 ? <div> No Feedback Responses</div>:
@@ -470,12 +473,12 @@ const saveNote = () => {
                       )}
 
               <TextField variant="outlined" fullWidth label="New Note" value={newNote} onChange={(e) => setNewNote(e.target.value)}/>
-              <Button onClick={() => saveNote()} type='submit' variant="contained" color="default" disableElevation fullWidth style={{margin:'10px 0px', textTransform: 'none'}}> Add Note </Button>
+              <Button onClick={() => saveNote()} type='submit' variant="contained" color="default" disableElevation fullWidth style={{margin:'10px 0px', textTransform: 'none', backgroundColor: props.colour, color: invert(props.colour, true)}}> Add Note </Button>
             </div>
           </div>
         </TabPanel>
         <TabPanel  value={value} index={1}>
-          <div className = 'detailBox'>
+          <div className = 'detailBox' style = {{color: props.colour}}>
             <div>
 
               <span>{ props.lecture.title}</span>
@@ -534,7 +537,7 @@ const saveNote = () => {
                         }}/>)}
 
               <TextField variant="outlined" fullWidth label="New Note"  value={newNote} onChange={(e) => setNewNote(e.target.value)}/>
-              <Button onClick={() => saveNote()} type='submit' variant="contained" color="default" disableElevation fullWidth style={{margin: '10px 0px', textTransform: 'none'}}> Add Note </Button>
+              <Button onClick={() => saveNote()} type='submit' variant="contained" color="default" disableElevation fullWidth style={{margin: '10px 0px', textTransform: 'none',backgroundColor: props.colour, color: invert(props.colour, true)}}> Add Note </Button>
             </div>
           </div>
 
@@ -542,14 +545,14 @@ const saveNote = () => {
         </div> :
         <div>
         <TabPanel  value={value} index={0}>
-          <div className = 'detailBox'>
+          <div className = 'detailBox' style = {{color: props.colour}}>
 
           <div>
             <span> {props.lecture.title} | </span>
             <span> {props.lecture.date} </span>
           </div>
           <div>
-            <span>Class Type: { props.lecture.activityType}</span>
+            <span>Class Type: </span><span style= {{color: 'black'}}> {props.lecture.activityType}</span>
           </div>
           <div>
             <span> Content </span> <br/>
@@ -598,20 +601,17 @@ const saveNote = () => {
           </div>
         </TabPanel>
         <TabPanel  value={value} index={1}>
-          <div className = 'detailBox'>
+          <div className = 'detailBox' style = {{color: props.colour}}>
             <div style = {{margin:'8px'}}>
+            <span> Title </span> <br/>
             <TextField
               id="standard-read-only-input"
               value={title}
-              label="Title"
+              fullwidth
               variant="outlined"
               onChange={(e)=>setTitle(e.target.value)}
               />
-              {props.lecture.date}
             </div>
-            <div style = {{margin:'8px'}}>
-              Class Type: {props.lecture.activityType}
-              </div>
             <div>
               <span> Content </span> <br/>
               <TextField
@@ -707,7 +707,7 @@ const saveNote = () => {
             }
             </div>
             <div style={{margin:'15px'}}>
-            <Button fullWidth size = 'large' variant="contained" onClick={()=>saveClass()}> SAVE </Button>
+            <Button fullWidth size = 'large' variant="contained" style = {{backgroundColor: props.colour, color: invert(props.colour, true)}} onClick={()=>saveClass()}> SAVE </Button>
             </div>
           </div>
 
@@ -725,14 +725,14 @@ const saveNote = () => {
           {new Date(props.lecture.date+'T'+props.lecture.end_time)< props.today ?
           <div className={classes.demo1}>
             <AntTabs value={value} onChange={handleChange} aria-label="ant example" style={{marginLeft:'27px',}}>
-                      <AntTab label="Feedback" />
-                      <AntTab label="Details" />
+                      <AntTab label="Feedback" style={{color: props.colour}}/>
+                      <AntTab label="Details" style={{color: props.colour}}/>
                       </AntTabs>
                     </div>
                       :
                       <div className={classes.demo1}>
                         <AntTabs value={value} onChange={handleChange} aria-label="ant example" style={{marginLeft:'27px',}}>
-                      <AntTab label="Details" />
+                      <AntTab label="Details" style={{color: props.colour}}/>
                       </AntTabs>
                     </div>
 
@@ -741,7 +741,7 @@ const saveNote = () => {
 
   {new Date(props.lecture.date+'T'+props.lecture.end_time)< props.today ?  <div>
         <TabPanel  value={value} index={0}>
-          <div className = 'detailBox'>
+          <div className = 'detailBox' style = {{color: props.colour}}>
 
             <div style = {{margin:'8px 0'}}>
   { props.lecture.feedback.length==0 ? <div> No Feedback Responses</div>:
@@ -768,19 +768,19 @@ const saveNote = () => {
                       )}
 
               <TextField variant="outlined" fullWidth label="New Note" value={newNote} onChange={(e) => setNewNote(e.target.value)}/>
-              <Button onClick={() => saveNote()} type='submit' variant="contained" color="default" disableElevation fullWidth style={{margin: '10px 0px', textTransform: 'none'}}> Add Note </Button>
+              <Button onClick={() => saveNote()} type='submit' variant="contained" color="default" disableElevation fullWidth style={{margin: '10px 0px', textTransform: 'none',backgroundColor: props.colour, color: invert(props.colour, true)}}> Add Note </Button>
             </div>
           </div>
         </TabPanel>
         <TabPanel  value={value} index={1}>
-          <div className = 'detailBox'>
+          <div className = 'detailBox' style = {{color: props.colour}}>
             <div>
 
               <span>{ props.lecture.title}</span>
               <span> {props.lecture.time} </span>
             </div>
             <div>
-              <span>Class Type: { props.lecture.activityType}</span>
+            <span>Class Type: </span><span style= {{color: 'black'}}> {props.lecture.activityType}</span>
             </div>
             <div>
               <span> Content </span> <br/>
@@ -832,7 +832,7 @@ const saveNote = () => {
                         }}/>)}
 
               <TextField variant="outlined" fullWidth label="New Note"  value={newNote} onChange={(e) => setNewNote(e.target.value)}/>
-              <Button onClick={() => saveNote()} type='submit' variant="contained" color="default" disableElevation fullWidth style={{margin: '10px 0px', textTransform: 'none'}}> Add Note </Button>
+              <Button onClick={() => saveNote()} type='submit' variant="contained" color="default" disableElevation fullWidth style={{margin: '10px 0px', textTransform: 'none',backgroundColor: props.colour, color: invert(props.colour, true)}}> Add Note </Button>
             </div>
           </div>
 
@@ -840,14 +840,14 @@ const saveNote = () => {
         </div> :
         <div>
         <TabPanel  value={value} index={0}>
-          <div className = 'detailBox'>
+          <div className = 'detailBox' style = {{color: props.colour}}>
 
           <div>
-            <span> {props.lecture.title} | </span>
-            <span> {props.lecture.date} </span>
+            <span style= {{color: 'black'}}> {props.lecture.title} | </span>
+            <span style= {{color: 'black'}}> {props.lecture.date} </span>
           </div>
           <div>
-            <span>Class Type: { props.lecture.activityType}</span>
+          <span>Class Type: </span><span style= {{color: 'black'}}> {props.lecture.activityType}</span>
           </div>
           <div>
             <span> Content </span> <br/>
@@ -889,20 +889,17 @@ const saveNote = () => {
           </div>
         </TabPanel>
         <TabPanel  value={value} index={1}>
-          <div className = 'detailBox'>
+          <div className = 'detailBox'  style = {{color: props.colour}}>
             <div style = {{margin:'8px'}}>
+            <span> Title </span> <br/>
             <TextField
               id="standard-read-only-input"
               value={title}
-              label="Title"
+              fullwidth
               variant="outlined"
               onChange={(e)=>setTitle(e.target.value)}
               />
-              {props.lecture.date}
             </div>
-            <div style = {{margin:'8px'}}>
-              Class Type: {props.lecture.activityType}
-              </div>
             <div>
               <span> Content </span> <br/>
               <TextField
@@ -1050,7 +1047,7 @@ console.log(props.classes[0].date+props.classes[0].start_time);
  lineHeight: '17px', display: 'flex', alignItems: 'center', color: '#414141'}} >Class Status </div>
 
       <div style = {{ position:'relative', top:'30px',marginRight:'auto', marginLeft:'auto'}}>
-        <SelectorBox today={props.today} inFocusID={focusID} classes={props.classes}　onClick = {handleChange} />
+        <SelectorBox today={props.today} inFocusID={focusID} classes={props.classes} colour={props.colour} onClick = {handleChange} />
       </div>
 
       </div>
@@ -1059,7 +1056,7 @@ console.log(props.classes[0].date+props.classes[0].start_time);
 lineHeight: '17px', display: 'flex', alignItems: 'center', color: '#414141'}} > Mode </div>
         <div style = {{position:'relative', top:'30px',marginRight:'auto', marginLeft:'auto'}}>
 
-          <DetailBox today={props.today} edit = {props.edit} activities={props.activities} lecture={lectureInFocus} moduleID={props.moduleID} />
+          <DetailBox today={props.today} edit = {props.edit} activities={props.activities} lecture={lectureInFocus} colour = {props.colour} moduleID={props.moduleID} />
         </div>
       </div>
     </div>

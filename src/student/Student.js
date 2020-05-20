@@ -1,7 +1,6 @@
 import React ,{Component} from 'react';
 import './styles/mainFrame.css';
 import TopMenuBar from './components/menu';
-import FilterSelector from './components/FilterSelector';
 import SimpleBottomNavigation from './components/bottom_Navigation';
 
 import Lectures from "./scenes/lectures";
@@ -13,7 +12,7 @@ import MyStatistics from './scenes/myStatistics';
 const mainBlue = "#0061D2";
 
 function CoreSceneRenderer (props){
-    window.scrollTo(0, 0);
+  window.scrollTo(0, 0);
   switch(props.coreScene) {
     case 'lectures':
       return (<Lectures filter={props.modules.modulesFilter} classes={props.modules.classes}/>);
@@ -106,7 +105,7 @@ class Student extends Component  {
           activities:[],
           modulesFilter:[],
           student:{},
-
+          today: new Date('2018-09-14T00:00:00'),
 };
 
   changeCoreScene = (coreSceneIndex)=>{

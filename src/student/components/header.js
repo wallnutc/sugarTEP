@@ -9,10 +9,12 @@ function Header (props) {
       height:'75px',
       top:'55px',
       zIndex: 1,
+      fill: mainBlue
     };
     const imgStyle= {
         padding: '20px 25px',
         float:'left',
+        fill: mainBlue
       };
     const titleStyle ={
       fontFamily: 'Rubik',
@@ -24,11 +26,10 @@ function Header (props) {
       color: mainBlue
     };
 
-
     return (
       <div >
         <div style={mainStyle}>
-          <img src={props.imgPath} style={imgStyle}/>
+          <img src={props.imgPath} style={{padding: '20px 25px', float:'left', fill: mainBlue}}/>
           <h2 style={titleStyle}> {props.title} </h2>
         </div>
       </div>

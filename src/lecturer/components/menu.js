@@ -5,7 +5,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import SettingsIcon from '@material-ui/icons/Settings';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 
-
+const mainBlue = "#0061D2";
 
 export default function SimpleMenu() {
 
@@ -22,13 +22,13 @@ export default function SimpleMenu() {
   return (
     <div>
       <div style={{float: 'left'}}>
-      <Button aria-controls="simple-menu" aria-haspopup="true" style={{height:"55px"}} >
+      <Button aria-controls="simple-menu" aria-haspopup="true" style={{height:"55px", color: 'white'}} >
         <AccountCircleIcon   />
       </Button>
 
       </div>
       <div style={{float: "right"}}>
-        <Button aria-controls="simple-menu" aria-haspopup="true" style={{height:"55px"}} onClick={handleClick}  >
+        <Button aria-controls="simple-menu" aria-haspopup="true" style={{height:"55px", color: 'white'}} onClick={handleClick}  >
           <SettingsIcon />
         </Button>
         <Menu

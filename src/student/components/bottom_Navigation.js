@@ -12,6 +12,7 @@ import SchoolIcon from '@material-ui/icons/School';
 import AssessmentIcon from '@material-ui/icons/Assessment';
 import myDayIcon from '../images/icons/myDay.svg';
 
+const mainBlue = "#0061D2";
 const useStyles = makeStyles({
   root: {
     height:'72px',
@@ -21,7 +22,7 @@ const useStyles = makeStyles({
   },
 });
 
-const mainBlue = "#0061D2";
+
 
 export default function SimpleBottomNavigation({coreScene})  {
   const classes = useStyles();
@@ -35,6 +36,7 @@ export default function SimpleBottomNavigation({coreScene})  {
       }}
       showLabels
       className={classes.root}
+      style={{color:mainBlue}}
     >
       <BottomNavigationAction style={{minWidth:0, color: mainBlue}} label="Classes" icon={<MenuBookIcon style={{fontSize:'35px', color: mainBlue}} />} />
       <BottomNavigationAction style={{minWidth:0, color: mainBlue}} label="Activities" icon={<AssignmentIcon style={{fontSize:'35px', color: mainBlue}} />} />

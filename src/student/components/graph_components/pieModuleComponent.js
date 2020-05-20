@@ -9,7 +9,7 @@ charts(FusionCharts);
 function PieComponent (props){
     const [response,setResponse] = useState({});
     useEffect(() => {
-      var url = 'http://mvroso.pythonanywhere.com/activityTypePieChartsByCourse' + props.courseID;
+      var url = 'http://mvroso.pythonanywhere.com/activityTypePieChartsByModule' + props.moduleID.toString();
       console.log(url);
       fetch(url)
          .then((response) => response.json())
@@ -20,31 +20,21 @@ function PieComponent (props){
            console.error(error);
          });
     },[]);
-    
-    if(response.ByActivity != undefined){
-        const module = response.ByModule;
-        const activity = response.ByActivity;
-        const grade = response.ByGradeAvg;
+    if(response.ByHours != undefined){
+        const module = response.ByHours;
+        const grade = response.ByGrade;
         var caption = null;
         var data = null;
         var centerlabel = null;
-        var legendcaption = null;
-        if (props.type == "module"){
+
+        if (props.type == "hours"){
           data = module;
-          caption = "Year Breakdown by Module Hours";
-          legendcaption = "Modules";
-          centerlabel = "$label: $value hours";
-        }
-        else if (props.type == "activity"){
-          data = activity;
-          caption = "Year Breakdown by Activity Type Hours";
-          legendcaption = "Activities";
+          caption = "Year Breakdown by Hours";
           centerlabel = "$label: $value hours";
         }
         else if (props.type == "grade"){
           data = grade;
-          caption = "Year Breakdown by Average Activity Type Grade";
-          legendcaption = "Activities";
+          caption = "Year Breakdown by Grade";
           centerlabel = "$label: $value%"
         }
         const datasource = {
@@ -53,11 +43,9 @@ function PieComponent (props){
             bgColor: "#ffffff",
             startingAngle: "310",
             showBorder: "0",
-            legendNumColumns: "1",
-            enableMultiSlicing: "0",
-            plotHighlightEffect: "fadeout",
-            legendPosition: "bottom",
-            legendCaption: legendcaption,
+            showLabels: "0",
+            showValues: "0",
+            legendCaption: "Activities",
             legendCaptionBold: "1",
             legendItemFont: "Rubik",
             legendShadow: "1",
@@ -68,6 +56,8 @@ function PieComponent (props){
             legendCaptionFontSize: "14",
             legendCaptionFontColor: "#333333",
             pieRadius: "80%",
+            plotHighlightEffect: "fadeout",
+            legendPosition: "bottom",
             legendBgColor: "#ffffff",
             legendAllowDrag: "0",
             legendScrollBgColor: "#ffffff",
@@ -75,9 +65,10 @@ function PieComponent (props){
             defaultCenterLabel: props.label,
             centerlabel: centerlabel,
             centerLabelBold: "1",
+            enableMultiSlicing: "0",
+            useEllipsesWhenOverflow:"1",
+            centerLabelBold: "1",
             showTooltip: "0",
-            showLabels: "0",
-            showValues: "0",
             decimals: "1",
             theme: "fusion"
           },
@@ -87,14 +78,17 @@ function PieComponent (props){
         return (
             <ReactFusioncharts
                 type= "doughnut2d"
-                width= "80%"
+                width= "100%"
                 height= "90%"
                 dataFormat= "json"
                 dataSource= {datasource}
             />
         );
     }
-  else return <div></div>
-};
+    else {
+        console.log("Failed Render");
+        return <div></div>
+    }
+  };
   
   export default PieComponent;

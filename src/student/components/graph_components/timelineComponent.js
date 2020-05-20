@@ -4,10 +4,10 @@ import TimeSeries from "fusioncharts/fusioncharts.timeseries";
 import ReactFC from 'react-fusioncharts';
 ReactFC.fcRoot(FusionCharts, TimeSeries);
 
-function TimelineModuleComponent(props){
+function TimelineComponent(props){
   const [response,setResponse] = useState({});
   useEffect(() => {
-    var url = 'http://mvroso.pythonanywhere.com/timelineByModule' + props.moduleID;
+    var url = 'http://mvroso.pythonanywhere.com/timelineByCourse' + props.courseID;
     console.log(url);
     fetch(url)
        .then((response) => response.json())
@@ -19,7 +19,7 @@ function TimelineModuleComponent(props){
        });
   },[]);
   if(response.byActivity != undefined){
-    const data = response.byActivity;
+    const data = response.byModule;
     const schema = response.schema;
     const binning = response.bin;
     const dataSource = {
@@ -33,7 +33,7 @@ function TimelineModuleComponent(props){
         chart: {
         },
         caption: {
-        text: "Total Hours Over Year"
+        text: "Total Hours Over Year By Module"
         },
         subcaption: {
         text: props.label
@@ -45,7 +45,7 @@ function TimelineModuleComponent(props){
             {
                 value: "Hours",
                 type: "column",
-                aggregation: "sum",
+                aggregation: "sum"
             }
             ],
             format: {
@@ -55,7 +55,7 @@ function TimelineModuleComponent(props){
         ],
         xAxis: {
           binning: {
-            "day": [6],
+            "day": [1,6],
             "month": [1]
           }
         }
@@ -64,7 +64,7 @@ function TimelineModuleComponent(props){
     const timeseriesDs = {
         type: "timeseries",
         width: "95%",
-        height: "95%",
+        height: "100%",
         dataSource: dataSource
     }
     const fusionTable = new FusionCharts.DataStore().createDataTable(data,schema);
@@ -79,4 +79,4 @@ function TimelineModuleComponent(props){
   else return <div></div>
 };
 
-export default TimelineModuleComponent;
+export default TimelineComponent;

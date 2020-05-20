@@ -1,13 +1,29 @@
 import React ,{Component, useState} from 'react';
-import FilterSelector from '../components/FilterSelector';
 import Header from "../components/header";
 import ListRenderer from "../components/listRenderer";
 import {LecturePanel,ActivityPanel} from "../components/listRenderer";
 import InfiniteScroll from "react-infinite-scroll-component";
 import {ClassFeedbackPopup,ActivityProgressPopup} from '../components/popups';
-
+import { makeStyles, withStyles, useTheme } from '@material-ui/core/styles';
+import Button from '@material-ui/core/Button';
+import ScheduleWeekly from '../components/ScheduleWeekly';
+const mainBlue = "#0061D2";
+Date.prototype.addDays = function(days) {
+    var date = new Date(this.valueOf());
+    date.setDate(date.getDate() + days);
+    return date;
+}
+Date.prototype.getWeek = function(){
+ return [new Date(this.setDate(this.getDate()-this.getDay()))]
+          .concat(
+            String(Array(6)).split(',')
+               .map ( function(){
+                       return new Date(this.setDate(this.getDate()+1));
+                     }, this )
+          );
+}
 function MyDay (props) {
-  const today = "2018-09-14";
+  const today = "2019-03-14";
   const today2 = "2018-09-14T00:00:00"
   const headerContent = {title:"My Day", imgPath: require("../images/icons/myDay.svg")};
   const batch = 5;
@@ -18,6 +34,9 @@ function MyDay (props) {
   const [hasMore,setHasMore] =  useState(true);
   const [setup,setSetup] = useState(true);
   const [popupActivity,setPopupActivity] = useState({});
+  const [filterState, setFilterState] = useState(1);
+  const thisWeek=new Date(today2).getWeek();
+  const thisWeekClasses = props.classes.filter((item) => new Date(item.date+'T00:00:00')>=thisWeek[0]&&new Date(item.date+'T00:00:00')<=thisWeek[6] );
 
   if(activeActivities.length>0 && setup){
         setActivities(()=>activeActivities.length <=batch ? activeActivities:activeActivities.slice(0,batch));
@@ -50,12 +69,26 @@ const togglePopupActivity = (activity) => {
 }
 return (
   <div >
-    <div className="header">
-      <Header imgPath = {headerContent.imgPath}  title = {headerContent.title}/>
+    <div className="header" style={{color:mainBlue}}>
+      <Header imgPath = {headerContent.imgPath}  title = {headerContent.title} style={{color:mainBlue}}/>
     </div>
     <div className="filter">
       <div>
-        <FilterSelector />
+      <div style={{padding:"0 16px",}}>
+        <span >
+        <BootstrapButton style = {{margin:'16px 8px',width:'51px' ,height: '24px',backgroundColor: filterState==1 ? '#0153B4':'#F6F7FA'}} onClick={()=>{setFilterState(1);window.scrollTo(0, 0);}} children={
+          <div style={{color:filterState==1 ? '#FFFFFF':'#0061D2', fontFamily: 'Rubik',fontStyle: 'normal', fontWeight: '300',fontSize: '12px',lineHeight: '14px'}}>
+          Day
+            </div>} />
+        </span>
+        <span >
+        <BootstrapButton style = {{margin:'16px 8px',width:'51px' ,height: '24px',backgroundColor: filterState==2 ? '#0153B4':'#F6F7FA'}} onClick={()=>{setFilterState(2);window.scrollTo(0, 0);}} children={
+          <div style={{color:filterState==2 ? '#FFFFFF':'#0061D2', fontFamily: 'Rubik',fontStyle: 'normal', fontWeight: '300',fontSize: '12px',lineHeight: '14px'}}>
+          Week
+            </div>} />
+        </span>
+      </div>
+
         {showPopupC ?
         <ClassFeedbackPopup
                   class={popupClass}
@@ -72,40 +105,54 @@ return (
       </div>
     </div>
     <div className="main" >
-    <div style={{
-      margin:'16px 0 0 24px',
-      fontFamily: 'Rubik',
-       fontStyle: 'normal',
-       fontSize: '17px'
-     }}> Today | {String(new Date(today).getDate()).padStart(2, '0')}/{String(new Date(today).getMonth() + 1).padStart(2, '0')}
-  </div>
+    {filterState==1 ?
+      <div>
+      <div style={{
+        margin:'16px 0 0 24px',
+        fontFamily: 'Rubik',
+         fontStyle: 'normal',
+         fontSize: '17px',
+         color: mainBlue
+       }}> Today | {String(new Date(today).getDate()).padStart(2, '0')}/{String(new Date(today).getMonth() + 1).padStart(2, '0')}
+    </div>
 
-    {props.classes.filter((item) =>item.date==today ).map((item)=> <LecturePanel onClick ={togglePopupClass} item = {item} /> )}
-    <div style={{
-      margin:'16px 0 0 24px',
-      fontFamily: 'Rubik',
-       fontStyle: 'normal',
-       fontSize: '17px'
-     }}> Activities backlog
-  </div>
+      {props.classes.filter((item) =>item.date==today ).map((item)=> <LecturePanel onClick ={togglePopupClass} item = {item} /> )}
+      <div style={{
+        margin:'16px 0 0 24px',
+        fontFamily: 'Rubik',
+         fontStyle: 'normal',
+         fontSize: '17px',
+         color: mainBlue
+       }}> Activities backlog
+    </div>
 
-    <InfiniteScroll
-      dataLength={activities.length}
-      next={fetchMoreData}
-      hasMore={hasMore}
-      loader={<h4 style={{ textAlign: "center" }}>Loading...</h4>}
-      endMessage={
-        <p style={{ textAlign: "center" }}>
-          <b>Yay! You have seen it all</b>
-        </p>
-      }
-    >
-      {activities.map((i, index) => (
-        <div key={index}>
-          <ActivityPanel onClick={togglePopupActivity} item={i} />
-        </div>
-      ))}
-    </InfiniteScroll>
+      <InfiniteScroll
+        dataLength={activities.length}
+        next={fetchMoreData}
+        hasMore={hasMore}
+        loader={<h4 style={{ textAlign: "center", color: mainBlue }}>Loading...</h4>}
+        endMessage={
+          <p style={{ textAlign: "center", color: mainBlue }}>
+            <b>Yay! You have seen it all</b>
+          </p>
+        }
+      >
+        {activities.map((i, index) => (
+          <div key={index}>
+            <ActivityPanel onClick={togglePopupActivity} item={i} />
+          </div>
+        ))}
+      </InfiniteScroll>
+
+      </div>:<div style={{margin:'8px'}}>
+      {thisWeekClasses.length>0 ? <ScheduleWeekly events={thisWeekClasses}week={thisWeek}/> : null}
+
+      </div>
+
+
+
+
+    }
 
     </div>
   </div>
@@ -114,6 +161,50 @@ return (
 }
 
 export default MyDay;
+const BootstrapButton = withStyles({
+  root: {
+    borderRadius:'12px',
+    minWidth:'51px',
+    justifyContent: 'middle',
+    verticalAlign:'middle',
+    textAlign:'center',
+    boxShadow: 'none',
+    textTransform: 'none',
+    fontSize: 16,
+    padding: '0',
+    border: '1px solid',
+    lineHeight: 1.5,
+    backgroundColor: '#F1F1F1',
+    borderColor: 'transparent',
+    fontFamily: [
+      '-apple-system',
+      'BlinkMacSystemFont',
+      '"Segoe UI"',
+      'Roboto',
+      '"Helvetica Neue"',
+      'Arial',
+      'sans-serif',
+      '"Apple Color Emoji"',
+      '"Segoe UI Emoji"',
+      '"Segoe UI Symbol"',
+    ].join(','),
+    '&:hover': {
+      backgroundColor: '#b5b5b5',
+      borderColor: '#b5b5b5',
+      boxShadow: 'none',
+    },
+    '&:active': {
+      boxShadow: 'none',
+      backgroundColor: 'red',
+      borderColor: 'transparent',
+    },
+    '&:focus': {
+      backgroundColor: '#9A9A9A',
+
+    },
+  },
+})(Button);
+
 {/*
   {
     activityType:"assignment",

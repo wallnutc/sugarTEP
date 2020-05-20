@@ -18,6 +18,7 @@ import IconLecture from '../images/icons/lectures.svg';
 import AssignmentIcon from '@material-ui/icons/Assignment';
 import MenuBookIcon from '@material-ui/icons/MenuBook';
 import LocationOnOutlinedIcon from '@material-ui/icons/LocationOnOutlined';
+const today = "2019-03-14";
 const useStyles = makeStyles((theme) => ({
   root: {
     width: '100%',
@@ -85,11 +86,11 @@ export function LecturePanel(props) {
   const end = props.item.end_time.split(':');
   return (
     <div style={{padding:'7px 24px'}}>
-      <ExpansionPanel style={{backgroundColor:props.item.colour}} >
+      <ExpansionPanel style={{backgroundColor:props.item.colour, color: 'white', opacity: new Date(props.item.date) < new Date(today) ? 0.5:1}} >
           <ExpansionPanelSummary  style = {{padding:'0 0 0 0'}}>
           <div style = {{width:'100%',padding:'10px 0', fontFamily: 'Rubik', fontStyle: 'normal'}}>
             <div style = {{float:'left', padding:'0 20px ',height:'100%'}}>
-              <MenuBookIcon color='action' style={{fontSize:'45px'}} />
+              <MenuBookIcon color='action' style={{fontSize:'45px', color: 'white'}} />
             </div>
             <div>
               <div style = {{fontWeight: 300, fontSize: '10px', lineHeight: '12px'}} >
@@ -99,8 +100,8 @@ export function LecturePanel(props) {
                 {props.item.title}
               </div>
               <div style = {{fontWeight: 300, fontSize: '14px', lineHeight: '17px'}} >
-                <ScheduleIcon color='action' style={{verticalAlign:"middle",fontSize: '14px'}}/> <span >{start[0]+':'+start[1]} - {end[0]+':'+end[1]} </span>
-                <span style={{marginRight:'16px',float:'right'}}><LocationOnOutlinedIcon color='action' style={{fontSize:'14px'}}/> {props.item.location}</span>
+                <ScheduleIcon color='action' style={{verticalAlign:"middle",fontSize: '14px', color: 'white'}}/> <span >{start[0]+':'+start[1]} - {end[0]+':'+end[1]} </span>
+                <span style={{marginRight:'16px',float:'right'}}><LocationOnOutlinedIcon color='action' style={{fontSize:'14px',color: 'white'}}/> {props.item.location}</span>
               </div>
             </div>
           </div>
@@ -114,8 +115,10 @@ export function LecturePanel(props) {
               {props.item.description}
             </div>
             <div>
-              <Button fullWidth onClick={()=>props.onClick(props.item)}
-              style={{lineHeight:0,float:'right',height: '18px',borderRadius:'9px',textTransform: 'none', padding:0, backgroundColor:'white',}} children ={<span style={{inlineHeight:'0',color:'primary'}}>Provide Feedback</span>}></Button>
+            {new Date(props.item.date) < new Date(today) ?<div></div>:
+              <Button fullWidth onClick={()=>props.onClick(props.item)} 
+              style={{lineHeight:0,float:'right',height: '18px',borderRadius:'9px',textTransform: 'none', padding:0, backgroundColor:'white',}} children ={<span style={{inlineHeight:'0',color:props.item.colour}}>Provide Feedback</span>}></Button>
+            }
             </div>
         </div>
       </ExpansionPanelDetails >
@@ -136,11 +139,11 @@ export function ActivityPanel(props) {
   const startDateYear = dueDate.getFullYear();
   return (
     <div style={{padding:'7px 24px'}}>
-      <ExpansionPanel style={{backgroundColor: props.item.colour}}>
+      <ExpansionPanel style={{backgroundColor: props.item.colour, color: 'white', opacity: props.item.submitted == 1 ? 0.5:1}}>
           <ExpansionPanelSummary  style = {{padding:'0 0 0 0'}}>
           <div style = {{width:'100%',padding:'10px 0', fontFamily: 'Rubik', fontStyle: 'normal'}}>
           <div style = {{float:'left',height:'100%', padding:'0 20px '}}>
-          <AssignmentIcon color='action' style={{fontSize:'45px'}}/>
+          <AssignmentIcon color='action' style={{fontSize:'45px', color: 'white'}}/>
 
           </div>
           <div>
@@ -151,7 +154,7 @@ export function ActivityPanel(props) {
               {props.item.title}
             </div>
             <div style = {{fontWeight: 300, fontSize: '14px', lineHeight: '17px'}} >
-              <ScheduleIcon color='action' style={{verticalAlign:"middle",fontSize: '14px'}}/> <span> Due date: {dueDateDay + '/' + dueDateMonth + '/' + dueDateYear} </span>
+              <ScheduleIcon color='action' style={{verticalAlign:"middle",fontSize: '14px', color: 'white'}}/> <span> Due date: {dueDateDay + '/' + dueDateMonth + '/' + dueDateYear} </span>
             </div>
           </div>
           <div>
@@ -188,7 +191,7 @@ export function ActivityPanel(props) {
           <div style={{margin:'17px 0'}}>
             {props.item.submitted == 1 ?<div>Activity Finished</div>:
               <Button fullWidth onClick={()=>props.onClick(props.item)}
-              style={{lineHeight:0, height: '18px',borderRadius:'9px',textTransform: 'none', padding:0, backgroundColor:'white',}} children ={<span style={{inlineHeight:'0',color:'primary'}}>Update Progress</span>}></Button>
+              style={{lineHeight:0, height: '18px',borderRadius:'9px',textTransform: 'none', padding:0, backgroundColor:'white',}} children ={<span style={{inlineHeight:'0',color:props.item.colour}}>Update Progress</span>}></Button>
 
             }
             </div>

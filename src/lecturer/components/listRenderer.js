@@ -16,6 +16,8 @@ import MenuBookIcon from '@material-ui/icons/MenuBook';
 import LocationOnOutlinedIcon from '@material-ui/icons/LocationOnOutlined';
 import FeedbackDial from "./feedbackDialComponent";
 import FeedbackBar from "./feedbackBarComponent";
+import invert from 'invert-color';
+
 const useStyles = makeStyles((theme) => ({
   root: {
     width: '100%',
@@ -74,7 +76,6 @@ const ProgressBar = withStyles({
 
 export function LecturePanel(props) {
   const date = new Date(props.item.date);
-
   const day = String(date.getDate()).padStart(2, '0');
   const month = String(date.getMonth() + 1).padStart(2, '0');
   const year = date.getFullYear();
@@ -83,35 +84,35 @@ export function LecturePanel(props) {
   const end = props.item.end_time.split(':');
   return (
     <div style={{padding:'7px 24px'}}>
-      <ExpansionPanel >
+      <ExpansionPanel style={{backgroundColor: props.item.colour, color: invert(props.item.colour, true)}}>
           <ExpansionPanelSummary  style = {{padding:'0 0 0 0'}}>
           <div style = {{width:'100%',padding:'10px 0', fontFamily: 'Rubik', fontStyle: 'normal'}}>
             <div style = {{float:'left', padding:'0 20px ',height:'100%'}}>
-              <MenuBookIcon color='action' style={{fontSize:'45px'}} />
+              <MenuBookIcon color='action' style={{fontSize:'45px', color: invert(props.item.colour, true)}} />
             </div>
             <div>
               <div style = {{fontWeight: 'normal', fontSize: '14px', lineHeight: '17px'}}>
                 {props.item.title}
               </div>
-              <div style = {{fontWeight: 300, fontSize: '14px', lineHeight: '17px',color:'#4d4d4d'}} >
-                <ScheduleIcon color='action' style={{verticalAlign:"middle",fontSize: '14px'}}/> <span style = {{color:'#4d4d4d'}}>{day+'/'+month} <br/> {start[0]+':'+start[1]} - {end[0]+':'+end[1]} </span>
+              <div style = {{fontWeight: 300, fontSize: '14px', lineHeight: '17px',color: invert(props.item.colour, true)}} >
+                <ScheduleIcon color='action' style={{verticalAlign:"middle",fontSize: '14px', color: invert(props.item.colour, true)}}/> <span style = {{color: invert(props.item.colour, true)}}>{day+'/'+month} <br/> {start[0]+':'+start[1]} - {end[0]+':'+end[1]} </span>
               </div>
             </div>
           </div>
           </ExpansionPanelSummary>
       <ExpansionPanelDetails >
-        <div style={{width:'100%'}} >
-            <span style={{marginRight:'16px',float:'right'}}><LocationOnOutlinedIcon color='action' style={{fontSize:'14px'}}/> {props.item.location}</span>
-            <div style = {{margin:'8px',fontWeight:'normal', fontSize: '15px', lineHeight: '15px', color:'#7E7E7E'}}>
+        <div style={{width:'100%', color: invert(props.item.colour, true)}} >
+            <span style={{marginRight:'16px',float:'right'}}><LocationOnOutlinedIcon color='action' style={{fontSize:'14px',color: invert(props.item.colour, true)}}/> {props.item.location}</span>
+            <div style = {{margin:'8px',fontWeight:'normal', fontSize: '15px', lineHeight: '15px'}}>
               Description
             </div>
-            <div style = {{margin:'8px 8px 16px 8px',fontWeight: 300, fontSize: '13px', lineHeight: '15px',color:'#7E7E7E'}}>
+            <div style = {{margin:'8px 8px 16px 8px',fontWeight: 300, fontSize: '13px', lineHeight: '15px'}}>
               {props.item.description}
             </div>
             {
               <div>
                 <Button fullWidth onClick={()=>{props.changeTab(1);}}
-                style={{lineHeight:0,float:'right',height: '18px',borderRadius:'9px',textTransform: 'none', padding:0, backgroundColor:'#414141',}} children ={<span style={{inlineHeight:'0',color:'white'}}>check details</span>}></Button>
+                style={{lineHeight:0,float:'right',height: '18px',borderRadius:'9px',textTransform: 'none', padding:0, backgroundColor:invert(props.item.colour, true),}} children ={<span style={{inlineHeight:'0',color:props.item.colour}}>Check Details</span>}></Button>
               </div>
               }
 
@@ -134,19 +135,19 @@ export function ActivityPanel(props) {
   const startDateYear = dueDate.getFullYear();
   return (
     <div style={{padding:'7px 24px'}}>
-      <ExpansionPanel >
-          <ExpansionPanelSummary  style = {{padding:'0 0 0 0'}}>
+      <ExpansionPanel style={{backgroundColor: props.item.colour}}>
+          <ExpansionPanelSummary  style = {{padding:'0 0 0 0', color: invert(props.item.colour, true)}}>
           <div style = {{width:'100%',padding:'10px 0', fontFamily: 'Rubik', fontStyle: 'normal'}}>
           <div style = {{float:'left',height:'100%', padding:'0 20px '}}>
-          <AssignmentIcon color='action' style={{fontSize:'45px'}}/>
+          <AssignmentIcon color='white' style={{fontSize:'45px', color: invert(props.item.colour, true)}}/>
 
           </div>
           <div>
             <div style = {{fontWeight: 'normal', fontSize: '14px', lineHeight: '17px'}}>
               {props.item.title}
             </div>
-            <div style = {{fontWeight: 300, fontSize: '14px', lineHeight: '17px',color:'#4d4d4d'}} >
-              <ScheduleIcon color='action' style={{verticalAlign:"middle",fontSize: '14px'}}/> <span style = {{color:'#4d4d4d'}}> Due date: {dueDateDay + '/' + dueDateMonth + '/' + dueDateYear} </span>
+            <div style = {{fontWeight: 300, fontSize: '14px', lineHeight: '17px',color: invert(props.item.colour, true)}} >
+              <ScheduleIcon color='white' style={{verticalAlign:"middle",fontSize: '14px', color: invert(props.item.colour, true)}}/> <span style = {{color: invert(props.item.colour, true)}}> Due date: {dueDateDay + '/' + dueDateMonth + '/' + dueDateYear} </span>
             </div>
           </div>
           <div>
@@ -154,7 +155,7 @@ export function ActivityPanel(props) {
           </div>
           </ExpansionPanelSummary>
       <ExpansionPanelDetails >
-        <div style = {{textAlign: 'justify', fontWeight: 'normal', fontSize: '14px', lineHeight: '17px',width: '100%'}}>
+        <div style = {{textAlign: 'justify', fontWeight: 'normal', fontSize: '14px', lineHeight: '17px',width: '100%', color: invert(props.item.colour, true)}}>
           <div style = {{fontWeight: 'normal'}}>
             Start date - {startDateDay + '/' + startDateMonth + '/' + startDateYear}
           </div>
@@ -179,7 +180,7 @@ export function ActivityPanel(props) {
           <div style={{margin:'17px 0'}}>
             {
               <Button fullWidth onClick={()=>{props.changeTab(2);props.selectActivity(props.item.activity_ID)}}
-              style={{lineHeight:0, height: '18px',borderRadius:'9px',textTransform: 'none', padding:0, backgroundColor:'#414141',}} children ={<span style={{inlineHeight:'0',color:'white'}}>check details</span>}></Button>
+              style={{lineHeight:0, height: '18px',borderRadius:'9px',textTransform: 'none', padding:0, backgroundColor:invert(props.item.colour, true),}} children ={<span style={{inlineHeight:'0',color:props.item.colour}}>Check Details</span>}></Button>
 
             }
             </div>

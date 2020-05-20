@@ -67,7 +67,7 @@ function PieComponent (props){
             legendCaptionFont: "Rubik",
             legendCaptionFontSize: "14",
             legendCaptionFontColor: "#333333",
-            pieRadius: "80%",
+            pieRadius: "100%",
             legendBgColor: "#ffffff",
             legendAllowDrag: "0",
             legendScrollBgColor: "#ffffff",

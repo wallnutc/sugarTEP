@@ -29,7 +29,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Select from '@material-ui/core/Select';
 import Chip from '@material-ui/core/Chip';
 import ClearRoundedIcon from '@material-ui/icons/ClearRounded';
-
+import invert from 'invert-color';
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
 const MenuProps = {
@@ -206,8 +206,8 @@ function SelectorBox(props) {
 
       <div className={classes.demo1}>
         <AntTabs value={value} onChange={handleChange} aria-label="ant example" centered>
-          <AntTab label="Scheduled" />
-          <AntTab label="Delivered" />
+          <AntTab label="Scheduled" style={{color: props.colour}}/>
+          <AntTab label="Delivered" style={{color: props.colour}} />
         </AntTabs>
       </div>
       <div>
@@ -218,14 +218,14 @@ function SelectorBox(props) {
         {props.activities.filter((activity) => new Date(activity.due_date)>= props.today).map((activity) =>
           <div style = {{margin:'8px 0'}}>
           <BootstrapButton  size = 'large' fullWidth
-          style = {{backgroundColor: activity.activity_ID == props.inFocusID? '#4A006E': '#C389DB'}}
-          startIcon ={<AssignmentIcon style={{fontSize: 40, fill: '#4A006E' }} />}
+          style = {{backgroundColor: activity.activity_ID == props.inFocusID? '#F1F1F1': activity.colour}}
+          startIcon ={<AssignmentIcon style={{fontSize: 40, color: activity.activity_ID == props.inFocusID? 'black': invert(activity.colour, true) }} />}
           onClick={()=> props.onClick(activity.activity_ID)}
           children={
             <div>
-            <div style={{fontFamily: 'Rubik'}}>{activity.title}</div>
-            <div style={{fontWeight:'300',fontSize: '14px'}}><ScheduleIcon style={{verticalAlign:'middle',fontWeight:'300',fontSize: '14px'}} />
-              <span style={{verticalAlign:'middle'}}>{activity.due_date}</span>
+            <div style={{fontFamily: 'Rubik', color: activity.activity_ID == props.inFocusID? 'black': invert(activity.colour, true)}}>{activity.title}</div>
+            <div style={{fontWeight:'300',fontSize: '14px', color: activity.activity_ID == props.inFocusID? 'black': invert(activity.colour, true)}}><ScheduleIcon style={{verticalAlign:'middle',fontWeight:'300',fontSize: '14px', color: activity.activity_ID == props.inFocusID? 'black': invert(activity.colour, true)}} />
+              <span style={{verticalAlign:'middle', color: activity.activity_ID == props.inFocusID? 'black': invert(activity.colour, true)}}>{activity.due_date}</span>
             </div>
             </div>} />
                 </div>)}
@@ -237,14 +237,14 @@ function SelectorBox(props) {
       {props.activities.filter((activity) => new Date(activity.due_date)< props.today).map((activity) =>
         <div style = {{margin:'8px 0'}}>
         <BootstrapButton  size = 'large' fullWidth
-        style = {{backgroundColor: activity.activity_ID == props.inFocusID? '#4A006E': '#C389DB'}}
-        startIcon ={<AssignmentIcon style={{fontSize: 40, fill: '#4A006E' }} />}
+        style = {{backgroundColor: activity.activity_ID == props.inFocusID? '#F1F1F1': activity.colour}}
+        startIcon ={<AssignmentIcon style={{fontSize: 40, color: activity.activity_ID == props.inFocusID? 'black': invert(activity.colour, true) }} />}
         onClick={()=> props.onClick(activity.activity_ID)}
         children={
           <div>
-          <div style={{fontFamily: 'Rubik'}}>{activity.title}</div>
-          <div style={{fontWeight:'300',fontSize: '14px'}}><ScheduleIcon style={{verticalAlign:'middle',fontWeight:'300',fontSize: '14px'}} />
-            <span style={{verticalAlign:'middle'}}>{activity.due_date}</span>
+          <div style={{fontFamily: 'Rubik', color: activity.activity_ID == props.inFocusID? 'black': invert(activity.colour, true)}}>{activity.title}</div>
+          <div style={{fontWeight:'300',fontSize: '14px', color: activity.activity_ID == props.inFocusID? 'black': invert(activity.colour, true)}}><ScheduleIcon style={{verticalAlign:'middle',fontWeight:'300',fontSize: '14px', color: activity.activity_ID == props.inFocusID? 'black': invert(activity.colour, true)}} />
+            <span style={{verticalAlign:'middle', color: activity.activity_ID == props.inFocusID? 'black': invert(activity.colour, true)}}>{activity.due_date}</span>
           </div>
           </div>} />
               </div>)}
@@ -443,10 +443,11 @@ const [activityTypeID, setActivityTypeID] = useState((typeList.find((item)=>item
                 console.log("Request complete! response:", res);
               });
     var fdata = {
-      activityID: props.lecture.class_ID,
+      activityID: props.activity.activity_ID,
       type: 2,
       feedback: feedbackArray
     };
+    console.log("Update Feedback", fdata);
     fetch("http://mvroso.pythonanywhere.com/setFeedback", {
                 method: "POST",
                 cache: "no-cache",
@@ -462,15 +463,15 @@ const [activityTypeID, setActivityTypeID] = useState((typeList.find((item)=>item
       {new Date(props.activity.due_date)< props.today ?
       <div className={classes.demo1}>
         <AntTabs value={value} onChange={handleChange} aria-label="ant example" style={{marginLeft:'27px',}}>
-                  <AntTab label="Feedback" />
-                  <AntTab label="Details" />
+                  <AntTab label="Feedback" style={{color: props.colour}}/>
+                  <AntTab label="Details" style={{color: props.colour}}/>
                   </AntTabs>
                 </div>
                   :
                   <div className={classes.demo1}>
                     <AntTabs value={value} onChange={handleChange} aria-label="ant example" style={{marginLeft:'27px',}}>
-                      <AntTab label="Details" />
-                      <AntTab label="Edit"/>
+                      <AntTab label="Details" style={{color: props.colour}}/>
+                      <AntTab label="Edit"style={{color: props.colour}}/>
                     </AntTabs>
                 </div>
 
@@ -479,7 +480,7 @@ const [activityTypeID, setActivityTypeID] = useState((typeList.find((item)=>item
         {new Date(props.activity.due_date) >= props.today ?
           <div>
           <TabPanel  value={value} index={0}>
-          <div className = 'detailBox'>
+          <div className = 'detailBox' style = {{color: props.colour}}>
           <div style={{margin:'5px'}}>
           <label For="title">Activity Title</label><br/>
             <TextField
@@ -589,7 +590,7 @@ const [activityTypeID, setActivityTypeID] = useState((typeList.find((item)=>item
 
           </TabPanel>
           <TabPanel  value={value} index={1}>
-            <div className = 'detailBox'>
+            <div className = 'detailBox' style = {{color: props.colour}}>
             <div style={{margin:'5px'}}>
             <label For="title">Activity Title</label><br/>
               <TextField
@@ -750,7 +751,7 @@ const [activityTypeID, setActivityTypeID] = useState((typeList.find((item)=>item
             )
             }
             <div style={{margin:'15px'}}>
-            <Button fullWidth size = 'large' variant="contained" onClick={()=>saveActivity()}> SAVE </Button>
+            <Button fullWidth size = 'large' variant="contained" onClick={()=>saveActivity()} style={{ backgroundColor: props.colour, color: invert(props.colour, true)}}> SAVE </Button>
             </div>
             </div>
 
@@ -760,7 +761,7 @@ const [activityTypeID, setActivityTypeID] = useState((typeList.find((item)=>item
         :
         <div>
         <TabPanel  value={value} index={0}>
-          <div className = 'detailBox'>
+          <div className = 'detailBox' style = {{color: props.colour}}>
 
             <div style = {{margin:'8px 0'}}>
             {props.activity.feedback.map((item)=> <FeedbackPanel activityID={props.activity.activity_ID} questionName={item.feedback_title} type='Activity'/>)}
@@ -772,12 +773,12 @@ const [activityTypeID, setActivityTypeID] = useState((typeList.find((item)=>item
 
             <div style = {{margin:'10px 0'}}>
               <MultilineTextFields />
-              <Button type='submit' variant="contained" color="default" disableElevation fullWidth style={{textTransform: 'none'}}> Add Note </Button>
+              <Button type='submit' variant="contained" color="default" disableElevation fullWidth style={{textTransform: 'none', backgroundColor: props.colour, color: invert(props.colour, true)}}> Add Note </Button>
             </div>
           </div>
         </TabPanel>
         <TabPanel  value={value} index={1}>
-          <div className = 'detailBox'>
+          <div className = 'detailBox' style = {{color: props.colour}}>
           <div style={{margin:'5px'}}>
           <label For="title">Activity Title</label><br/>
             <TextField
@@ -875,7 +876,7 @@ const [activityTypeID, setActivityTypeID] = useState((typeList.find((item)=>item
                         }}/>)*/}
 
               <MultilineTextFields />
-              <Button type='submit' variant="contained" color="default" disableElevation fullWidth style={{textTransform: 'none'}}> Add Note </Button>
+              <Button type='submit' variant="contained" color="default" disableElevation fullWidth style={{textTransform: 'none', backgroundColor: props.colour, color: invert(props.colour, true)}}> Add Note </Button>
             </div>
           </div>
 
@@ -891,14 +892,14 @@ const [activityTypeID, setActivityTypeID] = useState((typeList.find((item)=>item
       {new Date(props.activity.due_date)< props.today ?
       <div className={classes.demo1}>
         <AntTabs value={value} onChange={handleChange} aria-label="ant example" style={{marginLeft:'27px',}}>
-                  <AntTab label="Feedback" />
-                  <AntTab label="Details" />
+                  <AntTab label="Feedback" style={{color: props.colour}}/>
+                  <AntTab label="Details" style={{color: props.colour}}/>
                   </AntTabs>
                 </div>
                   :
                   <div className={classes.demo1}>
                     <AntTabs value={value} onChange={handleChange} aria-label="ant example" style={{marginLeft:'27px',}}>
-                      <AntTab label="Details" />
+                      <AntTab label="Details" style={{color: props.colour}}/>
                     </AntTabs>
                 </div>
 
@@ -907,7 +908,7 @@ const [activityTypeID, setActivityTypeID] = useState((typeList.find((item)=>item
         {new Date(props.activity.due_date) >= props.today ?
           <div>
           <TabPanel  value={value} index={0}>
-          <div className = 'detailBox'>
+          <div className = 'detailBox' style = {{color: props.colour}}>
           <div style={{margin:'5px'}}>
           <label For="title">Activity Title</label><br/>
             <TextField
@@ -1007,7 +1008,7 @@ const [activityTypeID, setActivityTypeID] = useState((typeList.find((item)=>item
 
           </TabPanel>
           <TabPanel  value={value} index={1}>
-            <div className = 'detailBox'>
+            <div className = 'detailBox' style = {{color: props.colour}}>
             <div style={{margin:'5px'}}>
             <label For="title">Activity Title</label><br/>
               <TextField
@@ -1132,7 +1133,7 @@ const [activityTypeID, setActivityTypeID] = useState((typeList.find((item)=>item
 
 
             <div style={{margin:'15px'}}>
-            <Button fullWidth size = 'large' variant="contained" onClick={()=>saveActivity()}> SAVE </Button>
+            <Button fullWidth size = 'large' variant="contained" onClick={()=>saveActivity()} style={{ backgroundColor: props.colour, color: invert(props.colour, true)}}> SAVE </Button>
             </div>
             </div>
 
@@ -1142,7 +1143,7 @@ const [activityTypeID, setActivityTypeID] = useState((typeList.find((item)=>item
         :
         <div>
         <TabPanel  value={value} index={0}>
-          <div className = 'detailBox'>
+          <div className = 'detailBox' style = {{color: props.colour}}>
 
             <div style = {{margin:'8px 0'}}>
             {props.activity.feedback.map((item)=> <FeedbackPanel activityID={props.activity.activity_ID} questionName={item.feedback_title} type='Activity'/>)}
@@ -1154,12 +1155,12 @@ const [activityTypeID, setActivityTypeID] = useState((typeList.find((item)=>item
 
             <div style = {{margin:'10px 0'}}>
               <MultilineTextFields />
-              <Button type='submit' variant="contained" color="default" disableElevation fullWidth style={{textTransform: 'none'}}> Add Note </Button>
+              <Button type='submit' variant="contained" color="default" disableElevation fullWidth style={{textTransform: 'none', backgroundColor: props.colour, color: invert(props.colour, true)}}> Add Note </Button>
             </div>
           </div>
         </TabPanel>
         <TabPanel  value={value} index={1}>
-          <div className = 'detailBox'>
+          <div className = 'detailBox' style = {{color: props.colour}}>
           <div style={{margin:'5px'}}>
           <label For="title">Activity Title</label><br/>
             <TextField
@@ -1257,7 +1258,7 @@ const [activityTypeID, setActivityTypeID] = useState((typeList.find((item)=>item
                         }}/>)*/}
 
               <MultilineTextFields />
-              <Button type='submit' variant="contained" color="default" disableElevation fullWidth style={{textTransform: 'none'}}> Add Note </Button>
+              <Button type='submit' variant="contained" color="default" disableElevation fullWidth style={{textTransform: 'none', backgroundColor: props.colour, color: invert(props.colour, true)}}> Add Note </Button>
             </div>
           </div>
 
@@ -1331,15 +1332,15 @@ export default function ActivityTab(props) {
         <div style = {{position:'relative', top:'27px', left:'35px', fontFamily: 'Rubik', fontStyle: 'normal', fontWeight: '300', fontSize: '14px',
  lineHeight: '17px', display: 'flex', alignItems: 'center', color: '#414141'}} >Activity Status </div>
       <div style = {{ position:'relative', top:'30px',marginRight:'auto', marginLeft:'auto'}}>
-        <SelectorBox today={props.today} inFocusID={props.focusID} activities={props.activities} onClick = {props.handleChange}/>
+        <SelectorBox today={props.today} inFocusID={props.focusID} colour= {props.colour} activities={props.activities} onClick = {props.handleChange}/>
       </div>
 
       </div>
-      <div className = 'detailBox' style = {{float:'left',height:'500px',width:'67%', }}>
+      <div className = 'detailBox' style = {{float:'left',height:'500px',width:'67%'}}>
       <div style = {{position:'relative', top:'27px', left:'35px', fontFamily: 'Rubik', fontStyle: 'normal', fontWeight: '300', fontSize: '14px',
 lineHeight: '17px', display: 'flex', alignItems: 'center', color: '#414141'}} > Mode </div>
         <div style = {{position:'relative', top:'30px',marginRight:'auto', marginLeft:'auto'}}>
-          <DetailBox today={props.today} activity={activityInFocus} edit = {props.edit} moduleID={props.moduleID}/>
+          <DetailBox today={props.today} activity={activityInFocus} colour= {props.colour} edit = {props.edit} moduleID={props.moduleID}/>
         </div>
       </div>
     </div>

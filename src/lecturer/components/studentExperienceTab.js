@@ -151,15 +151,12 @@ const AntTab = withStyles((theme) => ({
       '"Segoe UI Symbol"',
     ].join(','),
     '&:hover': {
-      color: 'black',
       opacity: 1,
     },
     '&$selected': {
-      color: '#4A006E',
       fontWeight: theme.typography.fontWeightMedium,
     },
     '&:focus': {
-      color: '#4A006E',
     },
   },
   selected: {},
@@ -219,19 +216,19 @@ function SelectorBox(props) {
 
       <div className={classes.demo1}>
         <AntTabs value={value} onChange={handleChange} aria-label="ant example" centered>
-          <AntTab label={props.moduleCode} onClick={()=>props.selectStudent({})}/>
-          <AntTab label="My Class" />
+          <AntTab label={props.moduleCode} onClick={()=>props.selectStudent({})} style ={{color:props.colour}}/>
+          <AntTab label="My Class" style ={{color:props.colour}}/>
         </AntTabs>
       </div>
       <div>
 
-      <TabPanel  value={value} index={0} >
+      <TabPanel  value={value} index={0}>
         <div className = 'selectorBox' >
           {isLoaded? <div>
-            <h3>Breakdown by hours</h3>
-            {moduleExprience.ByHours.map((item)=><div style={{margin:'5px',padding:'5px',border:'1px solid gray',borderRadius:'5px'}}><b>{item.label}</b><br/>{item.value} hours</div>) }
-            <h3>Breakdown by grade</h3>
-            {moduleExprience.ByGrade.map((item)=><div style={{margin:'5px',padding:'5px',border:'1px solid gray',borderRadius:'5px'}}><b>{item.label}</b><br/>{item.value}%</div>) }
+            <h3 style ={{color:props.colour}}>Breakdown by hours</h3>
+            {moduleExprience.ByHours.map((item)=><div style={{margin:'5px',padding:'5px',border:'1px solid',borderColor: props.colour, borderRadius:'5px'}}><b style ={{color:props.colour}}>{item.label}</b><br/>{item.value} hours</div>) }
+            <h3 style ={{color:props.colour}}>Breakdown by grade</h3>
+            {moduleExprience.ByGrade.map((item)=><div style={{margin:'5px',padding:'5px',border:'1px solid',borderColor: props.colour, borderRadius:'5px'}}><b style ={{color:props.colour}}>{item.label}</b><br/>{item.value}%</div>) }
 
             </div>:null}
 
@@ -243,9 +240,9 @@ function SelectorBox(props) {
         <div>
         {students.Students.map((student)=>
           <div style = {{margin:'8px 0'}}>
-          <BootstrapButton style = {{backgroundColor: student == props.studentInFocus? '#9A9A9A':'#F1F1F1'}}  onClick={()=>props.selectStudent(student)}
+          <BootstrapButton style = {{backgroundColor: student == props.studentInFocus? '#F1F1F1':props.colour}}  onClick={()=>props.selectStudent(student)}
           size = 'large' fullWidth startIcon ={<TodayIcon color='action' style={{fontSize: 40 }}/>} children={
-            <div style={{color: '#404040'}}>
+            <div style={{color: 'black'}}>
               <div style={{fontFamily: 'Rubik'}}>{student.course_name}<br/>{student.student_name}</div>
               <div style={{fontWeight:'300',fontSize: '14px'}}>
                 <span style={{verticalAlign:'middle'}}>{student.student_number}</span>
@@ -264,8 +261,6 @@ function DetailBox(props) {
   const now = new Date("2018-10-25T00:00:00");
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
-  console.log("Cian");
-  console.log(props);
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
@@ -273,19 +268,19 @@ function DetailBox(props) {
     <div className={classes.root}>
     <div className={classes.demo1}>
       <AntTabs value={value} onChange={handleChange} aria-label="ant example" style={{marginLeft:'27px',}}>
-          <AntTab label="Visualize" />
+          <AntTab label="Visualize" style={{color: props.colour}}/>
       </AntTabs>
     </div>
 
     <div>
     <TabPanel  value={value} index={0}>
-    <div className = 'detailBox' style={{position:'absolute', overflowX: 'visible'}}>
+    <div className = 'detailBox' style={{position:'absolute', overflowX: 'visible', color: props.colour}}>
       <div>
       {Object.keys(props.student).length === 0 && props.student.constructor === Object?
-        null:<div style={{position:'absolute', zIndex:'2',height:'100%',width:'100%',backgroundColor:'white'}}>
+        null:<div style={{position:'absolute', zIndex:'2',height:'100%',width:'100%',backgroundColor:'white', color: props.colour}}>
         <div style={{display:'flex'}}>
         <IconButton onClick = {()=>props.back({})}
-        style={{position:'relative',margin:'9px 8px'}} aria-label="delete" color="primary">
+        style={{position:'relative',margin:'9px 8px', color: props.colour}} aria-label="delete">
             <ArrowBackIosIcon color='action'/>
         </IconButton>
 
@@ -358,7 +353,7 @@ export default function StudentExeperienceTab(props) {
         <div style = {{position:'relative', top:'27px', left:'35px', fontFamily: 'Rubik', fontStyle: 'normal', fontWeight: '300', fontSize: '14px',
  lineHeight: '17px', display: 'flex', alignItems: 'center', color: '#414141'}} >Activity Status </div>
       <div style = {{ position:'relative', top:'30px',marginRight:'auto', marginLeft:'auto'}}>
-        <SelectorBox  studentInFocus={studentInFocus}selectStudent={setStudentInFocus} moduleCode ={props.moduleCode} module_ID = {props.module_ID} tabChange={setMyClassTabSelected}/>
+        <SelectorBox  studentInFocus={studentInFocus}selectStudent={setStudentInFocus} colour={props.colour} moduleCode ={props.moduleCode} module_ID = {props.module_ID} tabChange={setMyClassTabSelected}/>
       </div>
 
       </div>
@@ -366,7 +361,7 @@ export default function StudentExeperienceTab(props) {
       <div style = {{position:'relative', top:'27px', left:'35px', fontFamily: 'Rubik', fontStyle: 'normal', fontWeight: '300', fontSize: '14px',
 lineHeight: '17px', display: 'flex', alignItems: 'center', color: '#414141'}} > Mode </div>
         <div style = {{position:'relative', top:'30px',marginRight:'auto', marginLeft:'auto'}}>
-          <DetailBox back={setStudentInFocus} student={studentInFocus}myClass={myClassTabSelected} module_ID = {props.module_ID} module_name = {props.module_name}/>
+          <DetailBox back={setStudentInFocus} student={studentInFocus}myClass={myClassTabSelected} colour={props.colour} module_ID = {props.module_ID} module_name = {props.module_name}/>
         </div>
       </div>
     </div>
