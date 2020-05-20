@@ -246,8 +246,8 @@ function DetailBox(props) {
                 <div className = 'detailBox' style = {{height: '1000'}}>
 
                   <div style = {{margin:'8px 0'}}>
-                  <div style = {{position: 'relative', height:350,width:260, float: "left"}}> <PieModuleComponent moduleID = {props.moduleID} label = {props.module_name} type = "hours"/> </div>
-                  <div style = {{position: 'relative', height:350,width:260, float: "left"}}> <PieModuleComponent moduleID = {props.moduleID} label = {props.module_name} type = "grade"/> </div>
+                  <div style = {{position: 'relative', height:370,width:"100%"}}> <PieModuleComponent moduleID = {props.moduleID} label = {props.module_name} type = "hours"/> </div>
+                  <div style = {{position: 'relative', height:370,width:"100%"}}> <PieModuleComponent moduleID = {props.moduleID} label = {props.module_name} type = "grade"/> </div>
                   </div>
 
                   <div style = {{margin:'10px 0'}}>

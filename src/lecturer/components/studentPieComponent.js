@@ -49,7 +49,8 @@ function StudentPieComponent (props){
             enableMultiSlicing: "0",
             useEllipsesWhenOverflow:"1",
             centerLabelBold: "1",
-            showTooltip: "0",
+            showTooltip: "1",
+            plottooltext: "<b>$label</b> makes up <b>$percentValue</b> of this module",
             decimals: "1",
             theme: "fusion"
           },

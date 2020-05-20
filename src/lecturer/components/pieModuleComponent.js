@@ -27,14 +27,16 @@ function PieComponent (props){
         var caption = null;
         var data = null;
         var centerlabel = null;
-
+        var tooltip = null;
         if (props.type == "hours"){
           data = module;
           caption = "Year Breakdown by Hours";
+          tooltip = "<b>$label</b> contributes <b>$value hours</b>, or <b>$percentValue</b> of time";
         }
         else if (props.type == "grade"){
           data = grade;
           caption = "Year Breakdown by Grade";
+          tooltip = "<b>$label</b> contributes <b>$percentValue</b> of final module grade";
         }
         const datasource = {
           chart: {
@@ -43,28 +45,32 @@ function PieComponent (props){
             startingAngle: "310",
             showBorder: "0",
             showLabels: "0",
-            showValues: "1",
+            showValues: "0",
+            showPercentInTooltip: "1",
+            legendNumColumns: "1",
             legendCaption: "Activities",
             legendCaptionBold: "1",
             legendItemFont: "Rubik",
             legendShadow: "1",
+            legendItemFontSize: "12",
             legendBorderColor: "#CCCCCC",
             legendBgAlpha: "20",
+            pieradius: "60%",
             legendBorderThickness: "1",
             legendCaptionFont: "Rubik",
             legendCaptionFontSize: "14",
             legendCaptionFontColor: "#333333",
             plotHighlightEffect: "fadeout",
-            legendPosition: "bottom",
+            legendPosition: "right",
             legendBgColor: "#ffffff",
             legendAllowDrag: "0",
-            legendScrollBgColor: "#ffffff",
             showLegend: "1",
             centerLabelBold: "1",
             enableMultiSlicing: "0",
             useEllipsesWhenOverflow:"1",
             centerLabelBold: "1",
-            showTooltip: "0",
+            showTooltip: "1",
+            plottooltext: tooltip,
             decimals: "1",
             theme: "fusion"
           },
