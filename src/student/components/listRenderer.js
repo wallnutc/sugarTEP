@@ -115,7 +115,7 @@ export function LecturePanel(props) {
               {props.item.description}
             </div>
             <div>
-            {new Date(props.item.date) < new Date(today) ?<div></div>:
+            {new Date(props.item.date) > new Date(today) ?<div>Survey Not Open</div>:
               <Button fullWidth onClick={()=>props.onClick(props.item)} 
               style={{lineHeight:0,float:'right',height: '18px',borderRadius:'9px',textTransform: 'none', padding:0, backgroundColor:'white',}} children ={<span style={{inlineHeight:'0',color:props.item.colour}}>Provide Feedback</span>}></Button>
             }
