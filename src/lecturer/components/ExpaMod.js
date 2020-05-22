@@ -7,6 +7,8 @@ import Typography from '@material-ui/core/Typography';
 import PersonIcon from '@material-ui/icons/Person';
 import VerticalTabs from "./verticalTab";
 import invert from 'invert-color'
+const mainBlue = "#0061D2";
+const borderBlue = "rgba(0,97,210,0.5)";
 const useStyles = makeStyles((theme) => ({
     root: {
         width: '100%',
@@ -56,18 +58,18 @@ export default function ControlledExpansionPanels(props) {
 
     return (
         <div className={classes.root}>
-            <div style={{ width: expanded? '1226px': '100%', padding:0,margin:0,borderRadius: '8px', border: expanded? '1px solid #C4C4C4':null, zIndex: '0'}}>
+            <div style={{ width: expanded? '1226px': '100%', padding:0,margin:0,borderRadius: '10px 8px 8px 8px', border: expanded? '2px outset':null, borderColor: expanded? props.module.colour:null, zIndex: '0'}}>
             <ExpansionPanel onChange={handleChange('panel1')} >
 
                 <ExpansionPanelSummary style = {{padding:0,margin:0, color: 'white'}}>
-                { expanded? <div style = {{ position:'relative', height: '100px', width:'317px', backgroundColor: '#414141', borderRadius: '8px 0px 0px 0px',fontFamily: 'Rubik', fontStyle: 'normal'}}>
+                { expanded? <div style = {{ position:'relative', height: '100px', width:'317px', backgroundColor: mainBlue, borderRadius: '8px 0px 0px 0px',fontFamily: 'Rubik', fontStyle: 'normal'}}>
                 <div style={{float:'left',position:'relative',left:0,marginRight:'17px',width:'12px',height:'100px',borderRadius:'8px 0 0 0',backgroundColor: props.module.colour }}/>
 
                 <p style = {{position:'relative',top:'24',left:'0px', fontWeight: '500', fontSize: '18px', display: 'flex', alignItems: 'center', color: 'white'}}> {props.module.module_code + ' - ' + props.module.module_name} </p>
     <Typography style={{position:'relative', verticalAlign:'middle' , left:'29px', float:'left', fontSize: '18px', fontWeight:'500', color: 'white', paddingBottom: '0.5px'}}> <PersonIcon className={classes.iconS} style={{ fontSize: 22 , verticalAlign:'middle'}} /> {props.module.total_students} &nbsp; <b>ECTS</b> {props.module.credits}</Typography>
                 </div>
                 :
-                  <div style={{display:'flex',height:'76px', width:'100%', padding:'0',backgroundColor: '#414141', borderRadius: '8px', verticalAlign:'middle'}}>
+                  <div style={{display:'flex',height:'76px', width:'100%', padding:'0',backgroundColor: mainBlue, borderRadius: '8px', borderColor: mainBlue, verticalAlign:'middle'}}>
                     <div style={{position:'relative',left:0,marginRight:'30px',width:'12px',height:'76px',borderRadius:'8px 0 0 8px',backgroundColor: props.module.colour }}/>
                     <div style={{position:'relative',top:'27px'}}>
                     <Typography className={classes.heading} ><b>{props.module.module_code + ' - ' + props.module.module_name} &nbsp;&nbsp;&nbsp;</b></Typography>
