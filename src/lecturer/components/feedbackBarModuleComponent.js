@@ -37,6 +37,10 @@ function FeedbackChartsByQuestion(props){
             q = dataType[i];
             }
         }
+        if (q == null){
+            console.log("Failed Bar Render, Question Not Found");
+            return <div>No responses yet !</div>
+        }
         const bardataSource = {
         chart: {
             caption: "Distribution of responses for " + q.question + " by " + props.type,

@@ -1,4 +1,4 @@
-import React,{useState} from 'react';
+import React,{useState, useEffect} from 'react';
 import Button from '@material-ui/core/Button';
 import '../styles/lecturesTab.css';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
@@ -24,6 +24,7 @@ import TimelineModuleComponent from "../components/timelineModuleComponent";
 import FeedbackBarComponent from "../components/feedbackBarComponent";
 import FeedbackDialComponent from "../components/feedbackDialComponent";
 import PieModuleComponent from '../components/pieModuleComponent';
+import ClearRoundedIcon from '@material-ui/icons/ClearRounded';
 import {LecturePanel,ActivityPanel,FeedbackPanel} from "./listRenderer";
 import invert from 'invert-color';
 
@@ -223,16 +224,71 @@ function getActivity(activities, date, specification){
 function DetailBox(props) {
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
-
+  const [newNote, setNewNote] = useState(null);
+  const [notes, setNotes] = useState(props.module_notes);
   const previousClass=getClass(props.classes, props.today,"previous");
   const previousActivity=getActivity(props.activities, props.today,"previous");
   console.log(previousClass);
   console.log(previousActivity);
+
+  useEffect(() => {
+    setNewNote("");
+    setNotes(props.module_notes);
+    },[props.module_notes]);
+
   //const previousActivity=props.classes.find((lecture) => new Date(lecture.date+'T'+lecture.end_time)>= props.today);
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
 
+  const deleteNotes= (text)=> {
+    console.log("notes");
+    console.log(notes);
+    var index = -1
+    var i;
+    notes.map((note)=>console.log(note));
+    for (i=0;i<notes.length;i++){
+      if(notes[i].text==text){
+        index = i;
+        break;
+      }
+    }
+    console.log(index);
+    for(i=0;i<notes.length;i++){
+      console.log("i = "+ i+" text: "+notes[i].text);
+    }
+    var tempNotes=[];
+    for(i=0;i<index;i++){
+      tempNotes.push(notes[i])
+    }
+    for(i=index+1;i<notes.length;i++){
+      tempNotes.push(notes[i])
+    }
+    setNotes(tempNotes);
+    }
+
+  const saveNote = () => {
+      var allNotes = [];
+      var x = document.getElementById("noteButton");
+      x.style.display = "none";
+      notes.map((note)=>allNotes.push(note.text));
+      if(newNote!="") allNotes.push(newNote);
+        var data = {
+            moduleID: props.module_ID,
+            notes: allNotes
+              };
+              console.log("Save module note", data);
+              fetch("http://mvroso.pythonanywhere.com/updateModuleNotes", {
+                          method: "POST",
+                          cache: "no-cache",
+                          body: JSON.stringify(data),
+                          headers: new Headers({"content-type": "application/json"})
+                      }).then(res => {
+                          console.log("Request complete! response:", res);
+                          props.setState();
+                          x.style.display = "inline-block";
+                      });
+      }
   return (
     <div className={classes.root}>
     <div className={classes.demo1}>
@@ -246,25 +302,30 @@ function DetailBox(props) {
                 <div className = 'detailBox' style = {{height: '1000'}}>
 
                   <div style = {{margin:'8px 0'}}>
-                  <div style = {{position: 'relative', height:370,width:"100%"}}> <PieModuleComponent moduleID = {props.moduleID} label = {props.module_name} type = "hours"/> </div>
-                  <div style = {{position: 'relative', height:370,width:"100%"}}> <PieModuleComponent moduleID = {props.moduleID} label = {props.module_name} type = "grade"/> </div>
+                  <div style = {{position: 'relative', height:370,width:"100%"}}> <PieModuleComponent moduleID = {props.module_ID} label = {props.module_name} type = "hours"/> </div>
+                  <div style = {{position: 'relative', height:370,width:"100%"}}> <PieModuleComponent moduleID = {props.module_ID} label = {props.module_name} type = "grade"/> </div>
                   </div>
 
                   <div style = {{margin:'10px 0'}}>
-                  {/*props.lecture.notes.map((note) => <TextField
-                              multiline
-                              id="standard-read-only-input"
-                              defaultValue={note}
-                              fullWidth
-                              variant="outlined"
-                              rows={5}
-                              InputProps={{
-                                readOnly: true,
-                              }}/>)*/}
-
-                    <MultilineTextFields />
-                    <Button type='submit' variant="contained" color="default" disableElevation fullWidth style = {{backgroundColor: props.colour, color: invert(props.colour, true)}}> Add Note </Button>
-                  </div>
+                      {notes.map((note,index) => <div><TextField
+                                  multiline
+                                  id="standard-read-only-input"
+                                  key={note.text}
+                                  defaultValue={note.text}
+                                  style={{width:'85%', margin:'10px 0'}}
+                                  variant="outlined"
+                                  rows={5}
+                                  InputProps={{
+                                    readOnly: true,
+                                  }}/>
+                                  {     <IconButton aria-label="delete" onClick={()=>deleteNotes(note.text)}>
+                                          <ClearRoundedIcon  />
+                                        </IconButton>}
+                                    </div>
+                                )}
+                    <TextField variant="outlined" fullWidth label="New Note" value={newNote} onChange={(e) => setNewNote(e.target.value)}/>
+                    <Button id = "noteButton" onClick={() => saveNote()} type='submit' variant="contained" color="default" disableElevation fullWidth
+                    style={{margin:'10px 0px', textTransform: 'none', backgroundColor: props.colour, color: invert(props.colour, true)}}> Save Notes </Button> </div>
                 </div>
               </TabPanel>
               <TabPanel  value={value} index={1}>
@@ -344,12 +405,12 @@ export default function OverviewTab(props) {
       </div>
 
       </div>
-      <div className = 'detailBoxx'style = {{float:'left',height:'500px',width:'67%', }}>
+      <div className = 'detailBox' style = {{float:'left',height:'500px',width:'67%',borderRadius:'0 8px 8px 0' }}>
       <div style = {{position:'relative', top:'27px', left:'35px', fontFamily: 'Rubik', fontStyle: 'normal', fontWeight: '300', fontSize: '14px',
 lineHeight: '17px', display: 'flex', alignItems: 'center', color: '#414141'}} > Summaries </div>
         <div style = {{position:'relative', top:'30px',marginRight:'auto', marginLeft:'auto'}}>
 
-          <DetailBox today={props.today} activities={props.activities} classes={props.classes} colour={props.colour} moduleID = {props.module_ID} module_name = {props.module_name} />
+          <DetailBox setState={props.setState} today={props.today} activities={props.activities} classes={props.classes} colour={props.colour} module_notes = {props.module_notes} module_ID = {props.module_ID} module_name = {props.module_name} />
         </div>
       </div>
     </div>

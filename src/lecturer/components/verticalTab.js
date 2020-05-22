@@ -71,10 +71,15 @@ const useStyles = makeStyles((theme) => ({
 export default function VerticalTabs(props) {
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
+
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-
+  var contributors =[{lecturer_ID:props.module.module_lecturer_ID,
+                      lecturer_name:props.module.module_lecturer,
+                      lecturer_email:props.module.module_lecturer_email
+                        }]
+  props.module.contributors.map((item)=> contributors.push(item));
   console.log("module code = "  + props.module.module_code)
   console.log(props.module.activities)
   const [focusAcitivityID, setFocusAcitivityID] = React.useState(() => {
@@ -84,18 +89,18 @@ export default function VerticalTabs(props) {
     //     console.log(i+' -> '+props.module.activities[i].title)
     // }
     // props.module.activities.map((item,index)=>console.log(index+' ->> '+item.title))
-    for(i=1;i<props.module.activities.length;i++){
+    for(i=0;i<props.module.activities.length;i++){
       if(new Date(props.module.activities[i].due_date)>=props.today){
         console.log(i + ' -- ' + props.module.activities[i].title);
         return (props.module.activities[i].activity_ID);
         break;
       }
     }
-    if(new Date(props.module.activities[0].due_date)>=props.today) return props.module.activities[0].activity_ID
+    //if(new Date(props.module.activities[0].due_date)>=props.today) return props.module.activities[0].activity_ID
     return null;
 
   });
-  console.log("vertical tabs modules");
+  console.log("vertical tabs modules", props.module);
   console.log(focusAcitivityID);
 
   function handleFocusAcitivityIDChange(newValue) {
@@ -104,7 +109,7 @@ export default function VerticalTabs(props) {
   }
 
   return (
-    <div className={classes.root}>
+    <div className={classes.root} style={{borderRadius: '15px'}}>
 
       <div >
         <div style = {{maxWidth:'317px'}} >
@@ -138,15 +143,15 @@ export default function VerticalTabs(props) {
 
         </Tabs>
         </div>
-        <div style = {{position:'relative', left:'317px',top:'-100px',float: 'right', width:'906px', backgroundColor:'white'}}>
+        <div style = {{position:'relative', left:'317px',top:'-100px',float: 'right', width:'906px', backgroundColor:'white', borderRadius:'0 8px 8px 0'}}>
         <TabPanel value={value} index={0}>
-          <OverviewTab selectActivity={handleFocusAcitivityIDChange}changeTab={setValue} colour = {props.module.colour} today={props.today} activities={props.module.activities} classes={props.module.classes} module_ID = {props.module.module_ID} module_name = {props.module.module_name}/>
+          <OverviewTab selectActivity={handleFocusAcitivityIDChange}changeTab={setValue} setState={props.setState} colour = {props.module.colour} module_notes={props.module.notes} today={props.today} activities={props.module.activities} classes={props.module.classes} module_ID = {props.module.module_ID} module_name = {props.module.module_name}/>
         </TabPanel>
         <TabPanel value={value} index={1}>
-          <LecturesTab today={props.today} activities={props.module.activities} colour = {props.module.colour} classes={props.module.classes} edit={props.module.edit} moduleID = {props.module.module_ID}/>
+          <LecturesTab setState={props.setState} today={props.today} activities={props.module.activities} colour = {props.module.colour} classes={props.module.classes} edit={props.module.edit} moduleID = {props.module.module_ID} contributors={contributors}/>
         </TabPanel>
         <TabPanel value={value} index={2}>
-            <ActivitiesTab handleChange={handleFocusAcitivityIDChange} focusID={focusAcitivityID} colour = {props.module.colour} today={props.today} activities={props.module.activities} edit={props.module.edit} moduleID = {props.module.module_ID}/>
+            <ActivitiesTab setState={props.setState} handleChange={handleFocusAcitivityIDChange} focusID={focusAcitivityID} colour = {props.module.colour} today={props.today} activities={props.module.activities} edit={props.module.edit} moduleID = {props.module.module_ID}/>
         </TabPanel>
         <TabPanel value={value} index={3}>
           <StudentExperienceTab moduleCode={props.module.module_code} colour = {props.module.colour} module_ID = {props.module.module_ID} module_name = {props.module.module_name}/>

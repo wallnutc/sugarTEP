@@ -123,6 +123,7 @@ const handleChange = (module_code) => {
             <ActivityProgressPopup
                       activity={popupActivity}
                       student={props.student_ID}
+                      setState={props.setState}
                       closePopup={togglePopup}
             />  : null
             }
@@ -156,12 +157,12 @@ const handleChange = (module_code) => {
                        fontSize: '17px',
                        color: mainBlue
                      }}> { weekTag[(new Date(i.due_date)).getDay()]} | {String(new Date(i.due_date).getDate()).padStart(2, '0')}/{String(new Date(i.due_date).getMonth() + 1).padStart(2, '0')} </div>
-                    <ActivityPanel onClick={togglePopup} item={i} />
+                    <ActivityPanel onClick={togglePopup} item={i} setState={props.setState} />
                   </div>
                 );}
                 else{
                   return(<div key={index}>
-                    <ActivityPanel onClick={togglePopup} item={i} />
+                    <ActivityPanel onClick={togglePopup} item={i} setState={props.setState} />
                   </div>);
                 }
               }

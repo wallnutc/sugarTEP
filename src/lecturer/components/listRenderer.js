@@ -75,7 +75,10 @@ const ProgressBar = withStyles({
 
 
 export function LecturePanel(props) {
-  const date = new Date(props.item.date);
+  if(props.item == undefined){
+    return (<div style={{color: '#7E7E7E',padding:'7px 24px'}}>All classes completed !</div>);
+  }
+  const date = new Date(props.item.date+'T'+props.item.start_time);
   const day = String(date.getDate()).padStart(2, '0');
   const month = String(date.getMonth() + 1).padStart(2, '0');
   const year = date.getFullYear();
@@ -124,6 +127,9 @@ export function LecturePanel(props) {
 }
 
 export function ActivityPanel(props) {
+  if(props.item == undefined){
+    return (<div style={{color: '#7E7E7E', padding:'7px 24px'}}>All activities completed</div>);
+  }
   const dueDate = new Date(Date.parse(props.item.due_date));
   const dueDateDay = String(dueDate.getDate()).padStart(2, '0');
   const dueDateMonth = String(dueDate.getMonth() + 1).padStart(2, '0');
@@ -147,7 +153,8 @@ export function ActivityPanel(props) {
               {props.item.title}
             </div>
             <div style = {{fontWeight: 300, fontSize: '14px', lineHeight: '17px',color: invert(props.item.colour, true)}} >
-              <ScheduleIcon color='white' style={{verticalAlign:"middle",fontSize: '14px', color: invert(props.item.colour, true)}}/> <span style = {{color: invert(props.item.colour, true)}}> Due date: {dueDateDay + '/' + dueDateMonth + '/' + dueDateYear} </span>
+              <ScheduleIcon color='white' style={{verticalAlign:"middle",fontSize: '14px', color: invert(props.item.colour, true)}}/>
+                <span style = {{color: invert(props.item.colour, true)}}> Due date: {dueDateDay + '/' + dueDateMonth + '/' + dueDateYear} </span>
             </div>
           </div>
           <div>
@@ -221,7 +228,7 @@ export function FeedbackPanel(props) {
           </ExpansionPanelSummary>
       <ExpansionPanelDetails >
         <div style={{width:'100%', height: 300}} >
-        <FeedbackBar activityID= {props.activityID} questionName={props.questionName} type={props.type}/>
+        <FeedbackBar activityID= {props.activityID} questionName={props.questionName}type={props.type}/>
         </div>
       </ExpansionPanelDetails >
       </ExpansionPanel>

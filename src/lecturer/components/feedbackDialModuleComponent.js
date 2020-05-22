@@ -39,6 +39,10 @@ function FeedbackDialByQuestion(props){
             q = dataType[i];
             }
         }
+        if (q == null){
+            console.log("Failed Dial Render, Question Not Found");
+            return <div></div>
+        }
         const chartConfigs = {
             type: 'angulargauge',// The chart type
             width: '100%', // Width of the chart

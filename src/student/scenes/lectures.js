@@ -23,7 +23,8 @@ function Lectures (props) {
     const headerContent = {title:"Classes", imgPath: require("../images/icons/lectures.svg")};
     const batch = 5;
     const [selectedModule, setSelectedModule] = useState(props.filter.length == 0 ? "null": props.filter[0].value);
-    const [selectedDate, setSelectedDate] = useState(new Date('2019-03-18T00:00:00'));
+    const [selectedDate, setSelectedDate] = useState(new Date('2019-03-14T00:00:00'));
+    console.log("Selected Date", selectedDate);
     const [classes,setClasses] = useState(()=>selectedModule=="All Modules" ? props.classes.filter(item => new Date(item.date+'T00:00:00')> selectedDate) : props.classes.filter( item => item.module_code==selectedModule).filter(item => new Date(item.date+'T00:00:00')> selectedDate))
     const [classesForRender,setclassesForRender] = useState(()=>classes.length <=batch ? classes: classes.slice(0,batch))
     const [renderIndex, setRenderIndex] = useState(batch);
@@ -120,6 +121,7 @@ function Lectures (props) {
             <ClassFeedbackPopup
                       class={popupClass}
                       closePopup={togglePopup}
+                      setState={props.setState}
             />  : null
             }
 
@@ -153,12 +155,12 @@ function Lectures (props) {
                            fontSize: '17px',
                            color: mainBlue
                          }}> { weekTag[(new Date(i.date+'T00:00:00')).getDay()]} | {String(new Date(i.date+'T00:00:00').getDate()).padStart(2, '0')}/{String(new Date(i.date+'T00:00:00').getMonth() + 1).padStart(2, '0')} </div>
-                        <LecturePanel onClick ={togglePopup} item={i} />
+                        <LecturePanel onClick ={togglePopup} item={i} setState={props.setState} />
                       </div>
                     );}
                     else{
                       return(<div key={index}>
-                        <LecturePanel onClick ={togglePopup} item={i} />
+                        <LecturePanel onClick ={togglePopup} item={i} setState={props.setState}/>
                       </div>);
                     }
                   }

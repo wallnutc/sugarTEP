@@ -17,9 +17,9 @@ function CoreSceneRenderer (props){
     case 'lectures':
       return (<Lectures filter={props.modules.modulesFilter} classes={props.modules.classes}/>);
     case 'myActivities':
-      return (<MyActivities filter={props.modules.modulesFilter} activities={props.modules.activities} student_ID={props.modules.student.student_ID}/>);
+      return (<MyActivities filter={props.modules.modulesFilter} setState={props.setState} activities={props.modules.activities} student_ID={props.modules.student.student_ID}/>);
     case 'myDay':
-      return (<MyDay isLoaded = {props.isLoaded} activities={props.modules.activities} classes={props.modules.classes}/>);
+      return (<MyDay isLoaded = {props.isLoaded} activities={props.modules.activities} setState={props.setState} classes={props.modules.classes}/>);
     case 'myModules':
       return (<MyModules modules={props.modules.modules}/>);
     case 'myStatistics':
@@ -178,6 +178,32 @@ class Student extends Component  {
       modulesFilter: temp
     });
   }
+saveClass(){
+    fetch('http://mvroso.pythonanywhere.com/modulesByStudent1')
+      .then(res => res.json())
+      .then(
+        (result) => {
+          console.log(result);
+          this.setState({
+            isLoaded: true,
+            modules: result.modules,
+            student: result.student
+          });
+          this.setActivities (this.state.modules);
+          console.log(this.state.activities);
+          this.setClasses(this.state.modules);
+          console.log(this.state.classes);
+          this.setModuleFilter (this.state.modules);
+          console.log(this.state.modulesFilter);
+        },
+        (error) => {
+          this.setState({
+            isLoaded: true,
+            error
+          });
+        }
+      );
+}
 
   componentDidMount() {
     fetch('http://mvroso.pythonanywhere.com/modulesByStudent1')
@@ -213,7 +239,7 @@ class Student extends Component  {
           </div>
 
           <div>
-            <CoreSceneRenderer coreScene={this.state.coreScene} isLoaded= {this.state.isLoaded}modules={this.state}/>
+            <CoreSceneRenderer coreScene={this.state.coreScene} isLoaded= {this.state.isLoaded} modules={this.state} setState={this.saveClass.bind(this)}/>
           </div>
 
           <div className="BottomNavigation">

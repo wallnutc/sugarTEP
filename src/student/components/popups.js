@@ -112,19 +112,20 @@ export function ActivityProgressPopup (props) {
   // console.log("answers");
   // console.log(answers);
   const updateProgress = () =>{
-    console.log(props.activity);
      var data = {
        studentID: props.student,
        activityID: props.activity.activity_ID,
        hours: timeSpent,
        submitted: 0
      };
+     console.log("UpdateProgress", data);
      fetch("http://mvroso.pythonAnywhere.com/updateStudentProgress", {
                    method: "POST",
                    cache: "no-cache",
                    body: JSON.stringify(data),
                    headers: new Headers({"content-type": "application/json"})
                }).then(res => {
+                   props.setState();
                    console.log("Request complete! response:", res);
                });
     setUpdated(true);
@@ -144,6 +145,7 @@ export function ActivityProgressPopup (props) {
                    body: JSON.stringify(data),
                    headers: new Headers({"content-type": "application/json"})
                }).then(res => {
+                   props.setState();
                    console.log("Request complete! response:", res);
                });
     setFinished(true);

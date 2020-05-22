@@ -22,11 +22,16 @@ function FeedbackBarByQuestion(props){
     var i, q, dataType, data = null
     if(response.Questions != undefined){
         data = response.Questions;
-
+        console.log("dataFeedback",data);
+        console.log("Question",props.questionName);
         for (i=0; i< data.length; i++){
             if(data[i].question == props.questionName){
             q = data[i];
             }
+        }
+        if (q == null){
+            console.log("Failed Bar Render, Question Not Found");
+            return <div>No responses yet !</div>
         }
         const bardataSource = {
         chart: {
