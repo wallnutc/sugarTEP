@@ -349,7 +349,7 @@ export default function StudentExeperienceTab(props) {
   const [studentInFocus,setStudentInFocus] = useState({});
   return (
     <div style = {{margin:0,padding:0}}>
-      <div  style = {{float:'left',height:'500px',width:'32.5%',}}>
+      <div  style = {{float:'left',height:'100%',width:'32.5%',}}>
         <div style = {{position:'relative', top:'27px', left:'35px', fontFamily: 'Rubik', fontStyle: 'normal', fontWeight: '300', fontSize: '14px',
  lineHeight: '17px', display: 'flex', alignItems: 'center', color: '#414141'}} >Activity Status </div>
       <div style = {{ position:'relative', top:'30px',marginRight:'auto', marginLeft:'auto'}}>
@@ -357,7 +357,7 @@ export default function StudentExeperienceTab(props) {
       </div>
 
       </div>
-      <div className = 'detailBox' style = {{float:'left',height:'1000px',width:'67%', }}>
+      <div className = 'detailBox' style = {{float:'left',height:'500px',width:'67%', }}>
       <div style = {{position:'relative', top:'27px', left:'35px', fontFamily: 'Rubik', fontStyle: 'normal', fontWeight: '300', fontSize: '14px',
 lineHeight: '17px', display: 'flex', alignItems: 'center', color: '#414141'}} > Mode </div>
         <div style = {{position:'relative', top:'30px',marginRight:'auto', marginLeft:'auto'}}>
