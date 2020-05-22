@@ -244,7 +244,7 @@ function SelectorBox(props) {
             children={
               <div>
               <div style={{fontFamily: 'Rubik', fontWeight:'300',fontSize: '14px',color: props.colour}}>
-                create new activity
+                Create new activity
               </div>
 
               </div>} />
@@ -1321,7 +1321,7 @@ export default function ActivityTab(props) {
         <div style = {{position:'relative', top:'27px', left:'35px', fontFamily: 'Rubik', fontStyle: 'normal', fontWeight: '300', fontSize: '14px',
  lineHeight: '17px', display: 'flex', alignItems: 'center', color: '#414141'}} >Activity Status </div>
       <div style = {{ position:'relative', top:'30px',marginRight:'auto', marginLeft:'auto'}}>
-        <SelectorBox handleChange= {handleChangeDetailBox} today={props.today} inFocusID={props.focusID} colour= {props.colour} activities={props.activities} onClick = {props.handleChange}/>
+        <SelectorBox handleChange= {handleChangeDetailBox} today={props.today} inFocusID={props.focusID} colour= {props.colour} activities={props.activities} onClick = {props.handleChange} edit = {props.edit}/>
       </div>
 
       </div>
