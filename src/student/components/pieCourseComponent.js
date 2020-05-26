@@ -9,7 +9,7 @@ charts(FusionCharts);
 function PieComponent (props){
     const [response,setResponse] = useState({});
     useEffect(() => {
-      var url = 'http://mvroso.pythonanywhere.com/activityTypePieChartsByCourse' + props.courseID;
+      var url = 'https://mvroso.pythonanywhere.com/activityTypePieChartsByCourse' + props.courseID;
       console.log(url);
       fetch(url)
          .then((response) => response.json())
@@ -53,13 +53,15 @@ function PieComponent (props){
             bgColor: "#ffffff",
             startingAngle: "310",
             showBorder: "0",
-            legendNumColumns: "1",
+            legendNumColumns: "2",
+            legendItemFontSize: "12",
             enableMultiSlicing: "0",
             plotHighlightEffect: "fadeout",
             legendPosition: "bottom",
             legendCaption: legendcaption,
             legendCaptionBold: "1",
             legendItemFont: "Rubik",
+            legendItemFontSize: "12",
             legendShadow: "1",
             legendBorderColor: "#CCCCCC",
             legendBgAlpha: "20",
@@ -67,7 +69,7 @@ function PieComponent (props){
             legendCaptionFont: "Rubik",
             legendCaptionFontSize: "14",
             legendCaptionFontColor: "#333333",
-            pieRadius: "80%",
+            pieRadius: "100%",
             legendBgColor: "#ffffff",
             legendAllowDrag: "0",
             legendScrollBgColor: "#ffffff",

@@ -146,22 +146,16 @@ saveClass(){
             </div>
             <div className = 'moduleBox'>
             {this.state.isLoaded ? this.state.modules.map((module)=> <div style ={{margin:'50px 0px'}}>
-                      <ExpansionPanel  today={this.state.today} module={module} setState={this.saveClass.bind(this)}/>
+                      <ExpansionPanel  today={this.state.today} module={module} colour={mainBlue} setState={this.saveClass.bind(this)}/>
                       </div>)
                       :null }
 
             </div>
 
-
-
-            <div className='title' style= {{color: mainBlue}}>
-              <p> My Contributed Modules</p>
-            </div>
-
             <div className = 'moduleBox'>
             {this.state.isLoaded ? this.state.contmodules.map((module)=> <div style ={{margin:'50px 0px'}}>
 
-                      <ExpansionPanel  today={this.state.today} module={module} setState={this.saveClass.bind(this)}/>
+                      <ExpansionPanel  today={this.state.today} module={module}  colour={mainBlue} setState={this.saveClass.bind(this)}/>
                       </div>)
                       :null }
             </div>

@@ -4,6 +4,7 @@ import ListRenderer from "../components/listRenderer";
 import {LecturePanel,ActivityPanel} from "../components/listRenderer";
 import InfiniteScroll from "react-infinite-scroll-component";
 import {ClassFeedbackPopup,ActivityProgressPopup} from '../components/popups';
+import CalendarTodayIcon from '@material-ui/icons/CalendarToday';
 import { makeStyles, withStyles, useTheme } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import ScheduleWeekly from '../components/ScheduleWeekly';
@@ -67,10 +68,20 @@ const togglePopupActivity = (activity) => {
   if(!showPopupA) setPopupActivity(activity);
   setShowPopupA(!showPopupA);
 }
+
+
+
+
+
 return (
   <div >
-    <div className="header" style={{color:mainBlue}}>
-      <Header imgPath = {headerContent.imgPath}  title = {headerContent.title} style={{color:mainBlue}}/>
+    <div className="header">
+      <div>
+        <div style={{left: "0",right:"0",position: 'fixed',backgroundColor: "white",top:'55px', zIndex: 1}}>
+          <CalendarTodayIcon style={{margin:'15px 0px 10px 20px', height:'40px', width: '46px',float:'left', zIndex: 2, color:mainBlue}}/>
+          <h2 style={{fontFamily: 'Rubik',fontStyle: 'normal',fontWeight: '500',fontSize: '20px',float:'left',lineHeight: '41px',padding: '15px',color: mainBlue}}>My Day</h2>
+        </div>
+      </div>
     </div>
     <div className="filter">
       <div>

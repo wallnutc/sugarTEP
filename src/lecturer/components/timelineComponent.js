@@ -21,7 +21,28 @@ function TimelineComponent(props){
   if(response.byActivity != undefined){
     const data = response.byModule;
     const schema = response.schema;
-    const binning = response.bin;
+    var binning = null;
+    if (props.bin == "Month"){
+      binning = {
+        "day": [],
+        "year": [],
+        "month": [1]
+      }
+    }
+    if (props.bin == "Week"){
+      binning = {
+        "day": [6],
+        "month": [],
+        "year": []
+      }
+    }
+    if (props.bin == "Semester"){
+      binning = {
+        "day": [],
+        "month": [],
+        "year": [1]
+      }
+    }
     const dataSource = {
         chart: {
         },
@@ -56,17 +77,14 @@ function TimelineComponent(props){
         }
         ],
         xAxis: {
-          binning: {
-            "day": [1,6],
-            "month": [1]
-          }
+          binning: binning
         }
     };
 
     const timeseriesDs = {
         type: "timeseries",
-        width: 480,
-        height: 350,
+        width: "100%",
+        height: "100%",
         dataSource: dataSource
     }
     const fusionTable = new FusionCharts.DataStore().createDataTable(data,schema);

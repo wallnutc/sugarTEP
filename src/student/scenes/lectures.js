@@ -5,6 +5,7 @@ import {LecturePanel} from "../components/listRenderer";
 import InfiniteScroll from "react-infinite-scroll-component";
 import TextField from '@material-ui/core/TextField';
 import MenuItem from '@material-ui/core/MenuItem';
+import MenuBookIcon from '@material-ui/icons/MenuBook';
 import 'date-fns';
 import Grid from '@material-ui/core/Grid';
 import DateFnsUtils from '@date-io/date-fns';
@@ -109,7 +110,12 @@ function Lectures (props) {
       return (
         <div >
           <div className="header">
-            <Header imgPath = {headerContent.imgPath}  title = {headerContent.title}/>
+          <div>
+        <div style={{left: "0",right:"0",position: 'fixed',backgroundColor: "white",top:'55px', zIndex: 1}}>
+        <MenuBookIcon style={{margin:'15px 0px 10px 20px', height:'40px', width: '46px',float:'left', zIndex: 2, color:mainBlue}}/>
+          <h2 style={{fontFamily: 'Rubik',fontStyle: 'normal',fontWeight: '500',fontSize: '20px',float:'left',lineHeight: '41px',padding: '15px',color: mainBlue}}>My Classes</h2>
+        </div>
+      </div>
           </div>
 
           <div className="filter">

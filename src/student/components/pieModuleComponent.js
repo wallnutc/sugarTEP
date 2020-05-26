@@ -9,7 +9,7 @@ charts(FusionCharts);
 function PieComponent (props){
     const [response,setResponse] = useState({});
     useEffect(() => {
-      var url = 'http://mvroso.pythonanywhere.com/activityTypePieChartsByModule' + props.moduleID.toString();
+      var url = 'https://mvroso.pythonanywhere.com/activityTypePieChartsByModule' + props.moduleID.toString();
       console.log(url);
       fetch(url)
          .then((response) => response.json())
@@ -46,6 +46,8 @@ function PieComponent (props){
             showLabels: "0",
             showValues: "0",
             legendCaption: "Activities",
+            legendNumColumns: "2",
+            legendItemFontSize: "12",
             legendCaptionBold: "1",
             legendItemFont: "Rubik",
             legendShadow: "1",
@@ -62,7 +64,7 @@ function PieComponent (props){
             legendAllowDrag: "0",
             legendScrollBgColor: "#ffffff",
             showLegend: "1",
-            defaultCenterLabel: props.label,
+            defaultCenterLabel: "",
             centerlabel: centerlabel,
             centerLabelBold: "1",
             enableMultiSlicing: "0",

@@ -4,8 +4,10 @@ import './index.css';
 import App from './App';
 import Student from './student/Student';
 import Lecturer from './lecturer/Lecturer';
-import { BrowserRouter, Switch, Route} from 'react-router-dom';
+import { BrowserRouter, Switch, Route, Redirect} from 'react-router-dom';
 import * as serviceWorker from './serviceWorker';
+import NotFoundPage from './404';
+import Coordinator from './coordinator/Coordinator';
 
 ReactDOM.render(
   <React.StrictMode>
@@ -14,6 +16,9 @@ ReactDOM.render(
     <Route path='/' exact={true} component={App} />
     <Route path='/student' component={Student} />
     <Route path='/lecturer' component={Lecturer} />
+    <Route path='/coordinator' component={Coordinator}/>
+        <Route exact path="/404" component={NotFoundPage}/>
+        <Redirect to="/404"/>
   </Switch>
 </BrowserRouter>
   </React.StrictMode>,

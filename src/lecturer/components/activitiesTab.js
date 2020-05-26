@@ -226,8 +226,8 @@ function SelectorBox(props) {
 
       <div className={classes.demo1}>
         <AntTabs value={value} onChange={handleChange} aria-label="ant example" centered>
-          <AntTab label="Scheduled" style={{color: props.colour}}/>
-          <AntTab label="Delivered" style={{color: props.colour}} />
+          <AntTab label="Upcoming" style={{color: props.colour}}/>
+          <AntTab label="Past" style={{color: props.colour}} />
         </AntTabs>
       </div>
       <div>
@@ -622,7 +622,7 @@ const [activityTypeID, setActivityTypeID] = useState(props.activity==undefined? 
 
     return (
       <div className={classes.root}>
-      {props.newActivityFlag ||new Date(props.activity.due_date)> props.today ?
+      {props.newActivityFlag ||new Date(props.activity.due_date)>= props.today ?
         <div className={classes.demo1}>
           <AntTabs value={props.value} onChange={props.handleChange} aria-label="ant example" style={{marginLeft:'27px',}}>
             <AntTab label="Details" disabled={props.newActivityFlag} style={{color: props.colour}}/>
@@ -658,7 +658,7 @@ const [activityTypeID, setActivityTypeID] = useState(props.activity==undefined? 
                     />
             </div>
             <div style={{marginLeft:'24px'}}>
-              <label For="type"> Assignment Type </label>
+              <label For="type"> Activity Type </label>
               <TextField
                       id="type"
                       style={{width:"160px",marginTop:'8px',marginBottom:'16px',}}
@@ -712,7 +712,7 @@ const [activityTypeID, setActivityTypeID] = useState(props.activity==undefined? 
                     />
               </div>
               <div style={{marginLeft:'40px'}}>
-              <label For="dedicationTime" > Dedication Time </label><br/>
+              <label For="dedicationTime" > Estimated Workload </label><br/>
                 <div style={{verticalAlign:'middle', display:'flex'}}>
                     <span style= {inputStyle} style= {{...inputStyle, lineHeight:'55px',marginRight:'4px'}}>around</span>
                     <TextField
@@ -831,7 +831,7 @@ const [activityTypeID, setActivityTypeID] = useState(props.activity==undefined? 
                       />
               </div>
               <div style={{marginLeft:'24px'}}>
-                <label For="type"> Assignment Type </label>
+                <label For="type"> Activity Type </label>
                 <TextField
                     id="type"
                     select
@@ -908,7 +908,7 @@ const [activityTypeID, setActivityTypeID] = useState(props.activity==undefined? 
 
                   </div>
                   <div style={{marginLeft:'40px'}}>
-                  <label For="dedicationTime" > Dedication Time </label><br/>
+                  <label For="dedicationTime" > Estimated Workload </label><br/>
                     <div style={{verticalAlign:'middle', display:'flex'}}>
                         <span style= {inputStyle} style= {{...inputStyle, lineHeight:'55px',marginRight:'4px'}}>around</span>
                         <TextField
@@ -1078,7 +1078,7 @@ const [activityTypeID, setActivityTypeID] = useState(props.activity==undefined? 
                   />
           </div>
           <div style={{marginLeft:'24px'}}>
-            <label For="type"> Assignment Type </label>
+            <label For="type"> Activity Type </label>
             <TextField
                     id="type"
                     style={{width:"160px",marginTop:'8px',marginBottom:'16px',}}
@@ -1132,7 +1132,7 @@ const [activityTypeID, setActivityTypeID] = useState(props.activity==undefined? 
                   />
             </div>
             <div style={{marginLeft:'40px'}}>
-            <label For="dedicationTime" > Dedication Time </label><br/>
+            <label For="dedicationTime" > Estimated Workload </label><br/>
               <div style={{verticalAlign:'middle', display:'flex'}}>
                   <span style= {inputStyle} style= {{...inputStyle, lineHeight:'55px',marginRight:'4px'}}>around</span>
                   <TextField

@@ -12,6 +12,7 @@ import SendIcon from '@material-ui/icons/Send';
 import MenuBookIcon from '@material-ui/icons/MenuBook';
 
 export default function ScheduleWeekly (props){
+  const offset = 6;
   const block =[];
   const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
   "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
@@ -60,7 +61,7 @@ function getInterval(start, end){
   }
 }
   var i;
-  for (i = 0; i< 192 ; i++){
+  for (i = 0; i< ((24-offset)*8) ; i++){
     block.push(i);
   }
   const block2 =[1,2,3,4,5,6,7]
@@ -85,11 +86,11 @@ function getInterval(start, end){
     </div>
     <div className="grid-container">
 
-    {block.map((i,index)=>index%8==0? <div className="hours">{i/8<10? '0':null}{i/8}</div>:<div className="grid-item"></div>)}
+    {block.map((i,index)=>index%8==0? <div className="hours">{(i/8)+offset<10? '0':null}{(i/8)+offset}</div>:<div className="grid-item"></div>)}
 
     </div>
     {props.events.map((item)=>{
-      const top = (45 + 41*(parseInt(item.start_time.split(':')[0]) + (parseInt(item.start_time.split(':')[1]))/60)).toString();
+      const top = (45 + 41*((parseInt(item.start_time.split(':')[0])-offset) + (parseInt(item.start_time.split(':')[1]))/60)).toString();
       const left = weekDayPosition[new Date(item.date).getDay()];
       const interval = getInterval(item.start_time,item.end_time);
       var height =0;

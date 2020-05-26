@@ -50,7 +50,7 @@
 }
 .main{
   /*background-color: #add8e6;*/
-  margin-top: 220px;
+  margin-top: 190px;
   margin-bottom: 100px;
   z-index: -2;
 }
@@ -65,4 +65,14 @@
 }
 .MuiBottomNavigationAction-root.Mui-selected{
   color:black !important;
+}
+
+.header{
+  left: 0;
+  right:0;
+  position: fixed;
+  background-color: white;
+  height:75px;
+  top:55px;
+    z-index: 1;
 }

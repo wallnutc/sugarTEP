@@ -21,7 +21,28 @@ function TimelineModuleComponent(props){
   if(response.byActivity != undefined){
     const data = response.byActivity;
     const schema = response.schema;
-    const binning = response.bin;
+    var binning = null;
+    if (props.bin == "Month"){
+      binning = {
+        "day": [],
+        "year": [],
+        "month": [1]
+      }
+    }
+    if (props.bin == "Week"){
+      binning = {
+        "day": [6],
+        "month": [],
+        "year": []
+      }
+    }
+    if (props.bin == "Semester"){
+      binning = {
+        "day": [],
+        "month": [],
+        "year": [1]
+      }
+    }
     const dataSource = {
         navigator: {
           enabled: 0
@@ -33,7 +54,7 @@ function TimelineModuleComponent(props){
         chart: {
         },
         caption: {
-        text: "Total Hours Over Year"
+        text: "Total Hours By Activity Type (" + props.bin + " View)"
         },
         subcaption: {
         text: props.label
@@ -54,10 +75,7 @@ function TimelineModuleComponent(props){
         }
         ],
         xAxis: {
-          binning: {
-            "day": [6],
-            "month": [1]
-          }
+          binning: binning
         }
     };
 

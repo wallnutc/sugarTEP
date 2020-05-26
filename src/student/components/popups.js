@@ -40,7 +40,7 @@ export function ClassFeedbackPopup (props) {
     //   answers: answers
     // };
     // console.log(data);
-    // fetch("http://mvroso.pythonAnywhere.com/updateFeedback", {
+    // fetch("https://mvroso.pythonAnywhere.com/updateFeedback", {
     //               method: "POST",
     //               cache: "no-cache",
     //               body: JSON.stringify(data),
@@ -119,7 +119,7 @@ export function ActivityProgressPopup (props) {
        submitted: 0
      };
      console.log("UpdateProgress", data);
-     fetch("http://mvroso.pythonAnywhere.com/updateStudentProgress", {
+     fetch("https://mvroso.pythonAnywhere.com/updateStudentProgress", {
                    method: "POST",
                    cache: "no-cache",
                    body: JSON.stringify(data),
@@ -139,7 +139,7 @@ export function ActivityProgressPopup (props) {
        submitted: 1
      };
          console.log(data);
-     fetch("http://mvroso.pythonAnywhere.com/updateStudentProgress", {
+     fetch("https://mvroso.pythonAnywhere.com/updateStudentProgress", {
                    method: "POST",
                    cache: "no-cache",
                    body: JSON.stringify(data),
@@ -156,7 +156,7 @@ export function ActivityProgressPopup (props) {
     //   answers: answers
     // };
     // console.log(data);
-    // fetch("http://mvroso.pythonAnywhere.com/updateFeedback", {
+    // fetch("https://mvroso.pythonAnywhere.com/updateFeedback", {
     //               method: "POST",
     //               cache: "no-cache",
     //               body: JSON.stringify(data),

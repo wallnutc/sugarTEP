@@ -9,7 +9,7 @@ charts(FusionCharts);
 function PieComponent (props){
     const [response,setResponse] = useState({});
     useEffect(() => {
-      var url = 'http://mvroso.pythonanywhere.com/activityTypePieChartsByCourse' + props.courseID;
+      var url = 'https://mvroso.pythonanywhere.com/activityTypePieChartsByCourse' + props.courseID;
       console.log(url);
       fetch(url)
          .then((response) => response.json())
@@ -60,6 +60,7 @@ function PieComponent (props){
             legendCaption: legendcaption,
             legendCaptionBold: "1",
             legendItemFont: "Rubik",
+            legendItemFontSize: "12",
             legendShadow: "1",
             legendBorderColor: "#CCCCCC",
             legendBgAlpha: "20",
@@ -67,7 +68,7 @@ function PieComponent (props){
             legendCaptionFont: "Rubik",
             legendCaptionFontSize: "14",
             legendCaptionFontColor: "#333333",
-            pieRadius: "100%",
+            pieRadius: "60%",
             legendBgColor: "#ffffff",
             legendAllowDrag: "0",
             legendScrollBgColor: "#ffffff",
@@ -88,7 +89,7 @@ function PieComponent (props){
             <ReactFusioncharts
                 type= "doughnut2d"
                 width= "80%"
-                height= "90%"
+                height= "100%"
                 dataFormat= "json"
                 dataSource= {datasource}
             />

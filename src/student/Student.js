@@ -8,16 +8,21 @@ import MyActivities from "./scenes/myActivities";
 import MyDay from "./scenes/myDay";
 import MyModules from './scenes/myModules';
 import MyStatistics from './scenes/myStatistics';
-
+import {
+  BrowserView,
+  MobileView,
+  isBrowser,
+  isMobile
+} from "react-device-detect";
 const mainBlue = "#0061D2";
 
 function CoreSceneRenderer (props){
   window.scrollTo(0, 0);
   switch(props.coreScene) {
     case 'lectures':
-      return (<Lectures filter={props.modules.modulesFilter} classes={props.modules.classes}/>);
+      return (<Lectures filter={props.modules.modulesFilter} today={props.today} classes={props.modules.classes}/>);
     case 'myActivities':
-      return (<MyActivities filter={props.modules.modulesFilter} setState={props.setState} activities={props.modules.activities} student_ID={props.modules.student.student_ID}/>);
+      return (<MyActivities filter={props.modules.modulesFilter} today={props.today} setState={props.setState} activities={props.modules.activities} student_ID={props.modules.student.student_ID}/>);
     case 'myDay':
       return (<MyDay isLoaded = {props.isLoaded} activities={props.modules.activities} setState={props.setState} classes={props.modules.classes}/>);
     case 'myModules':
@@ -179,7 +184,7 @@ class Student extends Component  {
     });
   }
 saveClass(){
-    fetch('http://mvroso.pythonanywhere.com/modulesByStudent1')
+    fetch('https://mvroso.pythonanywhere.com/modulesByStudent1')
       .then(res => res.json())
       .then(
         (result) => {
@@ -206,7 +211,7 @@ saveClass(){
 }
 
   componentDidMount() {
-    fetch('http://mvroso.pythonanywhere.com/modulesByStudent1')
+    fetch('https://mvroso.pythonanywhere.com/modulesByStudent1')
       .then(res => res.json())
       .then(
         (result) => {
@@ -231,7 +236,9 @@ saveClass(){
         }
       );
     }
-    render(){
+
+  renderContent = () => {
+      if (isMobile) {
       return (
         <div className="App">
           <div className="Menubar" style = {{backgroundColor: mainBlue}}>
@@ -239,7 +246,7 @@ saveClass(){
           </div>
 
           <div>
-            <CoreSceneRenderer coreScene={this.state.coreScene} isLoaded= {this.state.isLoaded} modules={this.state} setState={this.saveClass.bind(this)}/>
+            <CoreSceneRenderer coreScene={this.state.coreScene} isLoaded= {this.state.isLoaded} modules={this.state} setState={this.saveClass.bind(this)} today={this.state.today}/>
           </div>
 
           <div className="BottomNavigation">
@@ -247,6 +254,29 @@ saveClass(){
           </div>
         </div>
       );
+    }
+    return(
+      <div className="App">
+        <div className="CourseLogo1" style={{width:'150px', height:'155px'}}>
+          <img src={require('./images/cc.png')} style={{width:'150px', height:'150px'}}/>
+        </div>
+        <h2 className="CourseName1">ModuleM</h2>
+        <div style={{margin:'auto'}}>
+          <div style={{color:mainBlue, fontSize:40, textAlign:'center', position:'relative'}}>Oops !</div>
+          <div style={{color:mainBlue, fontSize:20, textAlign:'center', width: 600, position:'relative', margin:'auto'}}> This portion of the website is only available in mobile view. Please press F12, select mobile view on your desktop browser and refresh the page, or open our app on a mobile device !</div>
+          <div style={{color:mainBlue, fontSize:12, textAlign:'center', width: 600, position:'relative', margin:'auto', paddingTop:'2%'}}>>
+            <img src={require('./images/Chrome.png')} style={{height:'30px'}}/><img src={require('./images/microsoftedgenewlogo.jpg')} style={{ height:'30px'}}/><img src={require('./images/firefox.jpg')} style={{height:'30px'}}/>
+            <form action="https://digitalcitizen.life/emulate-mobile-device-desktop-browser" style={{padding: '10px'}} >
+                <input type="submit" value="Show Me How !" style={{color:'white', fontSize:16, backgroundColor: '#003fa9', borderRadius: '8px', padding: '10px'}} />
+            </form>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+    render(){
+      return this.renderContent();
     }
 
 }

@@ -1,11 +1,31 @@
 import React ,{Components, useState, useEffect} from 'react';
-import TimelineChart from './timeline';
+import StackedColumnChart from './stackedColumnChart';
+import PieChart from './pieChart';
+
 function CanvasComponent (){
-  return (
+  const [response,setResponse] = useState({});
+  useEffect(() => {
+    fetch('http://mvroso.pythonanywhere.com/coordinatorGraphs')
+       .then((response) => response.json())
+       .then((responseJson) => {
+         setResponse(responseJson);
+       })
+       .catch((error) => {
+         console.error(error);
+       });
+  },[]);
+
+  if(response.datasets != undefined){
+    return (
       <div>
-        <TimelineChart consoleID = "1" label = "Engineering" type = "activity"/>
+        <PieChart />
+        <StackedColumnChart response = {response}/>
       </div>);
+  }
+  else
+    return <div> </div>;
 
 
 }
+
 export default CanvasComponent;

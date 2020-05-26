@@ -5,6 +5,7 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import TextField from '@material-ui/core/TextField';
 import MenuItem from '@material-ui/core/MenuItem';
 import 'date-fns';
+import ActivityIcon from '@material-ui/icons/Assignment';
 import Grid from '@material-ui/core/Grid';
 import DateFnsUtils from '@date-io/date-fns';
 import {
@@ -18,7 +19,7 @@ const mainBlue = "#0061D2";
 function MyActivities (props) {
   const batch = 5;
   const headerContent = {title:"My Activities", imgPath: require("../images/icons/myActivities.svg")};
-  const [selectedDate, setSelectedDate] = useState(new Date('2019-03-14T00:00:00'));
+  const [selectedDate, setSelectedDate] = useState(props.today);
   const [selectedModule, setSelectedModule] = useState(props.filter.length == 0 ? "null": props.filter[0].value);
   const [activities, setActivities] = useState(()=>selectedModule=="All Modules" ? props.activities.filter(item => new Date(item.due_date)> selectedDate) : props.activities.filter( item => item.module_code==selectedModule).filter(item => new Date(item.due_date)> selectedDate));
   const [activitiesForRender,setActivitiesForRender] = useState(()=> activities.length <=batch ? activities: activities.slice(0,batch))
@@ -110,7 +111,12 @@ const handleChange = (module_code) => {
     return (
       <div >
         <div className="header">
-          <Header imgPath = {headerContent.imgPath}  title = {headerContent.title}/>
+        <div>
+        <div style={{left: "0",right:"0",position: 'fixed',backgroundColor: "white",top:'55px', zIndex: 1}}>
+        <ActivityIcon style={{margin:'15px 0px 10px 20px', height:'40px', width: '46px',float:'left', zIndex: 2, color:mainBlue}}/>
+          <h2 style={{fontFamily: 'Rubik',fontStyle: 'normal',fontWeight: '500',fontSize: '20px',float:'left',lineHeight: '41px',padding: '15px',color: mainBlue}}>My Activities</h2>
+        </div>
+      </div>
         </div>
         <div className="filter">
           <div>
