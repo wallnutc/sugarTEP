@@ -7,7 +7,7 @@ ReactFC.fcRoot(FusionCharts, TimeSeries);
 function TimelineModuleComponent(props){
   const [response,setResponse] = useState({});
   useEffect(() => {
-    var url = 'http://mvroso.pythonanywhere.com/timelineByModule' + props.moduleID;
+    var url = 'https://mvroso.pythonanywhere.com/timelineByModule' + props.moduleID;
     console.log(url);
     fetch(url)
        .then((response) => response.json())

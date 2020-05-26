@@ -97,7 +97,7 @@ class Coordinator extends Component  {
 
 saveClass(){
   console.log("wooo")
-  fetch('http://mvroso.pythonanywhere.com/courseByCoordinator1')
+  fetch('https://mvroso.pythonanywhere.com/courseByCoordinator1')
     .then(res => res.json())
     .then(
       (result) => {
@@ -121,7 +121,7 @@ saveClass(){
 
 
   componentDidMount() {
-    fetch('http://mvroso.pythonanywhere.com/courseByCoordinator1')
+    fetch('https://mvroso.pythonanywhere.com/courseByCoordinator1')
       .then(res => res.json())
       .then(
         (result) => {

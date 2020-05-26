@@ -5,7 +5,7 @@ export default function MakeChart() {
 
 
     useEffect(() => {
-        fetch('http://mvroso.pythonanywhere.com/coordinatorGraphs').then(res => res.json()).then(data => {
+        fetch('https://mvroso.pythonanywhere.com/coordinatorGraphs').then(res => res.json()).then(data => {
             console.log(data);
         });
     }, []);
@@ -18,7 +18,7 @@ export default function MakeChart() {
   return <div> </div>
 }
 
-//change your packages.json to include "proxy": "http://mvroso.pythonanywhere.com:5000"; !!!!!
+//change your packages.json to include "proxy": "https://mvroso.pythonanywhere.com:5000"; !!!!!
 {/*
   if(myChart == null){
       console.log("Uh Oh the Chart didn't generate")

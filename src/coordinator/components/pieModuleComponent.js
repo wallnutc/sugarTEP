@@ -9,7 +9,7 @@ charts(FusionCharts);
 function PieComponent (props){
     const [response,setResponse] = useState({});
     useEffect(() => {
-      var url = 'http://mvroso.pythonanywhere.com/activityTypePieChartsByModule' + props.moduleID.toString();
+      var url = 'https://mvroso.pythonanywhere.com/activityTypePieChartsByModule' + props.moduleID.toString();
       console.log(url);
       fetch(url)
          .then((response) => response.json())

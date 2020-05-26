@@ -533,7 +533,7 @@ const [activityTypeID, setActivityTypeID] = useState(props.activity==undefined? 
 			description: description,
       gradingDescription: gradingDescription,
     };
-    fetch("http://mvroso.pythonanywhere.com/updateActivity", {
+    fetch("https://mvroso.pythonanywhere.com/updateActivity", {
                 method: "POST",
                 cache: "no-cache",
                 body: JSON.stringify(data),
@@ -561,7 +561,7 @@ const [activityTypeID, setActivityTypeID] = useState(props.activity==undefined? 
       feedback: feedbackArray
     };
     console.log("Update Feedback", fdata);
-    fetch("http://mvroso.pythonanywhere.com/setFeedback", {
+    fetch("https://mvroso.pythonanywhere.com/setFeedback", {
                 method: "POST",
                 cache: "no-cache",
                 body: JSON.stringify(fdata),
@@ -577,7 +577,7 @@ const [activityTypeID, setActivityTypeID] = useState(props.activity==undefined? 
       var data = {
         activityID:props.newActivityFlag? 0: props.activity.activity_ID,
       };
-      fetch("http://mvroso.pythonanywhere.com/deleteActivity", {
+      fetch("https://mvroso.pythonanywhere.com/deleteActivity", {
                   method: "POST",
                   cache: "no-cache",
                   body: JSON.stringify(data),
@@ -605,7 +605,7 @@ const [activityTypeID, setActivityTypeID] = useState(props.activity==undefined? 
           notes: allNotes
             };
         console.log(data);
-            fetch("http://mvroso.pythonanywhere.com/updateActivityNotes", {
+            fetch("https://mvroso.pythonanywhere.com/updateActivityNotes", {
                         method: "POST",
                         cache: "no-cache",
                         body: JSON.stringify(data),

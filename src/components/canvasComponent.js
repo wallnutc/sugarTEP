@@ -5,7 +5,7 @@ import PieChart from './pieChart';
 function CanvasComponent (){
   const [response,setResponse] = useState({});
   useEffect(() => {
-    fetch('http://mvroso.pythonanywhere.com/coordinatorGraphs')
+    fetch('https://mvroso.pythonanywhere.com/coordinatorGraphs')
        .then((response) => response.json())
        .then((responseJson) => {
          setResponse(responseJson);

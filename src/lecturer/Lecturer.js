@@ -66,7 +66,7 @@ class Lecturer extends Component  {
 
 saveClass(){
   console.log("wooo")
-  fetch('http://mvroso.pythonanywhere.com/modulesByStaff9')
+  fetch('https://mvroso.pythonanywhere.com/modulesByStaff9')
     .then(res => res.json())
     .then(
       (result) => {
@@ -100,7 +100,7 @@ saveClass(){
 
 
   componentDidMount() {
-    fetch('http://mvroso.pythonanywhere.com/modulesByStaff9')
+    fetch('https://mvroso.pythonanywhere.com/modulesByStaff9')
       .then(res => res.json())
       .then(
         (result) => {

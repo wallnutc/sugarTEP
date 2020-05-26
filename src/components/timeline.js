@@ -8,7 +8,7 @@ ReactFC.fcRoot(FusionCharts, TimeSeries);
 export default function timelineCourse(props){
     const [response,setResponse] = useState({});
     useEffect(() => {
-        var url = "http://mvroso.pythonanywhere.com/timelineByCourse" + props.courseID
+        var url = "https://mvroso.pythonanywhere.com/timelineByCourse" + props.courseID
         fetch(url)
          .then((response) => response.json())
          .then((responseJson) => {

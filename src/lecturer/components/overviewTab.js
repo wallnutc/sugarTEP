@@ -278,7 +278,7 @@ function DetailBox(props) {
             notes: allNotes
               };
               console.log("Save module note", data);
-              fetch("http://mvroso.pythonanywhere.com/updateModuleNotes", {
+              fetch("https://mvroso.pythonanywhere.com/updateModuleNotes", {
                           method: "POST",
                           cache: "no-cache",
                           body: JSON.stringify(data),

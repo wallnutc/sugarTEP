@@ -458,7 +458,7 @@ function DetailBox(props) {
     console.log(data.activities);
     data.activities.map((item)=>console.log(item))
 
-        fetch("http://mvroso.pythonanywhere.com/updateClass", {
+        fetch("https://mvroso.pythonanywhere.com/updateClass", {
                     method: "POST",
                     cache: "no-cache",
                     body: JSON.stringify(data),
@@ -485,7 +485,7 @@ function DetailBox(props) {
     };
     console.log(fdata);
     console.log(feedbackArray);
-    fetch("http://mvroso.pythonanywhere.com/setFeedback", {
+    fetch("https://mvroso.pythonanywhere.com/setFeedback", {
                 method: "POST",
                 cache: "no-cache",
                 body: JSON.stringify(fdata),
@@ -516,7 +516,7 @@ const saveNote = () => {
   			notes: allNotes
           };
       console.log(data);
-          fetch("http://mvroso.pythonanywhere.com/updateClassNotes", {
+          fetch("https://mvroso.pythonanywhere.com/updateClassNotes", {
                       method: "POST",
                       cache: "no-cache",
                       body: JSON.stringify(data),

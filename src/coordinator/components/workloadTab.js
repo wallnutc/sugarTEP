@@ -305,7 +305,7 @@ function SelectorBox(props) {
           notes: allNotes
             };
         console.log(data);
-            fetch("http://mvroso.pythonanywhere.com/updateModuleNotes", {
+            fetch("https://mvroso.pythonanywhere.com/updateModuleNotes", {
                         method: "POST",
                         cache: "no-cache",
                         body: JSON.stringify(data),

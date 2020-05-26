@@ -12,7 +12,7 @@ function FeedbackDialByQuestion(props){
     console.log(props.type);
     const [response,setResponse] = useState({});
     useEffect(() => {
-      var url = 'http://mvroso.pythonanywhere.com/feedbackBy' + props.type.toString() + props.activityID.toString()
+      var url = 'https://mvroso.pythonanywhere.com/feedbackBy' + props.type.toString() + props.activityID.toString()
       console.log("dial rendered");
       console.log(url);
       fetch(url)

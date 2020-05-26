@@ -9,7 +9,7 @@ charts(FusionCharts);
 function StudentPieComponent (props){
     const [response,setResponse] = useState({});
     useEffect(() => {
-      var url = 'http://mvroso.pythonanywhere.com/studentsByModule' + props.moduleID.toString();
+      var url = 'https://mvroso.pythonanywhere.com/studentsByModule' + props.moduleID.toString();
       fetch(url)
          .then((response) => response.json())
          .then((responseJson) => {

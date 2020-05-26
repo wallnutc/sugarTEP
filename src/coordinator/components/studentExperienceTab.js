@@ -150,7 +150,7 @@ function SelectorBox(props) {
   const [students,setStudents] = useState({});
   const [isLoaded,setIsLoaded] = useState(false);
   useEffect(() => {
-    var url = 'http://mvroso.pythonanywhere.com/activityTypePieChartsByModule' + props.module_ID.toString();
+    var url = 'https://mvroso.pythonanywhere.com/activityTypePieChartsByModule' + props.module_ID.toString();
     console.log(url);
     fetch(url)
        .then((response) => response.json())
@@ -162,7 +162,7 @@ function SelectorBox(props) {
        .catch((error) => {
          console.error(error);
        });
-     fetch('http://mvroso.pythonanywhere.com/studentsByModule' + props.module_ID.toString())
+     fetch('https://mvroso.pythonanywhere.com/studentsByModule' + props.module_ID.toString())
         .then((response) => response.json())
         .then((responseJson) => {
           setStudents(responseJson);
