@@ -8,7 +8,6 @@ import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import TextField from '@material-ui/core/TextField';
-import HelpIcon from '@material-ui/icons/Help';
 import StackedColumnChart from './stackedColumnChart';
 import TodayIcon from '@material-ui/icons/Today';
 import ScheduleIcon from '@material-ui/icons/Schedule';
@@ -20,8 +19,7 @@ import PieModule from './pieModuleComponent.js';
 import TimelineModule from './timelineModuleComponent.js';
 import AssignmentIcon from '@material-ui/icons/Assignment';
 import DatePick from './datePicker';
-import {FeedbackPanel} from "./listRenderer";
-import Tooltip from "@material-ui/core/Tooltip";
+import {FeedbackPanel,FeedbackSelectorPanel} from "./listRenderer";
 import 'date-fns';
 import DateFnsUtils from '@date-io/date-fns';
 import {
@@ -40,7 +38,7 @@ import invert from 'invert-color';
 import Switch from '@material-ui/core/Switch';
 import Timeline from './timelineComponent.js';
 import NestedPie from './nestedPieCourseComponent.js';
-
+import FeedbackBarCourse from "./feedbackBarModuleComponent";
 
 function decreaseBrightness(hex, percent){
     // strip the leading # if it's there
@@ -224,8 +222,12 @@ const classes = useStyles();
 const [value, setValue] = React.useState(0);
 const [courseExprience,setCourseExperience] = useState({});
 const [isLoaded,setIsLoaded] = useState(false);
+console.log("course object");
+console.log(props.course)
+console.log("feedbackInFocus")
+console.log(props.feedbackInFocus);
 useEffect(() => {
-  var url = 'https://mvroso.pythonanywhere.com/activityTypePieChartsByCourse' + props.course.course_ID.toString();
+  var url = 'http://mvroso.pythonanywhere.com/activityTypePieChartsByCourse' + props.course.course_ID.toString();
   console.log(url);
   fetch(url)
      .then((response) => response.json())
@@ -269,7 +271,25 @@ return (
     <TabPanel  value={value} index={1}>
         <div className = 'selectorBox' style={{height: '530px'}}>
           {isLoaded? <div style={{fontSize: 'small'}}>
-            Your Feedback Selector List (Panels with Dials)
+            {props.course.modules.map((module) => {
+              const moduleID=module.module_ID
+              const moduleName=module.module_name
+              return(<div> {module.activity_feedback.map((feedback) =>
+                 <FeedbackSelectorPanel onClick={()=>props.selectFeedback(moduleID,feedback.feedback_question_ID,"activity")}
+                 expanded={props.feedbackInFocus.moduleID==moduleID && props.feedbackInFocus.feedbackID==feedback.feedback_question_ID && props.feedbackInFocus.type=='activity' }
+                 moduleName={moduleName} moduleID= {moduleID} questionName={feedback.feedback_title} type = "activity"/> )}
+
+                 {module.class_feedback.map((feedback) =>
+                    <FeedbackSelectorPanel onClick={() => props.selectFeedback(moduleID,feedback.feedback_question_ID,"class")}
+                    expanded={props.feedbackInFocus.moduleID==moduleID && props.feedbackInFocus.feedbackID==feedback.feedback_question_ID && props.feedbackInFocus.type=='class' }
+                    moduleName={moduleName} moduleID= {moduleID} questionName={feedback.feedback_title} type = "class"/> )}
+                 </div>)
+
+            })}
+            {/*expanded={props.feedbackInFocus.moduleID==moduleID && props.feedbackInFocus.feedbackID==feedback.feedback_ID }
+              <div>{"module:" + moduleID + " - " + moduleName + " - " + feedback.feedback_ID}</div>
+              console.log("module:" + moduleID + " - " + moduleName);console.log(feedback);
+              <FeedbackSelectorPanel moduleName={moduleName} moduleID= {moduleID} questionName={feedback.feedback_ID}/>*/}
           </div>:null}
         </div>
     </TabPanel>
@@ -284,10 +304,10 @@ function DetailBox(props) {
     const [newNote, setNewNote] = useState([]);
     useEffect(() => {
       setNewNote("");
-      setNotes(props.course==undefined? []:props.course.notes);
-    },[props.course]);
+      setNotes(props.module==undefined? []:props.module.notes);
+    },[props.module]);
 
-    const [notes, setNotes] = useState(props.course==undefined? []:props.course.notes);
+    const [notes, setNotes] = useState(props.module==undefined? []:props.module.notes);
     const [pieType, setPieType] = useState("hours");
     const [timeType, setTimeType] = useState("Month");
     const [timeMode, setTimeMode] = useState("Module");
@@ -314,7 +334,7 @@ function DetailBox(props) {
       }
       setNotes(tempNotes);
     }
-  
+
   const saveNote = () => {
     var x = document.getElementById("noteButton");
     x.style.display = "none";
@@ -326,7 +346,7 @@ function DetailBox(props) {
           notes: allNotes
             };
         console.log(data);
-            fetch("https://mvroso.pythonanywhere.com/updateCourseNotes", {
+            fetch("http://mvroso.pythonanywhere.com/updateCourseNotes", {
                         method: "POST",
                         cache: "no-cache",
                         body: JSON.stringify(data),
@@ -339,7 +359,7 @@ function DetailBox(props) {
   }
   return (
       <div className={classes.root}>
-    {props.workload == 0 ? 
+    {props.workload == 0 ?
     <div>
           <div className={classes.demo1}>
             <AntTabs value={props.value} onChange={props.handleChange} aria-label="ant example" style={{marginLeft:'27px',}}>
@@ -347,14 +367,11 @@ function DetailBox(props) {
                 <AntTab label="Time Series" style={{color: props.colour}}/>
             </AntTabs>
           </div>
-  
+
         <TabPanel  value={props.value} index={0}>
           <div className = 'detailBoxCourse' style = {{color: props.colour}}>
-              
+
             <div style = {{margin:'8px 0', height: '100%',position:'relative'}}>
-              <Tooltip title="Hover over the graph to view the contents" placement="right" style={{fontSize:'18px', color:'white', rippleBackgroundColor:props.colour, opacity:0.7}}>
-                <HelpIcon color= {props.colour} style={{height:'20px', color: props.colour}}/>
-              </Tooltip>
                 <NestedPie courseID={props.course.course_ID} label={props.course.course_name}/>
             </div>
             <div style = {{margin:'10px 0',position:'relative'}}>
@@ -419,39 +436,10 @@ function DetailBox(props) {
               </span>
             </div>
 
-            <div style = {{margin:'8px 15px 0', height: '73%',position:'relative'}}>
-              <Tooltip title="Hover over the graph to view the contents" placement="right" style={{fontSize:'18px', color:'white', rippleBackgroundColor:props.colour, opacity:0.7}}>
-                <HelpIcon color= {props.colour} style={{height:'20px', color: props.colour}}/>
-              </Tooltip>
+            <div style = {{margin:'8px 0', height: '52%',position:'relative'}}>
               <Timeline courseID={props.course.course_ID} label={props.course.course_name} mode={timeMode} bin={timeType}/>
             </div>
-            <div style = {{margin:'10px 0', position:'relative', padding:'10px 0px'}}>
-            {notes.map((note,index) => <div><TextField
-                        multiline
-                        id="standard-read-only-input"
-                        key={note.text}
-                        defaultValue={note.text}
-                        style={{width:'85%', margin:'10px 0'}}
-                        variant="outlined"
-                        rows={5}
-                        InputProps={{
-                          readOnly: true,
-                        }}/>
-                        {     <IconButton aria-label="delete" onClick={()=>deleteNotes(note.text)}>
-                                <ClearRoundedIcon  />
-                              </IconButton>}
-                          </div>
-                      )}
-              <TextField variant="outlined" fullWidth label="New Note" value={newNote} onChange={(e) => setNewNote(e.target.value)} style={{padding:'10px 0px'}}/>
-              <Button id = "noteButton" onClick={() => saveNote()} type='submit' variant="contained" color="default" disableElevation fullWidth
-              style={{margin:'10px 0px', textTransform: 'none', backgroundColor: props.colour, color: 'white'}}> Save Notes </Button>
-            </div>
-          </div>
-        </TabPanel>
-    </div>
-    :<div>
-        Insert your code for feedback here
-        <div style = {{margin:'10px 0', position:'relative'}}>
+            <div style = {{margin:'10px 0', position:'relative'}}>
             {notes.map((note,index) => <div><TextField
                         multiline
                         id="standard-read-only-input"
@@ -471,8 +459,41 @@ function DetailBox(props) {
               <TextField variant="outlined" fullWidth label="New Note" value={newNote} onChange={(e) => setNewNote(e.target.value)}/>
               <Button id = "noteButton" onClick={() => saveNote()} type='submit' variant="contained" color="default" disableElevation fullWidth
               style={{margin:'10px 0px', textTransform: 'none', backgroundColor: props.colour, color: 'white'}}> Save Notes </Button>
+            </div>
+          </div>
+        </TabPanel>
+    </div>
+    :<div style={{margin : '30px'}}>
+        <div style = {{margin:'10px 0', position:'relative', height: 500}}>
+          <div style = {{fontWeight: 'normal', fontStyle:'italic', fontSize: '16px', position: 'relative', width:'100%', padding:'10px'}} >"{props.feedbackSelected.feedback_description}"</div>
+          <FeedbackBarCourse moduleID= {props.feedbackSelected.moduleID} questionName={props.feedbackSelected.feedback_title} type={props.feedbackSelected.type} height= '470'/>
         </div>
-    </div>}
+        <div style = {{margin:'10px 0', position:'relative'}}>
+            {notes.map((note,index) => <div><TextField
+                        multiline
+                        id="standard-read-only-input"
+                        key={note.text}
+                        defaultValue={note.text}
+                        style={{width:'85%', margin:'10px 0'}}
+                        variant="outlined"
+                        rows={5}
+                        InputProps={{
+                          readOnly: true,
+                        }}/>
+                        {     <IconButton aria-label="delete" onClick={()=>deleteNotes(note.text)}>
+                                <ClearRoundedIcon  />
+                              </IconButton>}
+                          </div>
+                      )}
+          </div>
+              <div style = {{margin:'10px 0', position:'relative'}}>
+              <TextField variant="outlined" fullWidth label="New Note" value={newNote} onChange={(e) => setNewNote(e.target.value)}/>
+              <Button id = "noteButton" onClick={() => saveNote()} type='submit' variant="contained" color="default" disableElevation fullWidth
+              style={{margin:'10px 0px', textTransform: 'none', backgroundColor: props.colour, color: 'white'}}> Save Notes </Button>
+              </div>
+        </div>
+    
+  }
     </div>
     );
 }
@@ -480,22 +501,57 @@ function DetailBox(props) {
 export default function HomepageTab(props){
     const [detailBoxValue, setDetailBoxValue] = useState(0);
     const [workloadTabSelected, setWorkloadTabSelected] = useState(0);
+    const [feedbackInFocus,setFeedbackInFocus] = useState({moduleID:4,feedbackID:2,type:'activity'})
+
+    var feedbackForDetailBox;
+    var moduleID;
+    var moduleName;
+    for(var i=0;i<props.course.modules.length;i++){
+      moduleID=props.course.modules[i].module_ID
+      moduleName=props.course.modules[i].module_name
+      if(feedbackInFocus.type=='activity'){
+        var temp = props.course.modules[i].activity_feedback.find((feedback) => feedbackInFocus.moduleID==moduleID && feedbackInFocus.feedbackID==feedback.feedback_question_ID )
+        temp = {...temp, type:"activity"}
+      }
+      else if (feedbackInFocus.type=='class') {
+        var temp = props.course.modules[i].class_feedback.find((feedback) => feedbackInFocus.moduleID==moduleID && feedbackInFocus.feedbackID==feedback.feedback_question_ID )
+        temp = {...temp, type:"class"}
+      }
+      if (temp != undefined){
+        feedbackForDetailBox = {...temp,
+              moduleName:props.course.modules[i].module_name,
+              moduleID:props.course.modules[i].module_ID};
+        break;
+      }
+    }
+
+
+    console.log("feedback for detail box");
+    console.log(feedbackForDetailBox);
+
     function handleChangeDetailBox(event, newValue) {
       setDetailBoxValue(newValue);
+    }
+    function handleChangeFeedback(moduleID, feedbackID,type) {
+      setFeedbackInFocus(
+        {moduleID: moduleID,
+        feedbackID: feedbackID,
+        type: type,
+        })
     }
     return (
     <div style = {{margin:0,padding:0}}>
         <div  style = {{float:'left',height:'700px',width:'32.5%',}}>
         <div style = {{position:'relative', top:'27px', left:'35px', fontFamily: 'Rubik', fontStyle: 'normal', fontWeight: '300', fontSize: '14px',lineHeight: '17px', display: 'flex', alignItems: 'center', color: '#414141'}} >List </div>
           <div style = {{ position:'relative',top:'30px',marginRight:'auto', marginLeft:'auto'}}>
-            <SelectorBox course={props.course} colour={props.colour} tabChange={setWorkloadTabSelected}/>
+            <SelectorBox selectFeedback={handleChangeFeedback} feedbackInFocus={feedbackInFocus} course={props.course} colour={props.colour} tabChange={setWorkloadTabSelected}/>
           </div>
         </div>
 
         <div className = 'detailBoxCourse' style = {{float:'left',height:'700px',width:'67%'}}>
         <div style = {{position:'relative', top:'27px', left:'35px', fontFamily: 'Rubik', fontStyle: 'normal', fontWeight: '300', fontSize: '14px', lineHeight: '17px', display: 'flex', alignItems: 'center', color: '#414141'}} > Mode </div>
         <div style = {{position:'relative', top:'30px',marginRight:'auto', marginLeft:'auto'}}>
-            <DetailBox  value={detailBoxValue} handleChange= {handleChangeDetailBox} workload={workloadTabSelected}  setState={props.setState} course={props.course} colour = {props.colour} />
+            <DetailBox  feedbackSelected={feedbackForDetailBox} value={detailBoxValue} handleChange= {handleChangeDetailBox} workload={workloadTabSelected}  setState={props.setState} course={props.course} colour = {props.colour} />
         </div>
         </div>
     </div>
@@ -511,7 +567,7 @@ export default function HomepageTab(props){
             <div style={{height:'50%', width:'100%',position: 'relative'}}><Timeline courseID={props.course.course_ID} label={props.course.course_name} mode={"Activity Type"} bin={"Month"}/></div>
             <div style={{height:'50%', width:'100%',position: 'relative'}}><Timeline courseID={props.course.course_ID} label={props.course.course_name} mode={"Activity Type"} bin={"Week"}/></div>
             <div style={{height:'50%', width:'100%',position: 'relative'}}><Timeline courseID={props.course.course_ID} label={props.course.course_name} mode={"Activity Type"} bin={"Semester"}/></div>
-       
+
 
 
 */}

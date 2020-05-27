@@ -420,7 +420,7 @@ function SelectorBox(props) {
 
             <div style = {{margin:'8px 0', height: '62%',position:'relative'}}>
             { props.module.activity_feedback.length==0 ? <div> No Feedback Questions Set</div>:
-              props.module.activity_feedback.map((item)=> <FeedbackPanelCourse moduleID={props.module.module_ID} questionName={item.feedback_title} type='activity'/>)}
+              props.module.activity_feedback.map((item)=> <FeedbackPanelCourse moduleID={props.module.module_ID} questionName={item.feedback_title} description={item.feedback_description} type='activity'/>)}
 
             <div style = {{margin:'10px 0', position:'relative'}}>
             {notes.map((note,index) => <div><TextField

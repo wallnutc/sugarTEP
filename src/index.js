@@ -9,6 +9,11 @@ import * as serviceWorker from './serviceWorker';
 import NotFoundPage from './404';
 import Coordinator from './coordinator/Coordinator';
 
+function prodCheck() {
+  //if (process.env.NODE_ENV !== "development")
+    console.log = () => {};
+}
+prodCheck();
 ReactDOM.render(
   <React.StrictMode>
   <BrowserRouter>
@@ -23,6 +28,7 @@ ReactDOM.render(
 </BrowserRouter>
   </React.StrictMode>,
   document.getElementById('root')
+  
 );
 
 // If you want your app to work offline and load faster, you can change

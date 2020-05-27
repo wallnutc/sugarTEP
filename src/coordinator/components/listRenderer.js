@@ -17,6 +17,7 @@ import LocationOnOutlinedIcon from '@material-ui/icons/LocationOnOutlined';
 import FeedbackDial from "./feedbackDialComponent";
 import FeedbackBar from "./feedbackBarComponent";
 import FeedbackDialCourse from "./feedbackDialModuleComponent";
+import FeedbackDialHomepage from "./feedbackDialCourseComponent";
 import FeedbackBarCourse from "./feedbackBarModuleComponent";
 import invert from 'invert-color';
 
@@ -238,7 +239,35 @@ export function FeedbackPanel(props) {
   );
 }
 
+export function FeedbackSelectorPanel(props) {
+  //***************needed Props: activityID, activity type (Class or Activity), questionName
+  return (
+    <div style={{padding:'7px 24px'}}>
+      <ExpansionPanel expanded={props.expanded}>
+          <ExpansionPanelSummary onClick={props.onClick} style = {{padding:'0 0 0 0'}}>
+          <div style = {{width:'100%',padding:'10px 0', fontFamily: 'Rubik', fontStyle: 'normal'}}>
+            <div style = {{float:'left', padding:'0 20px ',height:'100%'}}>
+              <MenuBookIcon color='action' style={{fontSize:'45px'}} />
+            </div>
+            <div>
+              <div style = {{fontWeight: 'normal', fontSize: '14px', lineHeight: '14px', position: 'relative'}}>{props.moduleName}</div>
+              <div style = {{position: 'relative'}}>{props.questionName}</div>
+            </div>
+          </div>
+          </ExpansionPanelSummary>
+      <ExpansionPanelDetails >
+        <div style={{width:'100%', height: 150}} >
+        <FeedbackDialHomepage moduleID = {props.moduleID} questionName={props.questionName} type={props.type} height='150'/>
+        {/*<FeedbackDialCourse moduleID= {props.moduleID} questionName={props.questionName} type={props.type}/>
+          <FeedbackBarCourse moduleID= {props.moduleID} questionName={props.questionName} type={props.type}/>
+          */}
 
+        </div>
+      </ExpansionPanelDetails >
+      </ExpansionPanel>
+    </div>
+  );
+}
 
 export function FeedbackPanelCourse(props) {
   //***************needed Props: activityID, activity type (Class or Activity), questionName
