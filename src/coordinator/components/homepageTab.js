@@ -227,7 +227,7 @@ console.log(props.course)
 console.log("feedbackInFocus")
 console.log(props.feedbackInFocus);
 useEffect(() => {
-  var url = 'http://mvroso.pythonanywhere.com/activityTypePieChartsByCourse' + props.course.course_ID.toString();
+  var url = 'https://mvroso.pythonanywhere.com/activityTypePieChartsByCourse' + props.course.course_ID.toString();
   console.log(url);
   fetch(url)
      .then((response) => response.json())
@@ -346,7 +346,7 @@ function DetailBox(props) {
           notes: allNotes
             };
         console.log(data);
-            fetch("http://mvroso.pythonanywhere.com/updateCourseNotes", {
+            fetch("https://mvroso.pythonanywhere.com/updateCourseNotes", {
                         method: "POST",
                         cache: "no-cache",
                         body: JSON.stringify(data),
