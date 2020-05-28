@@ -1385,7 +1385,7 @@ export default function ActivityTab(props) {
   //   setFocusID(newValue);
   // }
   return (
-    <div style = {{margin:0,padding:0}}>
+    <div style = {{margin:0,padding:0, maxWidth:'906px'}}>
       <div  style = {{float:'left',height:'500px',width:'calc(100% - 608px)',}}>
         <div style = {{position:'relative', top:'27px', left:'35px', fontFamily: 'Rubik', fontStyle: 'normal', fontWeight: '300', fontSize: '14px',
  lineHeight: '17px', display: 'flex', alignItems: 'center', color: '#414141'}} >Activity Status </div>

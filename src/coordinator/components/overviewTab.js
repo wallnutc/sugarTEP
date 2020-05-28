@@ -407,7 +407,7 @@ export default function OverviewTab(props) {
       </div>
       <div className = 'detailBox' style = {{float:'left',height:'500px',width:'608px',borderRadius:'0 8px 8px 0' }}>
       <div style = {{position:'relative', top:'27px', left:'35px', fontFamily: 'Rubik', fontStyle: 'normal', fontWeight: '300', fontSize: '14px',
-lineHeight: '17px', display: 'flex', alignItems: 'center', color: '#414141'}} > Summaries </div>
+        lineHeight: '17px', display: 'flex', alignItems: 'center', color: '#414141'}} > Summaries </div>
         <div style = {{position:'relative', top:'30px',marginRight:'auto', marginLeft:'auto'}}>
 
           <DetailBox setState={props.setState} today={props.today} activities={props.activities} classes={props.classes} colour={props.colour} module_notes = {props.module_notes} module_ID = {props.module_ID} module_name = {props.module_name} />
