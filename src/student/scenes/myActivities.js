@@ -21,18 +21,12 @@ function MyActivities (props) {
   const headerContent = {title:"My Activities", imgPath: require("../images/icons/myActivities.svg")};
   const [selectedDate, setSelectedDate] = useState(props.today);
   const [selectedModule, setSelectedModule] = useState(props.filter.length == 0 ? "null": props.filter[0].value);
-  const [activities, setActivities] = useState(()=>selectedModule=="All Modules" ? props.activities.filter(item => new Date(item.due_date)> selectedDate) : props.activities.filter( item => item.module_code==selectedModule).filter(item => new Date(item.due_date)> selectedDate));
+  const [activities, setActivities] = useState(()=>selectedModule=="All Modules" ? props.activities.filter(item => new Date(item.due_date)>= selectedDate) : props.activities.filter( item => item.module_code==selectedModule).filter(item => new Date(item.due_date)>= selectedDate));
   const [activitiesForRender,setActivitiesForRender] = useState(()=> activities.length <=batch ? activities: activities.slice(0,batch))
   const [renderIndex, setRenderIndex] = useState(batch);
   const [hasMore,setHasMore] =  useState(true);
   const [popupActivity,setPopupActivity] = useState({})
-  console.log("activities");
-  console.log(selectedDate);
-  console.log(new Date('2018-10-22T00:00:00'));
-  console.log(selectedDate==new Date('2018-10-22T00:00:00'));
-  console.log(selectedDate.getTime()===new Date('2018-10-22T00:00:00').getTime());
-  console.log("selected activity:");
-  console.log(popupActivity);
+
   const [showPopup,setShowPopup] = useState(false);
   const togglePopup = (activity) => {
     if(!showPopup) setPopupActivity(activity);
@@ -66,7 +60,7 @@ setSelectedDate(date);
 console.log("entrei");
 if(selectedModule != "All Modules" ){
 
-  const tempActivities = props.activities.filter( item => item.module_code==selectedModule).filter(item => new Date(item.due_date)> date);
+  const tempActivities = props.activities.filter( item => item.module_code==selectedModule).filter(item => new Date(item.due_date)>= date);
   setActivities(tempActivities);
   setActivitiesForRender(()=>tempActivities.length <=batch ? tempActivities: tempActivities.slice(0,batch));
   setRenderIndex(batch);
@@ -75,8 +69,8 @@ if(selectedModule != "All Modules" ){
 }
 else{
 
-  setActivities(props.activities.filter(item => new Date(item.due_date)> date));
-  setActivitiesForRender(()=>props.activities.length <=batch ? props.activities.filter(item => new Date(item.due_date)> date): props.activities.filter(item => new Date(item.due_date)> date).slice(0,batch));
+  setActivities(props.activities.filter(item => new Date(item.due_date)>= date));
+  setActivitiesForRender(()=>props.activities.length <=batch ? props.activities.filter(item => new Date(item.due_date)>= date): props.activities.filter(item => new Date(item.due_date)>= date).slice(0,batch));
   setRenderIndex(batch);
   setHasMore(true);
   window.scrollTo(0, 0);
@@ -88,7 +82,7 @@ const handleChange = (module_code) => {
   // console.log(module_code);
   // console.log(module_code==null);
   if(module_code != "All Modules" ){
-    const tempActivities = props.activities.filter( item => item.module_code==module_code).filter(item => new Date(item.due_date)> selectedDate);
+    const tempActivities = props.activities.filter( item => item.module_code==module_code).filter(item => new Date(item.due_date)>= selectedDate);
     // console.log("atualizei:");
     setActivities(tempActivities);
     // console.log("quantidade total: " +　tempActivities.length);
@@ -98,9 +92,9 @@ const handleChange = (module_code) => {
     window.scrollTo(0, 0);
   }
   else{
-    setActivities(props.activities.filter(item => new Date(item.due_date)> selectedDate));
-    setActivitiesForRender(()=>props.activities.length <=batch ? props.activities.filter(item => new Date(item.due_date)> selectedDate)
-    : props.activities.filter(item => new Date(item.due_date)> selectedDate).slice(0,batch));
+    setActivities(props.activities.filter(item => new Date(item.due_date)>= selectedDate));
+    setActivitiesForRender(()=>props.activities.length <=batch ? props.activities.filter(item => new Date(item.due_date)>= selectedDate)
+    : props.activities.filter(item => new Date(item.due_date)>= selectedDate).slice(0,batch));
     setRenderIndex(batch);
     setHasMore(true);
     window.scrollTo(0, 0);
@@ -123,7 +117,7 @@ const handleChange = (module_code) => {
 
           <div style={{padding:"0 16px", display:'flex', color: mainBlue}}>
             <span style={{margin:'16px 8px'}}><FilterMenu default={selectedModule=="All Modules"? true:false} callback={handleChange} label='Modules' options={props.filter}/> </span>
-            <span style={{margin:'16px 8px'}}><DateFilter default={selectedDate.getTime()===new Date('2018-10-22T00:00:00').getTime()? true:false} callback={handleDateChange} label='Date' date={selectedDate}/></span>
+            <span style={{margin:'16px 8px'}}><DateFilter default={selectedDate.getTime()===props.today.getTime()? true:false} callback={handleDateChange} label='Date' date={selectedDate}/></span>
           </div>
             {showPopup ?
             <ActivityProgressPopup
@@ -155,7 +149,7 @@ const handleChange = (module_code) => {
                 if (newWeekIndexes.includes(index) ) {
                   return(
 
-                  <div key={index}>
+                  <div key={i.module_code+i.due_date}>
                     <div style={{
                       margin:'16px 0 0 24px',
                       fontFamily: 'Rubik',
@@ -167,7 +161,7 @@ const handleChange = (module_code) => {
                   </div>
                 );}
                 else{
-                  return(<div key={index}>
+                  return(<div key={i.module_code+i.due_date}>
                     <ActivityPanel onClick={togglePopup} item={i} setState={props.setState} />
                   </div>);
                 }

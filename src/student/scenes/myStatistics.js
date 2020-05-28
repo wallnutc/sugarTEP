@@ -10,54 +10,32 @@ import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import BarIcon from '@material-ui/icons/Assessment';
+import Button from '@material-ui/core/Button';
+
 const mainBlue = "#0061D2";
-function TabPanel(props) {
-  const { children, value, index, ...other } = props;
-
-  return (
-    <div
-      role="tabpanel"
-      hidden={value !== index}
-      id={`simple-tabpanel-${index}`}
-      aria-labelledby={`simple-tab-${index}`}
-      {...other}
-    >
-      {value === index && (
-        <Box p={3}>
-          <Typography>{children}</Typography>
-        </Box>
-      )}
-    </div>
-  );
-}
-
-TabPanel.propTypes = {
-  children: PropTypes.node,
-  index: PropTypes.any.isRequired,
-  value: PropTypes.any.isRequired,
-};
-
-function a11yProps(index) {
-  return {
-    id: `simple-tab-${index}`,
-    'aria-controls': `simple-tabpanel-${index}`,
-  };
-}
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    flexGrow: 1,
-    backgroundColor: theme.palette.background.paper,
-  },
-}));
 
 function MyStatistics (props) {
-  const classes = useStyles();
-  const [value, setValue] = React.useState(0);
 
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
-  };
+  const [filterState, setFilterState] = React.useState(0);
+
+  const renderGraph = (v)=>{
+    switch (v) {
+      case 0:
+        return (<div style = {{display: 'inline-block', position: 'relative', height: 700}}>
+          <PieCourseComponent courseID = {props.student.course_ID} label = {props.student.label} type = "module"/></div>);
+      case 1:
+        return(  <div style = {{display: 'inline-block', position: 'relative', height: 700}}>
+          <PieCourseComponent courseID = {props.student.course_ID} label = {props.student.label} type = "grade"/></div>)
+      case 2:
+        return(<div style = {{display: 'inline-block', position: 'relative', height: 700}}>
+        <PieCourseComponent courseID = {props.student.course_ID} label = {props.student.label} type = "grade"/></div>
+        );
+      case 3:
+        return(<div style = {{position: 'relative', height: 400, width: "100%"}}>
+        <TimelineComponent courseID = {props.student.course_ID} label = {props.student.label}/></div>
+        );
+    }
+  }
   console.log(props.student.label);
   const headerContent = {title:"My Statistics", imgPath: require("../images/icons/myStatistics.svg")};
   if(props.student != undefined){
@@ -75,40 +53,24 @@ function MyStatistics (props) {
 
           <div style = {{fontWeight: 300, width:'90%', height: '100%', textAlign: 'justify', display: 'inline-block', fontWeight: 'normal', fontSize: '14px', lineHeight: '17px'}}> Overview of the expected workload for your entire year, divided by module, activity type, hourly contribution and grade contribution.</div>
           <div style = {{margin:'12px 0 0 5% ',padding:'10px', fontWeight: 300, color:'#AFAFAF',textAlign: 'justify' }}> breakdown by: </div>
-          <div className={classes.root} style = {{width: '100%', margin:'0px ',padding:'0px'}}>
-          <AppBar position="static">
-            <Tabs style={{backgroundColor:"white"}} indicatorColor="primary"
-                textColor="primary" value={value} onChange={handleChange} aria-label="simple tabs example">
-              <Tab style={{width:'25%',textTransform:'none',}} wrapped label="Module (Total)" {...a11yProps(0)} />
-              <Tab style={{width:'25%',textTransform:'none'}} wrapped label="Activity Type (Hours)" {...a11yProps(1)} />
-              <Tab style={{width:'25%',textTransform:'none'}} wrapped label="Activity Type (Grade)" {...a11yProps(2)} />
-              <Tab style={{width:'25%',textTransform:'none'}} wrapped label="Modules (Time Series)" {...a11yProps(3)} />
-            </Tabs>
-          </AppBar>
-          <TabPanel value={value} index={0}>
-            <div style = {{display: 'inline-block', position: 'relative', height: 700}}>
-            <PieCourseComponent courseID = {props.student.course_ID} label = {props.student.label} type = "module"/></div>
-          </TabPanel>
-          <TabPanel value={value} index={1}>
-            <div style = {{display: 'inline-block',position: 'relative', height: 700}}>
-            <PieCourseComponent courseID = {props.student.course_ID} label = {props.student.label} type = "activity"/></div>
+          <div >
+          <Button variant="contained" color="primary" aria-controls="fade-menu" aria-haspopup="true" onClick = {()=>setFilterState(0)}
+          style={{margin:'8px',lineHeight:0, height: '24px',borderRadius:'12px',textTransform: 'none', padding:0, backgroundColor: filterState==0? "#0153B4":'#F6F7FA',}}
+          children ={<span style={{margin:'0 10px',lineHeight:'0',color:filterState==0? "#FFFFFF":'#0061D2'}}> Module (Total)  </span>}></Button>
+          <Button variant="contained" color="primary" aria-controls="fade-menu" aria-haspopup="true" onClick = {()=>setFilterState(3)}
+          style={{margin:'8px',lineHeight:0, height: '24px',borderRadius:'12px',textTransform: 'none', padding:0, backgroundColor: filterState==3? "#0153B4":'#F6F7FA',}}
+          children ={<span style={{margin:'0 10px',lineHeight:'0',color:filterState==3? "#FFFFFF":'#0061D2'}}> Modules (Time Series)  </span>}></Button>
+          <Button variant="contained" color="primary" aria-controls="fade-menu" aria-haspopup="true" onClick = {()=>setFilterState(1)}
+          style={{margin:'8px',lineHeight:0, height: '24px',borderRadius:'12px',textTransform: 'none', padding:0, backgroundColor: filterState==1? "#0153B4":'#F6F7FA',}}
+          children ={<span style={{margin:'0 10px',lineHeight:'0',color:filterState==1? "#FFFFFF":'#0061D2'}}> Activity Type (Hours)  </span>}></Button>
 
-          </TabPanel>
-          <TabPanel value={value} index={2}>
-            <div style = {{display: 'inline-block', position: 'relative', height: 700}}>
-            <PieCourseComponent courseID = {props.student.course_ID} label = {props.student.label} type = "grade"/></div>
 
-          </TabPanel>
-          <TabPanel value={value} index={3}>
-            <div style = {{position: 'relative', height: 400, width: "100%"}}>
-            <TimelineComponent courseID = {props.student.course_ID} label = {props.student.label}/></div>
+          <Button variant="contained" color="primary" aria-controls="fade-menu" aria-haspopup="true" onClick = {()=>setFilterState(2)}
+          style={{margin:'8px',lineHeight:0, height: '24px',borderRadius:'12px',textTransform: 'none', padding:0, backgroundColor: filterState==2? "#0153B4":'#F6F7FA',}}
+          children ={<span style={{margin:'0 10px',lineHeight:'0',color:filterState==2? "#FFFFFF":'#0061D2'}}> Activity Type (Grade) </span>}></Button>
 
-          </TabPanel>
           </div>
-
-
-
-
+          {renderGraph(filterState)}
         </div>
 
       </div>

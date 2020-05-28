@@ -32,8 +32,8 @@ class App extends Component  {
             <div className="CourseCardsBox" >
             <div className="container-fluid d-flex justify-content-center" >
             <div className="row">
-                <div className="col-sm-4" style={{paddingTop:'2%'}}><div><Link to={'/student'} style={{ textDecoration: 'none' }}>
-                    <Card style={{ maxWidth: 250, margin: 'auto' }}>
+                <div className="col-sm-4" style={{paddingTop:'2%',paddingBottom:'1%'}}><div><Link to={'/student'} style={{ textDecoration: 'none' }}>
+                    <Card style={{ maxWidth: 250, margin: 'auto'}}>
                         <CardActionArea>
                             <CardMedia
                                 component="img"
@@ -45,7 +45,7 @@ class App extends Component  {
                                 <Typography gutterBottom variant="h5" component="h2">
                                     Student
                                 </Typography>
-                                <Typography variant="caption" color="textSecondary" component="p" style={{height: '150px'}}>
+                                <Typography variant="caption" color="textSecondary" component="p" style={{height: '80%'}}>
                                     This platform is used by students to help them organise and manage their individual workload. The features within this tool help the student track workload and provide useful information to lecturers with the aim of improving the students modules.
                                 </Typography>
                             </CardContent>
@@ -53,7 +53,7 @@ class App extends Component  {
                     </Card>
                 </Link>
                 </div></div>
-                <div className="col-sm-4" style={{paddingTop:'2%'}}><div><Link to={'/lecturer'} style={{ textDecoration: 'none' }}>
+                <div className="col-sm-4" style={{paddingTop:'2%',paddingBottom:'1%'}}><div><Link to={'/lecturer'} style={{ textDecoration: 'none' }}>
                     <Card style={{ maxWidth: 250, margin: 'auto'}}>
                         <CardActionArea>
                             <CardMedia
@@ -65,7 +65,7 @@ class App extends Component  {
                                 <Typography gutterBottom variant="h5" component="h2"  >
                                     Lecturer
                                 </Typography>
-                                <Typography variant="caption" color="textSecondary" component="p"  style={{height: '150px'}}>
+                                <Typography variant="caption" color="textSecondary" component="p"  style={{height: '80%'}}>
                                     This is platform is used by lecturers to improve and manage the modules which they oversee. The features within this tool help the lecturer mange module content, view student workload distribution and gather module feedback.
                                 </Typography>
                             </CardContent>
@@ -73,7 +73,7 @@ class App extends Component  {
                     </Card>
                 </Link>
                 </div></div>
-                <div className="col-sm-4" style={{paddingTop:'2%'}}><div><Link to={'/coordinator'} style={{ textDecoration: 'none' }}>
+                <div className="col-sm-4" style={{paddingTop:'2%',paddingBottom:'1%'}}><div><Link to={'/coordinator'} style={{ textDecoration: 'none' }}>
                     <Card style={{ maxWidth: 250, margin: 'auto'}}>
                         <CardActionArea>
                             <CardMedia
@@ -85,7 +85,7 @@ class App extends Component  {
                                 <Typography gutterBottom variant="h5" component="h2">
                                     Coordinator
                                 </Typography>
-                                <Typography variant="caption" color="textSecondary" component="p"  style={{ height: '150px'}}>
+                                <Typography variant="caption" color="textSecondary" component="p"  style={{height: '80%'}}>
                                     This platform is used by coordinators to review and organise a courses content and workload. The features within this tool provide a course overview which the coordinator can use to identify and implement positive changes.
                                 </Typography>
                             </CardContent>

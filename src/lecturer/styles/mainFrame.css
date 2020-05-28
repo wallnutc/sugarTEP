@@ -1,3 +1,13 @@
+.btn:focus {
+  outline: none !important;
+  outline-offset: none !important;
+}
+
+a:focus {
+  outline: none !important;
+  outline-offset: none !important;
+}
+
 .Menubar{
   overflow: hidden;
   position: fixed;

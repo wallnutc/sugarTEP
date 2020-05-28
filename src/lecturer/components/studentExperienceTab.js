@@ -23,7 +23,29 @@ import FeedbackDialComponent from "../components/feedbackDialComponent";
 import TimelineComponent from "../components/timelineComponent";
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import invert from 'invert-color'
+import Menu from '@material-ui/core/Menu';
+import Fade from '@material-ui/core/Fade';
+import ArrowDropDownRoundedIcon from '@material-ui/icons/ArrowDropDownRounded';
 
+
+function decreaseBrightness(hex, percent){
+    // strip the leading # if it's there
+    hex = hex.replace(/^\s*#|\s*$/g, '');
+
+    // convert 3 char codes --> 6, e.g. `E0F` --> `EE00FF`
+    if(hex.length == 3){
+        hex = hex.replace(/(.)/g, '$1$1');
+    }
+
+    var r = parseInt(hex.substr(0, 2), 16),
+        g = parseInt(hex.substr(2, 2), 16),
+        b = parseInt(hex.substr(4, 2), 16);
+
+        return '#' +
+           ((0|(1<<8) + r  * (1-percent / 100)).toString(16)).substr(1) +
+           ((0|(1<<8) + g  * (1-percent / 100)).toString(16)).substr(1) +
+           ((0|(1<<8) + b  * (1-percent / 100)).toString(16)).substr(1);
+}
 
 const BootstrapButton = withStyles({
   root: {
@@ -144,11 +166,48 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.background.paper,
   }
 }));
+function FilterMenu(props) {
+  //console.log(props.options);
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const open = Boolean(anchorEl);
+  console.log("props.options");
+  console.log(props.options);
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
 
+  };
+
+  const handleClose = (optionID) => {
+    setAnchorEl(null);
+    console.log("handleClose");
+    console.log(typeof optionID);
+    props.callback(optionID);
+  };
+  return (
+    <div>
+    <Button variant="contained" color="primary" aria-controls="fade-menu" aria-haspopup="true" onClick={handleClick}
+    style={{lineHeight:0, height: '24px',borderRadius:'12px',textTransform: 'none', padding:0, backgroundColor: props.default? '#F6F7FA':"#0153B4",}}
+    children ={<span style={{marginLeft:'10px',lineHeight:'0',color: props.default? '#0061D2':"#FFFFFF"}}>{props.label} <ArrowDropDownRoundedIcon style={{margin:0,verticalAlign:'middle'}}/> </span>}></Button>
+      <Menu
+        id="fade-menu"
+        anchorEl={anchorEl}
+        keepMounted
+        open={open}
+        onClose={handleClose}
+        TransitionComponent={Fade}
+      >
+        {props.options.map((option) => <MenuItem key={option.value} onClick={() =>handleClose(option.value)}>{option.label}</MenuItem>)}
+      </Menu>
+    </div>
+  );
+}
+
+let filterOptions = [];
 function SelectorBox(props) {
   const [moduleExprience,setModuleExperience] = useState({});
   const [students,setStudents] = useState({});
   const [isLoaded,setIsLoaded] = useState(false);
+
   useEffect(() => {
     var url = 'https://mvroso.pythonanywhere.com/activityTypePieChartsByModule' + props.module_ID.toString();
     console.log(url);
@@ -166,14 +225,18 @@ function SelectorBox(props) {
         .then((response) => response.json())
         .then((responseJson) => {
           setStudents(responseJson);
-
+          filterOptions = [{value:-1,label:'All Courses'}];
+          responseJson.Students.map((student)=>{
+              if(filterOptions.find((option)=>option.value==student.course_ID)==undefined)
+                {filterOptions.push({value:student.course_ID, label:student.course_name})}
+              })
+          console.log(filterOptions);
         })
         .catch((error) => {
           console.error(error);
         });
   },[]);
   console.log(moduleExprience);
-  const now = new Date("2018-10-25T00:00:00");
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
   const handleChange = (event, newValue) => {
@@ -209,9 +272,22 @@ function SelectorBox(props) {
       <div className = 'selectorBox' >
       {Object.keys(students).length === 0 && students.constructor === Object? null:
         <div>
-        {students.Students.map((student)=>
+        <FilterMenu label={props.filterState == -1 ? "Course":(filterOptions.find((option)=>option.value==props.filterState)).label}
+          options={filterOptions} callback={props.setFilterState} default={props.filterState==-1}/>
+        {props.filterState == -1 ? students.Students.map((student)=>
           <div style = {{margin:'8px 0',color: 'white'}}>
-          <BootstrapButton style = {{backgroundColor: student == props.studentInFocus? '#F1F1F1':props.colour}}  onClick={()=>props.selectStudent(student)}
+          <BootstrapButton style = {{backgroundColor: student == props.studentInFocus? decreaseBrightness(props.colour,40):props.colour}}  onClick={()=>props.selectStudent(student)}
+          size = 'large' fullWidth startIcon ={<PersonIcon color='action' style={{fontSize: 40, color: 'white' }}/>} children={
+            <div style={{color: 'black'}}>
+              <div style={{fontFamily: 'Rubik', color: 'white'}}>{student.course_name}<br/>{student.student_name}</div>
+              <div style={{fontWeight:'300',fontSize: '14px', color: 'white'}}>
+                <span style={{verticalAlign:'middle', color: 'white'}}>{student.student_number}</span>
+              </div>
+            </div>} />
+        </div>) :
+        students.Students.filter((student)=>student.course_ID==props.filterState).map((student)=>
+          <div style = {{margin:'8px 0',color: 'white'}}>
+          <BootstrapButton style = {{backgroundColor: student == props.studentInFocus? decreaseBrightness(props.colour,40):props.colour}}  onClick={()=>props.selectStudent(student)}
           size = 'large' fullWidth startIcon ={<PersonIcon color='action' style={{fontSize: 40, color: 'white' }}/>} children={
             <div style={{color: 'black'}}>
               <div style={{fontFamily: 'Rubik', color: 'white'}}>{student.course_name}<br/>{student.student_name}</div>
@@ -229,7 +305,6 @@ function SelectorBox(props) {
 }
 
 function DetailBox(props) {
-  const now = new Date("2018-10-25T00:00:00");
   const classes = useStyles();
   const [timeType, setTimeType] = useState("Month");
   const [value, setValue] = React.useState(0);
@@ -284,7 +359,7 @@ function DetailBox(props) {
             </div>
         </div>
       }
-      {props.myClass ==0 ? 
+      {props.myClass ==0 ?
       <div>
         <div style={{padding:"0 16px"}}>
         <span >
@@ -362,20 +437,20 @@ function MultilineTextFields() {
 
 export default function StudentExeperienceTab(props) {
 
-
+  const [filterState,setFilteredState]=useState(-1);
   const [myClassTabSelected, setMyClassTabSelected] = useState(0);
   const [studentInFocus,setStudentInFocus] = useState({});
   return (
     <div style = {{margin:0,padding:0}}>
-      <div  style = {{float:'left',height:'100%',width:'32.5%',}}>
+      <div  style = {{float:'left',height:'100%',width:'calc(100% - 608px)',}}>
         <div style = {{position:'relative', top:'27px', left:'35px', fontFamily: 'Rubik', fontStyle: 'normal', fontWeight: '300', fontSize: '14px',
  lineHeight: '17px', display: 'flex', alignItems: 'center', color: '#414141'}} >Module Status </div>
       <div style = {{ position:'relative', top:'30px',marginRight:'auto', marginLeft:'auto'}}>
-        <SelectorBox  studentInFocus={studentInFocus}selectStudent={setStudentInFocus} colour={props.colour} moduleCode ={props.moduleCode} module_ID = {props.module_ID} tabChange={setMyClassTabSelected}/>
+        <SelectorBox  setFilterState={setFilteredState} filterState={filterState} studentInFocus={studentInFocus}selectStudent={setStudentInFocus} colour={props.colour} moduleCode ={props.moduleCode} module_ID = {props.module_ID} tabChange={setMyClassTabSelected}/>
       </div>
 
       </div>
-      <div className = 'detailBox' style = {{float:'left',height:'500px',width:'67%', }}>
+      <div className = 'detailBox' style = {{float:'left',height:'500px',width:'608px', }}>
       <div style = {{position:'relative', top:'27px', left:'35px', fontFamily: 'Rubik', fontStyle: 'normal', fontWeight: '300', fontSize: '14px',
 lineHeight: '17px', display: 'flex', alignItems: 'center', color: '#414141'}} > Mode </div>
         <div style = {{position:'relative', top:'30px',marginRight:'auto', marginLeft:'auto'}}>

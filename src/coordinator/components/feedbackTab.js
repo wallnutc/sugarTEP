@@ -381,6 +381,7 @@ function SelectorBox(props) {
                 <AntTab label="Lectures" style={{color: props.colour}}/>
                 <AntTab label="Activities" style={{color: props.colour}}/>
             </AntTabs>
+            <div  style={{fontFamily: 'Rubik',color: props.module.colour, fontStyle: 'normal', fontWeight: '500',padding:'20px 0px 0px 45px',fontSize: '24px',lineHeight: '20px'}}>{props.module.module_name}</div>
           </div>
   
         <TabPanel  value={props.value} index={0}>
@@ -388,7 +389,7 @@ function SelectorBox(props) {
 
             <div style = {{margin:'8px 0', height: '62%',position:'relative'}}>
             { props.module.class_feedback.length==0 ? <div> No Feedback Questions Set</div>:
-              props.module.class_feedback.map((item)=> <FeedbackPanelCourse moduleID={props.module.module_ID} questionName={item.feedback_title} description={item.feedback_description} type='class'/>)}
+              props.module.class_feedback.map((item)=> <FeedbackPanelCourse moduleID={props.module.module_ID} colour={props.module.colour} questionName={item.feedback_title} description={item.feedback_description} type='class'/>)}
           
             <div style = {{margin:'10px 0',position:'relative'}}>
             {notes.map((note,index) => <div><TextField
@@ -420,7 +421,7 @@ function SelectorBox(props) {
 
             <div style = {{margin:'8px 0', height: '62%',position:'relative'}}>
             { props.module.activity_feedback.length==0 ? <div> No Feedback Questions Set</div>:
-              props.module.activity_feedback.map((item)=> <FeedbackPanelCourse moduleID={props.module.module_ID} questionName={item.feedback_title} description={item.feedback_description} type='activity'/>)}
+              props.module.activity_feedback.map((item)=> <FeedbackPanelCourse moduleID={props.module.module_ID} colour={props.module.colour} questionName={item.feedback_title} description={item.feedback_description} type='activity'/>)}
 
             <div style = {{margin:'10px 0', position:'relative'}}>
             {notes.map((note,index) => <div><TextField

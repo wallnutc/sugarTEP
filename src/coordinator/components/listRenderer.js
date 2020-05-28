@@ -221,7 +221,7 @@ export function FeedbackPanel(props) {
           <ExpansionPanelSummary  style = {{padding:'0 0 0 0'}}>
           <div style = {{width:'100%',padding:'10px 0', fontFamily: 'Rubik', fontStyle: 'normal'}}>
             <div style = {{float:'left', padding:'0 20px ',height:'100%'}}>
-              <MenuBookIcon color='action' style={{fontSize:'45px'}} />
+              <MenuBookIcon color='action' style={{fontSize:'45px', color:props.colour}} />
             </div>
             <div>
               <div style = {{fontWeight: 'normal', fontSize: '18px', lineHeight: '47px', position: 'relative', height:75, width:200, float: "left"}}>{props.questionName}</div>
@@ -240,17 +240,17 @@ export function FeedbackPanel(props) {
 }
 
 export function FeedbackSelectorPanel(props) {
-  //***************needed Props: activityID, activity type (Class or Activity), questionName
+  //***************needed Props: activityID, activity type (Class or Activity), color, questionName
   return (
     <div style={{padding:'7px 24px'}}>
-      <ExpansionPanel expanded={props.expanded}>
-          <ExpansionPanelSummary onClick={props.onClick} style = {{padding:'0 0 0 0'}}>
+      <ExpansionPanel expanded={props.expanded} TransitionProps={{ unmountOnExit: true }}>
+          <ExpansionPanelSummary onClick={props.onClick} style = {{backgroundColor: props.color, borderRadius:'8px', padding:'0 0 0 0'}}>
           <div style = {{width:'100%',padding:'10px 0', fontFamily: 'Rubik', fontStyle: 'normal'}}>
             <div style = {{float:'left', padding:'0 20px ',height:'100%'}}>
-              <MenuBookIcon color='action' style={{fontSize:'45px'}} />
+              <MenuBookIcon color='action' style={{fontSize:'45px', color:'white'}} />
             </div>
             <div>
-              <div style = {{fontWeight: 'normal', fontSize: '14px', lineHeight: '14px', position: 'relative'}}>{props.moduleName}</div>
+              <div style = {{fontWeight: 'normal', fontSize: '14px', lineHeight: '14px', position: 'relative', color:'white'}}>{props.moduleName}</div>
               <div style = {{position: 'relative'}}>{props.questionName}</div>
             </div>
           </div>
@@ -273,11 +273,11 @@ export function FeedbackPanelCourse(props) {
   //***************needed Props: activityID, activity type (Class or Activity), questionName
   return (
     <div style={{padding:'7px 24px'}}>
-      <ExpansionPanel >
-          <ExpansionPanelSummary  style = {{padding:'0 0 0 0'}}>
+      <ExpansionPanel TransitionProps={{ unmountOnExit: true }} >
+          <ExpansionPanelSummary  style = {{ padding:'0 0 0 0'}}>
           <div style = {{width:'100%',padding:'10px 0', fontFamily: 'Rubik', fontStyle: 'normal'}}>
             <div style = {{float:'left', padding:'0 20px ',height:'100%'}}>
-              <MenuBookIcon color='action' style={{fontSize:'45px'}} />
+              <MenuBookIcon color='action' style={{fontSize:'45px', color:props.colour}} />
             </div>
             <div>
               <div style = {{fontWeight: 'normal', fontSize: '18px', lineHeight: '47px', position: 'relative', height:75, width:200, float: "left"}}>{props.questionName}</div>

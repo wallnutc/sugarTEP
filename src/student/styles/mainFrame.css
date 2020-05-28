@@ -64,7 +64,7 @@
   width:600px;
 }
 .MuiBottomNavigationAction-root.Mui-selected{
-  color:black !important;
+  color: #0061D2 !important;
 }
 
 .header{

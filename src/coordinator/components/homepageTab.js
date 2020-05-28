@@ -227,7 +227,7 @@ console.log(props.course)
 console.log("feedbackInFocus")
 console.log(props.feedbackInFocus);
 useEffect(() => {
-  var url = 'https://mvroso.pythonanywhere.com/activityTypePieChartsByCourse' + props.course.course_ID.toString();
+  var url = 'http://mvroso.pythonanywhere.com/activityTypePieChartsByCourse' + props.course.course_ID.toString();
   console.log(url);
   fetch(url)
      .then((response) => response.json())
@@ -277,11 +277,13 @@ return (
               return(<div> {module.activity_feedback.map((feedback) =>
                  <FeedbackSelectorPanel onClick={()=>props.selectFeedback(moduleID,feedback.feedback_question_ID,"activity")}
                  expanded={props.feedbackInFocus.moduleID==moduleID && props.feedbackInFocus.feedbackID==feedback.feedback_question_ID && props.feedbackInFocus.type=='activity' }
+                 color={module.colour}
                  moduleName={moduleName} moduleID= {moduleID} questionName={feedback.feedback_title} type = "activity"/> )}
 
                  {module.class_feedback.map((feedback) =>
                     <FeedbackSelectorPanel onClick={() => props.selectFeedback(moduleID,feedback.feedback_question_ID,"class")}
                     expanded={props.feedbackInFocus.moduleID==moduleID && props.feedbackInFocus.feedbackID==feedback.feedback_question_ID && props.feedbackInFocus.type=='class' }
+                    color={module.colour}
                     moduleName={moduleName} moduleID= {moduleID} questionName={feedback.feedback_title} type = "class"/> )}
                  </div>)
 
@@ -346,7 +348,7 @@ function DetailBox(props) {
           notes: allNotes
             };
         console.log(data);
-            fetch("https://mvroso.pythonanywhere.com/updateCourseNotes", {
+            fetch("http://mvroso.pythonanywhere.com/updateCourseNotes", {
                         method: "POST",
                         cache: "no-cache",
                         body: JSON.stringify(data),
@@ -492,7 +494,7 @@ function DetailBox(props) {
               style={{margin:'10px 0px', textTransform: 'none', backgroundColor: props.colour, color: 'white'}}> Save Notes </Button>
               </div>
         </div>
-    
+
   }
     </div>
     );
@@ -501,7 +503,29 @@ function DetailBox(props) {
 export default function HomepageTab(props){
     const [detailBoxValue, setDetailBoxValue] = useState(0);
     const [workloadTabSelected, setWorkloadTabSelected] = useState(0);
-    const [feedbackInFocus,setFeedbackInFocus] = useState({moduleID:4,feedbackID:2,type:'activity'})
+    const [feedbackInFocus,setFeedbackInFocus] = useState(()=>{
+      const nonEmptyModule = props.course.modules.find((module)=>module.activity_feedback.length>0 || module.class_feedback.length>0)
+      if (nonEmptyModule != undefined){
+        if (nonEmptyModule.activity_feedback.length>0){
+          return({
+            moduleID:nonEmptyModule.module_ID,
+            feedbackID:nonEmptyModule.activity_feedback[0].feedback_question_ID,
+            type:'activity'
+          })
+        }
+        else{
+          return({
+            moduleID:nonEmptyModule.module_ID,
+            feedbackID:nonEmptyModule.class_feedback[0].feedback_question_ID,
+            type:'class'
+          })
+        }
+      }
+      else{
+        return ({})
+      }
+
+    })
 
     var feedbackForDetailBox;
     var moduleID;
@@ -520,13 +544,16 @@ export default function HomepageTab(props){
       if (temp != undefined){
         feedbackForDetailBox = {...temp,
               moduleName:props.course.modules[i].module_name,
-              moduleID:props.course.modules[i].module_ID};
+              moduleID:props.course.modules[i].module_ID
+        };
         break;
       }
+      //<div style = {{fontWeight: 'normal', fontStyle:'italic', fontSize: '16px', position: 'relative', width:'100%', padding:'10px'}} >"{props.feedbackSelected.feedback_description}"</div>
+      //<FeedbackBarCourse moduleID= {props.feedbackSelected.moduleID} questionName={props.feedbackSelected.feedback_title} type={props.feedbackSelected.type} height= '470'/>
     }
 
 
-    console.log("feedback for detail box");
+    console.log("feedbackbox");
     console.log(feedbackForDetailBox);
 
     function handleChangeDetailBox(event, newValue) {

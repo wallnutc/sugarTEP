@@ -556,7 +556,7 @@ const saveNote = () => {
 
           <div style = {{margin:'8px 0'}}>
 { props.lecture.feedback.length==0 ? <div> No Feedback Responses</div>:
-  props.lecture.feedback.map((item)=> <FeedbackPanel activityID={props.lecture.class_ID} questionName={item.feedback_title} type='Class'/>)}
+  props.lecture.feedback.map((item)=> <FeedbackPanel colour={props.colour} activityID={props.lecture.class_ID} questionName={item.feedback_title} type='Class'/>)}
 
           </div>
 
@@ -973,7 +973,7 @@ console.log(props.classes);
   }
   return (
     <div style = {{margin:0,padding:0}}>
-      <div  style = {{float:'left',height:'500px',width:'32.5%',}}>
+      <div  style = {{float:'left',height:'500px',width:'calc(100% - 608px)',}}>
 
         <div style = {{position:'relative', top:'27px', left:'35px', fontFamily: 'Rubik', fontStyle: 'normal', fontWeight: '300', fontSize: '14px',
  lineHeight: '17px', display: 'flex', alignItems: 'center', color: '#414141'}} >Class Status </div>
@@ -983,7 +983,7 @@ console.log(props.classes);
       </div>
 
       </div>
-      <div className = 'detailBoxx'style = {{float:'left',height:'500px',width:'67%', }}>
+      <div className = 'detailBoxx'style = {{float:'left',height:'500px',width:'608px', }}>
       <div style = {{position:'relative', top:'27px', left:'35px', fontFamily: 'Rubik', fontStyle: 'normal', fontWeight: '300', fontSize: '14px',
 lineHeight: '17px', display: 'flex', alignItems: 'center', color: '#414141'}} > Mode </div>
         <div style = {{position:'relative', top:'30px',marginRight:'auto', marginLeft:'auto'}}>

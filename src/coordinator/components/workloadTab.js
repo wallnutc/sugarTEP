@@ -17,6 +17,7 @@ import AddCircleRoundedIcon from '@material-ui/icons/AddCircleRounded';
 import PersonIcon from '@material-ui/icons/Person';
 import PieModule from './pieModuleComponent.js';
 import TimelineModule from './timelineModuleComponent.js';
+import Timeline from './timelineComponent.js';
 import AssignmentIcon from '@material-ui/icons/Assignment';
 import DatePick from './datePicker';
 import {FeedbackPanel} from "./listRenderer";
@@ -270,6 +271,7 @@ function SelectorBox(props) {
     const [notes, setNotes] = useState(props.module==undefined? []:props.module.notes);
     const [pieType, setPieType] = useState("hours");
     const [timeType, setTimeType] = useState("Month");
+    const [timeMode, setTimeMode] = useState("Module");
     const deleteNotes= (text)=> {
       var index = -1
       var i;
@@ -316,16 +318,81 @@ function SelectorBox(props) {
                         x.style.display = "inline-block";
                     });
   }
+
   return (
       <div className={classes.root}>
           <div className={classes.demo1}>
             <AntTabs value={props.value} onChange={props.handleChange} aria-label="ant example" style={{marginLeft:'27px',}}>
-                <AntTab label="Overview" style={{color: props.colour}}/>
-                <AntTab label="Time Series" style={{color: props.colour}}/>
+                <AntTab label="Course Overview" style={{color: props.colour}}/>
+                <AntTab label="Module Pie Chart" style={{color: props.colour}}/>
+                <AntTab label="Module Time Series" style={{color: props.colour}}/>
             </AntTabs>
+            <div  style={{fontFamily: 'Rubik',color: props.colour, fontStyle: 'normal', fontWeight: '500',padding:'20px 0px 0px 45px',fontSize: '24px',lineHeight: '20px'}}>{props.module.module_name}</div>
           </div>
-  
-        <TabPanel  value={props.value} index={0}>
+          <TabPanel  value={props.value} index={0}>
+        <div className = 'detailBoxCourse' style = {{color: props.colour}}>
+        <div style={{padding:"0 16px",}}>
+              <span >
+              <BootstrapButton style = {{margin:'16px 8px',height: '24px',backgroundColor: timeMode=="Module" ? props.colour:'#F6F7FA'}} onClick={()=>{setTimeMode("Module");}} children={
+                <div style={{color:timeMode=="Module" ? '#FFFFFF':props.colour, fontFamily: 'Rubik',fontStyle: 'normal', fontWeight: '300',fontSize: '12px',lineHeight: '10px'}}>
+                Modules
+                </div>} />
+              </span>
+              <span >
+              <BootstrapButton style = {{margin:'16px 8px',height: '24px',backgroundColor: timeMode=="Activity Type" ? props.colour:'#F6F7FA'}} onClick={()=>{setTimeMode("Activity Type");}} children={
+                <div style={{color:timeMode=="Activity Type" ? '#FFFFFF':props.colour, fontFamily: 'Rubik',fontStyle: 'normal', fontWeight: '300',fontSize: '12px', display: 'inline-block', lineHeight: '10px'}}>
+                Activity Type
+                  </div>} />
+              </span>
+            </div>
+            <div style={{padding:"0 16px",}}>
+              <span >
+              <BootstrapButton style = {{margin:'16px 8px',height: '24px',backgroundColor: timeType=="Week" ? props.colour:'#F6F7FA'}} onClick={()=>{setTimeType("Week");}} children={
+                <div style={{color:timeType=="Week" ? '#FFFFFF':props.colour, fontFamily: 'Rubik',fontStyle: 'normal', fontWeight: '300',fontSize: '12px',lineHeight: '10px'}}>
+                Week
+                </div>} />
+              </span>
+              <span >
+              <BootstrapButton style = {{margin:'16px 8px',height: '24px',backgroundColor: timeType=="Month" ? props.colour:'#F6F7FA'}} onClick={()=>{setTimeType("Month");}} children={
+                <div style={{color:timeType=="Month" ? '#FFFFFF':props.colour, fontFamily: 'Rubik',fontStyle: 'normal', fontWeight: '300',fontSize: '12px', display: 'inline-block', lineHeight: '10px'}}>
+                Month
+                  </div>} />
+              </span>
+              <span >
+              <BootstrapButton style = {{margin:'16px 8px',height: '24px',backgroundColor: timeType=="Semester" ? props.colour:'#F6F7FA'}} onClick={()=>{setTimeType("Semester");}} children={
+                <div style={{color:timeType=="Semester" ? '#FFFFFF':props.colour, fontFamily: 'Rubik',fontStyle: 'normal', fontWeight: '300',fontSize: '12px',lineHeight: '10px'}}>
+                Semester
+                  </div>} />
+              </span>
+            </div>
+
+            <div style = {{margin:'8px 0', height: '52%',position:'relative'}}>
+              <Timeline courseID={props.course.course_ID} label={props.course.course_name} mode={timeMode} bin={timeType}/>
+            </div>
+            <div style = {{margin:'10px 0', position:'relative'}}>
+            {notes.map((note,index) => <div><TextField
+                        multiline
+                        id="standard-read-only-input"
+                        key={note.text}
+                        defaultValue={note.text}
+                        style={{width:'85%', margin:'10px 0'}}
+                        variant="outlined"
+                        rows={5}
+                        InputProps={{
+                          readOnly: true,
+                        }}/>
+                        {     <IconButton aria-label="delete" onClick={()=>deleteNotes(note.text)}>
+                                <ClearRoundedIcon  />
+                              </IconButton>}
+                          </div>
+                      )}
+              <TextField variant="outlined" fullWidth label="New Note" value={newNote} onChange={(e) => setNewNote(e.target.value)}/>
+              <Button id = "noteButton" onClick={() => saveNote()} type='submit' variant="contained" color="default" disableElevation fullWidth
+              style={{margin:'10px 0px', textTransform: 'none', backgroundColor: props.colour, color: 'white'}}> Save Notes </Button>
+            </div>
+          </div>
+        </TabPanel>
+        <TabPanel  value={props.value} index={1}>
           <div className = 'detailBoxCourse' style = {{color: props.colour}}>
             <div style={{padding:"0 16px",}}>
               <span >
@@ -372,7 +439,7 @@ function SelectorBox(props) {
 
           </div>
         </TabPanel>
-        <TabPanel  value={props.value} index={1}>
+        <TabPanel  value={props.value} index={2}>
         <div className = 'detailBoxCourse' style = {{color: props.colour}}>
             <div style={{padding:"0 16px",}}>
               <span >
@@ -446,17 +513,17 @@ export default function WorkloadTab(props) {
   return (
     <div style = {{margin:0,padding:0}}>
 
-      <div  style = {{float:'left',height:'700px',width:'32.5%',}}>
+      <div  style = {{float:'left',height:'700px',width:'calc(100% - 608px)',}}>
         <div style = {{position:'relative', top:'27px', left:'35px', fontFamily: 'Rubik', fontStyle: 'normal', fontWeight: '300', fontSize: '14px',lineHeight: '17px', display: 'flex', alignItems: 'center', color: '#414141'}} >List </div>
           <div style = {{ position:'relative', top:'30px',marginRight:'auto', marginLeft:'auto'}}>
             <SelectorBox handleChange= {handleChangeDetailBox} today={props.today} inFocusID={FocusID} modules={props.course.modules} colour={props.colour} onClick = {handleChange} />
           </div>
       </div>
 
-      <div className = 'detailBoxCourse' style = {{float:'left',height:'700px',width:'67%'}}>
+      <div className = 'detailBoxCourse' style = {{float:'left',height:'700px',width:'608px'}}>
         <div style = {{position:'relative', top:'27px', left:'35px', fontFamily: 'Rubik', fontStyle: 'normal', fontWeight: '300', fontSize: '14px', lineHeight: '17px', display: 'flex', alignItems: 'center', color: '#414141'}} > Mode </div>
           <div style = {{position:'relative', top:'30px',marginRight:'auto', marginLeft:'auto'}}>
-            <DetailBox  value={detailBoxValue} handleChange= {handleChangeDetailBox} setState={props.setState} today={props.today} module={moduleInFocus} colour = {props.colour} />
+            <DetailBox  value={detailBoxValue} handleChange= {handleChangeDetailBox} setState={props.setState} today={props.today}  course={props.course} module={moduleInFocus} colour = {props.colour} />
           </div>
       </div>
     </div>

@@ -263,7 +263,7 @@ saveClass(){
         <h2 className="CourseName1">ModuleM</h2>
         <div style={{margin:'auto'}}>
           <div style={{color:mainBlue, fontSize:40, textAlign:'center', position:'relative'}}>Oops !</div>
-          <div style={{color:mainBlue, fontSize:20, textAlign:'center', width: 600, position:'relative', margin:'auto'}}> This portion of the website is only available in mobile view. Please press F12, select mobile view on your desktop browser and refresh the page, or open our app on a mobile device !</div>
+          <div style={{color:mainBlue, fontSize:20, textAlign:'center', width: 600, position:'relative', margin:'auto'}}> This portion of the website is only available in mobile view. Please press F12, followed by Ctrl+Shift+M on your desktop browser and refresh the page, or open our app on a mobile device !</div>
           <div style={{color:mainBlue, fontSize:12, textAlign:'center', width: 600, position:'relative', margin:'auto', paddingTop:'2%'}}>>
             <img src={require('./images/Chrome.png')} style={{height:'30px'}}/><img src={require('./images/microsoftedgenewlogo.jpg')} style={{ height:'30px'}}/><img src={require('./images/firefox.jpg')} style={{height:'30px'}}/>
             <form action="https://digitalcitizen.life/emulate-mobile-device-desktop-browser" style={{padding: '10px'}} >

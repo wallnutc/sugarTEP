@@ -218,7 +218,7 @@ export function FeedbackPanel(props) {
           <ExpansionPanelSummary  style = {{padding:'0 0 0 0'}}>
           <div style = {{width:'100%',padding:'10px 0', fontFamily: 'Rubik', fontStyle: 'normal'}}>
             <div style = {{float:'left', padding:'0 20px ',height:'100%'}}>
-              <MenuBookIcon color='action' style={{fontSize:'45px'}} />
+              <MenuBookIcon color='action' style={{fontSize:'45px', color:props.colour}} />
             </div>
             <div>
               <div style = {{fontWeight: 'normal', fontSize: '14px', lineHeight: '47px', position: 'relative', height:75, width:200, float: "left"}}>{props.questionName}</div>

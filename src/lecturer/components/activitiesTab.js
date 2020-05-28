@@ -380,7 +380,9 @@ function DetailBox(props) {
   const [description, setDescription] = useState(props.activity==undefined? "":props.activity.description);
   const [estimatedTime, setEstimatedTime] = useState(props.activity==undefined? "":props.activity.estimated_time);
   const [feedback, setFeedback] = useState(props.activity==undefined? []:props.activity.feedback);
-
+  const [distribution,setDistribution] = useState(props.activity==undefined? "":props.activity.distribution)
+  // console.log("due date");
+  // console.log(dueDate);
   const typeList = [
   {
     value: 1,
@@ -447,7 +449,17 @@ function DetailBox(props) {
     label: 'Self-Directed Study',
   },
 ];
+const distributionOptions = [
+  {
+    value: 'Linear',
+    label: 'Linear',
+  },
+  {
+    value: 'Triangular',
+    label: 'Triangular',
+  },
 
+]
 const [activityTypeID, setActivityTypeID] = useState(props.activity==undefined? null:(typeList.find((item)=>item.label==props.activity.activityType)).value);
 
 
@@ -468,6 +480,7 @@ const [activityTypeID, setActivityTypeID] = useState(props.activity==undefined? 
         setEstimatedTime(props.activity==undefined? "":props.activity.estimated_time);
         setActivityTypeID(props.activity==undefined? null:typeList.find((item)=>item.label==props.activity.activityType).value);
         setFeedback(props.activity==undefined? []:props.activity.feedback);
+        setDistribution(props.activity==undefined? "":props.activity.distribution);
       }
       else{
         setTitle("");
@@ -481,6 +494,7 @@ const [activityTypeID, setActivityTypeID] = useState(props.activity==undefined? 
         setEstimatedTime("");
         setActivityTypeID("not set");
         setFeedback([]);
+        setDistribution("");
       }
     },[props.activity,props.newActivityFlag]);
 
@@ -516,11 +530,10 @@ const [activityTypeID, setActivityTypeID] = useState(props.activity==undefined? 
 
   const saveActivity = () => {
     let feedbackArray = []
-    const start = startDate.getFullYear()+'-'+("0" + (parseInt(startDate.getMonth())+1).toString()).slice(-2) + '-' + ("0" + startDate.getDate()).slice(-2) +' 00:00:00';
-    const end = dueDate.getFullYear()+'-'+("0" + (parseInt(dueDate.getMonth())+1).toString()).slice(-2) + '-' + ("0" + dueDate.getDate()).slice(-2) +' 00:00:00';
+    const start = startDate.getFullYear()+'-'+("0" + (parseInt(startDate.getMonth())+1).toString()).slice(-2) + '-' + ("0" + startDate.getDate()).slice(-2) +'T00:00:00';
+    const end = dueDate.getFullYear()+'-'+("0" + (parseInt(dueDate.getMonth())+1).toString()).slice(-2) + '-' + ("0" + dueDate.getDate()).slice(-2) + 'T' + ("0" + dueDate.getHours()).slice(-2)+':'+("0" + dueDate.getMinutes()).slice(-2)+':'+("0" + dueDate.getSeconds()).slice(-2);
     feedback.map((item)=>feedbackArray.push(item.feedback_question_ID));
     newFeedback.map((item)=>feedbackArray.push(item.feedback_ID));
-    console.log("Date Format", start);
     var data = {
       activityID:props.newActivityFlag? 0: props.activity.activity_ID,
       moduleID:props.moduleID,
@@ -532,7 +545,9 @@ const [activityTypeID, setActivityTypeID] = useState(props.activity==undefined? 
 			title: title,
 			description: description,
       gradingDescription: gradingDescription,
+      distribution: distribution
     };
+    // console.log(data);
     fetch("https://mvroso.pythonanywhere.com/updateActivity", {
                 method: "POST",
                 cache: "no-cache",
@@ -699,7 +714,7 @@ const [activityTypeID, setActivityTypeID] = useState(props.activity==undefined? 
                     />
               </div>
               <div style={{marginLeft:'8px'}}>
-              <label For="end_hours" > </label><br/>
+              <label For="end_hours" >End Time</label><br/>
                 <TextField
                     id="end_hours"
                     style={{width:"70px",marginTop:'8px',marginBottom:'16px'}}
@@ -711,22 +726,38 @@ const [activityTypeID, setActivityTypeID] = useState(props.activity==undefined? 
                     variant="outlined"
                     />
               </div>
-              <div style={{marginLeft:'40px'}}>
-              <label For="dedicationTime" > Estimated Workload </label><br/>
-                <div style={{verticalAlign:'middle', display:'flex'}}>
-                    <span style= {inputStyle} style= {{...inputStyle, lineHeight:'55px',marginRight:'4px'}}>around</span>
-                    <TextField
-                        id="dedicationTime"
-                        style={{width:"56px",marginTop:'8px',marginBottom:'16px',}}
-                        InputProps={{style: {...inputStyle,borderRadius:'4px 0 0 4px'}}}
-                        size='small'
-                        value={props.activity.estimated_time}
-                        variant="outlined"
-                        />
-                    <span style={{...inputStyle, marginTop:'8px',lineHeight:'37px',height:'37px',padding:'0 4px',borderRadius:'0 8px 8px 0',backgroundColor:props.colour,color:"black"}}>hours</span>
-                </div>
+
+            </div>
+            <div style={{display:'flex',margin:'5px'}} >
+            <div style={{}}>
+            <label For="dedicationTime" > Estimated Workload </label><br/>
+              <div style={{verticalAlign:'middle', display:'flex'}}>
+                  <span style= {inputStyle} style= {{...inputStyle, lineHeight:'55px',marginRight:'4px'}}>around</span>
+                  <TextField
+                      id="dedicationTime"
+                      style={{width:"56px",marginTop:'8px',marginBottom:'16px',}}
+                      InputProps={{style: {...inputStyle,borderRadius:'4px 0 0 4px'}}}
+                      size='small'
+                      value={props.activity.estimated_time}
+                      variant="outlined"
+                      />
+                  <span style={{...inputStyle, marginTop:'8px',lineHeight:'37px',height:'37px',padding:'0 4px',borderRadius:'0 8px 8px 0',backgroundColor:props.colour,color:"black"}}>hours</span>
               </div>
             </div>
+            <div style={{marginLeft:'24px'}}>
+              <label For="distribution"> Workload Distribution </label><br/>
+              <TextField
+                      id="distribution"
+                      style={{width:"160px",marginTop:'8px',marginBottom:'16px',}}
+                      InputProps={{style: inputStyle}}
+                      value={props.activity.distribution}
+                      variant="outlined"
+                      size='small'
+
+                    />
+            </div>
+            </div>
+
             <div style={{display:'flex',margin:'5px'}} >
               <div>
                 <label For='graded'> Graded </label><br/>
@@ -872,7 +903,7 @@ const [activityTypeID, setActivityTypeID] = useState(props.activity==undefined? 
                   </MuiPickersUtilsProvider>
                 </div>
                 <div style={{marginLeft:'24px'}}>
-                  <label For="dueDate" >End Date </label>
+                  <label For="dueDate" >End Date </label> <br/>
                   <MuiPickersUtilsProvider utils={DateFnsUtils}>
                         <KeyboardDatePicker
                           disableToolbar
@@ -892,7 +923,7 @@ const [activityTypeID, setActivityTypeID] = useState(props.activity==undefined? 
                     </MuiPickersUtilsProvider>
                   </div>
                   <div style={{marginLeft:'8px'}}>
-                  <label For="end_hours" > </label><br/>
+                  <label For="end_hours" >End Time</label><br/>
                     <MuiPickersUtilsProvider utils={DateFnsUtils}>
                       <TimePicker
                           clearable
@@ -907,23 +938,45 @@ const [activityTypeID, setActivityTypeID] = useState(props.activity==undefined? 
                         </MuiPickersUtilsProvider>
 
                   </div>
-                  <div style={{marginLeft:'40px'}}>
-                  <label For="dedicationTime" > Estimated Workload </label><br/>
-                    <div style={{verticalAlign:'middle', display:'flex'}}>
-                        <span style= {inputStyle} style= {{...inputStyle, lineHeight:'55px',marginRight:'4px'}}>around</span>
-                        <TextField
-                            id="dedicationTime"
-                            style={{width:"56px",marginTop:'8px',marginBottom:'16px',}}
-                            InputProps={{style: {...inputStyle,borderRadius:'4px 0 0 4px'}}}
-                            size='small'
-                            value={estimatedTime}
-                            variant="outlined"
-                            onChange={(e) => setEstimatedTime(e.target.value)}
-                            />
-                        <span style={{...inputStyle, marginTop:'8px',lineHeight:'37px',height:'37px',padding:'0 4px',borderRadius:'0 8px 8px 0',backgroundColor:props.colour,color:"black"}}>hours</span>
-                    </div>
-                  </div>
 
+
+              </div>
+              <div style={{display:'flex',margin:'5px'}} >
+                <div style={{}}>
+                <label For="dedicationTime" > Estimated Workload </label><br/>
+                  <div style={{verticalAlign:'middle', display:'flex'}}>
+                      <span style= {inputStyle} style= {{...inputStyle, lineHeight:'55px',marginRight:'4px'}}>around</span>
+                      <TextField
+                          id="dedicationTime"
+                          style={{width:"56px",marginTop:'8px',marginBottom:'16px',}}
+                          InputProps={{style: {...inputStyle,borderRadius:'4px 0 0 4px'}}}
+                          size='small'
+                          value={estimatedTime}
+                          variant="outlined"
+                          onChange={(e) => setEstimatedTime(e.target.value)}
+                          />
+                      <span style={{...inputStyle, marginTop:'8px',lineHeight:'37px',height:'37px',padding:'0 4px',borderRadius:'0 8px 8px 0',backgroundColor:props.colour,color:"black"}}>hours</span>
+                  </div>
+                </div>
+                <div style={{marginLeft:'24px'}}>
+                  <label For="distributionSelection"> Workload Distribution </label> <br/>
+                  <TextField
+                      id="distributionSelection"
+                      select
+                      size='small'
+                      style={{width:"160px",marginTop:'8px',marginBottom:'16px',}}
+                      value={distribution}
+                      InputProps={{style: inputStyle}}
+                      variant="outlined"
+                      onChange={(e)=>setDistribution(e.target.value)}
+                    >
+                      {distributionOptions.map((option) => (
+                        <MenuItem key={option.value} value={option.value}>
+                          {option.label}
+                        </MenuItem>
+                      ))}
+                    </TextField>
+                </div>
               </div>
               <div style={{display:'flex',margin:'5px'}} >
                 <div>
@@ -1035,7 +1088,7 @@ const [activityTypeID, setActivityTypeID] = useState(props.activity==undefined? 
 
             <div style = {{margin:'8px 0'}}>
             { props.activity.feedback.length==0 ? <div> No Feedback Responses</div>:
-            props.activity.feedback.map((item)=> <FeedbackPanel activityID={props.activity.activity_ID} questionName={item.feedback_title} type='Activity'/>)}
+            props.activity.feedback.map((item)=> <FeedbackPanel colour={props.colour} activityID={props.activity.activity_ID} questionName={item.feedback_title} type='Activity'/>)}
 
             </div>
 
@@ -1119,7 +1172,7 @@ const [activityTypeID, setActivityTypeID] = useState(props.activity==undefined? 
                   />
             </div>
             <div style={{marginLeft:'8px'}}>
-            <label For="end_hours" > </label><br/>
+            <label For="end_hours" >End Time</label><br/>
               <TextField
                   id="end_hours"
                   style={{width:"70px",marginTop:'8px',marginBottom:'16px'}}
@@ -1131,22 +1184,38 @@ const [activityTypeID, setActivityTypeID] = useState(props.activity==undefined? 
                   variant="outlined"
                   />
             </div>
-            <div style={{marginLeft:'40px'}}>
-            <label For="dedicationTime" > Estimated Workload </label><br/>
-              <div style={{verticalAlign:'middle', display:'flex'}}>
-                  <span style= {inputStyle} style= {{...inputStyle, lineHeight:'55px',marginRight:'4px'}}>around</span>
-                  <TextField
-                      id="dedicationTime"
-                      style={{width:"56px",marginTop:'8px',marginBottom:'16px',}}
-                      InputProps={{style: {...inputStyle,borderRadius:'4px 0 0 4px'}}}
-                      size='small'
-                      value={props.activity.estimated_time}
-                      variant="outlined"
-                      />
-                  <span style={{...inputStyle, marginTop:'8px',lineHeight:'37px',height:'37px',padding:'0 4px',borderRadius:'0 8px 8px 0',backgroundColor:props.colour,color:"black"}}>hours</span>
-              </div>
+
+          </div>
+          <div style={{display:'flex',margin:'5px'}} >
+          <div style={{}}>
+          <label For="dedicationTime" > Estimated Workload </label><br/>
+            <div style={{verticalAlign:'middle', display:'flex'}}>
+                <span style= {inputStyle} style= {{...inputStyle, lineHeight:'55px',marginRight:'4px'}}>around</span>
+                <TextField
+                    id="dedicationTime"
+                    style={{width:"56px",marginTop:'8px',marginBottom:'16px',}}
+                    InputProps={{style: {...inputStyle,borderRadius:'4px 0 0 4px'}}}
+                    size='small'
+                    value={props.activity.estimated_time}
+                    variant="outlined"
+                    />
+                <span style={{...inputStyle, marginTop:'8px',lineHeight:'37px',height:'37px',padding:'0 4px',borderRadius:'0 8px 8px 0',backgroundColor:props.colour,color:"black"}}>hours</span>
             </div>
           </div>
+          <div style={{marginLeft:'24px'}}>
+            <label For="distribution"> Workload Distribution </label><br/>
+            <TextField
+                    id="distribution"
+                    style={{width:"160px",marginTop:'8px',marginBottom:'16px',}}
+                    InputProps={{style: inputStyle}}
+                    value={props.activity.distribution}
+                    variant="outlined"
+                    size='small'
+
+                  />
+          </div>
+          </div>
+
           <div style={{display:'flex',margin:'5px'}} >
             <div>
               <label For='graded'> Graded </label><br/>
@@ -1317,15 +1386,15 @@ export default function ActivityTab(props) {
   // }
   return (
     <div style = {{margin:0,padding:0}}>
-      <div  style = {{float:'left',height:'500px',width:'32.5%',}}>
+      <div  style = {{float:'left',height:'500px',width:'calc(100% - 608px)',}}>
         <div style = {{position:'relative', top:'27px', left:'35px', fontFamily: 'Rubik', fontStyle: 'normal', fontWeight: '300', fontSize: '14px',
  lineHeight: '17px', display: 'flex', alignItems: 'center', color: '#414141'}} >Activity Status </div>
       <div style = {{ position:'relative', top:'30px',marginRight:'auto', marginLeft:'auto'}}>
         <SelectorBox handleChange= {handleChangeDetailBox} today={props.today} inFocusID={props.focusID} colour= {props.colour} activities={props.activities} onClick = {props.handleChange} edit = {props.edit}/>
       </div>
-
       </div>
-      <div className = 'detailBox' style = {{float:'left',height:'500px',width:'67%'}}>
+
+      <div className = 'detailBox' style = {{float:'left',height:'500px',width:'608px'}}>
       <div style = {{position:'relative', top:'27px', left:'35px', fontFamily: 'Rubik', fontStyle: 'normal', fontWeight: '300', fontSize: '14px',
 lineHeight: '17px', display: 'flex', alignItems: 'center', color: '#414141'}} > Mode </div>
         <div style = {{position:'relative', top:'30px',marginRight:'auto', marginLeft:'auto'}}>

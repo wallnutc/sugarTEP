@@ -46,7 +46,7 @@ export default function FilterMenu(props) {
         onClose={handleClose}
         TransitionComponent={Fade}
       >
-        {props.options.map((option) => <MenuItem onClick={() =>handleClose(option.value)}>{option.label}</MenuItem>)}
+        {props.options.map((option) => <MenuItem key={option.value} onClick={() =>handleClose(option.value)}>{option.label}</MenuItem>)}
       </Menu>
     </div>
   );

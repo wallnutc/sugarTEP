@@ -111,10 +111,10 @@ export default function VerticalTabs(props) {
   return (
     <div className={classes.root} style={{borderRadius: '15px'}}>
 
-      <div >
+      <div style={{width:'100%'}}>
         <div style = {{maxWidth:'317px'}} >
         <Tabs
-          style = {{float:'left',width:'317px',  position:'absolute', left:0}}
+          style = {{float:'left',  position:'absolute', left:0, width:'25%'}}
           orientation="vertical"
           variant="scrollable"
           value={value}
@@ -143,7 +143,7 @@ export default function VerticalTabs(props) {
 
         </Tabs>
         </div>
-        <div style = {{position:'relative', left:'317px',top:'-100px',height: '500px', float: 'right', width:'906px', backgroundColor:'white', borderRadius:'0 8px 8px 0',zIndex:'0'}}>
+        <div style = {{position:'relative', left:'25%',top:'-100px',height: '500px',float: 'left', width:'75%', backgroundColor:'white', borderRadius:'0 8px 8px 0'}}>
         <TabPanel value={value} index={0}>
           <OverviewTab selectActivity={handleFocusAcitivityIDChange}changeTab={setValue} setState={props.setState} colour = {props.module.colour} module_notes={props.module.notes} today={props.today} activities={props.module.activities} classes={props.module.classes} module_ID = {props.module.module_ID} module_name = {props.module.module_name}/>
         </TabPanel>

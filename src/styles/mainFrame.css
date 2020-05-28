@@ -1,6 +1,14 @@
 @import url(https://fonts.googleapis.com/css?family=Rubik&display=swap);
 @import url(https://fonts.googleapis.com/css2?family=Titillium+Web&display=swap);
+.btn:focus {
+  outline: none !important;
+  outline-offset: none !important;
+}
 
+a:focus {
+  outline: none !important;
+  outline-offset: none !important;
+}
   .CourseBottomNavgation {
   position: fixed;
   left: 0;

@@ -24,9 +24,9 @@ function Lectures (props) {
     const headerContent = {title:"Classes", imgPath: require("../images/icons/lectures.svg")};
     const batch = 5;
     const [selectedModule, setSelectedModule] = useState(props.filter.length == 0 ? "null": props.filter[0].value);
-    const [selectedDate, setSelectedDate] = useState(new Date('2019-03-14T00:00:00'));
+    const [selectedDate, setSelectedDate] = useState(props.today);
     console.log("Selected Date", selectedDate);
-    const [classes,setClasses] = useState(()=>selectedModule=="All Modules" ? props.classes.filter(item => new Date(item.date+'T00:00:00')> selectedDate) : props.classes.filter( item => item.module_code==selectedModule).filter(item => new Date(item.date+'T00:00:00')> selectedDate))
+    const [classes,setClasses] = useState(()=>selectedModule=="All Modules" ? props.classes.filter(item => new Date(item.date+'T00:00:00')>= selectedDate) : props.classes.filter( item => item.module_code==selectedModule).filter(item => new Date(item.date+'T00:00:00')>= selectedDate))
     const [classesForRender,setclassesForRender] = useState(()=>classes.length <=batch ? classes: classes.slice(0,batch))
     const [renderIndex, setRenderIndex] = useState(batch);
     const [hasMore,setHasMore] =  useState(true);
@@ -42,7 +42,7 @@ function Lectures (props) {
     const handleDateChange = (date) => {
       setSelectedDate(date);
       if(selectedModule != "All Modules" ){
-        const tempClasses = props.classes.filter( item => item.module_code==selectedModule).filter(item => new Date(item.date)> date);
+        const tempClasses = props.classes.filter( item => item.module_code==selectedModule).filter(item => new Date(item.date+'T'+'00:00:00')>= date);
         setClasses(tempClasses);
         setclassesForRender(()=>tempClasses.length <=batch ? tempClasses: tempClasses.slice(0,batch));
         setRenderIndex(batch);
@@ -50,8 +50,8 @@ function Lectures (props) {
         window.scrollTo(0, 0);
       }
       else{
-        setClasses(props.classes.filter(item => new Date(item.date)> date));
-        setclassesForRender(()=>props.classes.length <=batch ? props.classes.filter(item => new Date(item.date)> date): props.classes.filter(item => new Date(item.date)> date).slice(0,batch));
+        setClasses(props.classes.filter(item => new Date(item.date+'T'+'00:00:00')>= date));
+        setclassesForRender(()=>props.classes.length <=batch ? props.classes.filter(item => new Date(item.date+'T'+'00:00:00')>= date): props.classes.filter(item => new Date(item.date+'T'+'00:00:00')>= date).slice(0,batch));
         setRenderIndex(batch);
         setHasMore(true);
         window.scrollTo(0, 0);
@@ -86,7 +86,7 @@ function Lectures (props) {
       // console.log(event.target.value);
       // console.log(event.target.value==null);
       if(module_code != "All Modules" ){
-        const tempClasses = props.classes.filter( item => item.module_code==module_code).filter(item => new Date(item.date+'T00:00:00')> selectedDate);
+        const tempClasses = props.classes.filter( item => item.module_code==module_code).filter(item => new Date(item.date+'T00:00:00')>= selectedDate);
         // console.log("atualizei:");
         setClasses(tempClasses);
         // console.log("quantidade total: " +　tempClasses.length);
@@ -96,9 +96,9 @@ function Lectures (props) {
         window.scrollTo(0, 0);
       }
       else{
-        setClasses(props.classes.filter(item => new Date(item.date)> selectedDate));
-        setclassesForRender(()=>props.classes.length <=batch ? props.classes.filter(item => new Date(item.date+'T00:00:00')> selectedDate)
-        : props.classes.filter(item => new Date(item.date)> selectedDate).slice(0,batch));
+        setClasses(props.classes.filter(item => new Date(item.date)>= selectedDate));
+        setclassesForRender(()=>props.classes.length <=batch ? props.classes.filter(item => new Date(item.date+'T00:00:00')>= selectedDate)
+        : props.classes.filter(item => new Date(item.date)>= selectedDate).slice(0,batch));
         setRenderIndex(batch);
         setHasMore(true);
         window.scrollTo(0, 0);
@@ -121,7 +121,7 @@ function Lectures (props) {
           <div className="filter">
           <div style={{padding:"0 16px", display:'flex', color: mainBlue}}>
             <span style={{margin:'16px 8px'}}><FilterMenu default={selectedModule=="All Modules"? true:false} callback={handleChange} label='Modules' options={props.filter}/> </span>
-            <span style={{margin:'16px 8px'}}><DateFilter default={selectedDate.getTime()===new Date('2019-03-18T00:00:00').getTime()? true:false} label='Date' callback={handleDateChange}/></span>
+            <span style={{margin:'16px 8px'}}><DateFilter default={selectedDate.getTime()===props.today.getTime()? true:false} label='Date' callback={handleDateChange} date={selectedDate}/></span>
           </div>
             {showPopup ?
             <ClassFeedbackPopup
@@ -153,7 +153,7 @@ function Lectures (props) {
                     if (newWeekIndexes.includes(index) ) {
                       return(
 
-                      <div key={index}>
+                      <div key={i.module_code+i.date+i.start_time}>
                         <div style={{
                           margin:'16px 0 0 24px',
                           fontFamily: 'Rubik',
@@ -165,7 +165,7 @@ function Lectures (props) {
                       </div>
                     );}
                     else{
-                      return(<div key={index}>
+                      return(<div key={i.module_code+i.date+i.start_time}>
                         <LecturePanel onClick ={togglePopup} item={i} setState={props.setState}/>
                       </div>);
                     }

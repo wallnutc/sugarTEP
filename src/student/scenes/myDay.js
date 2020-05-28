@@ -127,7 +127,7 @@ return (
        }}> Today | {String(new Date(today).getDate()).padStart(2, '0')}/{String(new Date(today).getMonth() + 1).padStart(2, '0')}
     </div>
 
-      {props.classes.filter((item) =>item.date==today ).map((item)=> <LecturePanel onClick ={togglePopupClass} item = {item} /> )}
+      {props.classes.filter((item) =>item.date==today ).map((item)=> <div key={item.module_code+item.date+item.start_time}><LecturePanel onClick ={togglePopupClass} item = {item} /></div> )}
       <div style={{
         margin:'16px 0 0 24px',
         fontFamily: 'Rubik',
@@ -149,7 +149,7 @@ return (
         }
       >
         {activities.map((i, index) => (
-          <div key={index}>
+          <div key={i.module_code+i.due_date}>
             <ActivityPanel onClick={togglePopupActivity} item={i} />
           </div>
         ))}

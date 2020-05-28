@@ -44,10 +44,14 @@
 }
 
 
-
+a:focus {
+  outline: none !important;
+  outline-offset: none !important;
+}
 .btn {
   border: none;
-  outline: none;
+  outline: none !important;
+  outline-offset: none !important;
   padding: 10px 16px;
   background-color: #f1f1f1;
   cursor: pointer;
