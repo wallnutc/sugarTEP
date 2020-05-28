@@ -166,7 +166,7 @@ saveClass(){
             </div>
 
           {this.state.isLoaded ? <div className = 'title' style= {{color: mainBlue}}><p>Modules</p></div> 
-          :<div><p>Loading ...</p></div>}
+          :<div><p>Loading ... </p></div>}
           
           <div className = 'moduleBox'>
             {this.state.isLoaded ? this.state.modules.map((module)=> <div style ={{margin:'50px 0px'}}>
