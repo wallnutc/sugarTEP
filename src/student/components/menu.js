@@ -4,7 +4,7 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import SettingsIcon from '@material-ui/icons/Settings';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
-
+import HomeIcon from '@material-ui/icons/Home';
 
 
 export default function SimpleMenu() {
@@ -21,8 +21,8 @@ export default function SimpleMenu() {
   return (
     <div >
       <div style={{float: 'left'}}>
-      <Button aria-controls="simple-menu" aria-haspopup="true" style={{height:"55px", color: 'white'}} >
-        <AccountCircleIcon   />
+      <Button aria-controls="simple-menu" aria-haspopup="true" style={{height:"55px", color: 'white'}} href="/" >
+        <HomeIcon   />
       </Button>
 
       </div>
