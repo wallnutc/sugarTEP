@@ -184,7 +184,6 @@ saveClass(){
                       :null }
           </div>
 
-          <div style={{position:'absolute',top:'2000px',height:'500px',width:'500px'}}></div>
       </div>
 
       );
