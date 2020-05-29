@@ -20,6 +20,7 @@ import TimelineModule from './timelineModuleComponent.js';
 import Timeline from './timelineComponent.js';
 import AssignmentIcon from '@material-ui/icons/Assignment';
 import DatePick from './datePicker';
+import TimelineStudentComponent from './timelineStudentComponent.js';
 import {FeedbackPanel} from "./listRenderer";
 import 'date-fns';
 import DateFnsUtils from '@date-io/date-fns';
@@ -320,7 +321,7 @@ function SelectorBox(props) {
   }
 
   return (
-      <div className={classes.root}>
+      <div className={classes.root} style= {{height: '643px'}}>
           <div className={classes.demo1}>
             <AntTabs value={props.value} onChange={props.handleChange} aria-label="ant example" style={{marginLeft:'27px',}}>
                 <AntTab label="Course Overview" style={{color: props.colour}}/>
@@ -330,7 +331,7 @@ function SelectorBox(props) {
             <div  style={{fontFamily: 'Rubik',color: props.colour, fontStyle: 'normal', fontWeight: '500',padding:'20px 0px 0px 45px',fontSize: '24px',lineHeight: '20px'}}>{props.module.module_name}</div>
           </div>
           <TabPanel  value={props.value} index={0}>
-        <div className = 'detailBoxCourse' style = {{color: props.colour}}>
+        <div className = 'detailBoxCourse' style = {{color: props.colour, height: '513px'}}>
         <div style={{padding:"0 16px",}}>
               <span >
               <BootstrapButton style = {{margin:'16px 8px',height: '24px',backgroundColor: timeMode=="Module" ? props.colour:'#F6F7FA'}} onClick={()=>{setTimeMode("Module");}} children={
@@ -366,8 +367,11 @@ function SelectorBox(props) {
               </span>
             </div>
 
-            <div style = {{margin:'8px 0', height: '52%',position:'relative'}}>
+            <div style = {{margin:'8px 0', height: '60%',position:'relative'}}>
               <Timeline courseID={props.course.course_ID} label={props.course.course_name} mode={timeMode} bin={timeType}/>
+            </div>
+            <div style = {{margin:'8px 0', height: '65%',position:'relative'}}>
+                <TimelineStudentComponent courseID={props.course.course_ID}/>
             </div>
             <div style = {{margin:'10px 0', position:'relative'}}>
             {notes.map((note,index) => <div><TextField
@@ -522,7 +526,7 @@ export default function WorkloadTab(props) {
 
       <div className = 'detailBoxCourse' style = {{float:'left',height:'700px',width:'608px'}}>
         <div style = {{position:'relative', top:'27px', left:'35px', fontFamily: 'Rubik', fontStyle: 'normal', fontWeight: '300', fontSize: '14px', lineHeight: '17px', display: 'flex', alignItems: 'center', color: '#414141'}} > Mode </div>
-          <div style = {{position:'relative', top:'30px',marginRight:'auto', marginLeft:'auto'}}>
+          <div style = {{position:'relative', top:'30px',marginRight:'auto', marginLeft:'auto', height: '643px'}}>
             <DetailBox  value={detailBoxValue} handleChange= {handleChangeDetailBox} setState={props.setState} today={props.today}  course={props.course} module={moduleInFocus} colour = {props.colour} />
           </div>
       </div>

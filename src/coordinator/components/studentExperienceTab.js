@@ -389,14 +389,8 @@ function DetailBox(props) {
           Month
             </div>} />
         </span>
-        <span >
-        <BootstrapButton style = {{margin:'16px 8px',height: '24px',backgroundColor: timeType=="Semester" ? props.colour:'#F6F7FA'}} onClick={()=>{setTimeType("Semester");}} children={
-          <div style={{color:timeType=="Semester" ? '#FFFFFF':props.colour, fontFamily: 'Rubik',fontStyle: 'normal', fontWeight: '300',fontSize: '12px',lineHeight: '10px'}}>
-          Semester
-            </div>} />
-        </span>
         </div>
-        <div style = {{margin:'8px 0', height: '300px', width: '600px', position:'relative'}}>
+        <div style = {{margin:'8px 0', height: '400px', width: '600px', position:'relative'}}>
           <TimelineModuleComponent moduleID = {props.module_ID} label = {props.module_name} bin = {timeType} />
         </div>
       </div>

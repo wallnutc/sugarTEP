@@ -17,6 +17,7 @@ import AddCircleRoundedIcon from '@material-ui/icons/AddCircleRounded';
 import PersonIcon from '@material-ui/icons/Person';
 import PieModule from './pieModuleComponent.js';
 import TimelineModule from './timelineModuleComponent.js';
+import TimelineStudentComponent from './timelineStudentComponent.js';
 import AssignmentIcon from '@material-ui/icons/Assignment';
 import DatePick from './datePicker';
 import {FeedbackPanel,FeedbackSelectorPanel} from "./listRenderer";
@@ -367,8 +368,40 @@ function DetailBox(props) {
             <AntTabs value={props.value} onChange={props.handleChange} aria-label="ant example" style={{marginLeft:'27px',}}>
                 <AntTab label="Overview" style={{color: props.colour}}/>
                 <AntTab label="Time Series" style={{color: props.colour}}/>
+                <AntTab label="Student Progress" style={{color: props.colour}}/>
             </AntTabs>
           </div>
+          <TabPanel  value={props.value} index={2}>
+          <div className = 'detailBoxCourse' style = {{color: props.colour}}>
+
+            <div style = {{margin:'8px 0', height: '100%',position:'relative'}}>
+                <TimelineStudentComponent courseID={props.course.course_ID}/>
+            </div>
+            <div style = {{margin:'10px 0',position:'relative'}}>
+            {notes.map((note,index) => <div><TextField
+                        multiline
+                        id="standard-read-only-input"
+                        key={note.text}
+                        defaultValue={note.text}
+                        style={{width:'85%', margin:'10px 0'}}
+                        variant="outlined"
+                        rows={5}
+                        InputProps={{
+                          readOnly: true,
+                        }}/>
+                        {     <IconButton aria-label="delete" onClick={()=>deleteNotes(note.text)}>
+                                <ClearRoundedIcon  />
+                              </IconButton>}
+                          </div>
+                      )}
+
+              <TextField variant="outlined" fullWidth label="New Note" value={newNote} onChange={(e) => setNewNote(e.target.value)}/>
+              <Button id = "noteButton" onClick={() => saveNote()} type='submit' variant="contained" color="default" disableElevation fullWidth
+              style={{margin:'10px 0px', textTransform: 'none', backgroundColor: props.colour, color: 'white'}}> Save Notes </Button>
+            </div>
+
+          </div>
+        </TabPanel>
 
         <TabPanel  value={props.value} index={0}>
           <div className = 'detailBoxCourse' style = {{color: props.colour}}>

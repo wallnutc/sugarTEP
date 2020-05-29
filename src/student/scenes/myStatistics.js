@@ -1,6 +1,7 @@
 import React ,{Components} from 'react';
 import Header from "../components/header";
 import TimelineComponent from "../components/graph_components/timelineComponent";
+import TimelineStudentComponent from "../components/graph_components/timelineStudentComponent";
 import PieCourseComponent from "../components/graph_components/pieCourseComponent";
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
@@ -31,8 +32,20 @@ function MyStatistics (props) {
         <PieCourseComponent courseID = {props.student.course_ID} label = {props.student.label} type = "grade"/></div>
         );
       case 3:
-        return(<div style = {{position: 'relative', height: 400, width: "100%"}}>
-        <TimelineComponent courseID = {props.student.course_ID} label = {props.student.label}/></div>
+        return(
+        <div>
+        <div style = {{position: 'relative', height: 400, width: "100%"}}>
+        <TimelineComponent courseID = {props.student.course_ID} label = {props.student.label}/>
+        </div>
+        </div>
+        );
+      case 4:
+        return(
+        <div>
+        <div style = {{position: 'relative', height: 600, width: "100%"}}>
+        <TimelineStudentComponent studentID = {props.student.student_ID}/>
+        </div>
+        </div>
         );
     }
   }
@@ -54,6 +67,11 @@ function MyStatistics (props) {
           <div style = {{fontWeight: 300, width:'90%', height: '100%', textAlign: 'justify', display: 'inline-block', fontWeight: 'normal', fontSize: '14px', lineHeight: '17px'}}> Overview of the expected workload for your entire year, divided by module, activity type, hourly contribution and grade contribution.</div>
           <div style = {{margin:'12px 0 0 5% ',padding:'10px', fontWeight: 300, color:'#AFAFAF',textAlign: 'justify' }}> breakdown by: </div>
           <div >
+
+          <Button variant="contained" color="primary" aria-controls="fade-menu" aria-haspopup="true" onClick = {()=>setFilterState(4)}
+          style={{margin:'8px',lineHeight:0, height: '24px',borderRadius:'12px',textTransform: 'none', padding:0, backgroundColor: filterState==4? "#0153B4":'#F6F7FA',}}
+          children ={<span style={{margin:'0 10px',lineHeight:'0',color:filterState==4? "#FFFFFF":'#0061D2'}}> Student Progress  </span>}></Button>
+
           <Button variant="contained" color="primary" aria-controls="fade-menu" aria-haspopup="true" onClick = {()=>setFilterState(0)}
           style={{margin:'8px',lineHeight:0, height: '24px',borderRadius:'12px',textTransform: 'none', padding:0, backgroundColor: filterState==0? "#0153B4":'#F6F7FA',}}
           children ={<span style={{margin:'0 10px',lineHeight:'0',color:filterState==0? "#FFFFFF":'#0061D2'}}> Module (Total)  </span>}></Button>

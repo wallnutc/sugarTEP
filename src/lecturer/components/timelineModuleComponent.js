@@ -4,7 +4,7 @@ import TimeSeries from "fusioncharts/fusioncharts.timeseries";
 import ReactFC from 'react-fusioncharts';
 ReactFC.fcRoot(FusionCharts, TimeSeries);
 
-function TimelineModuleComponent(props){
+function TimelineComponent(props){
   const [response,setResponse] = useState({});
   useEffect(() => {
     var url = 'https://mvroso.pythonanywhere.com/timelineByModule' + props.moduleID;
@@ -18,29 +18,22 @@ function TimelineModuleComponent(props){
          console.error(error);
        });
   },[]);
-  if(response.byActivity != undefined){
-    const data = response.byActivity;
+  if(response.data != undefined){
+    const data = response.data;
     const schema = response.schema;
-    var binning = null;
+    var binning = "Week";
     if (props.bin == "Month"){
       binning = {
-        "day": [],
         "year": [],
+        "day": [],
         "month": [1]
       }
     }
     if (props.bin == "Week"){
       binning = {
+        "year": [],
         "day": [6],
-        "month": [],
-        "year": []
-      }
-    }
-    if (props.bin == "Semester"){
-      binning = {
-        "day": [],
-        "month": [],
-        "year": [1]
+        "month": []
       }
     }
     const dataSource = {
@@ -48,25 +41,21 @@ function TimelineModuleComponent(props){
           enabled: 0
         },
         legend: {
-          enabled: 0,
-          position: "right"
+          enabled: 1,
         },
         chart: {
         },
         caption: {
-        text: "Total Hours By Activity Type (" + props.bin + " View)"
+        text: "Workload To Date"
         },
-        subcaption: {
-        text: props.label
-        },
-        series: "Module",
+        series: "User",
         yaxis: [
         {
             plot: [
             {
                 value: "Hours",
-                type: "column",
-                aggregation: "sum",
+                type: "line",
+                aggregation: "sum"
             }
             ],
             format: {
@@ -82,7 +71,7 @@ function TimelineModuleComponent(props){
     const timeseriesDs = {
         type: "timeseries",
         width: "95%",
-        height: "95%",
+        height: "100%",
         dataSource: dataSource
     }
     const fusionTable = new FusionCharts.DataStore().createDataTable(data,schema);
@@ -97,4 +86,4 @@ function TimelineModuleComponent(props){
   else return <div></div>
 };
 
-export default TimelineModuleComponent;
+export default TimelineComponent;

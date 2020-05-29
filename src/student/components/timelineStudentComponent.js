@@ -7,7 +7,7 @@ ReactFC.fcRoot(FusionCharts, TimeSeries);
 function TimelineComponent(props){
   const [response,setResponse] = useState({});
   useEffect(() => {
-    var url = 'https://mvroso.pythonanywhere.com/timelineByModule' + props.moduleID;
+    var url = 'https://mvroso.pythonanywhere.com/timelineByStudent1' + props.studentID;
     console.log(url);
     fetch(url)
        .then((response) => response.json())
@@ -21,32 +21,19 @@ function TimelineComponent(props){
   if(response.data != undefined){
     const data = response.data;
     const schema = response.schema;
-    var binning = "Week";
-    if (props.bin == "Month"){
-      binning = {
-        "year": [],
-        "day": [],
-        "month": [1]
-      }
-    }
-    if (props.bin == "Week"){
-      binning = {
-        "year": [],
-        "day": [6],
-        "month": []
-      }
-    }
+    console.log(data,schema);
     const dataSource = {
         navigator: {
           enabled: 0
         },
         legend: {
           enabled: 1,
+          position: "right"
         },
         chart: {
         },
         caption: {
-        text: "Workload To Date"
+        text: "Total Hours To Date"
         },
         series: "User",
         yaxis: [
@@ -64,7 +51,10 @@ function TimelineComponent(props){
         }
         ],
         xAxis: {
-          binning: binning
+          binning: {
+            "day": [1,6],
+            "month": [1]
+          }
         }
     };
 
