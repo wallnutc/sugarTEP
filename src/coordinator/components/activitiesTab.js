@@ -17,6 +17,11 @@ import AssignmentIcon from '@material-ui/icons/Assignment';
 import DatePick from './datePicker';
 import {FeedbackPanel} from "./listRenderer";
 import 'date-fns';
+import Radio from '@material-ui/core/Radio';
+import RadioGroup from '@material-ui/core/RadioGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import FormControl from '@material-ui/core/FormControl';
+import FormLabel from '@material-ui/core/FormLabel';
 import DateFnsUtils from '@date-io/date-fns';
 import {
   TimePicker,
@@ -959,23 +964,13 @@ const [activityTypeID, setActivityTypeID] = useState(props.activity==undefined? 
                   </div>
                 </div>
                 <div style={{marginLeft:'24px'}}>
-                  <label For="distributionSelection"> Workload Distribution </label> <br/>
-                  <TextField
-                      id="distributionSelection"
-                      select
-                      size='small'
-                      style={{width:"160px",marginTop:'8px',marginBottom:'16px',}}
-                      value={distribution}
-                      InputProps={{style: inputStyle}}
-                      variant="outlined"
-                      onChange={(e)=>setDistribution(e.target.value)}
-                    >
-                      {distributionOptions.map((option) => (
-                        <MenuItem key={option.value} value={option.value}>
-                          {option.label}
-                        </MenuItem>
-                      ))}
-                    </TextField>
+                <label For="distribution"> Workload Distribution </label><br/>
+                  <FormControl component="fieldset" id = 'distribution' style = {{color:props.colour}}>
+                    <RadioGroup style = {{color:props.colour}} row aria-label="distribution" name="distribution" value={distribution} onChange={(e)=>setDistribution(e.target.value)}>
+                      <FormControlLabel color={props.colour} value="Linear" control={<Radio color={props.colour}/>} label="Linear" style = {{color:props.colour}}/>
+                      <FormControlLabel color={props.colour} value="Triangular" control={<Radio color={props.colour}/>} label="Triangular"style = {{color:props.colour}} />
+                    </RadioGroup>
+                  </FormControl>
                 </div>
               </div>
               <div style={{display:'flex',margin:'5px'}} >

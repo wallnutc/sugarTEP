@@ -375,7 +375,7 @@ function DetailBox(props) {
             </div>} />
         </span>
         </div>
-        <div style = {{margin:'8px 0', height: '400px', width: '600px', position:'relative'}}>
+        <div style = {{margin:'8px 0', height: '350px', width: '600px', position:'relative'}}>
           <TimelineModuleComponent moduleID = {props.module_ID} label = {props.module_name} bin = {timeType}/>
         </div>
       </div>
