@@ -36,6 +36,8 @@ import Select from '@material-ui/core/Select';
 import Chip from '@material-ui/core/Chip';
 import ClearRoundedIcon from '@material-ui/icons/ClearRounded';
 import invert from 'invert-color';
+import LinearGraph from '../images/linearGraph.svg';
+import TriangulerGraph from '../images/triangularGraph.svg';
 import Switch from '@material-ui/core/Switch';
 function decreaseBrightness(hex, percent){
     // strip the leading # if it's there
@@ -967,7 +969,9 @@ const [activityTypeID, setActivityTypeID] = useState(props.activity==undefined? 
                   <FormControl component="fieldset" id = 'distribution' style = {{color:props.colour}}>
                     <RadioGroup style = {{color:props.colour}} row aria-label="distribution" name="distribution" value={distribution} onChange={(e)=>setDistribution(e.target.value)}>
                       <FormControlLabel color={props.colour} value="Linear" control={<Radio color={props.colour}/>} label="Linear" style = {{color:props.colour}}/>
+                      <span ><img src={LinearGraph} alt="Linear Graph" style = {{height:"45px"}}/></span>
                       <FormControlLabel color={props.colour} value="Triangular" control={<Radio color={props.colour}/>} label="Triangular"style = {{color:props.colour}} />
+                      <span><img src={TriangulerGraph} alt="Triangular Graph" style = {{height:"45px"}}/></span>
                     </RadioGroup>
                   </FormControl>
                 </div>
