@@ -15,6 +15,8 @@ import {
 } from '@material-ui/pickers';
 import {ActivityProgressPopup} from '../components/popups';
 import FilterMenu,{DateFilter} from '../components/filterMenu';
+import AcitvitiesIcon from '../components/iconsSVG/activitiesIcon';
+
 const mainBlue = "#0061D2";
 function MyActivities (props) {
   const batch = 5;
@@ -106,10 +108,9 @@ const handleChange = (module_code) => {
       <div >
         <div className="header">
         <div>
-        <div style={{left: "0",right:"0",position: 'fixed',backgroundColor: "white",top:'55px', zIndex: 1}}>
-        <ActivityIcon style={{margin:'15px 0px 10px 20px', height:'40px', width: '46px',float:'left', zIndex: 2, color:mainBlue}}/>
-          <h2 style={{fontFamily: 'Rubik',fontStyle: 'normal',fontWeight: '500',fontSize: '20px',float:'left',lineHeight: '41px',padding: '15px',color: mainBlue}}>My Activities</h2>
-        </div>
+
+        <AcitvitiesIcon style={{height:'40px', width: '40px',float:'left', zIndex: 2, color:mainBlue}}/>
+          <div style={{fontFamily: 'Rubik',fontStyle: 'normal',fontWeight: '500',fontSize: '20px',float:'left',lineHeight: '40px',marginLeft:'16px',color: mainBlue}}>My Activities</div>
       </div>
         </div>
         <div className="filter">
@@ -122,7 +123,7 @@ const handleChange = (module_code) => {
             {showPopup ?
             <ActivityProgressPopup
                       activity={popupActivity}
-                      student={props.student_ID}
+                      student={props.student}
                       setState={props.setState}
                       closePopup={togglePopup}
             />  : null
@@ -131,7 +132,7 @@ const handleChange = (module_code) => {
         </div>
 
         <div className="main" style={{}}>
-
+        <div style={{backgroundColor:'#F6F7FA', borderRadius:'6px', margin:'16px', padding:'8px',boxShadow:' 0px 2px 4px rgba(0, 0, 0, 0.1)'}}>
         <InfiniteScroll
           dataLength={activitiesForRender.length}
           next={fetchMoreData}
@@ -149,20 +150,23 @@ const handleChange = (module_code) => {
                 if (newWeekIndexes.includes(index) ) {
                   return(
 
-                  <div key={i.module_code+i.due_date}>
+                  <div key={i.module_code+i.due_date} >
                     <div style={{
-                      margin:'16px 0 0 24px',
                       fontFamily: 'Rubik',
                        fontStyle: 'normal',
-                       fontSize: '17px',
-                       color: mainBlue
-                     }}> { weekTag[(new Date(i.due_date)).getDay()]} | {String(new Date(i.due_date).getDate()).padStart(2, '0')}/{String(new Date(i.due_date).getMonth() + 1).padStart(2, '0')} </div>
+                       fontSize: '14px',
+                       color: "#565656"
+                     }}> <b>{ weekTag[(new Date(i.due_date)).getDay()]}</b> | {String(new Date(i.due_date).getDate()).padStart(2, '0')}/{String(new Date(i.due_date).getMonth() + 1).padStart(2, '0')} </div>
+                     <div style={{margin:'8px 0'}}>
                     <ActivityPanel onClick={togglePopup} item={i} setState={props.setState} />
+                    </div>
                   </div>
                 );}
                 else{
-                  return(<div key={i.module_code+i.due_date}>
-                    <ActivityPanel onClick={togglePopup} item={i} setState={props.setState} />
+                  return(<div key={i.module_code+i.due_date} >
+                    <div style={{margin:'8px 0'}}>
+                      <ActivityPanel onClick={togglePopup} item={i} setState={props.setState} />
+                    </div>
                   </div>);
                 }
               }
@@ -171,6 +175,7 @@ const handleChange = (module_code) => {
             )
 }
         </InfiniteScroll>
+        </div>
         {
 
         }

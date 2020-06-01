@@ -10,6 +10,7 @@ import InboxIcon from '@material-ui/icons/MoveToInbox';
 import DraftsIcon from '@material-ui/icons/Drafts';
 import SendIcon from '@material-ui/icons/Send';
 import MenuBookIcon from '@material-ui/icons/MenuBook';
+import LectureIcon from '../components/iconsSVG/lectureIcon';
 
 export default function ScheduleWeekly (props){
   const offset = 6;
@@ -190,7 +191,7 @@ function CustomizedMenus(props) {
         onClick={handleClick}
 
         style={{minWidth:'0',height:props.height, backgroundColor:props.event.colour }}
-        children={<div><MenuBookIcon style={{fontSize:'16px', margin:'0'}} /><span style={{fontSize:'8px'}}> {props.event.module_code}</span></div>}
+        children={<div><LectureIcon style={{fontSize:'16px', margin:'0'}} /><span style={{fontSize:'8px'}}> {props.event.module_code}</span></div>}
       />
       <StyledMenu
         id="customized-menu"
@@ -203,7 +204,7 @@ function CustomizedMenus(props) {
           <ListItemText>
           <div style={{height:'70px'}}>
           <div >{props.event.module_name}</div>
-          <div>{props.event.start_time} - {props.event.end_time}</div>
+          <div>{props.event.start_time.split(':')[0]+':'+props.event.start_time.split(':')[1]} - {props.event.end_time.split(':')[0]+':'+props.event.end_time.split(':')[1]}</div>
           <div>{props.event.location}</div>
           </div>
           </ListItemText>

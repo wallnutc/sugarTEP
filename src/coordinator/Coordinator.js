@@ -11,10 +11,14 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
+import {
+  BrowserView,
+  MobileView,
+  isBrowser,
+  isMobile
+} from "react-device-detect";
 const mainBlue = "#0061D2";
 //const mainBlue = "red";
-
-
 
 function setTheme(val){
   return 1;
@@ -143,53 +147,68 @@ saveClass(){
       );
     }
 
-
-
-    render(){
-      return (
-      <div >
-        <div className = 'Menubar' style={{backgroundColor: mainBlue}}><TopMenuBar /></div>
-        <div style={{position:'fixed',top:'100px'}}></div>
-      
-
-          {this.state.isLoaded ? this.state.courses.map((course)=> <div className = 'title' style= {{color: mainBlue}}>
-              <p>{course.course_name}</p>
-          </div>) :null}
-          
-
-            <div className = 'moduleBox'>
-            {this.state.isLoaded ? this.state.courses.map((course)=> <div style ={{margin:'50px 0px'}}>
-                      <ExpansionPanelCourse  today={this.state.today} colour={mainBlue} course={course} setState={this.saveClass.bind(this)}/>
-                      </div>)
-                      :null }
-
+    renderContent = () => {
+      if (isMobile) {
+          return(
+            <div className="App">
+              <div className="CourseLogo1" style={{width:'150px', height:'155px'}}>
+                <img src={require('../images/cc.png')} style={{width:'150px', height:'150px'}}/>
+              </div>
+              <h2 className="CourseName1">ModuleM</h2>
+              <div style={{margin:'auto'}}>
+                <div style={{color:mainBlue, fontSize:40, textAlign:'center', position:'relative'}}>Oops !</div>
+                <div style={{color:mainBlue, fontSize:20, textAlign:'center', width: "80%", position:'relative', margin:'auto'}}> This portion of the website is only available in desktop view. Please switch back to desktop view by pressing Ctrl+Shift+M on your desktop browser and refresh the page !</div>
+              </div>
             </div>
-
-          {this.state.isLoaded ? <div className = 'title' style= {{color: mainBlue}}><p>Modules</p></div> 
-          :<div><p>Loading ... </p></div>}
-          
-          <div className = 'moduleBox'>
-            {this.state.isLoaded ? this.state.modules.map((module)=> <div style ={{margin:'50px 0px'}}>
-                      <ExpansionPanel  today={this.state.today} colour={mainBlue} module={module} setState={this.saveClass.bind(this)}/>
-                      </div>)
-                      :null }
-
-          </div>
-
-          <div className = 'moduleBox'>
-            {this.state.isLoaded ? this.state.contmodules.map((module)=> <div style ={{margin:'50px 0px'}}>
-
-                      <ExpansionPanel  today={this.state.today} colour={mainBlue} module={module} setState={this.saveClass.bind(this)}/>
-                      </div>)
-                      :null }
-          </div>
-
-      </div>
-
-      );
-
+          );
+      }
+      return (
+        <div >
+          <div className = 'Menubar' style={{backgroundColor: mainBlue}}><TopMenuBar /></div>
+          <div style={{position:'fixed',top:'100px'}}></div>
+          <span className="CourseLogo1" style={{width:'150px', height:'155px', marginTop:'40px'}}>
+          <img src={require('./images/cc.png')} style={{width:'150px', height:'150px'}}/>
+          </span>
+          <span><h2 className="CourseName1" style = {{top: '-10px',fontSize:30}}>ModuleM</h2></span>
+            {this.state.isLoaded ? this.state.courses.map((course)=>  <div className = 'title' style= {{color: mainBlue, marginTop: '30px'}}>    
+                <p>{course.course_name}</p>
+            </div>) :null}
+            
+  
+              <div className = 'moduleBox'>
+              {this.state.isLoaded ? this.state.courses.map((course)=> <div style ={{margin:'50px 0px'}}>
+                        <ExpansionPanelCourse  today={this.state.today} colour={mainBlue} course={course} setState={this.saveClass.bind(this)}/>
+                        </div>)
+                        :null }
+  
+              </div>
+  
+            {this.state.isLoaded ? <div className = 'title' style= {{color: mainBlue}}><p>Modules</p></div> 
+            :<div className = 'title' style= {{color: mainBlue}}><p>Loading Modules... </p></div>}
+            
+            <div className = 'moduleBox'>
+              {this.state.isLoaded ? this.state.modules.map((module)=> <div style ={{margin:'50px 0px'}}>
+                        <ExpansionPanel  today={this.state.today} colour={mainBlue} module={module} setState={this.saveClass.bind(this)}/>
+                        </div>)
+                        :null }
+  
+            </div>
+  
+            <div className = 'moduleBox'>
+              {this.state.isLoaded ? this.state.contmodules.map((module)=> <div style ={{margin:'50px 0px'}}>
+  
+                        <ExpansionPanel  today={this.state.today} colour={mainBlue} module={module} setState={this.saveClass.bind(this)}/>
+                        </div>)
+                        :null }
+            </div>
+  
+        </div>
+  
+        );
     }
-
+    render(){
+      return this.renderContent();
+    }
 
 }
 

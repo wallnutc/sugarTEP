@@ -113,12 +113,12 @@ export function ActivityProgressPopup (props) {
   // console.log(answers);
   const updateProgress = () =>{
      var data = {
-       studentID: props.student,
+       studentID: props.student.student_ID,
        activityID: props.activity.activity_ID,
        hours: timeSpent,
        submitted: 0
      };
-     console.log("UpdateProgress", data);
+     console.log("UpdateProgress", props);
      fetch("https://mvroso.pythonAnywhere.com/updateStudentProgress", {
                    method: "POST",
                    cache: "no-cache",
@@ -131,14 +131,13 @@ export function ActivityProgressPopup (props) {
     setUpdated(true);
   }
   const finishActivity = () =>{
-    console.log("activity finished");
      var data = {
-       studentID: props.student,
+       studentID: props.student.student_ID,
        activityID: props.activity.activity_ID,
        hours: timeSpent,
        submitted: 1
      };
-         console.log(data);
+     console.log("activity finished", data);
      fetch("https://mvroso.pythonAnywhere.com/updateStudentProgress", {
                    method: "POST",
                    cache: "no-cache",

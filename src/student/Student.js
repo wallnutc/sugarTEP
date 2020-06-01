@@ -22,9 +22,9 @@ function CoreSceneRenderer (props){
     case 'lectures':
       return (<Lectures filter={props.modules.modulesFilter} today={props.today} classes={props.modules.classes}/>);
     case 'myActivities':
-      return (<MyActivities filter={props.modules.modulesFilter} today={props.today} setState={props.setState} activities={props.modules.activities} student_ID={props.modules.student.student_ID}/>);
+      return (<MyActivities filter={props.modules.modulesFilter} today={props.today} setState={props.setState} activities={props.modules.activities} student={props.student}/>);
     case 'myDay':
-      return (<MyDay isLoaded = {props.isLoaded} activities={props.modules.activities} setState={props.setState} classes={props.modules.classes}/>);
+      return (<MyDay isLoaded = {props.isLoaded} today={props.today} activities={props.modules.activities} setState={props.setState} classes={props.modules.classes} student={props.student}/>);
     case 'myModules':
       return (<MyModules modules={props.modules.modules}/>);
     case 'myStatistics':
@@ -110,7 +110,7 @@ class Student extends Component  {
           activities:[],
           modulesFilter:[],
           student:{},
-          today: new Date('2018-09-14T00:00:00'),
+          today: new Date('2018-11-14T00:00:00'),
 };
 
   changeCoreScene = (coreSceneIndex)=>{
@@ -246,7 +246,7 @@ saveClass(){
           </div>
 
           <div>
-            <CoreSceneRenderer coreScene={this.state.coreScene} isLoaded= {this.state.isLoaded} modules={this.state} setState={this.saveClass.bind(this)} today={this.state.today}/>
+            <CoreSceneRenderer coreScene={this.state.coreScene} isLoaded= {this.state.isLoaded} modules={this.state} student={this.state.student} setState={this.saveClass.bind(this)} today={this.state.today}/>
           </div>
 
           <div className="BottomNavigation">

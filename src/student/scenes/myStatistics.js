@@ -12,6 +12,7 @@ import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import BarIcon from '@material-ui/icons/Assessment';
 import Button from '@material-ui/core/Button';
+import StatisticsIcon from '../components/iconsSVG/statisticsIcon';
 
 const mainBlue = "#0061D2";
 
@@ -55,14 +56,12 @@ function MyStatistics (props) {
     return (
       <div >
         <div className="header">
-        <div>
-        <div style={{left: "0",right:"0",position: 'fixed',backgroundColor: "white",top:'55px', zIndex: 1}}>
-        <BarIcon style={{margin:'15px 0px 10px 20px', height:'40px', width: '46px',float:'left', zIndex: 2, color:mainBlue}}/>
-          <h2 style={{fontFamily: 'Rubik',fontStyle: 'normal',fontWeight: '500',fontSize: '20px',float:'left',lineHeight: '41px',padding: '15px',color: mainBlue}}>My Statistics</h2>
+          <div>
+            <StatisticsIcon style={{height:'40px', width: '40px',float:'left', zIndex: 2, color:mainBlue}}/>
+            <div style={{fontFamily: 'Rubik',fontStyle: 'normal',fontWeight: '500',fontSize: '20px',float:'left',lineHeight: '40px',marginLeft:'16px',color: mainBlue}}>My Statistics</div>
+          </div>
         </div>
-      </div>
-        </div>
-        <div className="main" style = {{textAlign: 'center'}}>
+        <div className="main" style = {{textAlign: 'center', marginTop:'144px'}}>
 
           <div style = {{fontWeight: 300, width:'90%', height: '100%', textAlign: 'justify', display: 'inline-block', fontWeight: 'normal', fontSize: '14px', lineHeight: '17px'}}> Overview of the expected workload for your entire year, divided by module, activity type, hourly contribution and grade contribution.</div>
           <div style = {{margin:'12px 0 0 5% ',padding:'10px', fontWeight: 300, color:'#AFAFAF',textAlign: 'justify' }}> breakdown by: </div>

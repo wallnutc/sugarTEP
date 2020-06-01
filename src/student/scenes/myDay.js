@@ -8,6 +8,7 @@ import CalendarTodayIcon from '@material-ui/icons/CalendarToday';
 import { makeStyles, withStyles, useTheme } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import ScheduleWeekly from '../components/ScheduleWeekly';
+import MyDayIcon from '../components/iconsSVG/myDayIcon';
 const mainBlue = "#0061D2";
 Date.prototype.addDays = function(days) {
     var date = new Date(this.valueOf());
@@ -24,11 +25,12 @@ Date.prototype.getWeek = function(){
           );
 }
 function MyDay (props) {
+  console.log("My Day Props", props);
   const today = "2019-03-14";
   const today2 = "2018-09-14T00:00:00"
   const headerContent = {title:"My Day", imgPath: require("../images/icons/myDay.svg")};
   const batch = 5;
-  const activeActivities = props.activities.filter((item) => new Date(item.due_date) >= new Date(today2)  && item.submitted != 1 ); //&& new Date(item.start_date) <= new Date(today2)
+  const activeActivities = props.activities.filter((item) => new Date(item.due_date) >= new Date(props.today)  && item.submitted != 1 ); //&& new Date(item.start_date) <= new Date(today2)
   const [activities,setActivities] = useState(()=>activeActivities.length <=batch ? activeActivities:activeActivities.slice(0,batch))
   const [panels, setpanels] = useState( () => <div style={{height:'100%',width:'100%',backgroundColor:'red'}}> AAAAAAAAHHHHHHHHHHHHHHHHHHHHHHHH </div>);
   const [renderIndex, setRenderIndex] = useState(batch);
@@ -36,8 +38,9 @@ function MyDay (props) {
   const [setup,setSetup] = useState(true);
   const [popupActivity,setPopupActivity] = useState({});
   const [filterState, setFilterState] = useState(1);
-  const thisWeek=new Date(today2).getWeek();
+  const thisWeek=new Date(props.today).getWeek();
   const thisWeekClasses = props.classes.filter((item) => new Date(item.date+'T00:00:00')>=thisWeek[0]&&new Date(item.date+'T00:00:00')<=thisWeek[6] );
+  const weekTag = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
   if(activeActivities.length>0 && setup){
         setActivities(()=>activeActivities.length <=batch ? activeActivities:activeActivities.slice(0,batch));
@@ -77,17 +80,15 @@ return (
   <div >
     <div className="header">
       <div>
-        <div style={{left: "0",right:"0",position: 'fixed',backgroundColor: "white",top:'55px', zIndex: 1}}>
-          <CalendarTodayIcon style={{margin:'15px 0px 10px 20px', height:'40px', width: '46px',float:'left', zIndex: 2, color:mainBlue}}/>
-          <h2 style={{fontFamily: 'Rubik',fontStyle: 'normal',fontWeight: '500',fontSize: '20px',float:'left',lineHeight: '41px',padding: '15px',color: mainBlue}}>My Day</h2>
-        </div>
+          <MyDayIcon style={{height:'40px', width: '40px',float:'left', zIndex: 2, color:mainBlue}}/>
+          <div style={{fontFamily: 'Rubik',fontStyle: 'normal',fontWeight: '500',fontSize: '20px',float:'left',lineHeight: '40px',marginLeft:'16px',color: mainBlue}}>My Day</div>
       </div>
     </div>
     <div className="filter">
       <div>
       <div style={{padding:"0 16px",}}>
         <span >
-        <BootstrapButton style = {{margin:'16px 8px',width:'51px' ,height: '24px',backgroundColor: filterState==1 ? '#0153B4':'#F6F7FA'}} onClick={()=>{setFilterState(1);window.scrollTo(0, 0);}} children={
+        <BootstrapButton style = {{margin:'16px 0',width:'51px' ,height: '24px',backgroundColor: filterState==1 ? '#0153B4':'#F6F7FA'}} onClick={()=>{setFilterState(1);window.scrollTo(0, 0);}} children={
           <div style={{color:filterState==1 ? '#FFFFFF':'#0061D2', fontFamily: 'Rubik',fontStyle: 'normal', fontWeight: '300',fontSize: '12px',lineHeight: '14px'}}>
           Day
             </div>} />
@@ -109,7 +110,8 @@ return (
         {showPopupA ?
         <ActivityProgressPopup
                   activity={popupActivity}
-                  student={props.student_ID}
+                  student={props.student}
+                  setState={props.setState}
                   closePopup={togglePopupActivity}
         />  : null
         }
@@ -117,23 +119,28 @@ return (
     </div>
     <div className="main" >
     {filterState==1 ?
+
       <div>
+      <div style={{backgroundColor:'#F6F7FA', borderRadius:'6px', margin:'16px', padding:'8px',boxShadow:' 0px 2px 4px rgba(0, 0, 0, 0.1)'}}>
       <div style={{
-        margin:'16px 0 0 24px',
         fontFamily: 'Rubik',
          fontStyle: 'normal',
-         fontSize: '17px',
-         color: mainBlue
-       }}> Today | {String(new Date(today).getDate()).padStart(2, '0')}/{String(new Date(today).getMonth() + 1).padStart(2, '0')}
+         fontSize: '14px',
+         color: '#565656'
+       }}> <b>Today</b> | {weekTag[props.today.getDay()]+' '}{String(props.today.getDate()).padStart(2, '0')}/{String(props.today.getMonth() + 1).padStart(2, '0')}
+       <br/><div style={{margin:'16px 0 8px 0'}}>Classes</div>
     </div>
 
-      {props.classes.filter((item) =>item.date==today ).map((item)=> <div key={item.module_code+item.date+item.start_time}><LecturePanel onClick ={togglePopupClass} item = {item} /></div> )}
+      {props.classes.filter((item) =>new Date(item.date+'T00:00:00').getTime() == props.today.getTime()).map((item)=> <div key={item.module_code+item.date+item.start_time} style={{margin:'8px 0'}}>
+        <LecturePanel onClick ={togglePopupClass} item = {item} />
+      </div> )}
+      </div>
+      <div style={{backgroundColor:'#F6F7FA', borderRadius:'6px', margin:'16px', padding:'8px',boxShadow:' 0px 2px 4px rgba(0, 0, 0, 0.1)'}}>
       <div style={{
-        margin:'16px 0 0 24px',
         fontFamily: 'Rubik',
          fontStyle: 'normal',
-         fontSize: '17px',
-         color: mainBlue
+         fontSize: '14px',
+         color: '#565656'
        }}> Activities backlog
     </div>
 
@@ -149,13 +156,14 @@ return (
         }
       >
         {activities.map((i, index) => (
-          <div key={i.module_code+i.due_date}>
+          <div key={i.module_code+i.due_date} style={{margin:'8px 0'}}>
             <ActivityPanel onClick={togglePopupActivity} item={i} />
           </div>
         ))}
       </InfiniteScroll>
-
-      </div>:<div style={{margin:'8px'}}>
+      </div>
+      </div>
+      :<div style={{margin:'8px'}}>
       {thisWeekClasses.length>0 ? <ScheduleWeekly events={thisWeekClasses}week={thisWeek}/> : null}
 
       </div>

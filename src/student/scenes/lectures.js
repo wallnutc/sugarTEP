@@ -17,6 +17,7 @@ import {
 } from '@material-ui/pickers';
 import {ClassFeedbackPopup} from '../components/popups';
 import FilterMenu,{DateFilter} from '../components/filterMenu';
+import LectureIcon from '../components/iconsSVG/lectureIcon';
 const mainBlue = "#0061D2";
 
 function Lectures (props) {
@@ -30,7 +31,8 @@ function Lectures (props) {
     const [classesForRender,setclassesForRender] = useState(()=>classes.length <=batch ? classes: classes.slice(0,batch))
     const [renderIndex, setRenderIndex] = useState(batch);
     const [hasMore,setHasMore] =  useState(true);
-
+    var renderBlock= [];
+    var weekdayTemp;
     const [popupClass,setPopupClass] = useState({})
     const [showPopup,setShowPopup] = useState(false);
     const togglePopup = (lecture) => {
@@ -110,12 +112,10 @@ function Lectures (props) {
       return (
         <div >
           <div className="header">
-          <div>
-        <div style={{left: "0",right:"0",position: 'fixed',backgroundColor: "white",top:'55px', zIndex: 1}}>
-        <MenuBookIcon style={{margin:'15px 0px 10px 20px', height:'40px', width: '46px',float:'left', zIndex: 2, color:mainBlue}}/>
-          <h2 style={{fontFamily: 'Rubik',fontStyle: 'normal',fontWeight: '500',fontSize: '20px',float:'left',lineHeight: '41px',padding: '15px',color: mainBlue}}>My Classes</h2>
-        </div>
-      </div>
+            <div>
+              <LectureIcon style={{height:'40px', width: '40px',float:'left', zIndex: 2, color:mainBlue}}/>
+              <div style={{fontFamily: 'Rubik',fontStyle: 'normal',fontWeight: '500',fontSize: '20px',float:'left',lineHeight: '40px',marginLeft:'16px',color: mainBlue}}>My Classes</div>
+            </div>
           </div>
 
           <div className="filter">
@@ -136,7 +136,10 @@ function Lectures (props) {
           <div className="main" >
 
           {
-            classesForRender.length>0 ? <InfiniteScroll
+            classesForRender.length>0 ?
+            <div key={i.module_code+i.date+i.start_time} style={{backgroundColor:'#F6F7FA', borderRadius:'6px', margin:'16px', padding:'8px',boxShadow:' 0px 2px 4px rgba(0, 0, 0, 0.1)'}}>
+
+            <InfiniteScroll
               dataLength={classesForRender.length}
               next={fetchMoreData}
               hasMore={hasMore}
@@ -148,33 +151,26 @@ function Lectures (props) {
               }
             >
               {
-                classesForRender.map((i, index) =>{
-
-                    if (newWeekIndexes.includes(index) ) {
-                      return(
-
-                      <div key={i.module_code+i.date+i.start_time}>
-                        <div style={{
-                          margin:'16px 0 0 24px',
-                          fontFamily: 'Rubik',
-                           fontStyle: 'normal',
-                           fontSize: '17px',
-                           color: mainBlue
-                         }}> { weekTag[(new Date(i.date+'T00:00:00')).getDay()]} | {String(new Date(i.date+'T00:00:00').getDate()).padStart(2, '0')}/{String(new Date(i.date+'T00:00:00').getMonth() + 1).padStart(2, '0')} </div>
-                        <LecturePanel onClick ={togglePopup} item={i} setState={props.setState} />
-                      </div>
-                    );}
-                    else{
-                      return(<div key={i.module_code+i.date+i.start_time}>
-                        <LecturePanel onClick ={togglePopup} item={i} setState={props.setState}/>
-                      </div>);
-                    }
-                  }
+                classesForRender.map((i, index) =>
+                <div>
+                  {newWeekIndexes.includes(index)?
+                    <div style={{
+                      fontFamily: 'Rubik',
+                       fontStyle: 'normal',
+                       fontSize: '14px',
+                       color: "#565656"
+                     }}> <b>{ weekTag[(new Date(i.date+'T00:00:00')).getDay()]}</b> | {String(new Date(i.date+'T00:00:00').getDate()).padStart(2, '0')}/{String(new Date(i.date+'T00:00:00').getMonth() + 1).padStart(2, '0')} </div>:null
+                   }
+                   <div style={{margin:'8px 0'}}>
+                    <LecturePanel today={props.today} onClick ={togglePopup} item={i} setState={props.setState} />
+                   </div>
+                   </div>
 
 
                 )
               }
             </InfiniteScroll>
+            </div>
             : <div style={{position:'fixed', top:'250px', left:'24px', color: mainBlue}}> No classes found! </div>
 
 
@@ -207,3 +203,44 @@ function Lectures (props) {
 }
 
 export default Lectures;
+
+{/*
+  <div key={i.module_code+i.date+i.start_time} style={{backgroundColor:'#F6F7FA', borderRadius:'6px', margin:'16px', padding:'8px',boxShadow:' 0px 2px 4px rgba(0, 0, 0, 0.1)'}}>
+  {newWeekIndexes.includes(index)?
+    <div style={{
+      fontFamily: 'Rubik',
+       fontStyle: 'normal',
+       fontSize: '17px',
+       color: mainBlue
+     }}> { weekTag[(new Date(i.date+'T00:00:00')).getDay()]} | {String(new Date(i.date+'T00:00:00').getDate()).padStart(2, '0')}/{String(new Date(i.date+'T00:00:00').getMonth() + 1).padStart(2, '0')} </div>:null
+   }
+   <div style={{margin:'8px 0'}}>
+    <LecturePanel onClick ={togglePopup} item={i} setState={props.setState} />
+   </div>
+</div>
+
+
+
+  if (newWeekIndexes.includes(index) ) {
+    return(
+
+    <div key={i.module_code+i.date+i.start_time} style={{backgroundColor:'#F6F7FA', borderRadius:'6px', margin:'16px', padding:'8px',boxShadow:' 0px 2px 4px rgba(0, 0, 0, 0.1)'}}>
+      <div style={{
+        fontFamily: 'Rubik',
+         fontStyle: 'normal',
+         fontSize: '17px',
+         color: mainBlue
+       }}> { weekTag[(new Date(i.date+'T00:00:00')).getDay()]} | {String(new Date(i.date+'T00:00:00').getDate()).padStart(2, '0')}/{String(new Date(i.date+'T00:00:00').getMonth() + 1).padStart(2, '0')} </div>
+       <div style={{margin:'8px 0'}}>
+       <LecturePanel onClick ={togglePopup} item={i} setState={props.setState} />
+      </div>
+    </div>
+  );}
+  else{
+    return(<div key={i.module_code+i.date+i.start_time} style={{backgroundColor:'#F6F7FA', borderRadius:'6px', margin:'16px', padding:'8px',boxShadow:' 0px 2px 4px rgba(0, 0, 0, 0.1)'}}>
+      <div style={{margin:'8px 0'}}>
+        <LecturePanel onClick ={togglePopup} item={i} setState={props.setState}/>
+      </div>
+    </div>);
+  }
+  */}

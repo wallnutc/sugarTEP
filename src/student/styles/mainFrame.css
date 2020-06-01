@@ -70,9 +70,9 @@
 .header{
   left: 0;
   right:0;
+  padding:24px 16px 16px 16px;
   position: fixed;
   background-color: white;
-  height:75px;
   top:55px;
     z-index: 1;
 }

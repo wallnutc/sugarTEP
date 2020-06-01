@@ -18,6 +18,9 @@ import IconLecture from '../images/icons/lectures.svg';
 import AssignmentIcon from '@material-ui/icons/Assignment';
 import MenuBookIcon from '@material-ui/icons/MenuBook';
 import LocationOnOutlinedIcon from '@material-ui/icons/LocationOnOutlined';
+import LectureIcon from '../components/iconsSVG/lectureIcon';
+import AcitvitiesIcon from '../components/iconsSVG/activitiesIcon';
+
 const today = "2019-03-14";
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -85,23 +88,25 @@ export function LecturePanel(props) {
   const start = props.item.start_time.split(':');
   const end = props.item.end_time.split(':');
   return (
-    <div style={{padding:'7px 24px'}}>
-      <ExpansionPanel style={{backgroundColor:props.item.colour, color: 'white', opacity: new Date(props.item.date) < new Date(today) ? 0.5:1}} >
-          <ExpansionPanelSummary  style = {{padding:'0 0 0 0'}}>
-          <div style = {{width:'100%',padding:'10px 0', fontFamily: 'Rubik', fontStyle: 'normal'}}>
-            <div style = {{float:'left', padding:'0 20px ',height:'100%'}}>
-              <MenuBookIcon color='action' style={{fontSize:'45px', color: 'white'}} />
-            </div>
-            <div>
-              <div style = {{fontWeight: 300, fontSize: '10px', lineHeight: '12px'}} >
-                {props.item.module_code} - {props.item.module_name} | Prof. {props.item.module_lecturer}
+    <div style={{}}>
+      <ExpansionPanel style={{border:'1px solid '+props.item.colour, backgroundColor:props.item.colour, color: 'white', opacity: new Date(props.item.date+'T00:00:00') < props.today? 0.5:1}} >
+          <ExpansionPanelSummary  style = {{height:'56px',padding:0,alignItems:'normal'}}>
+            <div style = {{width:'100%'}}>
+              <div style = {{float:'left',position:'relative',left: 0,height:'100%', width:'56px',margin:0, borderRadius:'8px 0 0 8px',backgroundColor:'white'}}>
+                <LectureIcon color='action' style={{fontSize:'45px', margin:'6px',color: props.item.colour}} />
               </div>
-              <div style = {{fontWeight: 'normal', fontSize: '14px', lineHeight: '17px'}}>
-                {props.item.title}
-              </div>
-              <div style = {{fontWeight: 300, fontSize: '14px', lineHeight: '17px'}} >
-                <ScheduleIcon color='action' style={{verticalAlign:"middle",fontSize: '14px', color: 'white'}}/> <span >{start[0]+':'+start[1]} - {end[0]+':'+end[1]} </span>
-                <span style={{marginRight:'16px',float:'right'}}><LocationOnOutlinedIcon color='action' style={{fontSize:'14px',color: 'white'}}/> {props.item.location}</span>
+            <div style = {{overflow:'hidden',padding:'5px 16px', margin:'auto',fontFamily: 'Rubik', fontStyle: 'normal'}}>
+              <div>
+                <div style = {{fontWeight: 300, fontSize: '10px', lineHeight: '10px', whiteSpace:'nowrap',overflow:'hidden',textOverflow:'ellipsis'}} >
+                  {props.item.module_code} - {props.item.module_name} | Prof. {props.item.module_lecturer}
+                </div>
+                <div style = {{fontWeight: 'normal', fontSize: '16px', lineHeight: '16px', margin:'4px 0'}}>
+                  {props.item.title}
+                </div>
+                <div style = {{fontWeight: 300, fontSize: '10px', lineHeight: '10px'}} >
+                  <ScheduleIcon color='action' style={{verticalAlign:"middle",fontSize: '14px', color: 'white'}}/> <span style={{verticalAlign:"middle"}} >{start[0]+':'+start[1]} - {end[0]+':'+end[1]} </span>
+                  <span style={{float:'right'}}><LocationOnOutlinedIcon color='action' style={{verticalAlign:"middle",fontSize:'14px',color: 'white'}}/> <span style={{verticalAlign:"middle"}}>{props.item.location}</span></span>
+                </div>
               </div>
             </div>
           </div>
@@ -115,8 +120,8 @@ export function LecturePanel(props) {
               {props.item.description}
             </div>
             <div>
-            {new Date(props.item.date) > new Date(today) ?<div>Survey Not Open</div>:
-              <Button fullWidth onClick={()=>props.onClick(props.item)} 
+            {new Date(props.item.date+'T00:00:00') > props.today ?<div>Survey Not Open</div>:
+              <Button fullWidth onClick={()=>props.onClick(props.item)}
               style={{lineHeight:0,float:'right',height: '18px',borderRadius:'9px',textTransform: 'none', padding:0, backgroundColor:'white',}} children ={<span style={{inlineHeight:'0',color:props.item.colour}}>Provide Feedback</span>}></Button>
             }
             </div>
@@ -138,26 +143,27 @@ export function ActivityPanel(props) {
   const startDateMonth = String(dueDate.getMonth() + 1).padStart(2, '0');
   const startDateYear = dueDate.getFullYear();
   return (
-    <div style={{padding:'7px 24px'}}>
-      <ExpansionPanel style={{backgroundColor: props.item.colour, color: 'white', opacity: props.item.submitted == 1 ? 0.5:1}}>
-          <ExpansionPanelSummary  style = {{padding:'0 0 0 0'}}>
-          <div style = {{width:'100%',padding:'10px 0', fontFamily: 'Rubik', fontStyle: 'normal'}}>
-          <div style = {{float:'left',height:'100%', padding:'0 20px '}}>
-          <AssignmentIcon color='action' style={{fontSize:'45px', color: 'white'}}/>
+    <div style={{}}>
+      <ExpansionPanel style={{border:'1px solid '+props.item.colour  ,backgroundColor: props.item.colour, color: 'white', opacity: props.item.submitted == 1 ? 0.5:1}}>
+          <ExpansionPanelSummary  style = {{height:'56px',padding:0,alignItems:'normal'}}>
+            <div style={{width:'100%'}}>
+            <div style = {{float:'left',position:'relative',left: 0,height:'100%', width:'56px',margin:'0', borderRadius:'8px 0 0 8px',backgroundColor:'white'}}>
+              <AcitvitiesIcon style={{fontSize:'45px', margin:'6px',color: props.item.colour}}/>
+            </div>
 
-          </div>
-          <div>
-            <div style = {{fontWeight: 300, fontSize: '10px', lineHeight: '12px'}} >
+          <div style = {{overflow:'hidden', padding:'5px 16px', fontFamily: 'Rubik', fontStyle: 'normal'}}>
+            <div style = {{fontWeight: 300, fontSize: '10px', lineHeight: '10px', whiteSpace:'nowrap',overflow:'hidden',textOverflow:'ellipsis'}} >
               {props.item.module_code} - {props.item.module_name} | Prof. {props.item.module_lecturer}
             </div>
-            <div style = {{fontWeight: 'normal', fontSize: '14px', lineHeight: '17px'}}>
+            <div style = {{fontWeight: 'normal', fontSize: '16px', lineHeight: '16px', margin:'4px 0'}}>
               {props.item.title}
             </div>
-            <div style = {{fontWeight: 300, fontSize: '14px', lineHeight: '17px'}} >
+            <div style = {{fontWeight: 300, fontSize: '10px', lineHeight: '10px'}} >
               <ScheduleIcon color='action' style={{verticalAlign:"middle",fontSize: '14px', color: 'white'}}/> <span> Due date: {dueDateDay + '/' + dueDateMonth + '/' + dueDateYear} </span>
             </div>
-          </div>
+
           <div>
+          </div>
           </div>
           </div>
           </ExpansionPanelSummary>

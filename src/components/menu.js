@@ -23,7 +23,7 @@ export default function SimpleMenu() {
   return (
     <div>
       <div style={{float: 'left'}}>
-      <Button aria-controls="simple-menu" aria-haspopup="true" style={{height:"55px", top:'-5px',display: 'flex'}} >
+      <Button aria-controls="simple-menu" aria-haspopup="true" style={{height:"55px",display: 'flex'}} >
         <img className="photo" src={require('../images/sugar.png')}/>
       </Button>
       </div>

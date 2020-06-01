@@ -63,7 +63,7 @@ export default function ControlledExpansionPanels(props) {
     return (
         <div className={classes.root}>
             <div style={{ width: expanded? '100%': '100%', maxWidth: expanded? '1223px': '100%', padding:0,margin: 0,borderRadius: '10px 8px 8px 8px', border: expanded? '2px outset':null, borderColor: expanded? props.module.colour:null, zIndex: '3'}}>
-            <ExpansionPanel onChange={handleChange('panel1')} multi="false" >
+            <ExpansionPanel onChange={handleChange('panel1')} multi={false}>
 
                 <ExpansionPanelSummary style = {{padding:0,margin:0, color: 'white'}}>
                 { expanded? <div style = {{ position:'relative', height: '100%', width:'25%', maxWidth:'317px', backgroundColor: props.colour, borderRadius: '8px 0px 0px 0px',fontFamily: 'Rubik', fontStyle: 'normal'}}>

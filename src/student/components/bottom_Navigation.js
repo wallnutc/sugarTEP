@@ -11,6 +11,11 @@ import MenuBookIcon from '@material-ui/icons/MenuBook';
 import SchoolIcon from '@material-ui/icons/School';
 import AssessmentIcon from '@material-ui/icons/Assessment';
 import myDayIcon from '../images/icons/myDay.svg';
+import LectureIcon from '../components/iconsSVG/lectureIcon';
+import AcitvitiesIcon from '../components/iconsSVG/activitiesIcon';
+import MyDayIcon from '../components/iconsSVG/myDayIcon';
+import ModulesIcon from '../components/iconsSVG/modulesIcon';
+import StatisticsIcon from '../components/iconsSVG/statisticsIcon';
 
 const mainBlue = "#0061D2";
 const useStyles = makeStyles({
@@ -38,11 +43,11 @@ export default function SimpleBottomNavigation({coreScene})  {
       className={classes.root}
       style={{color:mainBlue}}
     >
-      <BottomNavigationAction style={{minWidth:0, color: mainBlue}} label="Classes" icon={<MenuBookIcon style={{fontSize:'35px', color: mainBlue}} />} />
-      <BottomNavigationAction style={{minWidth:0, color: mainBlue}} label="Activities" icon={<AssignmentIcon style={{fontSize:'35px', color: mainBlue}} />} />
-      <BottomNavigationAction style={{minWidth:0, color: mainBlue}} label="Schedule" icon={<CalendarTodayIcon style={{fontSize:'35px', color: mainBlue}}/>} />
-      <BottomNavigationAction style={{minWidth:0, color: mainBlue}} label="Modules" icon={<SchoolIcon style={{fontSize:'35px', color: mainBlue}}/>} />
-      <BottomNavigationAction style={{minWidth:0, color: mainBlue}} label="Statistics" icon={<AssessmentIcon style={{fontSize:'35px', color: mainBlue}}/>} />
+      <BottomNavigationAction style={{minWidth:0, color:value==0? mainBlue:'#999999'}} label="Classes" icon={<LectureIcon style={{margin:'8px',fontSize:'24px', color:value==0? mainBlue:'#999999'}} />} />
+      <BottomNavigationAction style={{minWidth:0, color:value==1? mainBlue:'#999999'}} label="Activities" icon={<AcitvitiesIcon style={{margin:'8px',fontSize:'24px', color:value==1? mainBlue:'#999999'}} />} />
+      <BottomNavigationAction style={{minWidth:0, color:value==2? mainBlue:'#999999'}} label="Schedule" icon={<MyDayIcon style={{margin:'8px',fontSize:'24px', color:value==2? mainBlue:'#999999' }}/>} />
+      <BottomNavigationAction style={{minWidth:0, color:value==3? mainBlue:'#999999'}} label="Modules" icon={<ModulesIcon style={{margin:'8px',fontSize:'24px', color:value==3? mainBlue:'#999999'}}/>} />
+      <BottomNavigationAction style={{minWidth:0, color:value==4? mainBlue:'#999999'}} label="Statistics" icon={<StatisticsIcon style={{margin:'8px',fontSize:'24px', color:value==4? mainBlue:'#999999'}}/>} />
     </BottomNavigation>
   );
 }

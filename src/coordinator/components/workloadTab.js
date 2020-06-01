@@ -328,10 +328,10 @@ function SelectorBox(props) {
                 <AntTab label="Module Pie Chart" style={{color: props.colour}}/>
                 <AntTab label="Module Time Series" style={{color: props.colour}}/>
             </AntTabs>
-            <div  style={{fontFamily: 'Rubik',color: props.colour, fontStyle: 'normal', fontWeight: '500',padding:'20px 0px 0px 45px',fontSize: '24px',lineHeight: '20px'}}>{props.module.module_name}</div>
-          </div>
+            </div>
           <TabPanel  value={props.value} index={0}>
         <div className = 'detailBoxCourse' style = {{color: props.colour, height: '513px'}}>
+        <div style={{fontFamily: 'Rubik',color: props.colour, fontStyle: 'normal', fontWeight: '500',padding:'0px 20px 0px 25px',fontSize: '24px',lineHeight: '20px'}}>{props.course.course_name}</div>
         <div style={{padding:"0 16px",}}>
               <span >
               <BootstrapButton style = {{margin:'16px 8px',height: '24px',backgroundColor: timeMode=="Module" ? props.colour:'#F6F7FA'}} onClick={()=>{setTimeMode("Module");}} children={
@@ -398,16 +398,17 @@ function SelectorBox(props) {
         </TabPanel>
         <TabPanel  value={props.value} index={1}>
           <div className = 'detailBoxCourse' style = {{color: props.colour}}>
+          <div style={{fontFamily: 'Rubik',color: props.module.colour, fontStyle: 'normal', fontWeight: '500',padding:'0px 20px 0px 25px',fontSize: '24px',lineHeight: '20px'}}>{props.module.module_name}</div>
             <div style={{padding:"0 16px",}}>
               <span >
-              <BootstrapButton style = {{margin:'16px 8px' ,height: '24px',backgroundColor: pieType=="hours" ? props.colour:'#F6F7FA'}} onClick={()=>{setPieType("hours");}} children={
-                <div style={{color:pieType=="hours" ? '#FFFFFF':props.colour, fontFamily: 'Rubik',fontStyle: 'normal', fontWeight: '300',fontSize: '12px',lineHeight: '10px'}}>
+              <BootstrapButton style = {{margin:'16px 8px' ,height: '24px',backgroundColor: pieType=="hours" ? props.module.colour:'#F6F7FA'}} onClick={()=>{setPieType("hours");}} children={
+                <div style={{color:pieType=="hours" ? '#FFFFFF':props.module.colour, fontFamily: 'Rubik',fontStyle: 'normal', fontWeight: '300',fontSize: '12px',lineHeight: '10px'}}>
                 By Hours
                 </div>} />
               </span>
               <span >
-              <BootstrapButton style = {{margin:'16px 8px',height: '24px',backgroundColor: pieType=="grade" ? props.colour:'#F6F7FA'}} onClick={()=>{setPieType("grade");}} children={
-                <div style={{color:pieType=="grade" ? '#FFFFFF':props.colour, fontFamily: 'Rubik',fontStyle: 'normal', fontWeight: '300',fontSize: '12px',lineHeight: '10px'}}>
+              <BootstrapButton style = {{margin:'16px 8px',height: '24px',backgroundColor: pieType=="grade" ? props.module.colour:'#F6F7FA'}} onClick={()=>{setPieType("grade");}} children={
+                <div style={{color:pieType=="grade" ? '#FFFFFF':props.module.colour, fontFamily: 'Rubik',fontStyle: 'normal', fontWeight: '300',fontSize: '12px',lineHeight: '10px'}}>
                 By Grade
                   </div>} />
               </span>
@@ -445,6 +446,7 @@ function SelectorBox(props) {
         </TabPanel>
         <TabPanel  value={props.value} index={2}>
         <div className = 'detailBoxCourse' style = {{color: props.colour}}>
+        <div style={{fontFamily: 'Rubik',color: props.module.colour, fontStyle: 'normal', fontWeight: '500',padding:'0px 20px 0px 25px',fontSize: '24px',lineHeight: '20px'}}>{props.module.module_name}</div>
             <div style={{padding:"0 16px",}}>
               <span >
               <BootstrapButton style = {{margin:'16px 8px',height: '24px',backgroundColor: timeType=="Week" ? props.colour:'#F6F7FA'}} onClick={()=>{setTimeType("Week");}} children={
