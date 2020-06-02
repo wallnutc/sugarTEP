@@ -106,7 +106,7 @@ const handleChange = (module_code) => {
 
     return (
       <div >
-        <div className="header">
+        <div className="header"  style= {{width: '450px', margin: 'auto'}}>
         <div>
 
         <AcitvitiesIcon style={{height:'40px', width: '40px',float:'left', zIndex: 2, color:mainBlue}}/>

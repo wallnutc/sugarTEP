@@ -97,10 +97,10 @@ function ModulePanel (props) {
   const renderGraph = (v)=>{
     switch (v) {
       case 0:
-        return (<div style = {{position: 'relative', height:550}}> <PieModuleComponent moduleID = {props.module.module_ID} label = {props.module.module_name} type = "hours"/> </div>);
+        return (<div style = {{position: 'relative', height:700}}> <PieModuleComponent moduleID = {props.module.module_ID} label = {props.module.module_name} type = "hours"/> </div>);
 
       case 1:
-        return( <div style = {{position: 'relative', height:550}}> <PieModuleComponent moduleID = {props.module.module_ID} label = {props.module.module_name} type = "grade"/> </div>);
+        return( <div style = {{position: 'relative', height:700}}> <PieModuleComponent moduleID = {props.module.module_ID} label = {props.module.module_name} type = "grade"/> </div>);
     }
   }
   console.log("dentro do panel:");
@@ -110,9 +110,12 @@ function ModulePanel (props) {
     overflow:'scroll',
     position:'fixed',
     top: '55px',
+    maxWidth: '450px',
     bottom:'72px',
     zIndex:1,
-    backgroundColor: 'white'
+    backgroundColor: 'white',
+    overflowY: 'scroll',
+    overflowX: 'hidden'
   };
   const mainStyle = {
     left: "0",
@@ -135,7 +138,7 @@ function ModulePanel (props) {
     color: props.module.colour
   };
   if(props.module != undefined){
-    return( <div style={panelStyle}>
+    return( <div class="ScrollBar" style={panelStyle}>
               <div style={{position:'fixed',width:'100%',height: 'auto', backgroundColor:'white',zIndex:2}}>
                 <IconButton onClick = {()=>{props.onClick(false)}}
                 style={{marginTop:'8px', color:props.module.color, }} aria-label="delete" color="primary">
@@ -226,7 +229,7 @@ export default function MyModules (props) {
     }
     return (
       <div >
-        <div className="header">
+        <div className="header"  style= {{width: '450px', margin: 'auto'}}>
           <div>
             <ModulesIcon style={{height:'40px', width: '40px',float:'left', zIndex: 2, color:mainBlue}}/>
             <div style={{fontFamily: 'Rubik',fontStyle: 'normal',fontWeight: '500',fontSize: '20px',float:'left',lineHeight: '40px',marginLeft:'16px',color: mainBlue}}>My Modules</div>

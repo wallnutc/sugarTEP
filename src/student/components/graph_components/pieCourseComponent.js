@@ -53,7 +53,6 @@ function PieComponent (props){
             bgColor: "#ffffff",
             startingAngle: "310",
             showBorder: "0",
-            legendNumColumns: "1",
             enableMultiSlicing: "0",
             plotHighlightEffect: "fadeout",
             legendPosition: "bottom",
@@ -89,7 +88,7 @@ function PieComponent (props){
         return (
             <ReactFusioncharts
                 type= "doughnut2d"
-                width= "80%"
+                width= "90%"
                 height= "100%"
                 dataFormat= "json"
                 dataSource= {datasource}

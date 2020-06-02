@@ -14,6 +14,7 @@ import {
   isBrowser,
   isMobile
 } from "react-device-detect";
+import {MediaQuery} from 'react-responsive';
 const mainBlue = "#0061D2";
 
 function CoreSceneRenderer (props){
@@ -22,7 +23,7 @@ function CoreSceneRenderer (props){
     case 'lectures':
       return (<Lectures filter={props.modules.modulesFilter} today={props.today} classes={props.modules.classes}/>);
     case 'myActivities':
-      return (<MyActivities filter={props.modules.modulesFilter} today={props.today} setState={props.setState} activities={props.modules.activities} student={props.student}/>);
+      return (<MyActivities filter={props.modules.modulesFilter} today={props.today} setState={props.setState} activities={props.modules.activities} student={props.student.student_ID}/>);
     case 'myDay':
       return (<MyDay isLoaded = {props.isLoaded} today={props.today} activities={props.modules.activities} setState={props.setState} classes={props.modules.classes} student={props.student}/>);
     case 'myModules':
@@ -238,10 +239,12 @@ saveClass(){
     }
 
   renderContent = () => {
-      if (isMobile) {
       return (
-        <div className="App">
-          <div className="Menubar" style = {{backgroundColor: mainBlue}}>
+        <div>
+        <div style={{position: 'fixed', width: 'calc(50% - 250px)', height: '100%',backgroundColor: '#E5E5E5', left: 0, top: 0, zIndex: 3000}}></div>
+        <div style={{position: 'fixed', width: 'calc(50% - 250px)', height: '100%',backgroundColor: '#E5E5E5', right: 0, top: 0, zIndex: 3000}}></div>
+        <div className="App" style={{maxWidth: '500px', margin:'auto'}}>
+          <div className="Menubar" style = {{backgroundColor: mainBlue, maxWidth: '500px'}}>
             <TopMenuBar />
           </div>
 
@@ -249,31 +252,13 @@ saveClass(){
             <CoreSceneRenderer coreScene={this.state.coreScene} isLoaded= {this.state.isLoaded} modules={this.state} student={this.state.student} setState={this.saveClass.bind(this)} today={this.state.today}/>
           </div>
 
-          <div className="BottomNavigation">
+          <div className="BottomNavigation"  style={{maxWidth: '500px',width: '100%', margin:'auto'}} >
             <SimpleBottomNavigation coreScene={this.changeCoreScene}/>
           </div>
         </div>
+        </div>
       );
-    }
-    return(
-      <div className="App">
-        <div className="CourseLogo1" style={{width:'150px', height:'155px'}}>
-          <img src={require('./images/cc.png')} style={{width:'150px', height:'150px'}}/>
-        </div>
-        <h2 className="CourseName1">ModuleM</h2>
-        <div style={{margin:'auto'}}>
-          <div style={{color:mainBlue, fontSize:40, textAlign:'center', position:'relative'}}>Oops !</div>
-          <div style={{color:mainBlue, fontSize:20, textAlign:'center', width: 600, position:'relative', margin:'auto'}}> This portion of the website is only available in mobile view. Please press F12, followed by Ctrl+Shift+M on your desktop browser and refresh the page, or open our app on a mobile device !</div>
-          <div style={{color:mainBlue, fontSize:12, textAlign:'center', width: 600, position:'relative', margin:'auto', paddingTop:'2%'}}>>
-            <img src={require('./images/Chrome.png')} style={{height:'30px'}}/><img src={require('./images/microsoftedgenewlogo.jpg')} style={{ height:'30px'}}/><img src={require('./images/firefox.jpg')} style={{height:'30px'}}/>
-            <form action="https://digitalcitizen.life/emulate-mobile-device-desktop-browser" style={{padding: '10px'}} >
-                <input type="submit" value="Show Me How !" style={{color:'white', fontSize:16, backgroundColor: '#003fa9', borderRadius: '8px', padding: '10px'}} />
-            </form>
-          </div>
-        </div>
-      </div>
-    );
-  }
+      }
 
     render(){
       return this.renderContent();

@@ -111,7 +111,7 @@ function Lectures (props) {
   if(props.filter.length > 0 && props.classes != undefined){
       return (
         <div >
-          <div className="header">
+          <div className="header"  style= {{width: '450px', margin: 'auto'}}>
             <div>
               <LectureIcon style={{height:'40px', width: '40px',float:'left', zIndex: 2, color:mainBlue}}/>
               <div style={{fontFamily: 'Rubik',fontStyle: 'normal',fontWeight: '500',fontSize: '20px',float:'left',lineHeight: '40px',marginLeft:'16px',color: mainBlue}}>My Classes</div>

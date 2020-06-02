@@ -23,19 +23,19 @@ function MyStatistics (props) {
   const renderGraph = (v)=>{
     switch (v) {
       case 0:
-        return (<div style = {{display: 'inline-block', position: 'relative', height: 700}}>
+        return (<div style = {{display: 'inline-block', position: 'relative', height: 700, maxWidth: 500, width: '100%'}}>
           <PieCourseComponent courseID = {props.student.course_ID} label = {props.student.label} type = "module"/></div>);
       case 1:
-        return(  <div style = {{display: 'inline-block', position: 'relative', height: 700}}>
-          <PieCourseComponent courseID = {props.student.course_ID} label = {props.student.label} type = "grade"/></div>)
+        return(  <div style = {{display: 'inline-block', position: 'relative', height: 700, maxWidth: 500, width: '100%'}}>
+          <PieCourseComponent courseID = {props.student.course_ID} label = {props.student.label} type = "activity"/></div>)
       case 2:
-        return(<div style = {{display: 'inline-block', position: 'relative', height: 700}}>
+        return(<div style = {{display: 'inline-block', position: 'relative', height: 700, maxWidth: 500, width: '100%'}}>
         <PieCourseComponent courseID = {props.student.course_ID} label = {props.student.label} type = "grade"/></div>
         );
       case 3:
         return(
         <div>
-        <div style = {{position: 'relative', height: 400, width: "100%"}}>
+        <div style = {{position: 'relative', height: 700, maxWidth: 500, width: '100%'}}>
         <TimelineComponent courseID = {props.student.course_ID} label = {props.student.label}/>
         </div>
         </div>
@@ -55,7 +55,7 @@ function MyStatistics (props) {
   if(props.student != undefined){
     return (
       <div >
-        <div className="header">
+        <div className="header" style= {{width: '450px', margin: 'auto'}}>
           <div>
             <StatisticsIcon style={{height:'40px', width: '40px',float:'left', zIndex: 2, color:mainBlue}}/>
             <div style={{fontFamily: 'Rubik',fontStyle: 'normal',fontWeight: '500',fontSize: '20px',float:'left',lineHeight: '40px',marginLeft:'16px',color: mainBlue}}>My Statistics</div>

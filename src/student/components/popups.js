@@ -12,7 +12,6 @@ import CheckCircleOutlineRoundedIcon from '@material-ui/icons/CheckCircleOutline
 
 export function ClassFeedbackPopup (props) {
   const [feedback, setFeedback] = useState(props.class.feedback.length==0 ? true:false);
-
   let tempQuest = [];
   let tempAns = [];
   props.class.feedback.map((item)=>{tempQuest.push((item.feedback_ID).toString()); tempAns.push("0")});
@@ -55,7 +54,7 @@ export function ClassFeedbackPopup (props) {
 return (
 <div className='popup' style={{  position: 'fixed', width: '100%', height: '100%', top: 0,
   left: 0, right: 0, bottom: 0, margin: 'auto', backgroundColor: 'rgba(0,0,0, 0.5)' }}>
-  {!feedback ? <div className='popup\_inner' style={{overflow:'scroll' ,position: 'absolute',left: '10%',
+  {!feedback ? <div className='ScrollBar' style={{overflowY:'scroll', overflowX:'hidden',scrollbarWidth: 'none',position: 'absolute',left: '10%', maxWidth: '400px',
     right: '10%',   top: '20%', bottom: '20%',  margin: 'auto',borderRadius: '6px', background: 'white'}}>
   <div style= {{backgroundColor: props.class.colour}}>
     <IconButton onClick = {props.closePopup} size='small'
@@ -70,7 +69,7 @@ style={{lineHeight:0, height: '25px',borderRadius:'9px',textTransform: 'none', p
 </div>
 </div>:
 
-<div className='popup\_inner' style={{ fontFamily: 'Rubik', position: 'absolute',left: '10%',
+<div className='ScrollBar' style={{overflowY:'scroll', overflowX:'hidden',scrollbarWidth: 'none',fontFamily: 'Rubik', position: 'absolute',left: '10%', maxWidth: '400px',
   right: '10%',   top: '35%', bottom: '35%',  margin: 'auto',borderRadius: '6px', background: 'white'}}>
   <div style={{display:'flex',justifyContent:'center',margin:'20px'}} >
   <CheckCircleOutlineRoundedIcon size='big' color={props.class.colour} style={{fontSize:'50px',textAlign: 'center', color: props.class.colour}} />
@@ -189,7 +188,7 @@ return (
 <div className='popup' style={{  position: 'fixed', width: '100%', height: '100%', top: 0,
   left: 0, right: 0, bottom: 0, margin: 'auto', backgroundColor: 'rgba(0,0,0, 0.5)' }}>
   { !updated && !finished ?
-    <div className='popup\_inner' style={{fontFamily: 'Rubik',position: 'absolute',left: '10%',
+    <div className='ScrollBar' style={{overflowY:'scroll', overflowX:'hidden',scrollbarWidth: 'none',fontFamily: 'Rubik',position: 'absolute',left: '10%',  maxWidth: '400px',
       right: '10%',   top: '25%', bottom: '35%',  margin: 'auto',borderRadius: '6px', background: '#F6F7FA' }}>
       <IconButton onClick = {props.closePopup} size='small'
       style={{position:'relative', margin:'8px'}} aria-label="delete" color="primary">
@@ -217,7 +216,7 @@ return (
       style={{width:'50%',lineHeight:0, height: '18px',borderRadius:'9px',textTransform: 'none', padding:0, backgroundColor:props.activity.colour,}} children ={<span style={{inlineHeight:'0'}}>Finish Activity</span>}></Button>
       </div>
     </div> : (updated ?
-      <div className='popup\_inner' style={{ fontFamily: 'Rubik', position: 'absolute',left: '10%',
+      <div className='ScrollBar' style={{overflowY:'scroll', overflowX:'hidden', fontFamily: 'Rubik', position: 'absolute',left: '10%', maxWidth: '400px',
           right: '10%',   top: '35%', bottom: '30%',  margin: 'auto',borderRadius: '6px', background: '#F6F7FA'}}>
           <div style={{display:'flex',justifyContent:'center',margin:'20px'}} >
           <CheckCircleOutlineRoundedIcon size='big' color='action' style={{fontSize:'50px',textAlign: 'center', color: props.activity.colour}} />
@@ -229,7 +228,7 @@ return (
         <Button fullWidth onClick={props.closePopup}
         style={{lineHeight:0, height: '25px',borderRadius:'9px',textTransform: 'none', padding:0, backgroundColor:props.activity.colour,}} children ={<span style={{inlineHeight:'0'}}>Back</span>}></Button>
         </div>
-      </div> :(!feedback ?   <div className='popup\_inner' style={{ fontFamily: 'Rubik', overflow:'scroll',overflowX:'hidden',position: 'absolute',left: '10%',
+      </div> :(!feedback ?   <div className='ScrollBar' style={{overflowY:'scroll', overflowX:'hidden', fontFamily: 'Rubik', overflowY:'scroll',overflowX:'hidden',position: 'absolute',left: '10%', maxWidth: '400px',
               right: '10%',   top: '10%', bottom: '10%',  margin: 'auto',borderRadius: '6px', background: '#F6F7FA'}}>
               <div style = {{backgroundColor : props.activity.colour}}>
               <IconButton onClick = {props.closePopup} size='small'
@@ -245,7 +244,7 @@ return (
           </div>
           </div>:
 
-          <div className='popup\_inner' style={{ fontFamily: 'Rubik', position: 'absolute',left: '10%',
+          <div className='ScrollBar' style={{overflowY:'scroll', overflowX:'hidden', fontFamily: 'Rubik', position: 'absolute',left: '10%', maxWidth: '400px',
               right: '10%',   top: '35%', bottom: '30%',  margin: 'auto',borderRadius: '6px', background: '#F6F7FA'}}>
               <div style={{display:'flex',justifyContent:'center',margin:'20px'}} >
               <CheckCircleOutlineRoundedIcon size='big' color='action' style={{fontSize:'50px',textAlign: 'center', color: props.activity.colour}} />

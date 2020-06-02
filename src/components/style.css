@@ -1,3 +1,11 @@
+.popup::-webkit-scrollbar {
+  display: none;
+}
+
+.popup\_inner::-webkit-scrollbar {
+  display: none;
+}
+
 .popup {
   position: fixed;
   width: 100%;
@@ -7,6 +15,8 @@
   right: 0;
   bottom: 0;
   margin: auto;
+  overflow-x: 'hidden';
+  overflow-y: 'scroll';
   background-color: rgba(0,0,0, 0.5);
 }
 .popup\_inner {
@@ -17,9 +27,10 @@
   bottom: 25%;
   margin: auto;
   border-radius: 20px;
+  overflow-x: 'hidden';
+  overflow-y: 'scroll';
   background: white;
 }
-
 .Tlogo{
   display: flex;
   margin-right: auto;

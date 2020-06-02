@@ -4,6 +4,8 @@ function Header (props) {
     const mainStyle = {
       left: "0",
       right:"0",
+      width: '500px',
+      margin: 'auto',
       position: 'fixed',
       backgroundColor: "white",
       height:'75px',

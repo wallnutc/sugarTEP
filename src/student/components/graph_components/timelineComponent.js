@@ -27,8 +27,7 @@ function TimelineComponent(props){
           enabled: 0
         },
         legend: {
-          enabled: 0,
-          position: "right"
+          enabled: 1
         },
         chart: {
         },

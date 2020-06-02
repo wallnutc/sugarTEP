@@ -21,9 +21,11 @@ const mainBlue = "#0061D2";
 const useStyles = makeStyles({
   root: {
     height:'72px',
+    maxWidth: '500px',
     width: '100%',
     position: 'fixed',
     bottom: 0,
+    margin: 'auto'
   },
 });
 

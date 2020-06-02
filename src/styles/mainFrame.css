@@ -28,7 +28,18 @@ a:focus {
   box-shadow: 0px 0px 10px #888888;
   z-index: 2;
 }
-
+.StudentApp {
+  margin-top: 25px;
+  font-size: 21px;
+  text-align: center;
+  width: 400px;
+  height: 500px;
+  -webkit-animation: fadein 2s; /* Safari, Chrome and Opera > 12.Course1 */
+  -moz-animation: fadein 2s; /* Firefox < 16 */
+  -ms-animation: fadein 2s; /* Internet Explorer */
+  -o-animation: fadein 2s; /* Opera < 12.Course1 */
+  animation: fadein 2s;
+}
 .CourseApp {
   margin-top: 25px;
   font-size: 21px;
