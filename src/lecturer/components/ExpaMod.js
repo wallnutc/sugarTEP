@@ -50,26 +50,34 @@ export default function ControlledExpansionPanels(props) {
     const classes = useStyles();
     const [expanded, setExpanded] = React.useState(false);
     const moduleContent = props.moduleContent;
-    console.log(expanded);
+    //console.log(expanded);
+    React.useEffect(()=>{
+
+      if(props.selectedModule!=props.module.module_code){
+        setExpanded(false);
+      }
+
+    },[props.selectedModule])
     const handleChange = (panel) => (event, isExpanded) => {
         setExpanded(isExpanded ? panel : false);
+        props.changePanel(props.module.module_code)
     };
-    console.log("panel");
-    console.log(props.modules);
+    //console.log("panel");
+    //console.log(props.modules);
     var editor = "Contributor";
     if (props.module.edit == 1){
         editor = "Coordinator";
     }
     return (
         <div className={classes.root}>
-            <div style={{ width: expanded? '100%': '100%', maxWidth: expanded? '1223px': '100%', padding:0,margin: 0,borderRadius: '10px 8px 8px 8px', border: expanded? '2px outset':null, borderColor: expanded? props.module.colour:null, zIndex: '3'}}>
-            <ExpansionPanel onChange={handleChange('panel1')} multi="false" >
+            <div style={{ width: expanded? '100%': '100%', maxWidth: expanded? '1223px': '100%', minWidth: expanded? '1100px': '100%', padding:0,margin: 0,borderRadius: '10px 8px 8px 8px', border: expanded? '2px outset':null, borderColor: expanded? props.module.colour:null, zIndex: '3'}}>
+            <ExpansionPanel onChange={handleChange('panel1')} multi={false} expanded={props.selectedModule==props.module.module_code} >
 
                 <ExpansionPanelSummary style = {{padding:0,margin:0, color: 'white'}}>
                 { expanded? <div style = {{ position:'relative', height: '100%', width:'25%', maxWidth:'317px', backgroundColor: props.colour, borderRadius: '8px 0px 0px 0px',fontFamily: 'Rubik', fontStyle: 'normal'}}>
                 <div style={{float:'left',position:'relative',left:0,marginRight:'17px',width:'12px',height:'100px',borderRadius:'8px 0 0 0',backgroundColor: props.module.colour }}/>
 
-                <p style = {{position:'absolute',top:'10px', left:'30px', fontWeight: '500', width: '90%', fontSize: '18px', wordWrap: 'break-word',overflowWrap: 'break-word', display: 'flex', alignItems: 'center', color: 'white'}}> {props.module.module_code + ' / ' + props.module.module_name} </p>
+                <p style = {{position:'absolute',top:'5px', left:'30px', fontWeight: '500', width: '90%', fontSize: '18px', wordWrap: 'break-word',overflowWrap: 'break-word', display: 'flex', alignItems: 'center', color: 'white'}}> {props.module.module_code + ' / ' + props.module.module_name} </p>
                 <Typography style={{position:'absolute', bottom:'0px',left:'30px', marginBottom: '5px', verticalAlign:'middle' , float:'left', fontSize: '18px', fontWeight:'500', color: 'white', paddingBottom: '0.5px'}}> <PersonIcon className={classes.iconS} style={{ fontSize: 22 , verticalAlign:'middle'}} /> {props.module.total_students} &nbsp; <b>ECTS</b> {props.module.credits}</Typography>
                 </div>
                 :

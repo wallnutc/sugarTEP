@@ -8,7 +8,7 @@ function TimelineComponent(props){
   const [response,setResponse] = useState({});
   useEffect(() => {
     var url = 'https://mvroso.pythonanywhere.com/timelineByStudent1' + props.studentID;
-    console.log(url);
+    //console.log(url);
     fetch(url)
        .then((response) => response.json())
        .then((responseJson) => {
@@ -21,7 +21,7 @@ function TimelineComponent(props){
   if(response.data != undefined){
     const data = response.data;
     const schema = response.schema;
-    console.log(data,schema);
+    //console.log(data,schema);
     const dataSource = {
         navigator: {
           enabled: 0

@@ -93,15 +93,15 @@ export function LecturePanel(props) {
       <ExpansionPanel style={{backgroundColor: props.item.colour, color: invert(props.item.colour, true)}}>
           <ExpansionPanelSummary  style = {{padding:'0 0 0 0'}}>
           <div style = {{width:'100%',padding:'10px 0', fontFamily: 'Rubik', fontStyle: 'normal'}}>
-            <div style = {{float:'left', padding:'0 20px ',height:'100%'}}>
+            <div style = {{float:'left', padding:'0 2% ',height:'100%'}}>
               <MenuBookIcon color='action' style={{fontSize:'45px', color: invert(props.item.colour, true)}} />
             </div>
             <div>
-              <div style = {{fontWeight: 'normal', fontSize: '14px', lineHeight: '17px'}}>
+              <div style = {{fontWeight: 'normal', fontSize: '12px', lineHeight: '17px'}}>
                 {props.item.title}
               </div>
               <div style = {{fontWeight: 300, fontSize: '14px', lineHeight: '17px',color: invert(props.item.colour, true)}} >
-                <ScheduleIcon color='action' style={{verticalAlign:"middle",fontSize: '14px', color: invert(props.item.colour, true)}}/> <span style = {{color: invert(props.item.colour, true)}}>{day+'/'+month} <br/> {start[0]+':'+start[1]} - {end[0]+':'+end[1]} </span>
+                <ScheduleIcon color='action' style={{verticalAlign:"middle",fontSize: '12px', color: invert(props.item.colour, true)}}/> <span style = {{color: invert(props.item.colour, true)}}>{day+'/'+month} <br/> {start[0]+':'+start[1]} - {end[0]+':'+end[1]} </span>
               </div>
             </div>
           </div>
@@ -109,10 +109,10 @@ export function LecturePanel(props) {
       <ExpansionPanelDetails >
         <div style={{width:'100%', color: invert(props.item.colour, true)}} >
             <span style={{marginRight:'16px',float:'right'}}><LocationOnOutlinedIcon color='action' style={{fontSize:'14px',color: invert(props.item.colour, true)}}/> {props.item.location}</span>
-            <div style = {{margin:'8px',fontWeight:'normal', fontSize: '15px', lineHeight: '15px'}}>
+            <div style = {{margin:'8px',fontWeight:'normal', fontSize: '12px', lineHeight: '15px'}}>
               Description
             </div>
-            <div style = {{margin:'8px 8px 16px 8px',fontWeight: 300, fontSize: '13px', lineHeight: '15px'}}>
+            <div style = {{margin:'8px 8px 16px 8px',fontWeight: 300, fontSize: '10px', lineHeight: '15px'}}>
               {props.item.description}
             </div>
             {
@@ -147,15 +147,15 @@ export function ActivityPanel(props) {
       <ExpansionPanel style={{backgroundColor: props.item.colour}}>
           <ExpansionPanelSummary  style = {{padding:'0 0 0 0', color: invert(props.item.colour, true)}}>
           <div style = {{width:'100%',padding:'10px 0', fontFamily: 'Rubik', fontStyle: 'normal'}}>
-          <div style = {{float:'left',height:'100%', padding:'0 20px '}}>
+          <div style = {{float:'left',height:'100%', padding:'0 2% '}}>
           <AssignmentIcon color='white' style={{fontSize:'45px', color: invert(props.item.colour, true)}}/>
 
           </div>
           <div>
-            <div style = {{fontWeight: 'normal', fontSize: '14px', lineHeight: '17px'}}>
+            <div style = {{fontWeight: 'normal', fontSize: '12px', lineHeight: '17px'}}>
               {props.item.title}
             </div>
-            <div style = {{fontWeight: 300, fontSize: '14px', lineHeight: '17px',color: invert(props.item.colour, true)}} >
+            <div style = {{fontWeight: 300, fontSize: '12px', lineHeight: '17px',color: invert(props.item.colour, true)}} >
               <ScheduleIcon color='white' style={{verticalAlign:"middle",fontSize: '14px', color: invert(props.item.colour, true)}}/>
                 <span style = {{color: invert(props.item.colour, true)}}> Due date: {dueDateDay + '/' + dueDateMonth + '/' + dueDateYear} </span>
             </div>
@@ -165,7 +165,7 @@ export function ActivityPanel(props) {
           </div>
           </ExpansionPanelSummary>
       <ExpansionPanelDetails >
-        <div style = {{textAlign: 'justify', fontWeight: 'normal', fontSize: '14px', lineHeight: '17px',width: '100%', color: invert(props.item.colour, true)}}>
+        <div style = {{textAlign: 'justify', fontWeight: 'normal', fontSize: '11px', lineHeight: '17px',width: '100%', color: invert(props.item.colour, true)}}>
           <div style = {{fontWeight: 'normal'}}>
             Start date - {startDateDay + '/' + startDateMonth + '/' + startDateYear}
           </div>
@@ -204,8 +204,8 @@ export function ActivityPanel(props) {
 export function FeedbackPanel(props) {
   // const date = new Date(props.item.date);
   //
-  console.log("Feedback Panel");
-  console.log(props);
+  //console.log("Feedback Panel");
+  //console.log(props);
 
   //***************needed Props: activityID, activity type (Class or Activity), questionName
 

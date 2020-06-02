@@ -24,8 +24,8 @@ export default function ScheduleWeekly (props){
   const endDay = String(props.week[6].getDate()).padStart(2, '0');
   const endMonth = monthNames[props.week[6].getMonth()];
 
-console.log(props.events[0]==undefined);
-console.log(props.events[0].start_time.split(':'));
+//console.log(props.events[0]==undefined);
+//console.log(props.events[0].start_time.split(':'));
 // const testTop = (45 + 41*(parseInt(props.events[0].start_time.split(':')[0]) + (parseInt(props.events[0].start_time.split(':')[1]))/60)).toString();
 // const testLeft = weekDayPosition[new Date(props.events[0].date).getDay()];
 // const testInterval =getInterval(props.events[0].start_time,props.events[0].end_time);
@@ -36,9 +36,9 @@ console.log(props.events[0].start_time.split(':'));
 // else{
 //   testHeight = 37+(testInterval)*39;
 // }
-// console.log(testTop);
-// console.log(testLeft);
-// console.log(testHeight);
+// //console.log(testTop);
+// //console.log(testLeft);
+// //console.log(testHeight);
 function getInterval(start, end){
   const startArray=start.split(':');
   const endArray=end.split(':');
@@ -53,7 +53,7 @@ function getInterval(start, end){
     intervalHours=(parseInt(endArray[1])+60-parseInt(startArray[1]))/60;
     intervalHours=intervalHours+parseInt(endArray[0])-1-parseInt(startArray[0]);
   }
-  console.log("interval = "+intervalHours)
+  //console.log("interval = "+intervalHours)
   if( intervalHours>=0){
     return intervalHours;
   }
@@ -92,7 +92,7 @@ function getInterval(start, end){
     </div>
     {props.events.map((item)=>{
       const top = (45 + 41*((parseInt(item.start_time.split(':')[0])-offset) + (parseInt(item.start_time.split(':')[1]))/60)).toString();
-      const left = weekDayPosition[new Date(item.date).getDay()];
+      const left = weekDayPosition[new Date(item.date+'T00:00:00').getDay()];
       const interval = getInterval(item.start_time,item.end_time);
       var height =0;
       if(interval<=0) return null;

@@ -23,10 +23,10 @@ const mainBlue = "#0061D2";
 function Lectures (props) {
 
     const headerContent = {title:"Classes", imgPath: require("../images/icons/lectures.svg")};
-    const batch = 5;
+    const batch = 25;
     const [selectedModule, setSelectedModule] = useState(props.filter.length == 0 ? "null": props.filter[0].value);
     const [selectedDate, setSelectedDate] = useState(props.today);
-    console.log("Selected Date", selectedDate);
+    //console.log("Selected Date", selectedDate);
     const [classes,setClasses] = useState(()=>selectedModule=="All Modules" ? props.classes.filter(item => new Date(item.date+'T00:00:00')>= selectedDate) : props.classes.filter( item => item.module_code==selectedModule).filter(item => new Date(item.date+'T00:00:00')>= selectedDate))
     const [classesForRender,setclassesForRender] = useState(()=>classes.length <=batch ? classes: classes.slice(0,batch))
     const [renderIndex, setRenderIndex] = useState(batch);
@@ -39,8 +39,8 @@ function Lectures (props) {
       if(!showPopup) setPopupClass(lecture);
       setShowPopup(!showPopup);
     }
-    console.log("classes");
-    console.log(classes);
+    //console.log("classes");
+    //console.log(classes);
     const handleDateChange = (date) => {
       setSelectedDate(date);
       if(selectedModule != "All Modules" ){
@@ -61,8 +61,7 @@ function Lectures (props) {
     };
 
     const weekTag = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-    const newWeekIndexes = []
-    newWeekIndexes.push(0);
+    const newWeekIndexes = [0]
     var i;
     for (i=0; i< classesForRender.length-1; i++){
       if(classesForRender[i].date != classesForRender[i+1].date)
@@ -84,14 +83,14 @@ function Lectures (props) {
 
     const handleChange = (module_code) => {
       setSelectedModule(module_code);
-      // console.log("onChange:")
-      // console.log(event.target.value);
-      // console.log(event.target.value==null);
+      // //console.log("onChange:")
+      // //console.log(event.target.value);
+      // //console.log(event.target.value==null);
       if(module_code != "All Modules" ){
         const tempClasses = props.classes.filter( item => item.module_code==module_code).filter(item => new Date(item.date+'T00:00:00')>= selectedDate);
-        // console.log("atualizei:");
+        // //console.log("atualizei:");
         setClasses(tempClasses);
-        // console.log("quantidade total: " +　tempClasses.length);
+        // //console.log("quantidade total: " +　tempClasses.length);
         setclassesForRender(()=>tempClasses.length <=batch ? tempClasses: tempClasses.slice(0,batch));
         setRenderIndex(batch);
         setHasMore(true);

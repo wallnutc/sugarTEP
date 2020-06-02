@@ -8,13 +8,13 @@ ReactFC.fcRoot(FusionCharts, Widgets, FusionTheme);
 // Resolves charts dependancy
 
 function FeedbackDialByQuestion(props){
-    console.log("dial rendered on enter");
-    console.log(props.type);
+    //console.log("dial rendered on enter");
+    //console.log(props.type);
     const [response,setResponse] = useState({});
     useEffect(() => {
       var url = 'https://mvroso.pythonanywhere.com/feedbackBy' + props.type.toString() + props.activityID.toString()
-      console.log("dial rendered");
-      console.log(url);
+      //console.log("dial rendered");
+      //console.log(url);
       fetch(url)
          .then((response) => response.json())
          .then((responseJson) => {
@@ -36,7 +36,7 @@ function FeedbackDialByQuestion(props){
 
         }
         if (q == null){
-            console.log("Failed Dial Render, Question Not Found");
+            //console.log("Failed Dial Render, Question Not Found");
             return <div></div>
         }
         const chartConfigs = {
@@ -67,7 +67,7 @@ function FeedbackDialByQuestion(props){
             );
     }
     else {
-        console.log("Failed Dial Render");
+        //console.log("Failed Dial Render");
         return <div></div>
     }
 }

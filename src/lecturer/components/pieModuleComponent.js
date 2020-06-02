@@ -10,7 +10,7 @@ function PieComponent (props){
     const [response,setResponse] = useState({});
     useEffect(() => {
       var url = 'https://mvroso.pythonanywhere.com/activityTypePieChartsByModule' + props.moduleID.toString();
-      console.log(url);
+      //console.log(url);
       fetch(url)
          .then((response) => response.json())
          .then((responseJson) => {
@@ -88,7 +88,7 @@ function PieComponent (props){
         );
     }
     else {
-        console.log("Failed Render");
+        //console.log("Failed Render");
         return <div></div>
     }
   };

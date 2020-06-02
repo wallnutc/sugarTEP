@@ -276,16 +276,11 @@ function SelectorBox(props) {
     const deleteNotes= (text)=> {
       var index = -1
       var i;
-      notes.map((note)=>console.log(note));
       for (i=0;i<notes.length;i++){
         if(notes[i].text==text){
           index = i;
           break;
         }
-      }
-      console.log(index);
-      for(i=0;i<notes.length;i++){
-        console.log("i = "+ i+" text: "+notes[i].text);
       }
       var tempNotes=[];
       for(i=0;i<index;i++){
@@ -307,14 +302,14 @@ function SelectorBox(props) {
           moduleID: props.module.module_ID,
           notes: allNotes
             };
-        console.log(data);
+        //console.log(data);
             fetch("https://mvroso.pythonanywhere.com/updateModuleNotes", {
                         method: "POST",
                         cache: "no-cache",
                         body: JSON.stringify(data),
                         headers: new Headers({"content-type": "application/json"})
                     }).then(res => {
-                        console.log("Request complete! response:", res);
+                        //console.log("Request complete! response:", res);
                         props.setState();
                         x.style.display = "inline-block";
                     });

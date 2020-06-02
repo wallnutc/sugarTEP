@@ -19,7 +19,7 @@ import AcitvitiesIcon from '../components/iconsSVG/activitiesIcon';
 
 const mainBlue = "#0061D2";
 function MyActivities (props) {
-  const batch = 5;
+  const batch = 25;
   const headerContent = {title:"My Activities", imgPath: require("../images/icons/myActivities.svg")};
   const [selectedDate, setSelectedDate] = useState(props.today);
   const [selectedModule, setSelectedModule] = useState(props.filter.length == 0 ? "null": props.filter[0].value);
@@ -45,7 +45,7 @@ for (i=0; i< activitiesForRender.length-1; i++){
     newWeekIndexes.push(i+1);
 
 }
-console.log(newWeekIndexes);
+//console.log(newWeekIndexes);
 
 const fetchMoreData = () => {
 var end = renderIndex + batch;
@@ -59,7 +59,7 @@ setRenderIndex(end);
 
 const handleDateChange = (date) => {
 setSelectedDate(date);
-console.log("entrei");
+//console.log("entrei");
 if(selectedModule != "All Modules" ){
 
   const tempActivities = props.activities.filter( item => item.module_code==selectedModule).filter(item => new Date(item.due_date)>= date);
@@ -80,14 +80,14 @@ else{
 };
 const handleChange = (module_code) => {
   setSelectedModule(module_code);
-  // console.log("onChange:")
-  // console.log(module_code);
-  // console.log(module_code==null);
+  // //console.log("onChange:")
+  // //console.log(module_code);
+  // //console.log(module_code==null);
   if(module_code != "All Modules" ){
     const tempActivities = props.activities.filter( item => item.module_code==module_code).filter(item => new Date(item.due_date)>= selectedDate);
-    // console.log("atualizei:");
+    // //console.log("atualizei:");
     setActivities(tempActivities);
-    // console.log("quantidade total: " +　tempActivities.length);
+    // //console.log("quantidade total: " +　tempActivities.length);
     setActivitiesForRender(()=>tempActivities.length <=batch ? tempActivities: tempActivities.slice(0,batch));
     setRenderIndex(batch);
     setHasMore(true);

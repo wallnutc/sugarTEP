@@ -53,9 +53,9 @@ function sortClasses(classes){
     const bDay = String(bDate.getDate()).padStart(2, '0');
     const bMonth = String(bDate.getMonth() + 1).padStart(2, '0');
     const bYear = bDate.getFullYear();
-  //  console.log("comparando:");
-    //console.log(parseInt(aDay) + '/' + parseInt(aMonth) + '/' + parseInt(aYear) + ' - ' + parseInt(aStart[0]) + ':' + parseInt(aStart[1]) + ':' + parseInt(aStart[2]));
-  //  console.log(parseInt(bDay) + '/' + parseInt(bMonth) + '/' + parseInt(bYear) + ' - ' + parseInt(bStart[0]) + ':' + parseInt(bStart[1]) + ':' + parseInt(bStart[2]));
+  //  //console.log("comparando:");
+    ////console.log(parseInt(aDay) + '/' + parseInt(aMonth) + '/' + parseInt(aYear) + ' - ' + parseInt(aStart[0]) + ':' + parseInt(aStart[1]) + ':' + parseInt(aStart[2]));
+  //  //console.log(parseInt(bDay) + '/' + parseInt(bMonth) + '/' + parseInt(bYear) + ' - ' + parseInt(bStart[0]) + ':' + parseInt(bStart[1]) + ':' + parseInt(bStart[2]));
     if((aDay == bDay)
       && (aMonth == bMonth)
       && (aYear == bYear)
@@ -63,39 +63,39 @@ function sortClasses(classes){
       && (parseInt(aStart[1]) == parseInt(bStart[1]))
       && (parseInt(aStart[2]) == parseInt(bStart[2])))
       {
-        //console.log("0");
+        ////console.log("0");
         return 0;
       }
     if(parseInt(aYear) > parseInt(bYear)){
-      //console.log("1");
+      ////console.log("1");
       return 1;
     }
     else if ((parseInt(aYear) == parseInt(bYear))&&(parseInt(aMonth) > parseInt(bMonth))) {
-    //  console.log("1");
+    //  //console.log("1");
       return 1;
     }
     else if ((parseInt(aYear) == parseInt(bYear))&&(parseInt(aMonth) == parseInt(bMonth))&&(parseInt(aDay) > parseInt(bDay))) {
-//console.log("1");
+////console.log("1");
       return 1;
     }
     else if ((parseInt(aYear) == parseInt(bYear))&&(parseInt(aMonth) == parseInt(bMonth))&&(parseInt(aDay) == parseInt(bDay))
   &&(parseInt(aStart[0]) > parseInt(bStart[0]))) {
-//console.log("1");
+////console.log("1");
       return 1;
     }
     else if ((parseInt(aYear) == parseInt(bYear))&&(parseInt(aMonth) == parseInt(bMonth))&&(parseInt(aDay) == parseInt(bDay))
   &&(parseInt(aStart[0]) == parseInt(bStart[0])) &&(parseInt(aStart[1]) > parseInt(bStart[1]))) {
 
-//console.log("1");
+////console.log("1");
       return 1;
     }
     else if ((parseInt(aYear) == parseInt(bYear))&&(parseInt(aMonth) == parseInt(bMonth))&&(parseInt(aDay) == parseInt(bDay))
   &&(parseInt(aStart[0]) == parseInt(bStart[0])) &&(parseInt(aStart[1]) == parseInt(bStart[1]))&&(parseInt(aStart[2]) > parseInt(bStart[2]))) {
-//console.log("1");
+////console.log("1");
       return 1;
     }
     else {
-    // console.log("-1");
+    // //console.log("-1");
       return -1;
     }
   }
@@ -111,7 +111,7 @@ class Student extends Component  {
           activities:[],
           modulesFilter:[],
           student:{},
-          today: new Date('2018-11-14T00:00:00'),
+          today: new Date('2019-03-14T00:00:00'),
 };
 
   changeCoreScene = (coreSceneIndex)=>{
@@ -148,7 +148,7 @@ class Student extends Component  {
     })
 
     })
-    console.log("classes here");
+    //console.log("classes here");
     sortClasses(tempLec);
     this.setState({
       classes: tempLec
@@ -189,18 +189,18 @@ saveClass(){
       .then(res => res.json())
       .then(
         (result) => {
-          console.log(result);
+          //console.log(result);
           this.setState({
             isLoaded: true,
             modules: result.modules,
             student: result.student
           });
           this.setActivities (this.state.modules);
-          console.log(this.state.activities);
+          //console.log(this.state.activities);
           this.setClasses(this.state.modules);
-          console.log(this.state.classes);
+          //console.log(this.state.classes);
           this.setModuleFilter (this.state.modules);
-          console.log(this.state.modulesFilter);
+          //console.log(this.state.modulesFilter);
         },
         (error) => {
           this.setState({
@@ -216,18 +216,18 @@ saveClass(){
       .then(res => res.json())
       .then(
         (result) => {
-          console.log(result);
+          //console.log(result);
           this.setState({
             isLoaded: true,
             modules: result.modules,
             student: result.student
           });
           this.setActivities (this.state.modules);
-          console.log(this.state.activities);
+          //console.log(this.state.activities);
           this.setClasses(this.state.modules);
-          console.log(this.state.classes);
+          //console.log(this.state.classes);
           this.setModuleFilter (this.state.modules);
-          console.log(this.state.modulesFilter);
+          //console.log(this.state.modulesFilter);
         },
         (error) => {
           this.setState({

@@ -69,7 +69,7 @@ function StudentPieComponent (props){
         );
     }
     else {
-        console.log("Failed Render");
+        //console.log("Failed Render");
         return <div></div>
     }
   };

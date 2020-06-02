@@ -11,7 +11,7 @@
     const [response,setResponse] = useState({});
     useEffect(() => {
         var url = 'https://mvroso.pythonanywhere.com/nestedPieByCourse' + props.courseID;
-        console.log(url);
+        //console.log(url);
         fetch(url)
            .then((res) => res.json())
            .then((responseJson) => {

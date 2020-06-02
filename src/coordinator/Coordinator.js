@@ -82,7 +82,7 @@ function sortCourses(courses, modules, contmodules){
     }
     tempCourses.push(tempCourse);
   } )
-  console.log("Course Final",tempCourses);
+  //console.log("Course Final",tempCourses);
   return tempCourses;
 }
 
@@ -96,16 +96,17 @@ class Coordinator extends Component  {
     course:[],
     today:new Date("2019-03-14T00:00:00"),
     value: 0,
+    selectedModule:null,
     };
 }
 
 saveClass(){
-  console.log("wooo")
+  //console.log("wooo")
   fetch('https://mvroso.pythonanywhere.com/courseByCoordinator1')
     .then(res => res.json())
     .then(
       (result) => {
-        console.log(result);
+        //console.log(result);
         this.setState({
           isLoaded: true,
           modules: sortModules(result.myModules),
@@ -129,7 +130,7 @@ saveClass(){
       .then(res => res.json())
       .then(
         (result) => {
-          console.log(result);
+          //console.log(result);
           this.setState({
             isLoaded: true,
             modules: sortModules(result.myModules),
@@ -145,6 +146,13 @@ saveClass(){
           });
         }
       );
+    }
+
+    changePanel(moduleCode){
+      //console.log("changed to " + moduleCode);
+      this.setState({
+        selectedModule: this.state.selectedModule==moduleCode? null: moduleCode,
+      });
     }
 
     renderContent = () => {
@@ -170,40 +178,40 @@ saveClass(){
           <img src={require('./images/cc.png')} style={{width:'150px', height:'150px'}}/>
           </span>
           <span><h2 className="CourseName1" style = {{top: '-10px',fontSize:30}}>ModuleM</h2></span>
-            {this.state.isLoaded ? this.state.courses.map((course)=>  <div className = 'title' style= {{color: mainBlue, marginTop: '30px'}}>    
+            {this.state.isLoaded ? this.state.courses.map((course)=>  <div className = 'title' style= {{color: mainBlue, marginTop: '30px'}}>
                 <p>{course.course_name}</p>
             </div>) :null}
-            
-  
+
+
               <div className = 'moduleBox'>
               {this.state.isLoaded ? this.state.courses.map((course)=> <div style ={{margin:'50px 0px'}}>
                         <ExpansionPanelCourse  today={this.state.today} colour={mainBlue} course={course} setState={this.saveClass.bind(this)}/>
                         </div>)
                         :null }
-  
+
               </div>
-  
-            {this.state.isLoaded ? <div className = 'title' style= {{color: mainBlue}}><p>Modules</p></div> 
+
+            {this.state.isLoaded ? <div className = 'title' style= {{color: mainBlue}}><p>Modules</p></div>
             :<div className = 'title' style= {{color: mainBlue}}><p>Loading Modules... </p></div>}
-            
+
             <div className = 'moduleBox'>
               {this.state.isLoaded ? this.state.modules.map((module)=> <div style ={{margin:'50px 0px'}}>
-                        <ExpansionPanel  today={this.state.today} colour={mainBlue} module={module} setState={this.saveClass.bind(this)}/>
+                        <ExpansionPanel changePanel={this.changePanel.bind(this)} selectedModule={this.state.selectedModule} today={this.state.today} colour={mainBlue} module={module} setState={this.saveClass.bind(this)}/>
                         </div>)
                         :null }
-  
+
             </div>
-  
+
             <div className = 'moduleBox'>
               {this.state.isLoaded ? this.state.contmodules.map((module)=> <div style ={{margin:'50px 0px'}}>
-  
-                        <ExpansionPanel  today={this.state.today} colour={mainBlue} module={module} setState={this.saveClass.bind(this)}/>
+
+                        <ExpansionPanel changePanel={this.changePanel.bind(this)} selectedModule={this.state.selectedModule} today={this.state.today} colour={mainBlue} module={module} setState={this.saveClass.bind(this)}/>
                         </div>)
                         :null }
             </div>
-  
+
         </div>
-  
+
         );
     }
     render(){

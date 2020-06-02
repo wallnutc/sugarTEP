@@ -44,15 +44,15 @@ export default function StackedColumnChart (props){
 
       var colorslist = ['rgba(199, 0, 57, 0.8)','rgba(255, 87, 51, 0.6)','rgba(255, 141, 26, 0.6)','rgba(237, 221, 83, 0.6)','rgba(87, 199, 133, 0.6)','rgba(0, 186, 173, 0.6)','rgba(42, 123, 155, 0.6)','rgba(61, 61, 107, 0.6)','rgba(81, 24, 73, 0.6)','rgba(144, 12, 63, 0.8)','rgba(63, 56, 68, 0.6)',];
       var borderlist = ['rgba(199, 0, 57, 1)','rgba(255, 87, 51, 1)','rgba(255, 141, 26, 1)','rgba(237, 221, 83, 1)','rgba(173, 212, 92, 1)','rgba(87, 199, 133, 1)','rgba(0, 186, 173)','rgba(42, 123, 155, 1)','rgba(61, 61, 107, 1)','rgba(81, 24, 73, 1)','rgba(144, 12, 63, 1)','rgba(63, 56, 68, 1)',];
-      console.log("datasets = " + typeof(props.response.datasets));
+      //console.log("datasets = " + typeof(props.response.datasets));
       //var datasets3 = JSON.parse(props.response.datasets);
 
-      console.log("datasets.key = " + Object.keys(props.response) );
+      //console.log("datasets.key = " + Object.keys(props.response) );
 
       for(var j = 0; j < props.response.datasets.length; j++) {
           mydatasets.push({label: props.response.datasets[j].label, backgroundColor: colorslist[j], boderColor: borderlist[j], data: props.response.datasets[j].data.split(','), spanGraphs: true});
       }
-      console.log(mydatasets);
+      //console.log(mydatasets);
       var subjectsData = {
           labels: props.response.labels.split(','),
           datasets: mydatasets

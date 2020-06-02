@@ -50,7 +50,7 @@ function MyStatistics (props) {
         );
     }
   }
-  console.log(props.student.label);
+  //console.log(props.student.label);
   const headerContent = {title:"My Statistics", imgPath: require("../images/icons/myStatistics.svg")};
   if(props.student != undefined){
     return (
@@ -73,7 +73,7 @@ function MyStatistics (props) {
 
           <Button variant="contained" color="primary" aria-controls="fade-menu" aria-haspopup="true" onClick = {()=>setFilterState(0)}
           style={{margin:'8px',lineHeight:0, height: '24px',borderRadius:'12px',textTransform: 'none', padding:0, backgroundColor: filterState==0? "#0153B4":'#F6F7FA',}}
-          children ={<span style={{margin:'0 10px',lineHeight:'0',color:filterState==0? "#FFFFFF":'#0061D2'}}> Module (Total)  </span>}></Button>
+          children ={<span style={{margin:'0 10px',lineHeight:'0',color:filterState==0? "#FFFFFF":'#0061D2'}}> Modules (Hours)  </span>}></Button>
           <Button variant="contained" color="primary" aria-controls="fade-menu" aria-haspopup="true" onClick = {()=>setFilterState(3)}
           style={{margin:'8px',lineHeight:0, height: '24px',borderRadius:'12px',textTransform: 'none', padding:0, backgroundColor: filterState==3? "#0153B4":'#F6F7FA',}}
           children ={<span style={{margin:'0 10px',lineHeight:'0',color:filterState==3? "#FFFFFF":'#0061D2'}}> Modules (Time Series)  </span>}></Button>

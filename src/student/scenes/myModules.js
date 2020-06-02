@@ -103,7 +103,7 @@ function ModulePanel (props) {
         return( <div style = {{position: 'relative', height:700}}> <PieModuleComponent moduleID = {props.module.module_ID} label = {props.module.module_name} type = "grade"/> </div>);
     }
   }
-  console.log("dentro do panel:");
+  //console.log("dentro do panel:");
   const panelStyle = {
     transition: 'all 4s linear',
     padding:'0 24px',
@@ -225,7 +225,7 @@ export default function MyModules (props) {
     function selectModule(id) {
       setModuleSelected(true);
       setSelectedID(id);
-      console.log("id selected:" + id)
+      //console.log("id selected:" + id)
     }
     return (
       <div >

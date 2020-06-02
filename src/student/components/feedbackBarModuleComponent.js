@@ -9,7 +9,7 @@ function FeedbackChartsByQuestion(props){
     const [response,setResponse] = useState({});
     useEffect(() => {
       var url = 'https://mvroso.pythonanywhere.com/feedbackBarChartsByModule' + props.moduleID.toString()
-      console.log(url);
+      //console.log(url);
       fetch(url)     
          .then((response) => response.json())
          .then((responseJson) => {
@@ -63,7 +63,7 @@ function FeedbackChartsByQuestion(props){
         );
     }
     else {
-        console.log("Failed Bar Render");
+        //console.log("Failed Bar Render");
         return <div></div>
     }
 }

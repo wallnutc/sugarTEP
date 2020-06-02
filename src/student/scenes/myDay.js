@@ -25,22 +25,19 @@ Date.prototype.getWeek = function(){
           );
 }
 function MyDay (props) {
-  console.log("My Day Props", props);
-  const today = "2019-03-14";
-  const today2 = "2018-09-14T00:00:00"
-  const headerContent = {title:"My Day", imgPath: require("../images/icons/myDay.svg")};
-  const batch = 5;
-  const activeActivities = props.activities.filter((item) => new Date(item.due_date) >= new Date(props.today)  && item.submitted != 1 ); //&& new Date(item.start_date) <= new Date(today2)
+  const batch = 25;
+  const activeActivities = props.activities.filter((item) => new Date(item.due_date) >= props.today  && item.submitted != 1 ); //&& new Date(item.start_date) <= new Date(today2)
   const [activities,setActivities] = useState(()=>activeActivities.length <=batch ? activeActivities:activeActivities.slice(0,batch))
-  const [panels, setpanels] = useState( () => <div style={{height:'100%',width:'100%',backgroundColor:'red'}}> AAAAAAAAHHHHHHHHHHHHHHHHHHHHHHHH </div>);
+
   const [renderIndex, setRenderIndex] = useState(batch);
   const [hasMore,setHasMore] =  useState(true);
   const [setup,setSetup] = useState(true);
   const [popupActivity,setPopupActivity] = useState({});
   const [filterState, setFilterState] = useState(1);
-  const thisWeek=new Date(props.today).getWeek();
+  const thisWeek= new Date('2019-03-14T00:00:00').getWeek();
   const thisWeekClasses = props.classes.filter((item) => new Date(item.date+'T00:00:00')>=thisWeek[0]&&new Date(item.date+'T00:00:00')<=thisWeek[6] );
   const weekTag = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+  const todayClasses = props.classes.filter((item) =>new Date(item.date+'T00:00:00').getTime() == props.today.getTime());
 
   if(activeActivities.length>0 && setup){
         setActivities(()=>activeActivities.length <=batch ? activeActivities:activeActivities.slice(0,batch));
@@ -58,8 +55,6 @@ function MyDay (props) {
   };
 
 
-
-
 const [popupClass,setPopupClass] = useState({})
 const [showPopupA,setShowPopupA] = useState(false);
 const [showPopupC,setShowPopupC] = useState(false);
@@ -71,10 +66,6 @@ const togglePopupActivity = (activity) => {
   if(!showPopupA) setPopupActivity(activity);
   setShowPopupA(!showPopupA);
 }
-
-
-
-
 
 return (
   <div >
@@ -128,12 +119,13 @@ return (
          fontSize: '14px',
          color: '#565656'
        }}> <b>Today</b> | {weekTag[props.today.getDay()]+' '}{String(props.today.getDate()).padStart(2, '0')}/{String(props.today.getMonth() + 1).padStart(2, '0')}
-       <br/><div style={{margin:'16px 0 8px 0'}}>Classes</div>
+       <br/>{todayClasses.length==0? <div style={{margin:'16px 0 8px 0'}}>No classes today, take a break !</div>:<div style={{margin:'16px 0 8px 0'}}>Classes</div>}
     </div>
 
-      {props.classes.filter((item) =>new Date(item.date+'T00:00:00').getTime() == props.today.getTime()).map((item)=> <div key={item.module_code+item.date+item.start_time} style={{margin:'8px 0'}}>
-        <LecturePanel onClick ={togglePopupClass} item = {item} />
-      </div> )}
+      {todayClasses.length==0? null: todayClasses.map((item)=>
+        <div key={item.module_code+item.date+item.start_time} style={{margin:'8px 0'}}>
+          <LecturePanel onClick ={togglePopupClass} item = {item} />
+        </div> )}
       </div>
       <div style={{backgroundColor:'#F6F7FA', borderRadius:'6px', margin:'16px', padding:'8px',boxShadow:' 0px 2px 4px rgba(0, 0, 0, 0.1)'}}>
       <div style={{
@@ -143,24 +135,29 @@ return (
          color: '#565656'
        }}> Activities backlog
     </div>
+      {
+        activities.length==0? <div style={{margin:'16px 0 8px 0',fontFamily: 'Rubik', fontStyle: 'normal',fontSize: '14px', color: '#565656'}}>
+                                You're done with all your activities for now!
+                              </div>:
+        <InfiniteScroll
+          dataLength={activities.length}
+          next={fetchMoreData}
+          hasMore={hasMore}
+          loader={<h4 style={{ textAlign: "center", color: mainBlue }}>Loading...</h4>}
+          endMessage={
+            <p style={{ textAlign: "center", color: mainBlue }}>
+              <b>Yay! You have seen it all</b>
+            </p>
+          }
+        >
+          {activities.map((i, index) => (
+            <div key={i.module_code+i.due_date} style={{margin:'8px 0'}}>
+              <ActivityPanel onClick={togglePopupActivity} item={i} />
+            </div>
+          ))}
+        </InfiniteScroll>
+      }
 
-      <InfiniteScroll
-        dataLength={activities.length}
-        next={fetchMoreData}
-        hasMore={hasMore}
-        loader={<h4 style={{ textAlign: "center", color: mainBlue }}>Loading...</h4>}
-        endMessage={
-          <p style={{ textAlign: "center", color: mainBlue }}>
-            <b>Yay! You have seen it all</b>
-          </p>
-        }
-      >
-        {activities.map((i, index) => (
-          <div key={i.module_code+i.due_date} style={{margin:'8px 0'}}>
-            <ActivityPanel onClick={togglePopupActivity} item={i} />
-          </div>
-        ))}
-      </InfiniteScroll>
       </div>
       </div>
       :<div style={{margin:'8px'}}>

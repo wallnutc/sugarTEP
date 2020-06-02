@@ -48,13 +48,13 @@ const useStyles = makeStyles((theme) => ({
 export default function ControlledExpansionPanels(props) {
     const classes = useStyles();
     const [expanded, setExpanded] = React.useState(false);
-    console.log(expanded);
+    //console.log(expanded);
     const handleChange = (panel) => (event, isExpanded) => {
         setExpanded(isExpanded ? panel : false);
     };
     return (
         <div className={classes.root}>
-            <div style={{ width: expanded? '100%': '100%', padding:0,margin:0,borderRadius: '10px 8px 8px 8px', border: expanded? '2px outset':null, borderColor: expanded? props.colour:null, zIndex: '0'}}>
+            <div style={{ width: expanded? '100%': '100%', padding:0,margin:0,borderRadius: '10px 8px 8px 8px', minWidth: expanded? '1100px': '100%', border: expanded? '2px outset':null, borderColor: expanded? props.colour:null, zIndex: '0'}}>
             <ExpansionPanel onChange={handleChange('panel1')}>
 
                 <ExpansionPanelSummary style = {{padding:0,margin:0, color: 'white'}}>

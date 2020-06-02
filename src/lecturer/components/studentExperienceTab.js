@@ -167,11 +167,11 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 function FilterMenu(props) {
-  //console.log(props.options);
+  ////console.log(props.options);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
-  console.log("props.options");
-  console.log(props.options);
+  //console.log("props.options");
+  //console.log(props.options);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
 
@@ -179,8 +179,8 @@ function FilterMenu(props) {
 
   const handleClose = (optionID) => {
     setAnchorEl(null);
-    console.log("handleClose");
-    console.log(typeof optionID);
+    //console.log("handleClose");
+    //console.log(typeof optionID);
     props.callback(optionID);
   };
   return (
@@ -210,7 +210,7 @@ function SelectorBox(props) {
 
   useEffect(() => {
     var url = 'https://mvroso.pythonanywhere.com/activityTypePieChartsByModule' + props.module_ID.toString();
-    console.log(url);
+    //console.log(url);
     fetch(url)
        .then((response) => response.json())
        .then((responseJson) => {
@@ -230,17 +230,17 @@ function SelectorBox(props) {
               if(filterOptions.find((option)=>option.value==student.course_ID)==undefined)
                 {filterOptions.push({value:student.course_ID, label:student.course_name})}
               })
-          console.log(filterOptions);
+          //console.log(filterOptions);
         })
         .catch((error) => {
           console.error(error);
         });
   },[]);
-  console.log(moduleExprience);
+  //console.log(moduleExprience);
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
   const handleChange = (event, newValue) => {
-    console.log(newValue);
+    //console.log(newValue);
     setValue(newValue);
     props.tabChange(newValue);
   };
@@ -279,8 +279,8 @@ function SelectorBox(props) {
           <BootstrapButton style = {{backgroundColor: student == props.studentInFocus? decreaseBrightness(props.colour,40):props.colour}}  onClick={()=>props.selectStudent(student)}
           size = 'large' fullWidth startIcon ={<PersonIcon color='action' style={{fontSize: 40, color: 'white' }}/>} children={
             <div style={{color: 'black'}}>
-              <div style={{fontFamily: 'Rubik', color: 'white'}}>{student.course_name}<br/>{student.student_name}</div>
-              <div style={{fontWeight:'300',fontSize: '14px', color: 'white'}}>
+              <div style={{fontFamily: 'Rubik', color: 'white',fontSize: '12px'}}>{student.course_name}<br/>{student.student_name}</div>
+              <div style={{fontWeight:'300',fontSize: '12px', color: 'white'}}>
                 <span style={{verticalAlign:'middle', color: 'white'}}>{student.student_number}</span>
               </div>
             </div>} />
@@ -291,7 +291,7 @@ function SelectorBox(props) {
           size = 'large' fullWidth startIcon ={<PersonIcon color='action' style={{fontSize: 40, color: 'white' }}/>} children={
             <div style={{color: 'black'}}>
               <div style={{fontFamily: 'Rubik', color: 'white'}}>{student.course_name}<br/>{student.student_name}</div>
-              <div style={{fontWeight:'300',fontSize: '14px', color: 'white'}}>
+              <div style={{fontWeight:'300',fontSize: '12px', color: 'white'}}>
                 <span style={{verticalAlign:'middle', color: 'white'}}>{student.student_number}</span>
               </div>
             </div>} />
@@ -307,6 +307,7 @@ function SelectorBox(props) {
 function DetailBox(props) {
   const classes = useStyles();
   const [timeType, setTimeType] = useState("Month");
+  const [timeMode, setTimeMode] = useState("Activity Type");
   const [value, setValue] = React.useState(0);
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -333,29 +334,43 @@ function DetailBox(props) {
 
         <h3>{props.student.student_name} - {props.student.course_name}</h3>
         </div>
+        <div style={{padding:"0 16px"}}>
+        <span >
+        <BootstrapButton style = {{margin:'16px 8px',height: '24px',backgroundColor: timeMode=="Module" ? props.colour:'#F6F7FA'}} onClick={()=>{setTimeMode("Module");}} children={
+          <div style={{color:timeMode=="Module" ? '#FFFFFF':props.colour, fontFamily: 'Rubik',fontStyle: 'normal', fontWeight: '300',fontSize: '11px',lineHeight: '10px'}}>
+          Module
+          </div>} />
+        </span>
+        <span >
+        <BootstrapButton style = {{margin:'16px 8px',height: '24px',backgroundColor: timeMode=="Activity Type" ? props.colour:'#F6F7FA'}} onClick={()=>{setTimeMode("Activity Type");}} children={
+          <div style={{color:timeMode=="Activity Type" ? '#FFFFFF':props.colour, fontFamily: 'Rubik',fontStyle: 'normal', fontWeight: '300',fontSize: '11px', display: 'inline-block', lineHeight: '10px'}}>
+          Activity Type
+            </div>} />
+        </span>
+        </div>
         <div style={{padding:"0 16px",}}>
               <span >
               <BootstrapButton style = {{margin:'16px 8px',height: '24px',backgroundColor: timeType=="Week" ? props.colour :'#F6F7FA'}} onClick={()=>{setTimeType("Week");}} children={
-                <div style={{color:timeType=="Week" ? '#FFFFFF':props.colour, fontFamily: 'Rubik',fontStyle: 'normal', fontWeight: '300',fontSize: '12px',lineHeight: '10px'}}>
+                <div style={{color:timeType=="Week" ? '#FFFFFF':props.colour, fontFamily: 'Rubik',fontStyle: 'normal', fontWeight: '300',fontSize: '11px',lineHeight: '10px'}}>
                 Week
                 </div>} />
               </span>
               <span >
               <BootstrapButton style = {{margin:'16px 8px',height: '24px',backgroundColor: timeType=="Month" ? props.colour:'#F6F7FA'}} onClick={()=>{setTimeType("Month");}} children={
-                <div style={{color:timeType=="Month" ? '#FFFFFF':props.colour, fontFamily: 'Rubik',fontStyle: 'normal', fontWeight: '300',fontSize: '12px', display: 'inline-block', lineHeight: '10px'}}>
+                <div style={{color:timeType=="Month" ? '#FFFFFF':props.colour, fontFamily: 'Rubik',fontStyle: 'normal', fontWeight: '300',fontSize: '11px', display: 'inline-block', lineHeight: '10px'}}>
                 Month
                   </div>} />
               </span>
               <span >
               <BootstrapButton style = {{margin:'16px 8px',height: '24px',backgroundColor: timeType=="Semester" ? props.colour:'#F6F7FA'}} onClick={()=>{setTimeType("Semester");}} children={
-                <div style={{color:timeType=="Semester" ? '#FFFFFF':props.colour, fontFamily: 'Rubik',fontStyle: 'normal', fontWeight: '300',fontSize: '12px',lineHeight: '10px'}}>
+                <div style={{color:timeType=="Semester" ? '#FFFFFF':props.colour, fontFamily: 'Rubik',fontStyle: 'normal', fontWeight: '300',fontSize: '11px',lineHeight: '10px'}}>
                 Semester
                   </div>} />
               </span>
             </div>
 
             <div style = {{margin:'8px 0', height: '60%', width: '90%', position:'relative'}}>
-              <TimelineComponent courseID = {props.student.course_ID} label = {props.student.course_name} bin = {timeType}/>
+              <TimelineComponent courseID = {props.student.course_ID} label = {props.student.course_name} bin = {timeType} mode = {timeMode}/>
             </div>
         </div>
       }
@@ -364,19 +379,19 @@ function DetailBox(props) {
         <div style={{padding:"0 16px"}}>
         <span >
         <BootstrapButton style = {{margin:'16px 8px',height: '24px',backgroundColor: timeType=="Week" ? props.colour:'#F6F7FA'}} onClick={()=>{setTimeType("Week");}} children={
-          <div style={{color:timeType=="Week" ? '#FFFFFF':props.colour, fontFamily: 'Rubik',fontStyle: 'normal', fontWeight: '300',fontSize: '12px',lineHeight: '10px'}}>
+          <div style={{color:timeType=="Week" ? '#FFFFFF':props.colour, fontFamily: 'Rubik',fontStyle: 'normal', fontWeight: '300',fontSize: '11px',lineHeight: '10px'}}>
           Week
           </div>} />
         </span>
         <span >
         <BootstrapButton style = {{margin:'16px 8px',height: '24px',backgroundColor: timeType=="Month" ? props.colour:'#F6F7FA'}} onClick={()=>{setTimeType("Month");}} children={
-          <div style={{color:timeType=="Month" ? '#FFFFFF':props.colour, fontFamily: 'Rubik',fontStyle: 'normal', fontWeight: '300',fontSize: '12px', display: 'inline-block', lineHeight: '10px'}}>
+          <div style={{color:timeType=="Month" ? '#FFFFFF':props.colour, fontFamily: 'Rubik',fontStyle: 'normal', fontWeight: '300',fontSize: '11px', display: 'inline-block', lineHeight: '10px'}}>
           Month
             </div>} />
         </span>
         </div>
         <div style = {{margin:'8px 0', height: '350px', width: '600px', position:'relative'}}>
-          <TimelineModuleComponent moduleID = {props.module_ID} label = {props.module_name} bin = {timeType}/>
+          <TimelineModuleComponent moduleID = {props.module_ID} label = {props.module_name} bin = {timeType} />
         </div>
       </div>
       :<StudentPieComponent moduleID = {props.module_ID}/>
@@ -435,17 +450,17 @@ export default function StudentExeperienceTab(props) {
   const [myClassTabSelected, setMyClassTabSelected] = useState(0);
   const [studentInFocus,setStudentInFocus] = useState({});
   return (
-    <div style = {{margin:0,padding:0, maxWidth:'906px'}}>
+    <div style = {{margin:0,padding:0, maxWidth: '906px'}}>
       <div  style = {{float:'left',height:'100%',width:'calc(100% - 608px)',}}>
-        <div style = {{position:'relative', top:'27px', left:'35px', fontFamily: 'Rubik', fontStyle: 'normal', fontWeight: '300', fontSize: '14px',
+        <div style = {{position:'relative', top:'27px', left:'35px', fontFamily: 'Rubik', fontStyle: 'normal', fontWeight: '300', fontSize: '12px',
  lineHeight: '17px', display: 'flex', alignItems: 'center', color: '#414141'}} >Module Status </div>
       <div style = {{ position:'relative', top:'30px',marginRight:'auto', marginLeft:'auto'}}>
         <SelectorBox  setFilterState={setFilteredState} filterState={filterState} studentInFocus={studentInFocus}selectStudent={setStudentInFocus} colour={props.colour} moduleCode ={props.moduleCode} module_ID = {props.module_ID} tabChange={setMyClassTabSelected}/>
       </div>
 
       </div>
-      <div className = 'detailBox' style = {{float:'left',height:'500px',width:'608px', }}>
-      <div style = {{position:'relative', top:'27px', left:'35px', fontFamily: 'Rubik', fontStyle: 'normal', fontWeight: '300', fontSize: '14px',
+      <div className = 'detailBox' style = {{float:'left',height:'500px',width:'608px' }}>
+      <div style = {{position:'relative', top:'27px', left:'35px', fontFamily: 'Rubik', fontStyle: 'normal', fontWeight: '300', fontSize: '12px',
 lineHeight: '17px', display: 'flex', alignItems: 'center', color: '#414141'}} > Mode </div>
         <div style = {{position:'relative', top:'30px',marginRight:'auto', marginLeft:'auto'}}>
           <DetailBox back={setStudentInFocus} student={studentInFocus}myClass={myClassTabSelected} colour={props.colour} module_ID = {props.module_ID} module_name = {props.module_name}/>

@@ -7,12 +7,12 @@ import '../styles/likert.css';
 
 export default function LikertScale (props) {
   const [selectedValue, setSelectedValue] = React.useState(0);
-  console.log('selected value: ' + selectedValue);
+  //console.log('selected value: ' + selectedValue);
   // const handleChange = (event) => {
   //   setSelectedValue(event.target.value);
   // };
   const selectRadio = (value) => {
-    //console.log("ID: " + props.feedback.feedback_ID + " value: " + value);
+    ////console.log("ID: " + props.feedback.feedback_ID + " value: " + value);
     setSelectedValue(value);
     props.callback(props.feedback.feedback_ID,value);
   }

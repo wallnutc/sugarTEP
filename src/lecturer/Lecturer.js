@@ -52,8 +52,8 @@ function sortModules(modules){
     }
     tempModules.push(tempModule);
   } )
-  console.log("made a copy");
-  console.log(tempModules);
+  //console.log("made a copy");
+  //console.log(tempModules);
   return tempModules;
 }
 
@@ -66,16 +66,17 @@ class Lecturer extends Component  {
     contmodules:[],
     today:new Date("2019-03-14T00:00:00"),
     value: 0,
+    selectedModule:null,
     };
 }
 
 saveClass(){
-  console.log("wooo")
+  //console.log("wooo")
   fetch('https://mvroso.pythonanywhere.com/modulesByStaff9')
     .then(res => res.json())
     .then(
       (result) => {
-        console.log(result);
+        //console.log(result);
         this.setState({
           isLoaded: true,
           modules: sortModules(result.myModules),
@@ -83,16 +84,16 @@ saveClass(){
           //student: result.student
         });
         //sortModules(this.state.modules);
-        //console.log("-before");
-        console.log(this.state.contmodules);
-        //console.log(this.state.today);
+        ////console.log("-before");
+        //console.log(this.state.contmodules);
+        ////console.log(this.state.today);
         //this.state.modules.map((item) => {sortClasses(item.classes); sortActivities(item.activities);});
         //this.state.contmodules.map((item) => {sortClasses(item.classes); sortActivities(item.activities);});
-        //console.log("-after");
-        console.log(this.state.modules);
-        //console.log("-modules len");
-        //console.log(this.state.modules.length);
-        console.log("hooo")
+        ////console.log("-after");
+        //console.log(this.state.modules);
+        ////console.log("-modules len");
+        ////console.log(this.state.modules.length);
+        //console.log("hooo")
       },
       (error) => {
         this.setState({
@@ -109,22 +110,22 @@ saveClass(){
       .then(res => res.json())
       .then(
         (result) => {
-          console.log(result);
+          //console.log(result);
           this.setState({
             isLoaded: true,
             modules: sortModules(result.myModules),
             contmodules: sortModules(result.contributedModules),
             //student: result.student
           });
-          // console.log("before");
-          // console.log(this.state.contmodules);
-          // console.log(this.state.today);
+          // //console.log("before");
+          // //console.log(this.state.contmodules);
+          // //console.log(this.state.today);
           // this.state.modules.map((item) => {sortClasses(item.classes); sortActivities(item.activities);});
           // this.state.contmodules.map((item) => {sortClasses(item.classes); sortActivities(item.activities);});
-          // console.log("after");
-          // console.log(this.state.modules);
-          // console.log("modules len");
-          // console.log(this.state.modules.length);
+          // //console.log("after");
+          // //console.log(this.state.modules);
+          // //console.log("modules len");
+          // //console.log(this.state.modules.length);
         },
         (error) => {
           this.setState({
@@ -135,6 +136,12 @@ saveClass(){
       );
     }
 
+    changePanel(moduleCode){
+      //console.log("changed to " + moduleCode);
+      this.setState({
+        selectedModule: this.state.selectedModule==moduleCode? null: moduleCode,
+      });
+    }
 
 
     renderContent = () => {
@@ -167,7 +174,7 @@ saveClass(){
             </div> : <div className = 'title' style= {{color: mainBlue}}><p>Loading Modules... </p></div>}
             <div className = 'moduleBox'>
             {this.state.isLoaded ? this.state.modules.map((module)=> <div style ={{margin:'50px 0px'}}>
-                      <ExpansionPanel  today={this.state.today} module={module} colour={mainBlue} setState={this.saveClass.bind(this)}/>
+                      <ExpansionPanel changePanel={this.changePanel.bind(this)} selectedModule={this.state.selectedModule} today={this.state.today} module={module} colour={mainBlue} setState={this.saveClass.bind(this)}/>
                       </div>)
                       :null }
 
@@ -176,7 +183,7 @@ saveClass(){
             <div className = 'moduleBox'>
             {this.state.isLoaded ? this.state.contmodules.map((module)=> <div style ={{margin:'50px 0px'}}>
 
-                      <ExpansionPanel  today={this.state.today} module={module}  colour={mainBlue} setState={this.saveClass.bind(this)}/>
+                      <ExpansionPanel changePanel={this.changePanel.bind(this)} selectedModule={this.state.selectedModule} today={this.state.today} module={module}  colour={mainBlue} setState={this.saveClass.bind(this)}/>
                       </div>)
                       :null }
             </div>
@@ -185,7 +192,7 @@ saveClass(){
 
       );
 
-    }    
+    }
     render(){
       return this.renderContent();
     }

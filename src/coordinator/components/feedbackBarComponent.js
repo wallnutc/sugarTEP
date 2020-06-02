@@ -9,7 +9,7 @@ function FeedbackBarByQuestion(props){
     const [response,setResponse] = useState({});
     useEffect(() => {
       var url = 'https://mvroso.pythonanywhere.com/feedbackBy' + props.type.toString() + props.activityID.toString()
-      console.log(url);
+      //console.log(url);
       fetch(url)
          .then((response) => response.json())
          .then((responseJson) => {
@@ -22,15 +22,15 @@ function FeedbackBarByQuestion(props){
     var i, q, dataType, data = null
     if(response.Questions != undefined){
         data = response.Questions;
-        console.log("dataFeedback",data);
-        console.log("Question",props.questionName);
+        //console.log("dataFeedback",data);
+        //console.log("Question",props.questionName);
         for (i=0; i< data.length; i++){
             if(data[i].question == props.questionName){
             q = data[i];
             }
         }
         if (q == null){
-            console.log("Failed Bar Render, Question Not Found");
+            //console.log("Failed Bar Render, Question Not Found");
             return <div>No responses yet for {props.questionName}.</div>
         }
         const bardataSource = {
@@ -59,7 +59,7 @@ function FeedbackBarByQuestion(props){
         );
     }
     else {
-        console.log("Failed Bar Render");
+        //console.log("Failed Bar Render");
         return <div></div>
     }
 }

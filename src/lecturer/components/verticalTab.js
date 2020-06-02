@@ -80,18 +80,18 @@ export default function VerticalTabs(props) {
                       lecturer_email:props.module.module_lecturer_email
                         }]
   props.module.contributors.map((item)=> contributors.push(item));
-  console.log("module code = "  + props.module.module_code)
-  console.log(props.module.activities)
+  //console.log("module code = "  + props.module.module_code)
+  //console.log(props.module.activities)
   const [focusAcitivityID, setFocusAcitivityID] = React.useState(() => {
     var i;
 
     // for(i=0;i<props.module.activities.length;i++){
-    //     console.log(i+' -> '+props.module.activities[i].title)
+    //     //console.log(i+' -> '+props.module.activities[i].title)
     // }
-    // props.module.activities.map((item,index)=>console.log(index+' ->> '+item.title))
+    // props.module.activities.map((item,index)=>//console.log(index+' ->> '+item.title))
     for(i=0;i<props.module.activities.length;i++){
       if(new Date(props.module.activities[i].due_date)>=props.today){
-        console.log(i + ' -- ' + props.module.activities[i].title);
+        //console.log(i + ' -- ' + props.module.activities[i].title);
         return (props.module.activities[i].activity_ID);
         break;
       }
@@ -100,11 +100,11 @@ export default function VerticalTabs(props) {
     return null;
 
   });
-  console.log("vertical tabs modules", props.module);
-  console.log(focusAcitivityID);
+  //console.log("vertical tabs modules", props.module);
+  //console.log(focusAcitivityID);
 
   function handleFocusAcitivityIDChange(newValue) {
-    console.log("changed! : " + newValue);
+    //console.log("changed! : " + newValue);
     setFocusAcitivityID(newValue);
   }
 
@@ -126,18 +126,18 @@ export default function VerticalTabs(props) {
           TabIndicatorProps={{style: {background:props.module.colour}}}
         >
 
-          <Tab fullWidth style = {{ height:'100px',maxWidth:'500px', textTransform: 'none', fontSize:18}} label={<div style={{marginLeft:'30px'}}>
+          <Tab fullWidth style = {{ height:'100px',maxWidth:'500px', textTransform: 'none', fontSize:16}} label={<div style={{marginLeft:'30px'}}>
             <CastForEducationIcon color='action'  style={{fontSize:"50px",verticalAlign:'middle', color: props.module.colour}}/> Homepage</div>} {...a11yProps(0)} />
 
 
-          <Tab fullWidth style = {{ height:'100px',maxWidth:'500px', textTransform: 'none', fontSize:18}} label={<div style={{marginLeft:'30px'}}>
+          <Tab fullWidth style = {{ height:'100px',maxWidth:'500px', textTransform: 'none', fontSize:16}} label={<div style={{marginLeft:'30px'}}>
             <LocalLibraryIcon color='action' style={{fontSize:"50px",verticalAlign:'middle', color: props.module.colour}} /> Classes</div>} {...a11yProps(1)} />
 
 
-          <Tab fullWidth style = {{ height:'100px',maxWidth:'500px', textTransform: 'none', fontSize:18 }} label={<div style={{marginLeft:'30px'}}>
+          <Tab fullWidth style = {{ height:'100px',maxWidth:'500px', textTransform: 'none', fontSize:16}} label={<div style={{marginLeft:'30px'}}>
             <ComputerIcon color='action' style={{fontSize:"50px",verticalAlign:'middle', color: props.module.colour}} /> Activities</div>} {...a11yProps(2)} />
 
-          <Tab fullWidth style = {{ height:'100px',maxWidth:'500px', textTransform: 'none', fontSize:18 }} label={<div style={{marginLeft:'30px'}}>
+          <Tab fullWidth style = {{ height:'100px',maxWidth:'500px', textTransform: 'none', fontSize:16}} label={<div style={{marginLeft:'30px'}}>
             <BarChartIcon color='action' style={{fontSize:"50px",verticalAlign:'middle', color: props.module.colour}} /> Student Experience</div>} {...a11yProps(4)} />
 
 

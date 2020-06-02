@@ -11,7 +11,7 @@ import Coordinator from './coordinator/Coordinator';
 
 function prodCheck() {
   //if (process.env.NODE_ENV !== "development")
-    console.log = () => {};
+    //console.log = () => {};
     console.error = () => {};
     console.warn = () => {};
 }

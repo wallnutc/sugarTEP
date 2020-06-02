@@ -220,7 +220,7 @@ const useStyles = makeStyles((theme) => ({
 
 function SelectorBox(props) {
   const classes = useStyles();
-  console.log("Class", props.classes);
+  //console.log("Class", props.classes);
   const [value, setValue] = React.useState(0);
   const taughtLecturesSelectors = props.classes.filter((lecture) => new Date(lecture.date+'T'+lecture.end_time)< props.today
   ).map((lecture) =>
@@ -230,11 +230,11 @@ function SelectorBox(props) {
   children={
     <div style = {{float:'left',width:'100%',padding:'0px 0', fontFamily: 'Rubik', fontStyle: 'normal'}}>
       <div>
-        <div style = {{fontWeight: 'normal', fontSize: '14px', lineHeight: '17px',color: invert(lecture.colour, true)}}>
+        <div style = {{fontWeight: 'normal', fontSize: '12px', lineHeight: '17px',color: invert(lecture.colour, true)}}>
           {lecture.title}
         </div>
-        <div style = {{fontWeight: 300, fontSize: '14px', lineHeight: '17px',color: invert(lecture.colour, true)}} >
-          <ScheduleIcon color='action' style={{verticalAlign:"middle",fontSize: '14px', color: invert(lecture.colour, true)}}/>
+        <div style = {{fontWeight: 300, fontSize: '12px', lineHeight: '17px',color: invert(lecture.colour, true)}} >
+          <ScheduleIcon color='action' style={{verticalAlign:"middle",fontSize: '12px', color: invert(lecture.colour, true)}}/>
           <span style = {{color: invert(lecture.colour, true)}}>
             {("0" + new Date(lecture.date+'T'+lecture.start_time).getDate()).slice(-2)+'/'+("0" + (parseInt(new Date(lecture.date+'T'+lecture.start_time).getMonth())+1).toString()).slice(-2)}
             <br/>
@@ -255,10 +255,10 @@ function SelectorBox(props) {
     children={
       <div style = {{float:'left',width:'100%',padding:'0px 0', fontFamily: 'Rubik', fontStyle: 'normal'}}>
         <div>
-          <div style = {{fontWeight: 'normal', fontSize: '14px', lineHeight: '17px',color: invert(lecture.colour, true)}}>
+          <div style = {{fontWeight: 'normal', fontSize: '12px', lineHeight: '17px',color: invert(lecture.colour, true)}}>
             {lecture.title}
           </div>
-          <div style = {{fontWeight: 300, fontSize: '14px', lineHeight: '17px',color: invert(lecture.colour, true)}} >
+          <div style = {{fontWeight: 300, fontSize: '12px', lineHeight: '17px',color: invert(lecture.colour, true)}} >
             <ScheduleIcon color='action' style={{verticalAlign:"middle",fontSize: '14px', color: invert(lecture.colour, true)}}/>
             <span style = {{color: invert(lecture.colour, true)}}>
               {("0" + new Date(lecture.date+'T'+lecture.start_time).getDate()).slice(-2)+'/'+("0" + (parseInt(new Date(lecture.date+'T'+lecture.start_time).getMonth())+1).toString()).slice(-2)}
@@ -401,30 +401,26 @@ function DetailBox(props) {
 
     const handleChangeActivity = (event) => {
       setNewLinkedActivities(event.target.value);
-      console.log("change activities");
-      console.log(event.target.value);
+      //console.log("change activities");
+      //console.log(event.target.value);
     };
     const handleChangeFeedback = (event) => {
       setNewFeedback(event.target.value);
-      console.log("change feedback");
-      console.log(event.target.value);
+      //console.log("change feedback");
+      //console.log(event.target.value);
     };
 
   const deleteNotes= (text)=> {
-  console.log(notes);
+  //console.log(notes);
   var index = -1
   var i;
-  notes.map((note)=>console.log(note));
   for (i=0;i<notes.length;i++){
     if(notes[i].text==text){
       index = i;
       break;
     }
   }
-  console.log(index);
-  for(i=0;i<notes.length;i++){
-    console.log("i = "+ i+" text: "+notes[i].text);
-  }
+  //console.log(index);
   var tempNotes=[];
   for(i=0;i<index;i++){
     tempNotes.push(notes[i])
@@ -442,8 +438,8 @@ function DetailBox(props) {
     newLinkedActivities.map((item)=>activities.push(item.activity_ID));
     feedback.map((item)=>feedbackArray.push(item.feedback_question_ID));
     newFeedback.map((item)=>feedbackArray.push(item.feedback_ID));
-    console.log("lecturer")
-    console.log(lecturer)
+    //console.log("lecturer")
+    //console.log(lecturer)
 
     var data = {
             classID:props.lecture.class_ID,
@@ -454,9 +450,8 @@ function DetailBox(props) {
             activities: activities,
             lecturer: lecturer.lecturer_ID,
         };
-    console.log(data);
-    console.log(data.activities);
-    data.activities.map((item)=>console.log(item))
+    //console.log(data);
+    //console.log(data.activities);
 
         fetch("https://mvroso.pythonanywhere.com/updateClass", {
                     method: "POST",
@@ -464,7 +459,7 @@ function DetailBox(props) {
                     body: JSON.stringify(data),
                     headers: new Headers({"content-type": "application/json"})
                 }).then(res => {
-                    console.log("Request complete! response:", res);
+                    //console.log("Request complete! response:", res);
                     if(res.status==200){
 
                       //setClassSuccessfullySaved([true,classSuccessfullySaved[1]]);
@@ -477,14 +472,14 @@ function DetailBox(props) {
                       updatedCorrectly=false;
                     }
                 });
-    console.log('feedback ID');
+    //console.log('feedback ID');
     var fdata = {
       activityID: props.lecture.class_ID,
       type: 3,
       feedback: feedbackArray
     };
-    console.log(fdata);
-    console.log(feedbackArray);
+    //console.log(fdata);
+    //console.log(feedbackArray);
     fetch("https://mvroso.pythonanywhere.com/setFeedback", {
                 method: "POST",
                 cache: "no-cache",
@@ -515,14 +510,14 @@ const saveNote = () => {
         date:props.lecture.date,
   			notes: allNotes
           };
-      console.log(data);
+      //console.log(data);
           fetch("https://mvroso.pythonanywhere.com/updateClassNotes", {
                       method: "POST",
                       cache: "no-cache",
                       body: JSON.stringify(data),
                       headers: new Headers({"content-type": "application/json"})
                   }).then(res => {
-                      console.log("Request complete! response:", res);
+                      //console.log("Request complete! response:", res);
                       props.setState();
                       x.style.display = "inline-block";
                   });
@@ -940,10 +935,10 @@ export default function LecturesTab(props) {
   const [focusID, setFocusID] = React.useState(()=>{
     var i;
     for(i=0;i<props.classes.length;i++){
-      console.log("i = " + i);
+      //console.log("i = " + i);
       if(new Date(props.classes[i].date+'T'+props.classes[i].start_time)>=props.today){
-        console.log(new Date(props.classes[i].date+'T'+props.classes[i].start_time))
-        console.log(props.today)
+        //console.log(new Date(props.classes[i].date+'T'+props.classes[i].start_time))
+        //console.log(props.today)
         return (props.classes[i].date+props.classes[i].start_time);
         break;
       }
@@ -951,31 +946,31 @@ export default function LecturesTab(props) {
     }
     return null;
     });
-    console.log("lecture in focus ID");
+    //console.log("lecture in focus ID");
 
-    console.log(focusID);
+    //console.log(focusID);
   const lectureInFocus = props.classes.find((lecture)=>lecture.date + lecture.start_time  == focusID);
 
-  // console.log("all lectures: ");
+  // //console.log("all lectures: ");
   //
-  // console.log(lectures);
+  // //console.log(lectures);
   //
-  console.log("lecture in focus");
+  //console.log("lecture in focus");
 
-  console.log(lectureInFocus);
-  // console.log(lectureInFocus.id);
-console.log("lectures tab");
-console.log(props.classes);
+  //console.log(lectureInFocus);
+  // //console.log(lectureInFocus.id);
+//console.log("lectures tab");
+//console.log(props.classes);
 
     function handleChange(newValue) {
-      console.log("changed! : " + newValue);
+      //console.log("changed! : " + newValue);
       setFocusID(newValue);
   }
   return (
     <div style = {{margin:0,padding:0, maxWidth:'906px'}}>
       <div  style = {{float:'left',height:'500px',width:'calc(100% - 608px)',}}>
 
-        <div style = {{position:'relative', top:'27px', left:'35px', fontFamily: 'Rubik', fontStyle: 'normal', fontWeight: '300', fontSize: '14px',
+        <div style = {{position:'relative', top:'27px', left:'35px', fontFamily: 'Rubik', fontStyle: 'normal', fontWeight: '300', fontSize: '12px',
  lineHeight: '17px', display: 'flex', alignItems: 'center', color: '#414141'}} >Class Status </div>
 
       <div style = {{ position:'relative', top:'30px',marginRight:'auto', marginLeft:'auto'}}>
@@ -984,7 +979,7 @@ console.log(props.classes);
 
       </div>
       <div className = 'detailBoxx'style = {{float:'left',height:'500px',width:'608px', }}>
-      <div style = {{position:'relative', top:'27px', left:'35px', fontFamily: 'Rubik', fontStyle: 'normal', fontWeight: '300', fontSize: '14px',
+      <div style = {{position:'relative', top:'27px', left:'35px', fontFamily: 'Rubik', fontStyle: 'normal', fontWeight: '300', fontSize: '12px',
 lineHeight: '17px', display: 'flex', alignItems: 'center', color: '#414141'}} > Mode </div>
         <div style = {{position:'relative', top:'30px',marginRight:'auto', marginLeft:'auto'}}>
 

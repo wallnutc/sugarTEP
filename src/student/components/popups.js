@@ -17,10 +17,10 @@ export function ClassFeedbackPopup (props) {
   props.class.feedback.map((item)=>{tempQuest.push((item.feedback_ID).toString()); tempAns.push("0")});
   const [answers, setAnswers] = useState(tempAns);
   const [questions, setQuestions] = useState(tempQuest);
-  console.log("questions");
-  console.log(questions);
-  console.log("answers");
-  console.log(answers);
+  //console.log("questions");
+  //console.log(questions);
+  //console.log("answers");
+  //console.log(answers);
   const getFeedbackState = (ID, value) => {
 
     for(var i = 0; i < questions.length; i++) {
@@ -31,21 +31,21 @@ export function ClassFeedbackPopup (props) {
         break;
         }
     }
-    console.log("ID: " + ID + " value: " + value);
+    //console.log("ID: " + ID + " value: " + value);
   }
   const submitFeedback = () => {
     // const data = {
     //   questions: questions,
     //   answers: answers
     // };
-    // console.log(data);
+    // //console.log(data);
     // fetch("https://mvroso.pythonAnywhere.com/updateFeedback", {
     //               method: "POST",
     //               cache: "no-cache",
     //               body: JSON.stringify(data),
     //               headers: new Headers({"content-type": "application/json"})
     //           }).then(res => {
-    //               console.log("Request complete! response:", res);
+    //               //console.log("Request complete! response:", res);
     //           });
 
     setFeedback(true);
@@ -106,10 +106,10 @@ export function ActivityProgressPopup (props) {
   const [answers, setAnswers] = useState(tempAns);
   const [questions, setQuestions] = useState(tempQuest);
 
-  // console.log("questions");
-  // console.log(questions);
-  // console.log("answers");
-  // console.log(answers);
+  // //console.log("questions");
+  // //console.log(questions);
+  // //console.log("answers");
+  // //console.log(answers);
   const updateProgress = () =>{
      var data = {
        studentID: props.student.student_ID,
@@ -117,7 +117,7 @@ export function ActivityProgressPopup (props) {
        hours: timeSpent,
        submitted: 0
      };
-     console.log("UpdateProgress", props);
+     //console.log("UpdateProgress", props);
      fetch("https://mvroso.pythonAnywhere.com/updateStudentProgress", {
                    method: "POST",
                    cache: "no-cache",
@@ -125,7 +125,7 @@ export function ActivityProgressPopup (props) {
                    headers: new Headers({"content-type": "application/json"})
                }).then(res => {
                    props.setState();
-                   console.log("Request complete! response:", res);
+                   //console.log("Request complete! response:", res);
                });
     setUpdated(true);
   }
@@ -134,9 +134,9 @@ export function ActivityProgressPopup (props) {
        studentID: props.student.student_ID,
        activityID: props.activity.activity_ID,
        hours: timeSpent,
-       submitted: 1
+       submitted: 0
      };
-     console.log("activity finished", data);
+     //console.log("activity finished", data);
      fetch("https://mvroso.pythonAnywhere.com/updateStudentProgress", {
                    method: "POST",
                    cache: "no-cache",
@@ -144,7 +144,7 @@ export function ActivityProgressPopup (props) {
                    headers: new Headers({"content-type": "application/json"})
                }).then(res => {
                    props.setState();
-                   console.log("Request complete! response:", res);
+                   //console.log("Request complete! response:", res);
                });
     setFinished(true);
   }
@@ -153,14 +153,14 @@ export function ActivityProgressPopup (props) {
     //   questions: questions,
     //   answers: answers
     // };
-    // console.log(data);
+    // //console.log(data);
     // fetch("https://mvroso.pythonAnywhere.com/updateFeedback", {
     //               method: "POST",
     //               cache: "no-cache",
     //               body: JSON.stringify(data),
     //               headers: new Headers({"content-type": "application/json"})
     //           }).then(res => {
-    //               console.log("Request complete! response:", res);
+    //               //console.log("Request complete! response:", res);
     //           });
 
     setFeedback(true);
@@ -176,7 +176,7 @@ export function ActivityProgressPopup (props) {
         break;
         }
     }
-    console.log("ID: " + ID + " value: " + value);
+    //console.log("ID: " + ID + " value: " + value);
   }
   const modify = (time) => {
       if(timeSpent+time>0)
@@ -229,7 +229,7 @@ return (
         style={{lineHeight:0, height: '25px',borderRadius:'9px',textTransform: 'none', padding:0, backgroundColor:props.activity.colour,}} children ={<span style={{inlineHeight:'0'}}>Back</span>}></Button>
         </div>
       </div> :(!feedback ?   <div className='ScrollBar' style={{overflowY:'scroll', overflowX:'hidden', fontFamily: 'Rubik', overflowY:'scroll',overflowX:'hidden',position: 'absolute',left: '10%', maxWidth: '400px',
-              right: '10%',   top: '10%', bottom: '10%',  margin: 'auto',borderRadius: '6px', background: '#F6F7FA'}}>
+              right: '10%',   top: '20%', bottom: '20%',  margin: 'auto',borderRadius: '6px', background: '#F6F7FA'}}>
               <div style = {{backgroundColor : props.activity.colour}}>
               <IconButton onClick = {props.closePopup} size='small'
               style={{position:'relative', margin:'8px'}} aria-label="delete" color="primary">

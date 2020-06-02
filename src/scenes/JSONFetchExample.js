@@ -6,7 +6,7 @@ export default function MakeChart() {
 
     useEffect(() => {
         fetch('https://mvroso.pythonanywhere.com/coordinatorGraphs').then(res => res.json()).then(data => {
-            console.log(data);
+            //console.log(data);
         });
     }, []);
 
@@ -21,7 +21,7 @@ export default function MakeChart() {
 //change your packages.json to include "proxy": "https://mvroso.pythonanywhere.com:5000"; !!!!!
 {/*
   if(myChart == null){
-      console.log("Uh Oh the Chart didn't generate")
+      //console.log("Uh Oh the Chart didn't generate")
   }
   const [myChart, makeStackedChart] = useState(0); //set your chart to null to begin with
   var canvas = document.getElementById("some place where this chart is going");

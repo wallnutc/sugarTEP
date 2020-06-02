@@ -19,6 +19,7 @@
   box-shadow: 0px 0px 10px #888888;
   z-index: 2;
 }
+
 /*.header{
   left: 0;
   right:0;
@@ -66,10 +67,6 @@
   color: #0061D2 !important;
 }
 
-
-.ScrollBar::-webkit-scrollbar {
-  display: none;
-}
 .header{
   left: 0;
   right:0;
@@ -78,4 +75,7 @@
   background-color: white;
   top:55px;
     z-index: 1;
+}
+.ScrollBar::-webkit-scrollbar {
+  display: none;
 }

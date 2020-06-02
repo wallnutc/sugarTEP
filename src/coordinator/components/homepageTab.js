@@ -223,13 +223,13 @@ const classes = useStyles();
 const [value, setValue] = React.useState(0);
 const [courseExprience,setCourseExperience] = useState({});
 const [isLoaded,setIsLoaded] = useState(false);
-console.log("course object");
-console.log(props.course)
-console.log("feedbackInFocus")
-console.log(props.feedbackInFocus);
+//console.log("course object");
+//console.log(props.course)
+//console.log("feedbackInFocus")
+//console.log(props.feedbackInFocus);
 useEffect(() => {
   var url = 'http://mvroso.pythonanywhere.com/activityTypePieChartsByCourse' + props.course.course_ID.toString();
-  console.log(url);
+  //console.log(url);
   fetch(url)
      .then((response) => response.json())
      .then((responseJson) => {
@@ -291,7 +291,7 @@ return (
             })}
             {/*expanded={props.feedbackInFocus.moduleID==moduleID && props.feedbackInFocus.feedbackID==feedback.feedback_ID }
               <div>{"module:" + moduleID + " - " + moduleName + " - " + feedback.feedback_ID}</div>
-              console.log("module:" + moduleID + " - " + moduleName);console.log(feedback);
+              //console.log("module:" + moduleID + " - " + moduleName);//console.log(feedback);
               <FeedbackSelectorPanel moduleName={moduleName} moduleID= {moduleID} questionName={feedback.feedback_ID}/>*/}
           </div>:null}
         </div>
@@ -317,16 +317,11 @@ function DetailBox(props) {
     const deleteNotes= (text)=> {
       var index = -1
       var i;
-      notes.map((note)=>console.log(note));
       for (i=0;i<notes.length;i++){
         if(notes[i].text==text){
           index = i;
           break;
         }
-      }
-      console.log(index);
-      for(i=0;i<notes.length;i++){
-        console.log("i = "+ i+" text: "+notes[i].text);
       }
       var tempNotes=[];
       for(i=0;i<index;i++){
@@ -348,14 +343,14 @@ function DetailBox(props) {
           courseID: props.course.course_ID,
           notes: allNotes
             };
-        console.log(data);
+        //console.log(data);
             fetch("http://mvroso.pythonanywhere.com/updateCourseNotes", {
                         method: "POST",
                         cache: "no-cache",
                         body: JSON.stringify(data),
                         headers: new Headers({"content-type": "application/json"})
                     }).then(res => {
-                        console.log("Request complete! response:", res);
+                        //console.log("Request complete! response:", res);
                         props.setState();
                         x.style.display = "inline-block";
                     });
@@ -586,8 +581,8 @@ export default function HomepageTab(props){
     }
 
 
-    console.log("feedbackbox");
-    console.log(feedbackForDetailBox);
+    //console.log("feedbackbox");
+    //console.log(feedbackForDetailBox);
 
     function handleChangeDetailBox(event, newValue) {
       setDetailBoxValue(newValue);

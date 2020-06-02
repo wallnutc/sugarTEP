@@ -154,7 +154,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function SelectorBox(props) {
-  console.log(props.classes);
+  //console.log(props.classes);
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
   const colour = props.colour
@@ -228,8 +228,8 @@ function DetailBox(props) {
   const [notes, setNotes] = useState(props.module_notes);
   const previousClass=getClass(props.classes, props.today,"previous");
   const previousActivity=getActivity(props.activities, props.today,"previous");
-  console.log(previousClass);
-  console.log(previousActivity);
+  //console.log(previousClass);
+  //console.log(previousActivity);
 
   useEffect(() => {
     setNewNote("");
@@ -242,20 +242,15 @@ function DetailBox(props) {
   };
 
   const deleteNotes= (text)=> {
-    console.log("notes");
-    console.log(notes);
+    //console.log("notes");
+    //console.log(notes);
     var index = -1
     var i;
-    notes.map((note)=>console.log(note));
     for (i=0;i<notes.length;i++){
       if(notes[i].text==text){
         index = i;
         break;
       }
-    }
-    console.log(index);
-    for(i=0;i<notes.length;i++){
-      console.log("i = "+ i+" text: "+notes[i].text);
     }
     var tempNotes=[];
     for(i=0;i<index;i++){
@@ -277,14 +272,14 @@ function DetailBox(props) {
             moduleID: props.module_ID,
             notes: allNotes
               };
-              console.log("Save module note", data);
+              //console.log("Save module note", data);
               fetch("https://mvroso.pythonanywhere.com/updateModuleNotes", {
                           method: "POST",
                           cache: "no-cache",
                           body: JSON.stringify(data),
                           headers: new Headers({"content-type": "application/json"})
                       }).then(res => {
-                          console.log("Request complete! response:", res);
+                          //console.log("Request complete! response:", res);
                           props.setState();
                           x.style.display = "inline-block";
                       });
@@ -390,7 +385,7 @@ export default function OverviewTab(props) {
   const lectureInFocus = props.classes.find((lecture)=>lecture.date + lecture.start_time  == focusID);
 
     function handleChange(newValue) {
-      console.log("changed! : " + newValue);
+      //console.log("changed! : " + newValue);
       //setFocusID(newValue);
   }
   return (

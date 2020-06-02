@@ -11,7 +11,7 @@ function FeedbackDialByQuestion(props){
     const [response,setResponse] = useState({});
     useEffect(() => {
       var url = 'https://mvroso.pythonanywhere.com/feedbackBarChartsByModule' + props.moduleID.toString()
-      console.log(url);
+      //console.log(url);
       fetch(url)     
          .then((response) => response.json())
          .then((responseJson) => {
@@ -40,7 +40,7 @@ function FeedbackDialByQuestion(props){
             }
         }
         if (q == null){
-            console.log("Failed Dial Render, Question Not Found");
+            //console.log("Failed Dial Render, Question Not Found");
             return <div></div>
         }
         const chartConfigs = {
@@ -69,7 +69,7 @@ function FeedbackDialByQuestion(props){
             );
     }
     else {
-        console.log("Failed Dial Render");
+        //console.log("Failed Dial Render");
         return <div></div>
     }
 }

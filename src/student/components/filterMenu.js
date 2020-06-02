@@ -17,7 +17,7 @@ import {
 import '../styles/filter.css';
 
 export default function FilterMenu(props) {
-  //console.log(props.options);
+  ////console.log(props.options);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
 
@@ -28,8 +28,8 @@ export default function FilterMenu(props) {
 
   const handleClose = (optionID) => {
     setAnchorEl(null);
-    console.log("handleClose");
-    console.log(typeof optionID);
+    //console.log("handleClose");
+    //console.log(typeof optionID);
     if(typeof optionID == 'string')
     props.callback(optionID);
   };
@@ -53,7 +53,7 @@ export default function FilterMenu(props) {
 }
 
 export function DateFilter(props) {
-  //console.log(props.options);
+  ////console.log(props.options);
       const [selectedDate, setSelectedDate] = useState(new Date('2019-03-18T00:00:00'));
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
@@ -67,8 +67,8 @@ export function DateFilter(props) {
   };
   const handleDateChange = (date) => {
     setSelectedDate(date);
-    console.log("date:");
-    console.log(date);
+    //console.log("date:");
+    //console.log(date);
     props.callback(date);
     handleClose();
   };

@@ -8,7 +8,7 @@ function TimelineComponent(props){
   const [response,setResponse] = useState({});
   useEffect(() => {
     var url = 'https://mvroso.pythonanywhere.com/timelineByModule' + props.moduleID;
-    console.log(url);
+    //console.log(url);
     fetch(url)
        .then((response) => response.json())
        .then((responseJson) => {

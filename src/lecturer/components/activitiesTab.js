@@ -15,13 +15,13 @@ import IconButton from '@material-ui/core/IconButton';
 import AddCircleRoundedIcon from '@material-ui/icons/AddCircleRounded';
 import AssignmentIcon from '@material-ui/icons/Assignment';
 import DatePick from './datePicker';
+import {FeedbackPanel} from "./listRenderer";
+import 'date-fns';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
 import FormLabel from '@material-ui/core/FormLabel';
-import {FeedbackPanel} from "./listRenderer";
-import 'date-fns';
 import DateFnsUtils from '@date-io/date-fns';
 import {
   TimePicker,
@@ -35,9 +35,9 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Select from '@material-ui/core/Select';
 import Chip from '@material-ui/core/Chip';
 import ClearRoundedIcon from '@material-ui/icons/ClearRounded';
-import invert from 'invert-color';
 import LinearGraph from '../images/linearGraph.svg';
 import TriangulerGraph from '../images/triangularGraph.svg';
+import invert from 'invert-color';
 import Switch from '@material-ui/core/Switch';
 function decreaseBrightness(hex, percent){
     // strip the leading # if it's there
@@ -176,7 +176,7 @@ const AntTab = withStyles((theme) => ({
     minWidth: 72,
     fontWeight: theme.typography.fontWeightRegular,
     marginRight: theme.spacing(4),
-      fontSize: '16px',
+      fontSize: '12px',
     fontFamily: [
       '-apple-system',
       'BlinkMacSystemFont',
@@ -217,8 +217,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function SelectorBox(props) {
-  console.log("activity tab");
-  console.log(props.activities);
+  //console.log("activity tab");
+  //console.log(props.activities);
   const now = new Date("2018-10-25T00:00:00");
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
@@ -250,7 +250,7 @@ function SelectorBox(props) {
             onClick={()=> props.handleChange("add_activity",1)}
             children={
               <div>
-              <div style={{fontFamily: 'Rubik', fontWeight:'300',fontSize: '14px',color: props.colour}}>
+              <div style={{fontFamily: 'Rubik', fontWeight:'300',fontSize: '12px',color: props.colour}}>
                 Create new activity
               </div>
 
@@ -268,9 +268,9 @@ function SelectorBox(props) {
           onClick={()=> {props.onClick(activity.activity_ID);props.handleChange("activity_selected", 0)}}
           children={
             <div>
-            <div style={{fontFamily: 'Rubik', color:  invert(activity.colour, true)}}>{activity.title}</div>
-            <div style={{fontWeight:'300',fontSize: '14px', color:invert(activity.colour, true)}}>
-              <ScheduleIcon style={{verticalAlign:'middle',fontWeight:'300',fontSize: '14px', color:  invert(activity.colour, true)}} />
+            <div style={{fontFamily: 'Rubik',fontSize: '12px', color:  invert(activity.colour, true)}}>{activity.title}</div>
+            <div style={{fontWeight:'300',fontSize: '12px', color:invert(activity.colour, true)}}>
+              <ScheduleIcon style={{verticalAlign:'middle',fontWeight:'300',fontSize: '12px', color:  invert(activity.colour, true)}} />
               <span style={{verticalAlign:'middle', color: invert(activity.colour, true)}}>
                 { "  " + ("0" + new Date(activity.due_date).getDate()).slice(-2)+("0" +'/'+ (parseInt(new Date(activity.due_date).getMonth())+1).toString()).slice(-2)
                 }
@@ -291,9 +291,9 @@ function SelectorBox(props) {
         onClick={()=> {props.onClick(activity.activity_ID);props.handleChange("activity_selected", 0);}}
         children={
           <div>
-          <div style={{fontFamily: 'Rubik', color: invert(activity.colour, true)}}>{activity.title}</div>
-          <div style={{fontWeight:'300',fontSize: '14px', color: invert(activity.colour, true)}}>
-          <ScheduleIcon style={{verticalAlign:'middle',fontWeight:'300',fontSize: '14px', color: invert(activity.colour, true)}} />
+          <div style={{fontFamily: 'Rubik', fontSize: '12px',color: invert(activity.colour, true)}}>{activity.title}</div>
+          <div style={{fontWeight:'300',fontSize: '12px', color: invert(activity.colour, true)}}>
+          <ScheduleIcon style={{verticalAlign:'middle',fontWeight:'300',fontSize: '12px', color: invert(activity.colour, true)}} />
           <span style={{verticalAlign:'middle', color: invert(activity.colour, true)}}>
             { "  " + ("0" + new Date(activity.due_date).getDate()).slice(-2)+("0" +'/'+ (parseInt(new Date(activity.due_date).getMonth())+1).toString()).slice(-2)
             }
@@ -370,7 +370,7 @@ function DetailBox(props) {
   const inputStyle={fontFamily: 'Rubik',
                     fontStyle: 'normal',
                     fontWeight: '300',
-                    fontSize: '14px',
+                    fontSize: '12px',
                     color: '#000000'}
   const [graded,setGraded] = useState(props.activity==undefined? false :(props.activity.grade_percentage==0? false:true))
   const theme = useTheme();
@@ -388,8 +388,8 @@ function DetailBox(props) {
   const [estimatedTime, setEstimatedTime] = useState(props.activity==undefined? "":props.activity.estimated_time);
   const [feedback, setFeedback] = useState(props.activity==undefined? []:props.activity.feedback);
   const [distribution,setDistribution] = useState(props.activity==undefined? "":props.activity.distribution)
-  // console.log("due date");
-  // console.log(dueDate);
+  // //console.log("due date");
+  // //console.log(dueDate);
   const typeList = [
   {
     value: 1,
@@ -472,9 +472,9 @@ const [activityTypeID, setActivityTypeID] = useState(props.activity==undefined? 
 
   const [newFeedback, setNewFeedback] = useState([]);
     useEffect(() => {
-      console.log("use effect");
-      console.log(props.activity);
-      console.log(props.newActivityFlag);
+      //console.log("use effect");
+      //console.log(props.activity);
+      //console.log(props.newActivityFlag);
       if(props.newActivityFlag==false){
         setTitle(props.activity==undefined? "":props.activity.title);
         setNewNote("");
@@ -510,21 +510,18 @@ const [activityTypeID, setActivityTypeID] = useState(props.activity==undefined? 
   };
 
   const deleteNotes= (text)=> {
-    console.log("notes");
-    console.log(notes);
+    //console.log("notes");
+    //console.log(notes);
     var index = -1
     var i;
-    notes.map((note)=>console.log(note));
     for (i=0;i<notes.length;i++){
       if(notes[i].text==text){
         index = i;
         break;
       }
     }
-    console.log(index);
-    for(i=0;i<notes.length;i++){
-      console.log("i = "+ i+" text: "+notes[i].text);
-    }
+    //console.log(index);
+
     var tempNotes=[];
     for(i=0;i<index;i++){
       tempNotes.push(notes[i])
@@ -554,13 +551,14 @@ const [activityTypeID, setActivityTypeID] = useState(props.activity==undefined? 
       gradingDescription: gradingDescription,
       distribution: distribution
     };
+    // //console.log(data);
     fetch("https://mvroso.pythonanywhere.com/updateActivity", {
                 method: "POST",
                 cache: "no-cache",
                 body: JSON.stringify(data),
                 headers: new Headers({"content-type": "application/json"})
             }).then(res => {
-                console.log("Request complete! response:", res);
+                //console.log("Request complete! response:", res);
                 if(res.status==200){
                   props.setState();
 
@@ -581,14 +579,14 @@ const [activityTypeID, setActivityTypeID] = useState(props.activity==undefined? 
       type: 2,
       feedback: feedbackArray
     };
-    console.log("Update Feedback", fdata);
+    //console.log("Update Feedback", fdata);
     fetch("https://mvroso.pythonanywhere.com/setFeedback", {
                 method: "POST",
                 cache: "no-cache",
                 body: JSON.stringify(fdata),
                 headers: new Headers({"content-type": "application/json"})
             }).then(res => {
-                console.log("Request complete! response:", res);
+                //console.log("Request complete! response:", res);
               });
   }
 
@@ -604,7 +602,7 @@ const [activityTypeID, setActivityTypeID] = useState(props.activity==undefined? 
                   body: JSON.stringify(data),
                   headers: new Headers({"content-type": "application/json"})
               }).then(res => {
-                  console.log("Request complete! response:", res);
+                  //console.log("Request complete! response:", res);
                   if(res.status==200){
                     alert("Activity deleted successfully");
                     props.setState();
@@ -625,14 +623,14 @@ const [activityTypeID, setActivityTypeID] = useState(props.activity==undefined? 
           activityID: props.activity.activity_ID,
           notes: allNotes
             };
-        console.log(data);
+        //console.log(data);
             fetch("https://mvroso.pythonanywhere.com/updateActivityNotes", {
                         method: "POST",
                         cache: "no-cache",
                         body: JSON.stringify(data),
                         headers: new Headers({"content-type": "application/json"})
                     }).then(res => {
-                        console.log("Request complete! response:", res);
+                        //console.log("Request complete! response:", res);
                         props.setState();
                         x.style.display = "inline-block";
                     });
@@ -966,7 +964,7 @@ const [activityTypeID, setActivityTypeID] = useState(props.activity==undefined? 
                 </div>
                 <div style={{marginLeft:'24px'}}>
                 <label For="distribution"> Workload Distribution </label><br/>
-                  <FormControl component="fieldset" id = 'distribution' style = {{color:props.colour}}>
+                <FormControl component="fieldset" id = 'distribution' style = {{color:props.colour}}>
                     <RadioGroup style = {{color:props.colour}} row aria-label="distribution" name="distribution" value={distribution} onChange={(e)=>setDistribution(e.target.value)}>
                       <FormControlLabel color={props.colour} value="Linear" control={<Radio color={props.colour}/>} label="Linear" style = {{color:props.colour}}/>
                       <span ><img src={LinearGraph} alt="Linear Graph" style = {{height:"45px"}}/></span>
@@ -1359,9 +1357,9 @@ export default function ActivityTab(props) {
   const [detailBoxValue, setDetailBoxValue] = useState(0);
   function handleChangeDetailBox(event, newValue) {
     setDetailBoxValue(newValue);
-    console.log("change value function");
+    //console.log("change value function");
     if(typeof event == 'string' ){
-      console.log("eh string simm");
+      //console.log("eh string simm");
       if(event == 'add_activity'){
         setNewActivityFlag(true);
       }
@@ -1370,22 +1368,22 @@ export default function ActivityTab(props) {
       }
     }
     else{
-      console.log("n eh string");
+      //console.log("n eh string");
       if(newActivityFlag==true){
         setNewActivityFlag(false);
       }
     }
   }
   const activityInFocus = props.activities.find((activity)=>activity.activity_ID  == props.focusID);
-  console.log("activity in focus");
+  //console.log("activity in focus");
   // function handleChange(newValue) {
-  //   console.log("changed! : " + newValue);
+  //   //console.log("changed! : " + newValue);
   //   setFocusID(newValue);
   // }
   return (
     <div style = {{margin:0,padding:0, maxWidth:'906px'}}>
-      <div  style = {{float:'left',height:'500px',width:'calc(100% - 608px)',}}>
-        <div style = {{position:'relative', top:'27px', left:'35px', fontFamily: 'Rubik', fontStyle: 'normal', fontWeight: '300', fontSize: '14px',
+      <div  style = {{float:'left',height:'500px',width:'calc(100% - 608px)',minWidth: '200px'}}>
+        <div style = {{position:'relative', top:'27px', left:'35px', fontFamily: 'Rubik', fontStyle: 'normal', fontWeight: '300', fontSize: '12px',
  lineHeight: '17px', display: 'flex', alignItems: 'center', color: '#414141'}} >Activity Status </div>
       <div style = {{ position:'relative', top:'30px',marginRight:'auto', marginLeft:'auto'}}>
         <SelectorBox handleChange= {handleChangeDetailBox} today={props.today} inFocusID={props.focusID} colour= {props.colour} activities={props.activities} onClick = {props.handleChange} edit = {props.edit}/>
@@ -1393,7 +1391,7 @@ export default function ActivityTab(props) {
       </div>
 
       <div className = 'detailBox' style = {{float:'left',height:'500px',width:'608px'}}>
-      <div style = {{position:'relative', top:'27px', left:'35px', fontFamily: 'Rubik', fontStyle: 'normal', fontWeight: '300', fontSize: '14px',
+      <div style = {{position:'relative', top:'27px', left:'35px', fontFamily: 'Rubik', fontStyle: 'normal', fontWeight: '300', fontSize: '12px',
 lineHeight: '17px', display: 'flex', alignItems: 'center', color: '#414141'}} > Mode </div>
         <div style = {{position:'relative', top:'30px',marginRight:'auto', marginLeft:'auto'}}>
           <DetailBox newActivityFlag={newActivityFlag} value={detailBoxValue} handleChange= {handleChangeDetailBox} setState={props.setState} today={props.today} activity={activityInFocus} colour= {props.colour} edit = {props.edit} moduleID={props.moduleID}/>
