@@ -34,6 +34,7 @@ import Select from '@material-ui/core/Select';
 import ClearRoundedIcon from '@material-ui/icons/ClearRounded';
 import invert from 'invert-color';
 import MenuBookIcon from '@material-ui/icons/MenuBook';
+import LectureIcon from './iconsSVG/lectureIcon';
 
 function decreaseBrightness(hex, percent){
     // strip the leading # if it's there
@@ -225,21 +226,25 @@ function SelectorBox(props) {
   const taughtLecturesSelectors = props.classes.filter((lecture) => new Date(lecture.date+'T'+lecture.end_time)< props.today
   ).map((lecture) =>
   <div style = {{margin:'8px 0', color: lecture.date+lecture.start_time == props.inFocusID? 'black': invert(lecture.colour, true)}}>
-  <BootstrapButton style = {{height:'65px',width:'227px',backgroundColor: lecture.date+lecture.start_time  == props.inFocusID? decreaseBrightness(lecture.colour,40): lecture.colour }} onClick = { () =>  props.onClick(lecture.date+lecture.start_time)}  size = 'large'
-  startIcon ={<MenuBookIcon color='action' style={{fontSize: 40, color: invert(lecture.colour, true) }}/>}
+  <Button fullWidth
+  style = {{padding:0, height:'56px', borderRadius:'4px', border:'1px solid'+(lecture.date+lecture.start_time  == props.inFocusID? decreaseBrightness(lecture.colour,40): lecture.colour), backgroundColor: lecture.date+lecture.start_time  == props.inFocusID? decreaseBrightness(lecture.colour,40): lecture.colour }} onClick = { () =>  props.onClick(lecture.date+lecture.start_time)}  size = 'large'
   children={
-    <div style = {{float:'left',width:'100%',padding:'0px 0', fontFamily: 'Rubik', fontStyle: 'normal'}}>
-      <div>
-        <div style = {{fontWeight: 'normal', fontSize: '12px', lineHeight: '17px',color: invert(lecture.colour, true)}}>
-          {lecture.title}
-        </div>
-        <div style = {{fontWeight: 300, fontSize: '12px', lineHeight: '17px',color: invert(lecture.colour, true)}} >
-          <ScheduleIcon color='action' style={{verticalAlign:"middle",fontSize: '12px', color: invert(lecture.colour, true)}}/>
-          <span style = {{color: invert(lecture.colour, true)}}>
-            {("0" + new Date(lecture.date+'T'+lecture.start_time).getDate()).slice(-2)+'/'+("0" + (parseInt(new Date(lecture.date+'T'+lecture.start_time).getMonth())+1).toString()).slice(-2)}
-            <br/>
-            {lecture.start_time.split('').slice(0,5).join("")+ ' - ' + lecture.end_time.split('').slice(0,5).join("")}
-             </span>
+    <div style={{width:'100%'}}>
+      <div style ={{backgroundColor:'white',float:'left',borderRadius:'4px 0 0 4px',height:'54px',width:'50px'}}>
+        <LectureIcon style = {{margin:'10px 7px',height:'36px',width:'36px',color:lecture.date+lecture.start_time  == props.inFocusID? decreaseBrightness(lecture.colour,40): lecture.colour }}/>
+      </div>
+      <div style = {{overflow:'hidden',padding:'11px 8px', margin:'auto',fontFamily: 'Rubik', fontStyle: 'normal', textTransform:'none',textAlign:'left'}}>
+        <div>
+          <div style = {{fontWeight: 'normal', fontSize: '14px', lineHeight: '17px',whiteSpace:'nowrap',overflow:'hidden',textOverflow:'ellipsis',color: invert(lecture.colour, true)}}>
+            {lecture.title}
+          </div>
+          <div style = {{fontWeight: 300, fontSize: '12px', lineHeight: '17px',color: invert(lecture.colour, true),whiteSpace:'nowrap',overflow:'hidden',textOverflow:'ellipsis'}} >
+            <ScheduleIcon color='action' style={{verticalAlign:"middle",fontSize: '14px', color: invert(lecture.colour, true)}}/>
+            <span style = {{color: invert(lecture.colour, true)}}>
+              {" "+("0" + new Date(lecture.date+'T'+lecture.start_time).getDate()).slice(-2)+'/'+("0" + (parseInt(new Date(lecture.date+'T'+lecture.start_time).getMonth())+1).toString()).slice(-2)}
+              {" | " + lecture.start_time.split('').slice(0,5).join("")+ ' - ' + lecture.end_time.split('').slice(0,5).join("")}
+               </span>
+          </div>
         </div>
       </div>
     </div>
@@ -250,21 +255,25 @@ function SelectorBox(props) {
   const scheduledLecturesSelectors = props.classes.filter((lecture) => new Date(lecture.date+'T'+lecture.end_time)>= props.today
   ).map((lecture) =>
   <div style = {{margin:'8px 0', color: lecture.date+lecture.start_time == props.inFocusID? 'black': invert(lecture.colour, true)}}>
-    <BootstrapButton style = {{height:'65px',width:'227px',backgroundColor: lecture.date+lecture.start_time  == props.inFocusID? decreaseBrightness(lecture.colour,40): lecture.colour }} onClick = { () =>  props.onClick(lecture.date+lecture.start_time)}  size = 'large'
-    startIcon ={<MenuBookIcon color='action' style={{fontSize: 40, color: invert(lecture.colour, true) }}/>}
+    <Button fullWidth
+    style = {{padding:0, height:'56px', borderRadius:'4px', border:'1px solid'+(lecture.date+lecture.start_time  == props.inFocusID? decreaseBrightness(lecture.colour,40): lecture.colour), backgroundColor: lecture.date+lecture.start_time  == props.inFocusID? decreaseBrightness(lecture.colour,40): lecture.colour }} onClick = { () =>  props.onClick(lecture.date+lecture.start_time)}  size = 'large'
     children={
-      <div style = {{float:'left',width:'100%',padding:'0px 0', fontFamily: 'Rubik', fontStyle: 'normal'}}>
-        <div>
-          <div style = {{fontWeight: 'normal', fontSize: '12px', lineHeight: '17px',color: invert(lecture.colour, true)}}>
-            {lecture.title}
-          </div>
-          <div style = {{fontWeight: 300, fontSize: '12px', lineHeight: '17px',color: invert(lecture.colour, true)}} >
-            <ScheduleIcon color='action' style={{verticalAlign:"middle",fontSize: '14px', color: invert(lecture.colour, true)}}/>
-            <span style = {{color: invert(lecture.colour, true)}}>
-              {("0" + new Date(lecture.date+'T'+lecture.start_time).getDate()).slice(-2)+'/'+("0" + (parseInt(new Date(lecture.date+'T'+lecture.start_time).getMonth())+1).toString()).slice(-2)}
-              <br/>
-              {lecture.start_time.split('').slice(0,5).join("")+ ' - ' + lecture.end_time.split('').slice(0,5).join("")}
-               </span>
+      <div style={{width:'100%'}}>
+        <div style ={{backgroundColor:'white',float:'left',borderRadius:'4px 0 0 4px',height:'54px',width:'50px'}}>
+          <LectureIcon style = {{margin:'10px 7px',height:'36px',width:'36px',color:lecture.date+lecture.start_time  == props.inFocusID? decreaseBrightness(lecture.colour,40): lecture.colour }}/>
+        </div>
+        <div style = {{overflow:'hidden',padding:'11px 8px', margin:'auto',fontFamily: 'Rubik', fontStyle: 'normal', textTransform:'none',textAlign:'left'}}>
+          <div>
+            <div style = {{fontWeight: 'normal', fontSize: '14px', lineHeight: '17px',whiteSpace:'nowrap',overflow:'hidden',textOverflow:'ellipsis',color: invert(lecture.colour, true)}}>
+              {lecture.title}
+            </div>
+            <div style = {{fontWeight: 300, fontSize: '12px', lineHeight: '17px',color: invert(lecture.colour, true),whiteSpace:'nowrap',overflow:'hidden',textOverflow:'ellipsis'}} >
+              <ScheduleIcon color='action' style={{verticalAlign:"middle",fontSize: '14px', color: invert(lecture.colour, true)}}/>
+              <span style = {{color: invert(lecture.colour, true)}}>
+                {" " + ("0" + new Date(lecture.date+'T'+lecture.start_time).getDate()).slice(-2)+'/'+("0" + (parseInt(new Date(lecture.date+'T'+lecture.start_time).getMonth())+1).toString()).slice(-2)}
+                {" | " + lecture.start_time.split('').slice(0,5).join("")+ ' - ' + lecture.end_time.split('').slice(0,5).join("")}
+                 </span>
+            </div>
           </div>
         </div>
       </div>
@@ -281,7 +290,7 @@ function SelectorBox(props) {
 
       <div className={classes.demo1}>
         <AntTabs value={value} onChange={handleChange} aria-label="ant example" centered>
-          <AntTab label="Upcoming" style={{color: props.colour}}/>
+          <AntTab label="Upcoming" style={{color: props.colour, marginLeft: '30px'}}/>
           <AntTab label="Past" style={{color: props.colour}}/>
         </AntTabs>
       </div>

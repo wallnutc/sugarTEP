@@ -178,7 +178,7 @@ saveClass(){
           <img src={require('./images/cc.png')} style={{width:'150px', height:'150px'}}/>
           </span>
           <span><h2 className="CourseName1" style = {{top: '-10px',fontSize:30}}>ModuleM</h2></span>
-            {this.state.isLoaded ? this.state.courses.map((course)=>  <div className = 'title' style= {{color: mainBlue, marginTop: '30px'}}>
+            {this.state.isLoaded ? this.state.courses.map((course)=>  <div className = 'title' style= {{color: mainBlue, marginTop: '30px',marginLeft: '5%'}}>
                 <p>{course.course_name}</p>
             </div>) :null}
 
@@ -191,7 +191,7 @@ saveClass(){
 
               </div>
 
-            {this.state.isLoaded ? <div className = 'title' style= {{color: mainBlue}}><p>Modules</p></div>
+            {this.state.isLoaded ? <div className = 'title' style= {{color: mainBlue,marginLeft: '5%'}}><p>Modules</p></div>
             :<div className = 'title' style= {{color: mainBlue}}><p>Loading Modules... </p></div>}
 
             <div className = 'moduleBox'>

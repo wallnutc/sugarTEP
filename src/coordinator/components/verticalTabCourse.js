@@ -91,18 +91,18 @@ export default function VerticalTabsCourse(props) {
           TabIndicatorProps={{style: {background:props.colour}}}
         >
 
-          <Tab fullWidth style = {{ height:'200px',maxWidth:'500px', textTransform: 'none', fontSize:18}} label={<div style={{marginLeft:'30px'}}>
-            <ComputerIcon color='action'  style={{fontSize:"50px",verticalAlign:'middle', color: props.colour}}/>Homepage</div>} {...a11yProps(0)} />
+          <Tab fullWidth style = {{ height:'200px',maxWidth:'500px', textTransform: 'none', fontSize:18}} label={<div style={{marginLeft:'30px',color:value==0? props.colour:'#B3B3B3'}}>
+            <ComputerIcon color='action'  style={{fontSize:"50px",verticalAlign:'middle', color:value==0? props.colour:'#B3B3B3'}}/>
+              <span style={{marginLeft:'16px'}}>Homepage</span>
+              </div>} {...a11yProps(0)} />
 
 
-          <Tab fullWidth style = {{ height:'200px',maxWidth:'500px', textTransform: 'none', fontSize:18}} label={<div style={{marginLeft:'30px'}}>
-            <LocalLibraryIcon color='action' style={{fontSize:"50px",verticalAlign:'middle', color: props.colour}} />Feedback</div>} {...a11yProps(1)} />
+          <Tab fullWidth style = {{ height:'200px',maxWidth:'500px', textTransform: 'none', fontSize:18}} label={<div style={{marginLeft:'30px',color:value==1? props.colour:'#B3B3B3'}}>
+            <LocalLibraryIcon color='action' style={{fontSize:"50px",verticalAlign:'middle', color:value==1? props.colour:'#B3B3B3'}} />Feedback</div>} {...a11yProps(1)} />
 
 
-          <Tab fullWidth style = {{ height:'200px',maxWidth:'500px', textTransform: 'none', fontSize:18 }} label={<div style={{marginLeft:'30px'}}>
-            <BarChartIcon color='action' style={{fontSize:"50px",verticalAlign:'middle', color: props.colour}} />Workload</div>} {...a11yProps(2)} />
-
-
+          <Tab fullWidth style = {{ height:'200px',maxWidth:'500px', textTransform: 'none', fontSize:18 }} label={<div style={{marginLeft:'30px',color:value==2? props.colour:'#B3B3B3'}}>
+            <BarChartIcon color='action' style={{fontSize:"50px",verticalAlign:'middle',color:value==2? props.colour:'#B3B3B3'}} />Workload</div>} {...a11yProps(2)} />
         </Tabs>
         </div>
         <div style = {{position:'relative', left:'25%',top:'-100px',float: 'left', width:'75%', backgroundColor:'white', borderRadius:'0 8px 8px 0'}}>

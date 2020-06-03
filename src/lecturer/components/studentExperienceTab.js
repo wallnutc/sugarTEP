@@ -245,12 +245,12 @@ function SelectorBox(props) {
     props.tabChange(newValue);
   };
   return (
-    <div  className={classes.root} style = {{height:'400px',borderRight: '1px solid #C4C4C4',}}>
+    <div  className={classes.root} style = {{height:'400px',borderRight: '1px solid #C4C4C4'}}>
 
 
       <div className={classes.demo1}>
         <AntTabs value={value} onChange={handleChange} aria-label="ant example" centered>
-          <AntTab label={"Summary"} onClick={()=>props.selectStudent({})} style ={{color:props.colour}}/>
+          <AntTab label={"Summary"} onClick={()=>props.selectStudent({})} style ={{color:props.colour, marginLeft: '30px'}}/>
           <AntTab label="My Class" style ={{color:props.colour}}/>
         </AntTabs>
       </div>

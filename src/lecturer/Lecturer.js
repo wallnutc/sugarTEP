@@ -169,7 +169,7 @@ saveClass(){
         </span>
         <span><h2 className="CourseName1" style = {{top: '-10px',fontSize:30}}>ModuleM</h2></span>
 
-        {this.state.isLoaded ? <div className = 'title' style= {{color: mainBlue, marginTop: '30px'}}>
+        {this.state.isLoaded ? <div className = 'title' style= {{color: mainBlue, marginTop: '30px', marginLeft: '5%'}}>
               <p> My Modules</p>
             </div> : <div className = 'title' style= {{color: mainBlue}}><p>Loading Modules... </p></div>}
             <div className = 'moduleBox'>

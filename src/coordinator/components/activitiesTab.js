@@ -39,6 +39,8 @@ import LinearGraph from '../images/linearGraph.svg';
 import TriangulerGraph from '../images/triangularGraph.svg';
 import invert from 'invert-color';
 import Switch from '@material-ui/core/Switch';
+import AcitvitiesIcon from './iconsSVG/activitiesIcon';
+
 function decreaseBrightness(hex, percent){
     // strip the leading # if it's there
     hex = hex.replace(/^\s*#|\s*$/g, '');
@@ -176,7 +178,7 @@ const AntTab = withStyles((theme) => ({
     minWidth: 72,
     fontWeight: theme.typography.fontWeightRegular,
     marginRight: theme.spacing(4),
-      fontSize: '12px',
+      fontSize: '16px',
     fontFamily: [
       '-apple-system',
       'BlinkMacSystemFont',
@@ -233,7 +235,7 @@ function SelectorBox(props) {
 
       <div className={classes.demo1}>
         <AntTabs value={value} onChange={handleChange} aria-label="ant example" centered>
-          <AntTab label="Upcoming" style={{color: props.colour}}/>
+          <AntTab label="Upcoming" style={{color: props.colour, marginLeft: '30px'}}/>
           <AntTab label="Past" style={{color: props.colour}} />
         </AntTabs>
       </div>
@@ -250,7 +252,7 @@ function SelectorBox(props) {
             onClick={()=> props.handleChange("add_activity",1)}
             children={
               <div>
-              <div style={{fontFamily: 'Rubik', fontWeight:'300',fontSize: '12px',color: props.colour}}>
+              <div style={{fontFamily: 'Rubik', fontWeight:'300',fontSize: '12px',color: props.colour,whiteSpace:'nowrap',overflow:'hidden',textOverflow:'ellipsis'}}>
                 Create new activity
               </div>
 
@@ -262,19 +264,25 @@ function SelectorBox(props) {
 
         {props.activities.filter((activity) => new Date(activity.due_date)>= props.today).map((activity) =>
           <div style = {{margin:'8px 0'}}>
-          <BootstrapButton  size = 'large' fullWidth
-          style = {{backgroundColor: activity.activity_ID == props.inFocusID? decreaseBrightness(activity.colour,40): activity.colour}}
-          startIcon ={<AssignmentIcon style={{fontSize: 40, color:invert(activity.colour, true) }} />}
+          <Button  size = 'large' fullWidth
+          style = {{padding:0,height:'56px',borderRadius:'4px',border:'1px solid '+ (activity.activity_ID == props.inFocusID? decreaseBrightness(activity.colour,40): activity.colour), backgroundColor: activity.activity_ID == props.inFocusID? decreaseBrightness(activity.colour,40): activity.colour}}
           onClick={()=> {props.onClick(activity.activity_ID);props.handleChange("activity_selected", 0)}}
           children={
-            <div>
-            <div style={{fontFamily: 'Rubik',fontSize: '12px', color:  invert(activity.colour, true)}}>{activity.title}</div>
-            <div style={{fontWeight:'300',fontSize: '12px', color:invert(activity.colour, true)}}>
-              <ScheduleIcon style={{verticalAlign:'middle',fontWeight:'300',fontSize: '12px', color:  invert(activity.colour, true)}} />
-              <span style={{verticalAlign:'middle', color: invert(activity.colour, true)}}>
-                { "  " + ("0" + new Date(activity.due_date).getDate()).slice(-2)+("0" +'/'+ (parseInt(new Date(activity.due_date).getMonth())+1).toString()).slice(-2)
-                }
-              </span>
+            <div style={{width:'100%'}}>
+            <div style ={{backgroundColor:'white',float:'left',borderRadius:'4px 0 0 4px',height:'54px',width:'50px'}}>
+              <AcitvitiesIcon style = {{margin:'10px 7px',height:'36px',width:'36px',color:activity.activity_ID == props.inFocusID? decreaseBrightness(activity.colour,40): activity.colour }}/>
+            </div>
+            <div style={{overflow:'hidden',padding:'11px 8px', margin:'auto',fontFamily: 'Rubik', fontStyle: 'normal', textTransform:'none',textAlign:'left'}}>
+              <div style={{fontFamily: 'Rubik',fontSize: '14px', lineHeight: '17px', whiteSpace:'nowrap',overflow:'hidden',textOverflow:'ellipsis',color:  invert(activity.colour, true)}}>
+                {activity.title}
+              </div>
+              <div style={{fontWeight:'300',fontSize: '12px',lineHeight:'17px', whiteSpace:'nowrap',overflow:'hidden',textOverflow:'ellipsis', color:invert(activity.colour, true)}}>
+                <ScheduleIcon style={{verticalAlign:'middle',fontWeight:'300',fontSize: '12px', color:  invert(activity.colour, true)}} />
+                <span style={{verticalAlign:'middle', color: invert(activity.colour, true)}}>
+                  { "  " + ("0" + new Date(activity.due_date).getDate()).slice(-2)+'/'+("0" + (parseInt(new Date(activity.due_date).getMonth())+1).toString()).slice(-2) + ' | ' + ("0" + new Date(activity.due_date).getHours()).slice(-2) + ':' + ("0" + new Date(activity.due_date).getMinutes()).slice(-2)
+                  }
+                </span>
+              </div>
             </div>
             </div>} />
                 </div>)}
@@ -285,19 +293,25 @@ function SelectorBox(props) {
       <div className = 'selectorBox' >
       {props.activities.filter((activity) => new Date(activity.due_date)< props.today).map((activity) =>
         <div style = {{margin:'8px 0'}}>
-        <BootstrapButton  size = 'large' fullWidth
-        style = {{backgroundColor: activity.activity_ID == props.inFocusID? decreaseBrightness(activity.colour,40): activity.colour}}
-        startIcon ={<AssignmentIcon style={{fontSize: 40, color: invert(activity.colour, true) }} />}
-        onClick={()=> {props.onClick(activity.activity_ID);props.handleChange("activity_selected", 0);}}
+        <Button  size = 'large' fullWidth
+        style = {{padding:0,height:'56px',borderRadius:'4px',border:'1px solid '+ (activity.activity_ID == props.inFocusID? decreaseBrightness(activity.colour,40): activity.colour), backgroundColor: activity.activity_ID == props.inFocusID? decreaseBrightness(activity.colour,40): activity.colour}}
+        onClick={()=> {props.onClick(activity.activity_ID);props.handleChange("activity_selected", 0)}}
         children={
-          <div>
-          <div style={{fontFamily: 'Rubik', fontSize: '12px',color: invert(activity.colour, true)}}>{activity.title}</div>
-          <div style={{fontWeight:'300',fontSize: '12px', color: invert(activity.colour, true)}}>
-          <ScheduleIcon style={{verticalAlign:'middle',fontWeight:'300',fontSize: '12px', color: invert(activity.colour, true)}} />
-          <span style={{verticalAlign:'middle', color: invert(activity.colour, true)}}>
-            { "  " + ("0" + new Date(activity.due_date).getDate()).slice(-2)+("0" +'/'+ (parseInt(new Date(activity.due_date).getMonth())+1).toString()).slice(-2)
-            }
-          </span>
+          <div style={{width:'100%'}}>
+          <div style ={{backgroundColor:'white',float:'left',borderRadius:'4px 0 0 4px',height:'54px',width:'50px'}}>
+            <AcitvitiesIcon style = {{margin:'10px 7px',height:'36px',width:'36px',color:activity.activity_ID == props.inFocusID? decreaseBrightness(activity.colour,40): activity.colour }}/>
+          </div>
+          <div style={{overflow:'hidden',padding:'11px 8px', margin:'auto',fontFamily: 'Rubik', fontStyle: 'normal', textTransform:'none',textAlign:'left'}}>
+            <div style={{fontFamily: 'Rubik',fontSize: '14px', lineHeight: '17px', whiteSpace:'nowrap',overflow:'hidden',textOverflow:'ellipsis',color:  invert(activity.colour, true)}}>
+              {activity.title}
+            </div>
+            <div style={{fontWeight:'300',fontSize: '12px',lineHeight:'17px', whiteSpace:'nowrap',overflow:'hidden',textOverflow:'ellipsis', color:invert(activity.colour, true)}}>
+              <ScheduleIcon style={{verticalAlign:'middle',fontWeight:'300',fontSize: '12px', color:  invert(activity.colour, true)}} />
+              <span style={{verticalAlign:'middle', color: invert(activity.colour, true)}}>
+                { "  " + ("0" + new Date(activity.due_date).getDate()).slice(-2)+'/'+("0" + (parseInt(new Date(activity.due_date).getMonth())+1).toString()).slice(-2) + ' | ' + ("0" + new Date(activity.due_date).getHours()).slice(-2) + ':' + ("0" + new Date(activity.due_date).getMinutes()).slice(-2)
+                }
+              </span>
+            </div>
           </div>
           </div>} />
               </div>)}

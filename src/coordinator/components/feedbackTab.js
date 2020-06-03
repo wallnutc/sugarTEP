@@ -233,7 +233,7 @@ function SelectorBox(props) {
 
         <div>
         <TabPanel value={value} index={0}>
-        <div className = 'selectorBox' style={{height: '530px'}}>
+        <div className = 'selectorBox' style={{height: '580px'}}>
         {props.modules.map((module) =>
           <div style = {{margin:'8px 0'}}>
           <BootstrapButton  size = 'large' fullWidth
@@ -468,14 +468,14 @@ function SelectorBox(props) {
     return (
       <div style = {{margin:0,padding:0}}>
 
-        <div  style = {{float:'left',height:'700px',width:'32.5%',}}>
+        <div  style = {{float:'left',height:'700px',width:'32.5%', minWidth: '150px'}}>
           <div style = {{position:'relative', top:'27px', left:'35px', fontFamily: 'Rubik', fontStyle: 'normal', fontWeight: '300', fontSize: '14px',lineHeight: '17px', display: 'flex', alignItems: 'center', color: '#414141'}} >List </div>
           <div style = {{ position:'relative', top:'30px',marginRight:'auto', marginLeft:'auto'}}>
             <SelectorBox today={props.today} inFocusID={FocusID} modules={props.course.modules} colour={props.colour} onClick = {handleChange} />
           </div>
         </div>
 
-        <div className = 'detailBoxCourse' style = {{float:'left',height:'700px',width:'67%'}}>
+        <div className = 'detailBoxCourse' style = {{float:'left',height:'700px',width:'67%', minWidth: '500px',overflowY: 'hidden'}}>
           <div style = {{position:'relative', top:'27px', left:'35px', fontFamily: 'Rubik', fontStyle: 'normal', fontWeight: '300', fontSize: '14px', lineHeight: '17px', display: 'flex', alignItems: 'center', color: '#414141'}} > Mode </div>
           <div style = {{position:'relative', top:'30px',marginRight:'auto', marginLeft:'auto'}}>
             <DetailBox  value={detailBoxValue} handleChange= {handleChangeDetailBox} setState={props.setState} today={props.today} module={moduleInFocus} colour = {props.colour} />

@@ -15,7 +15,11 @@ import MenuBookIcon from '@material-ui/icons/MenuBook';
 import LocalLibraryIcon from '@material-ui/icons/LocalLibrary';
 import ComputerIcon from '@material-ui/icons/Computer';
 import { createMuiTheme } from '@material-ui/core/styles';
-
+import LectureIcon from './iconsSVG/lectureIcon';
+import AcitvitiesIcon from './iconsSVG/activitiesIcon';
+import MyDayIcon from './iconsSVG/myDayIcon';
+import ModulesIcon from './iconsSVG/modulesIcon';
+import StatisticsIcon from './iconsSVG/statisticsIcon';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -126,20 +130,31 @@ export default function VerticalTabs(props) {
           TabIndicatorProps={{style: {background:props.module.colour}}}
         >
 
-          <Tab fullWidth style = {{ height:'100px',maxWidth:'500px', textTransform: 'none', fontSize:16}} label={<div style={{marginLeft:'30px'}}>
-            <CastForEducationIcon color='action'  style={{fontSize:"50px",verticalAlign:'middle', color: props.module.colour}}/> Homepage</div>} {...a11yProps(0)} />
+        <Tab fullWidth style = {{ height:'100px',maxWidth:'500px', textTransform: 'none', fontSize:16}} label={
+          <div style={{marginLeft:'30px', color:value==0? props.module.colour:'#B3B3B3'}}>
+            <MyDayIcon color='action'  style={{fontSize:"50px",height:'40px',width:'40px',verticalAlign:'middle', color:value==0? props.module.colour:'#B3B3B3'}}/>
+            <span style={{marginLeft:'16px'}}>Homepage</span>
+          </div>} {...a11yProps(0)} />
 
 
-          <Tab fullWidth style = {{ height:'100px',maxWidth:'500px', textTransform: 'none', fontSize:16}} label={<div style={{marginLeft:'30px'}}>
-            <LocalLibraryIcon color='action' style={{fontSize:"50px",verticalAlign:'middle', color: props.module.colour}} /> Classes</div>} {...a11yProps(1)} />
+        <Tab fullWidth style = {{ height:'100px',maxWidth:'500px', textTransform: 'none', fontSize:16}} label={
+          <div style={{marginLeft:'30px', color:value==1? props.module.colour:'#B3B3B3'}}>
+            <LectureIcon color='action' style={{fontSize:"50px",height:'40px',width:'40px',verticalAlign:'middle', color:value==1? props.module.colour:'#B3B3B3'}} />
+            <span style={{marginLeft:'16px'}}>Classes</span>
+          </div>} {...a11yProps(1)} />
 
 
-          <Tab fullWidth style = {{ height:'100px',maxWidth:'500px', textTransform: 'none', fontSize:16}} label={<div style={{marginLeft:'30px'}}>
-            <ComputerIcon color='action' style={{fontSize:"50px",verticalAlign:'middle', color: props.module.colour}} /> Activities</div>} {...a11yProps(2)} />
+        <Tab fullWidth style = {{ height:'100px',maxWidth:'500px', textTransform: 'none', fontSize:16}} label={
+          <div style={{marginLeft:'30px', color:value==2? props.module.colour:'#B3B3B3'}}>
+            <AcitvitiesIcon color='action' style={{fontSize:"50px",height:'40px',width:'40px',verticalAlign:'middle', color:value==2? props.module.colour:'#B3B3B3'}} />
+            <span style={{marginLeft:'16px'}}>Activities</span>
+          </div>} {...a11yProps(2)} />
 
-          <Tab fullWidth style = {{ height:'100px',maxWidth:'500px', textTransform: 'none', fontSize:16}} label={<div style={{marginLeft:'30px'}}>
-            <BarChartIcon color='action' style={{fontSize:"50px",verticalAlign:'middle', color: props.module.colour}} /> Student Experience</div>} {...a11yProps(4)} />
-
+        <Tab fullWidth style = {{ height:'100px',maxWidth:'500px', textTransform: 'none', fontSize:16}} label={
+          <div style={{marginLeft:'30px', color:value==3? props.module.colour:'#B3B3B3'}}>
+            <StatisticsIcon color='action' style={{fontSize:"50px",height:'40px',width:'40px',verticalAlign:'middle', color:value==3? props.module.colour:'#B3B3B3'}} />
+            <span style={{marginLeft:'16px'}}> Student Experience</span>
+          </div>} {...a11yProps(4)} />
 
         </Tabs>
         </div>

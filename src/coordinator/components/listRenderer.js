@@ -20,6 +20,8 @@ import FeedbackDialCourse from "./feedbackDialModuleComponent";
 import FeedbackDialHomepage from "./feedbackDialCourseComponent";
 import FeedbackBarCourse from "./feedbackBarModuleComponent";
 import invert from 'invert-color';
+import LectureIcon from './iconsSVG/lectureIcon';
+import AcitvitiesIcon from './iconsSVG/activitiesIcon';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -90,22 +92,28 @@ export function LecturePanel(props) {
   const end = props.item.end_time.split(':');
   return (
     <div style={{padding:'7px 24px'}}>
-      <ExpansionPanel style={{backgroundColor: props.item.colour, color: invert(props.item.colour, true)}}>
-          <ExpansionPanelSummary  style = {{padding:'0 0 0 0'}}>
-          <div style = {{width:'100%',padding:'10px 0', fontFamily: 'Rubik', fontStyle: 'normal'}}>
-            <div style = {{float:'left', padding:'0 2% ',height:'100%'}}>
-              <MenuBookIcon color='action' style={{fontSize:'45px', color: invert(props.item.colour, true)}} />
+    <ExpansionPanel style={{border:'1px solid '+props.item.colour, backgroundColor:props.item.colour, color: 'white', opacity: new Date(props.item.date+'T00:00:00') < props.today? 0.5:1}} >
+        <ExpansionPanelSummary  style = {{height:'56px',padding:0,alignItems:'normal'}}>
+          <div style = {{width:'100%'}}>
+            <div style = {{float:'left',position:'relative',left: 0,height:'100%', width:'56px',margin:0, borderRadius:'8px 0 0 8px',backgroundColor:'white'}}>
+              <LectureIcon color='action' style={{fontSize:'45px', margin:'6px',color: props.item.colour}} />
             </div>
+          <div style = {{overflow:'hidden',padding:'5px 16px', margin:'auto',fontFamily: 'Rubik', fontStyle: 'normal'}}>
             <div>
-              <div style = {{fontWeight: 'normal', fontSize: '12px', lineHeight: '17px'}}>
+              <div style = {{fontWeight: 'normal', fontSize: '16px', lineHeight: '16px', margin:'4px 0',whiteSpace:'nowrap',overflow:'hidden',textOverflow:'ellipsis',color: invert(props.item.colour, true)}}>
                 {props.item.title}
               </div>
-              <div style = {{fontWeight: 300, fontSize: '14px', lineHeight: '17px',color: invert(props.item.colour, true)}} >
-                <ScheduleIcon color='action' style={{verticalAlign:"middle",fontSize: '12px', color: invert(props.item.colour, true)}}/> <span style = {{color: invert(props.item.colour, true)}}>{day+'/'+month} <br/> {start[0]+':'+start[1]} - {end[0]+':'+end[1]} </span>
+              <div style = {{fontWeight: 300, fontSize: '10px', lineHeight: '10px',whiteSpace:'nowrap',overflow:'hidden',textOverflow:'ellipsis',color: invert(props.item.colour, true)}} >
+                <ScheduleIcon color='action' style={{verticalAlign:"middle",fontSize: '14px', color: invert(props.item.colour, true)}}/>
+                <span style = {{color: invert(props.item.colour, true)}}>
+                  {" "+("0" + new Date(props.item.date+'T'+props.item.start_time).getDate()).slice(-2)+'/'+("0" + (parseInt(new Date(props.item.date+'T'+props.item.start_time).getMonth())+1).toString()).slice(-2)}
+                  {" | " + props.item.start_time.split('').slice(0,5).join("")+ ' - ' + props.item.end_time.split('').slice(0,5).join("")}
+                   </span>
               </div>
             </div>
           </div>
-          </ExpansionPanelSummary>
+        </div>
+        </ExpansionPanelSummary>
       <ExpansionPanelDetails >
         <div style={{width:'100%', color: invert(props.item.colour, true)}} >
             <span style={{marginRight:'16px',float:'right'}}><LocationOnOutlinedIcon color='action' style={{fontSize:'14px',color: invert(props.item.colour, true)}}/> {props.item.location}</span>
@@ -144,26 +152,30 @@ export function ActivityPanel(props) {
   const startDateYear = dueDate.getFullYear();
   return (
     <div style={{padding:'7px 24px'}}>
-      <ExpansionPanel style={{backgroundColor: props.item.colour}}>
-          <ExpansionPanelSummary  style = {{padding:'0 0 0 0', color: invert(props.item.colour, true)}}>
-          <div style = {{width:'100%',padding:'10px 0', fontFamily: 'Rubik', fontStyle: 'normal'}}>
-          <div style = {{float:'left',height:'100%', padding:'0 2% '}}>
-          <AssignmentIcon color='white' style={{fontSize:'45px', color: invert(props.item.colour, true)}}/>
+    <ExpansionPanel style={{border:'1px solid '+props.item.colour  ,backgroundColor: props.item.colour, color: 'white'}}>
+        <ExpansionPanelSummary  style = {{height:'56px',padding:0,alignItems:'normal'}}>
+          <div style={{width:'100%'}}>
+          <div style = {{float:'left',position:'relative',left: 0,height:'100%', width:'56px',margin:'0', borderRadius:'8px 0 0 8px',backgroundColor:'white'}}>
+            <AcitvitiesIcon style={{fontSize:'45px', margin:'6px',color: props.item.colour}}/>
+          </div>
 
+        <div style = {{overflow:'hidden', padding:'5px 16px', fontFamily: 'Rubik', fontStyle: 'normal', color:invert(props.item.colour, true)}}>
+          <div style = {{fontWeight: 'normal', fontSize: '16px', lineHeight: '16px', margin:'4px 0',whiteSpace:'nowrap',overflow:'hidden',textOverflow:'ellipsis',}}>
+            {props.item.title}
           </div>
-          <div>
-            <div style = {{fontWeight: 'normal', fontSize: '12px', lineHeight: '17px'}}>
-              {props.item.title}
-            </div>
-            <div style = {{fontWeight: 300, fontSize: '12px', lineHeight: '17px',color: invert(props.item.colour, true)}} >
-              <ScheduleIcon color='white' style={{verticalAlign:"middle",fontSize: '14px', color: invert(props.item.colour, true)}}/>
-                <span style = {{color: invert(props.item.colour, true)}}> Due date: {dueDateDay + '/' + dueDateMonth + '/' + dueDateYear} </span>
-            </div>
+          <div style = {{fontWeight: 300, fontSize: '10px', lineHeight: '10px',whiteSpace:'nowrap',overflow:'hidden',textOverflow:'ellipsis'}} >
+            <ScheduleIcon color='action' style={{verticalAlign:"middle",fontSize: '14px',color:  invert(props.item.colour, true)}}/>
+            <span style={{verticalAlign:'middle', }}>
+              { "  " + ("0" + new Date(props.item.due_date).getDate()).slice(-2)+'/'+("0" + (parseInt(new Date(props.item.due_date).getMonth())+1).toString()).slice(-2) + ' | ' + ("0" + new Date(props.item.due_date).getHours()).slice(-2) + ':' + ("0" + new Date(props.item.due_date).getMinutes()).slice(-2)
+              }
+            </span>
           </div>
-          <div>
-          </div>
-          </div>
-          </ExpansionPanelSummary>
+
+        <div>
+        </div>
+        </div>
+        </div>
+        </ExpansionPanelSummary>
       <ExpansionPanelDetails >
         <div style = {{textAlign: 'justify', fontWeight: 'normal', fontSize: '11px', lineHeight: '17px',width: '100%', color: invert(props.item.colour, true)}}>
           <div style = {{fontWeight: 'normal'}}>
@@ -242,18 +254,24 @@ export function FeedbackPanel(props) {
 export function FeedbackSelectorPanel(props) {
   //***************needed Props: activityID, activity type (Class or Activity), color, questionName
   return (
-    <div style={{padding:'7px 24px'}}>
+    <div style={{padding:'7px 0px'}}>
       <ExpansionPanel expanded={props.expanded} TransitionProps={{ unmountOnExit: true }}>
-          <ExpansionPanelSummary onClick={props.onClick} style = {{backgroundColor: props.color, borderRadius:'8px', padding:'0 0 0 0'}}>
-          <div style = {{width:'100%',padding:'10px 0', fontFamily: 'Rubik', fontStyle: 'normal'}}>
-            <div style = {{float:'left', padding:'0 20px ',height:'100%'}}>
-              <MenuBookIcon color='action' style={{fontSize:'45px', color:'white'}} />
+          <ExpansionPanelSummary onClick={props.onClick}
+          style = {{height:'56px',backgroundColor: props.color, borderRadius:'8px', padding:'0 0 0 0'}}>
+          <div style = {{width:'100%'}}>
+            <div style = {{float:'left',position:'relative',left: 0,height:'100%', width:'56px',margin:0, borderRadius:'8px 0 0 8px',backgroundColor:'white'}}>
+              <LectureIcon color='action' style={{fontSize:'45px', margin:'6px',color: props.color}} />
             </div>
-            <div>
-              <div style = {{fontWeight: 'normal', fontSize: '14px', lineHeight: '14px', position: 'relative', color:'white'}}>{props.moduleName}</div>
-              <div style = {{position: 'relative'}}>{props.questionName}</div>
+          <div style = {{overflow:'hidden',height:'100%',padding:'8px 16px', margin:'auto',fontFamily: 'Rubik', fontStyle: 'normal',color:  invert(props.color, true)}}>
+            <div style = {{fontWeight: 'normal', fontSize: '14px', lineHeight: '17px', position: 'relative',whiteSpace:'nowrap',overflow:'hidden',textOverflow:'ellipsis',color:  invert(props.color, true)}}>
+                <b>{props.moduleName}</b>
+            </div>
+            <div style = {{position: 'relative',fontSize: '12px', lineHeight: '24px',whiteSpace:'nowrap',overflow:'hidden',textOverflow:'ellipsis',color:  invert(props.color, true)}}>
+              {props.questionName}
             </div>
           </div>
+        </div>
+
           </ExpansionPanelSummary>
       <ExpansionPanelDetails >
         <div style={{width:'100%', height: 150}} >
@@ -279,9 +297,11 @@ export function FeedbackPanelCourse(props) {
             <div style = {{float:'left', padding:'0 20px ',height:'100%'}}>
               <MenuBookIcon color='action' style={{fontSize:'45px', color:props.colour}} />
             </div>
-            <div>
-              <div style = {{fontWeight: 'normal', fontSize: '18px', lineHeight: '47px', position: 'relative', height:75, width:200, float: "left"}}>{props.questionName}</div>
-              <div style = {{position: 'relative', height:75, width:100, float: "right"}}><FeedbackDialCourse moduleID= {props.moduleID} questionName={props.questionName} type={props.type}/></div>
+            <div style={{overflow:'hidden',padding:'11px 8px', margin:'auto',fontFamily: 'Rubik', fontStyle: 'normal', textTransform:'none',textAlign:'left'}}>
+              <div style = {{fontWeight: 'normal', fontSize: '18px', lineHeight: '47px', position: 'relative',whiteSpace:'nowrap',overflow:'hidden',textOverflow:'ellipsis'}}>
+                {props.questionName}
+              </div>
+              <div style = {{position: 'relative', height:75, width:100, float: "right",whiteSpace:'nowrap',overflow:'hidden',textOverflow:'ellipsis',}}><FeedbackDialCourse moduleID= {props.moduleID} questionName={props.questionName} type={props.type}/></div>
             </div>
           </div>
           </ExpansionPanelSummary>

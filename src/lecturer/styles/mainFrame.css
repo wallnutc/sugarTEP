@@ -7,7 +7,9 @@ a:focus {
   outline: none !important;
   outline-offset: none !important;
 }
-
+.detailBox::-webkit-scrollbar {
+  display: none;
+}
 .Menubar{
   overflow: hidden;
   position: fixed;
@@ -40,7 +42,7 @@ a:focus {
   /*position: absolute;*/
   /*top: 80px;*/
   /*padding: 80px;*/
-  margin-left: 100px;
+  margin-left: 5%;
   width:75%;
 
 }

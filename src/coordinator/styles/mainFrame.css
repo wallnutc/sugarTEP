@@ -30,14 +30,16 @@
   /*position: absolute;*/
   /*top: 80px;*/
   /*padding: 80px;*/
-  margin-left: 100px;
+  margin-left: 5%;
   width:85%;
 
 }
 .optionSelectorBox::-webkit-scrollbar {
     display: none;
 }
-
+.detailBox::-webkit-scrollbar {
+  display: none;
+}
 .optionSelectorBox {
   overflow-y: scroll;
   -ms-overflow-style: none;

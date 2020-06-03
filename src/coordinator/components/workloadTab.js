@@ -514,14 +514,14 @@ export default function WorkloadTab(props) {
   return (
     <div style = {{margin:0,padding:0}}>
 
-      <div  style = {{float:'left',height:'700px',width:'calc(100% - 608px)',}}>
+      <div  style = {{float:'left',height:'700px',width:'32%', minWidth:'150px'}}>
         <div style = {{position:'relative', top:'27px', left:'35px', fontFamily: 'Rubik', fontStyle: 'normal', fontWeight: '300', fontSize: '14px',lineHeight: '17px', display: 'flex', alignItems: 'center', color: '#414141'}} >List </div>
           <div style = {{ position:'relative', top:'30px',marginRight:'auto', marginLeft:'auto'}}>
             <SelectorBox handleChange= {handleChangeDetailBox} today={props.today} inFocusID={FocusID} modules={props.course.modules} colour={props.colour} onClick = {handleChange} />
           </div>
       </div>
 
-      <div className = 'detailBoxCourse' style = {{float:'left',height:'700px',width:'608px'}}>
+      <div className = 'detailBoxCourse' style = {{float:'left',height:'700px',width: '67%', minWidth:'500px'}}>
         <div style = {{position:'relative', top:'27px', left:'35px', fontFamily: 'Rubik', fontStyle: 'normal', fontWeight: '300', fontSize: '14px', lineHeight: '17px', display: 'flex', alignItems: 'center', color: '#414141'}} > Mode </div>
           <div style = {{position:'relative', top:'30px',marginRight:'auto', marginLeft:'auto', height: '643px'}}>
             <DetailBox  value={detailBoxValue} handleChange= {handleChangeDetailBox} setState={props.setState} today={props.today}  course={props.course} module={moduleInFocus} colour = {props.colour} />
