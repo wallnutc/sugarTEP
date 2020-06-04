@@ -187,8 +187,8 @@ function FilterMenu(props) {
   return (
     <div>
     <Button variant="contained" color="primary" aria-controls="fade-menu" aria-haspopup="true" onClick={handleClick}
-    style={{lineHeight:0, height: '24px',borderRadius:'12px',textTransform: 'none', padding:0, backgroundColor: props.default? '#F6F7FA':"#0153B4",}}
-    children ={<span style={{marginLeft:'10px',lineHeight:'0',color: props.default? '#0061D2':"#FFFFFF"}}>{props.label} <ArrowDropDownRoundedIcon style={{margin:0,verticalAlign:'middle'}}/> </span>}></Button>
+    style={{lineHeight:0, height: '24px',borderRadius:'12px',textTransform: 'none', padding:0, backgroundColor: props.default? '#F6F7FA':props.colour,}}
+    children ={<span style={{marginLeft:'10px',lineHeight:'0',color: props.default? props.colour:"#FFFFFF"}}>{props.label} <ArrowDropDownRoundedIcon style={{margin:0,verticalAlign:'middle'}}/> </span>}></Button>
       <Menu
         id="fade-menu"
         anchorEl={anchorEl}
@@ -273,7 +273,7 @@ function SelectorBox(props) {
       <div className = 'selectorBox' >
       {Object.keys(students).length === 0 && students.constructor === Object? null:
         <div>
-        <FilterMenu label={props.filterState == -1 ? "Course":(filterOptions.find((option)=>option.value==props.filterState)).label}
+        <FilterMenu colour = {props.colour} label={props.filterState == -1 ? "Course":(filterOptions.find((option)=>option.value==props.filterState)).label}
           options={filterOptions} callback={props.setFilterState} default={props.filterState==-1}/>
         {props.filterState == -1 ? students.Students.map((student)=>
           <div style = {{margin:'8px 0',color: 'white'}}>

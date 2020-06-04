@@ -214,6 +214,22 @@ justify-content: center;
   color: #414141;
 }
 
+.StaffTitle1{
+  margin: 10 auto 0 auto;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  padding-top: 2%;
+  font-family: Rubik;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 40px;
+  line-height: 43px;
+  text-align: center;
+  color: #003EAA;
+}
+
+
 a:link {
   text-decoration: none;
 }

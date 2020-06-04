@@ -85,8 +85,8 @@ function FilterMenu(props) {
   return (
     <div>
     <Button variant="contained" color="primary" aria-controls="fade-menu" aria-haspopup="true" onClick={handleClick}
-    style={{lineHeight:0, height: '24px',borderRadius:'12px',textTransform: 'none', padding:0, backgroundColor: props.default? '#F6F7FA':"#0153B4",}}
-    children ={<span style={{marginLeft:'10px',lineHeight:'0',color: props.default? '#0061D2':"#FFFFFF"}}>{props.label} <ArrowDropDownRoundedIcon style={{margin:0,verticalAlign:'middle'}}/> </span>}></Button>
+    style={{lineHeight:0, height: '24px',borderRadius:'12px',textTransform: 'none', padding:0, backgroundColor: props.default? '#F6F7FA':props.colour,}}
+    children ={<span style={{marginLeft:'10px',lineHeight:'0',color: props.default? props.colour:"#FFFFFF"}}>{props.label} <ArrowDropDownRoundedIcon style={{margin:0,verticalAlign:'middle'}}/> </span>}></Button>
       <Menu
         id="fade-menu"
         anchorEl={anchorEl}
@@ -444,6 +444,8 @@ function DetailBox(props) {
   const [feedback, setFeedback] = useState(props.activity==undefined? []:props.activity.feedback);
   const [distribution,setDistribution] = useState(props.activity==undefined? "":props.activity.distribution)
   const [simulatedDueDate, setSimulatedDueDate] = useState(props.activity==undefined? "":props.activity.due_date)
+  const [simulatedHours, setSimulatedHours] = useState(props.activity==undefined? "":props.activity.estimated_time)
+  const [simulatedDistribution, setSimulatedDistribution] = useState(props.activity==undefined? "":props.activity.distribution)
   const [selectedCourseForSimulation, setSelectedCourseForSimulation] = useState(props.activity==undefined||props.courses.length<=0? "":props.courses[0].course_ID)
   let courseFilterOptions=[]
   if(props.activity!=undefined&&props.courses.length>0){
@@ -552,7 +554,9 @@ const [activityTypeID, setActivityTypeID] = useState(props.activity==undefined? 
         setActivityTypeID(props.activity==undefined? null:typeList.find((item)=>item.label==props.activity.activityType).value);
         setFeedback(props.activity==undefined? []:props.activity.feedback);
         setDistribution(props.activity==undefined? "":props.activity.distribution);
-        setSimulatedDueDate(props.activity==undefined? "":props.activity.due_date)
+        setSimulatedDistribution(props.activity==undefined? "":props.activity.distribution);
+        setSimulatedHours(props.activity==undefined? "":props.activity.estimated_time);
+        setSimulatedDueDate(props.activity==undefined? "":props.activity.due_date);
       }
       else{
         setTitle("");
@@ -568,13 +572,19 @@ const [activityTypeID, setActivityTypeID] = useState(props.activity==undefined? 
         setFeedback([]);
         setDistribution("");
         setSimulatedDueDate("");
+        setSimulatedDistribution("");
+        setSimulatedHours("");
       }
     },[props.activity,props.newActivityFlag]);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-
+  const resetSimulation = () => {
+    setSimulatedDistribution(props.activity==undefined? "":props.activity.distribution);
+    setSimulatedHours(props.activity==undefined? "":props.activity.estimated_time);
+    setSimulatedDueDate(props.activity==undefined? "":props.activity.due_date);
+  }
   const deleteNotes= (text)=> {
     //console.log("notes");
     //console.log(notes);
@@ -802,7 +812,7 @@ const [activityTypeID, setActivityTypeID] = useState(props.activity==undefined? 
             <div style={{}}>
             <label For="dedicationTime" > Estimated Workload </label><br/>
               <div style={{verticalAlign:'middle', display:'flex'}}>
-                  <span style= {inputStyle} style= {{...inputStyle, lineHeight:'55px',marginRight:'4px'}}>around</span>
+                  <span style= {inputStyle} style= {{...inputStyle, lineHeight:'55px',marginRight:'4px'}}></span>
                   <TextField
                       id="dedicationTime"
                       style={{width:"56px",marginTop:'8px',marginBottom:'16px',}}
@@ -811,7 +821,7 @@ const [activityTypeID, setActivityTypeID] = useState(props.activity==undefined? 
                       value={props.activity.estimated_time}
                       variant="outlined"
                       />
-                  <span style={{...inputStyle, marginTop:'8px',lineHeight:'37px',height:'37px',padding:'0 4px',borderRadius:'0 8px 8px 0',backgroundColor:props.colour,color:"black"}}>hours</span>
+                  <span style={{...inputStyle, marginTop:'8px',lineHeight:'37px',height:'35.25px',padding:'0 4px',borderRadius:'0 8px 8px 0',backgroundColor:props.colour,color:"black"}}>Hours</span>
               </div>
             </div>
             <div style={{marginLeft:'24px'}}>
@@ -916,7 +926,13 @@ const [activityTypeID, setActivityTypeID] = useState(props.activity==undefined? 
           </TabPanel>
           <TabPanel  value={props.value} index={1}>
             <div className = 'detailBox' style = {{color: props.colour}}>
-
+            <div style={{margin:'0px 14px', float:'left'}}>
+              <label For="coursechoice" > Course Selection </label><br/>
+                <div style={{marginTop: '10px'}}>
+                <FilterMenu id="coursechoice" label={props.courses.find((course)=>course.course_ID==selectedCourseForSimulation).course_name}
+                  options={courseFilterOptions} callback={setSelectedCourseForSimulation} default={false} colour={props.colour}/>
+                  </div>
+            </div>
             <div style={{marginLeft:'24px', float:'left'}}>
               <label For="simulatedDueDate" > Extension Date </label> <br/>
               <MuiPickersUtilsProvider utils={DateFnsUtils}>
@@ -944,22 +960,39 @@ const [activityTypeID, setActivityTypeID] = useState(props.activity==undefined? 
                     />
                 </MuiPickersUtilsProvider>
               </div>
-              <div style={{margin:'8px auto 16px 24px', float:'left'}}>
-                <FilterMenu label={props.courses.find((course)=>course.course_ID==selectedCourseForSimulation).course_name}
-                  options={courseFilterOptions} callback={setSelectedCourseForSimulation} default={false}/>
+              <div style={{marginLeft: "20px", float:'left'}}>
+                <label For="dedicationTime" > Estimated Workload </label><br/>
+                  <div style={{verticalAlign:'middle', display:'flex'}}>
+                      <span style= {inputStyle} style= {{...inputStyle, lineHeight:'55px',marginRight:'4px'}}></span>
+                      <TextField
+                          id="dedicationTime"
+                          style={{width:"56px",marginTop:'8px',marginBottom:'16px',}}
+                          InputProps={{style: {...inputStyle,borderRadius:'4px 0 0 4px'}}}
+                          size='small'
+                          value={simulatedHours}
+                          variant="outlined"
+                          onChange={(e) => setSimulatedHours(e.target.value)}
+                          />
+                      <span style= {inputStyle} style={{...inputStyle, marginTop:'8px',lineheight:'35px',verticalAlign: 'middle', height:'19.25px',padding:'8px 4px',borderRadius:'0 8px 8px 0', backgroundColor:props.colour, color:"black"}}>Hours</span>
+                  </div>
               </div>
-              
-              { props.courses.map((course) =>{
-                if(course.course_ID==selectedCourseForSimulation){
-                  return(
-                    <div style = {{height: "500px", position: "relative",clear:"both"}}>
-                    <SimulateGraph label = {course.course_name} courseID = {course.course_ID} activityID = {props.activity.activity_ID} start = {props.activity.start_date} end ={simulatedDueDate /*"2019-04-11T00:00:00"*/} bin = "Week"/>
-                    </div>
-                  )
-                }
-              }
-              )
-              }
+              <div style={{marginLeft:'24px', marginRight: '80px', float:'left'}}>
+                <label For="simdistribution"> Simulated Workload Distribution </label><br/>
+                <FormControl component="fieldset" id = 'simdistribution' style = {{color:props.colour}}>
+                    <RadioGroup style = {{color:props.colour}} row aria-label="simdistribution" name="simdistribution" value={simulatedDistribution} onChange={(e)=>setSimulatedDistribution(e.target.value)}>
+                      <FormControlLabel color={props.colour} value="Linear" control={<Radio color={props.colour}/>} label="Linear" style = {{color:props.colour}}/>
+                      <span ><img src={LinearGraph} alt="Linear Graph" style = {{height:"45px"}}/></span>
+                      <FormControlLabel color={props.colour} value="Triangular" control={<Radio color={props.colour}/>} label="Triangular"style = {{color:props.colour}} />
+                      <span><img src={TriangulerGraph} alt="Triangular Graph" style = {{height:"45px"}}/></span>
+                    </RadioGroup>
+                  </FormControl>
+              </div>
+              <div>
+              <Button size = 'small' variant="contained" onClick={()=>resetSimulation()} style={{ borderRadius:'20px',backgroundColor: props.colour,textTransform:'none', float: 'left', marginRight: "10px", marginTop: "20px"}}> <u style={{color:'white'}}>Reset</u> </Button>
+              </div>
+              <div style = {{height: "70%", position: "relative",clear:"both"}}>
+              <SimulateGraph courseID = {selectedCourseForSimulation} activityID = {props.activity.activity_ID} start = {props.activity.start_date} end ={simulatedDueDate /*"2019-04-11T00:00:00"*/} distribution ={simulatedDistribution} hours = {simulatedHours} bin = "Day"/>
+              </div>
             </div>
           </TabPanel>
           <TabPanel  value={props.value} index={2}>
@@ -1062,7 +1095,7 @@ const [activityTypeID, setActivityTypeID] = useState(props.activity==undefined? 
                 <div style={{}}>
                 <label For="dedicationTime" > Estimated Workload </label><br/>
                   <div style={{verticalAlign:'middle', display:'flex'}}>
-                      <span style= {inputStyle} style= {{...inputStyle, lineHeight:'55px',marginRight:'4px'}}>around</span>
+                      <span style= {inputStyle} style= {{...inputStyle, lineHeight:'55px',marginRight:'4px'}}></span>
                       <TextField
                           id="dedicationTime"
                           style={{width:"56px",marginTop:'8px',marginBottom:'16px',}}
@@ -1072,7 +1105,7 @@ const [activityTypeID, setActivityTypeID] = useState(props.activity==undefined? 
                           variant="outlined"
                           onChange={(e) => setEstimatedTime(e.target.value)}
                           />
-                      <span style={{...inputStyle, marginTop:'8px',lineHeight:'37px',height:'37px',padding:'0 4px',borderRadius:'0 8px 8px 0',backgroundColor:props.colour,color:"black"}}>hours</span>
+                      <span style={{...inputStyle, marginTop:'8px',lineHeight:'37px',height:'35.25px',padding:'0 4px',borderRadius:'0 8px 8px 0',backgroundColor:props.colour,color:"black"}}>Hours</span>
                   </div>
                 </div>
                 <div style={{marginLeft:'24px'}}>
@@ -1299,7 +1332,7 @@ const [activityTypeID, setActivityTypeID] = useState(props.activity==undefined? 
           <div style={{}}>
           <label For="dedicationTime" > Estimated Workload </label><br/>
             <div style={{verticalAlign:'middle', display:'flex'}}>
-                <span style= {inputStyle} style= {{...inputStyle, lineHeight:'55px',marginRight:'4px'}}>around</span>
+                <span style= {inputStyle} style= {{...inputStyle, lineHeight:'55px',marginRight:'4px'}}></span>
                 <TextField
                     id="dedicationTime"
                     style={{width:"56px",marginTop:'8px',marginBottom:'16px',}}
@@ -1308,7 +1341,7 @@ const [activityTypeID, setActivityTypeID] = useState(props.activity==undefined? 
                     value={props.activity.estimated_time}
                     variant="outlined"
                     />
-                <span style={{...inputStyle, marginTop:'8px',lineHeight:'37px',height:'37px',padding:'0 4px',borderRadius:'0 8px 8px 0',backgroundColor:props.colour,color:"black"}}>hours</span>
+                <span style={{...inputStyle, marginTop:'8px',lineHeight:'37px',height:'35.25px',padding:'0 4px',borderRadius:'0 8px 8px 0',backgroundColor:props.colour,color:"black"}}>Hours</span>
             </div>
           </div>
           <div style={{marginLeft:'24px'}}>

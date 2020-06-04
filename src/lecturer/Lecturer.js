@@ -151,7 +151,7 @@ saveClass(){
               <div className="CourseLogo1" style={{width:'150px', height:'155px'}}>
                 <img src={require('../images/cc.png')} style={{width:'150px', height:'150px'}}/>
               </div>
-              <h2 className="CourseName1">ModuleM</h2>
+              <h2 className="StaffTitle1">ModuleM</h2>
               <div style={{margin:'auto'}}>
                 <div style={{color:mainBlue, fontSize:40, textAlign:'center', position:'relative'}}>Oops !</div>
                 <div style={{color:mainBlue, fontSize:20, textAlign:'center', width: "80%", position:'relative', margin:'auto'}}> This portion of the website is only available in desktop view. Please switch back to desktop view by pressing Ctrl+Shift+M on your desktop browser and refresh the page !</div>
@@ -167,7 +167,7 @@ saveClass(){
         <span className="CourseLogo1" style={{width:'150px', height:'155px', marginTop:'40px'}}>
           <img src={require('./images/cc.png')} style={{width:'150px', height:'150px'}}/>
         </span>
-        <span><h2 className="CourseName1" style = {{top: '-10px',fontSize:30}}>ModuleM</h2></span>
+        <span><h2 className="StaffTitle1" style = {{fontSize:30}}>ModuleM</h2></span>
 
         {this.state.isLoaded ? <div className = 'title' style= {{color: mainBlue, marginTop: '30px', marginLeft: '5%'}}>
               <p> My Modules</p>

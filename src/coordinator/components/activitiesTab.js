@@ -23,6 +23,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
 import FormLabel from '@material-ui/core/FormLabel';
 import DateFnsUtils from '@date-io/date-fns';
+import SimulateGraph from './editActivityTimeline.js'
 import {
   TimePicker,
   MuiPickersUtilsProvider,
@@ -39,7 +40,10 @@ import LinearGraph from '../images/linearGraph.svg';
 import TriangulerGraph from '../images/triangularGraph.svg';
 import invert from 'invert-color';
 import Switch from '@material-ui/core/Switch';
-import AcitvitiesIcon from './iconsSVG/activitiesIcon';
+import AcitvitiesIcon from '../components/iconsSVG/activitiesIcon';
+import Menu from '@material-ui/core/Menu';
+import Fade from '@material-ui/core/Fade';
+import ArrowDropDownRoundedIcon from '@material-ui/icons/ArrowDropDownRounded';
 
 function decreaseBrightness(hex, percent){
     // strip the leading # if it's there
@@ -58,6 +62,43 @@ function decreaseBrightness(hex, percent){
            ((0|(1<<8) + r  * (1-percent / 100)).toString(16)).substr(1) +
            ((0|(1<<8) + g  * (1-percent / 100)).toString(16)).substr(1) +
            ((0|(1<<8) + b  * (1-percent / 100)).toString(16)).substr(1);
+}
+function FilterMenu(props) {
+  ////console.log(props.options);
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const open = Boolean(anchorEl);
+  //console.log("props.options");
+  //console.log(props.options);
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+
+  };
+
+  const handleClose = (optionID) => {
+    setAnchorEl(null);
+    //console.log("handleClose");
+    // console.log(optionID);
+    // console.log(typeof optionID);
+    if(typeof optionID == 'number')
+      props.callback(optionID);
+  };
+  return (
+    <div>
+    <Button variant="contained" color="primary" aria-controls="fade-menu" aria-haspopup="true" onClick={handleClick}
+    style={{lineHeight:0, height: '24px',borderRadius:'12px',textTransform: 'none', padding:0, backgroundColor: props.default? '#F6F7FA':props.colour,}}
+    children ={<span style={{marginLeft:'10px',lineHeight:'0',color: props.default? props.colour:"#FFFFFF"}}>{props.label} <ArrowDropDownRoundedIcon style={{margin:0,verticalAlign:'middle'}}/> </span>}></Button>
+      <Menu
+        id="fade-menu"
+        anchorEl={anchorEl}
+        keepMounted
+        open={open}
+        onClose={handleClose}
+        TransitionComponent={Fade}
+      >
+        {props.options.map((option) => <MenuItem key={option.value} onClick={() =>handleClose(option.value)}>{option.label}</MenuItem>)}
+      </Menu>
+    </div>
+  );
 }
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -178,7 +219,7 @@ const AntTab = withStyles((theme) => ({
     minWidth: 72,
     fontWeight: theme.typography.fontWeightRegular,
     marginRight: theme.spacing(4),
-      fontSize: '12px',
+      fontSize: '16px',
     fontFamily: [
       '-apple-system',
       'BlinkMacSystemFont',
@@ -230,12 +271,12 @@ function SelectorBox(props) {
   };
 
   return (
-    <div  className={classes.root} style = {{height:'400px',borderRight: '1px solid #C4C4C4',}}>
+    <div  className={classes.root} style = {{height:'400px',borderRight: '1px solid #C4C4C4',fontSize:'14px'}}>
 
 
       <div className={classes.demo1}>
         <AntTabs value={value} onChange={handleChange} aria-label="ant example" centered>
-          <AntTab label="Upcoming" style={{color: props.colour}}/>
+          <AntTab label="Upcoming" style={{color: props.colour, marginLeft: '30px'}}/>
           <AntTab label="Past" style={{color: props.colour}} />
         </AntTabs>
       </div>
@@ -252,9 +293,9 @@ function SelectorBox(props) {
             onClick={()=> props.handleChange("add_activity",1)}
             children={
               <div>
-              <div style={{fontFamily: 'Rubik', fontWeight:'300',fontSize: '12px',color: props.colour,whiteSpace:'nowrap',overflow:'hidden',textOverflow:'ellipsis'}}>
-                Create new activity
-              </div>
+                <div style={{fontFamily: 'Rubik', fontWeight:'300',fontSize: '12px', whiteSpace:'nowrap',overflow:'hidden',textOverflow:'ellipsis',color: props.colour}}>
+                  Create new activity
+                </div>
 
               </div>} />
                 </div>
@@ -294,7 +335,7 @@ function SelectorBox(props) {
       {props.activities.filter((activity) => new Date(activity.due_date)< props.today).map((activity) =>
         <div style = {{margin:'8px 0'}}>
         <Button  size = 'large' fullWidth
-        style = {{padding:0,height:'56px',borderRadius:'4px',border:'1px solid '+ (activity.activity_ID == props.inFocusID? decreaseBrightness(activity.colour,40): activity.colour), backgroundColor: activity.activity_ID == props.inFocusID? decreaseBrightness(activity.colour,40): activity.colour}}
+        style = {{padding:0, height:'56px', borderRadius:'4px', border:'1px solid'+ (activity.activity_ID == props.inFocusID? decreaseBrightness(activity.colour,40): activity.colour), backgroundColor: activity.activity_ID == props.inFocusID? decreaseBrightness(activity.colour,40): activity.colour}}
         onClick={()=> {props.onClick(activity.activity_ID);props.handleChange("activity_selected", 0)}}
         children={
           <div style={{width:'100%'}}>
@@ -402,6 +443,17 @@ function DetailBox(props) {
   const [estimatedTime, setEstimatedTime] = useState(props.activity==undefined? "":props.activity.estimated_time);
   const [feedback, setFeedback] = useState(props.activity==undefined? []:props.activity.feedback);
   const [distribution,setDistribution] = useState(props.activity==undefined? "":props.activity.distribution)
+  const [simulatedDueDate, setSimulatedDueDate] = useState(props.activity==undefined? "":props.activity.due_date)
+  const [simulatedHours, setSimulatedHours] = useState(props.activity==undefined? "":props.activity.estimated_time)
+  const [simulatedDistribution, setSimulatedDistribution] = useState(props.activity==undefined? "":props.activity.distribution)
+  const [selectedCourseForSimulation, setSelectedCourseForSimulation] = useState(props.activity==undefined||props.courses.length<=0? "":props.courses[0].course_ID)
+  let courseFilterOptions=[]
+  if(props.activity!=undefined&&props.courses.length>0){
+    props.courses.map((course)=>courseFilterOptions.push({
+          value:course.course_ID,
+          label:course.course_name
+        }))
+  }
   // //console.log("due date");
   // //console.log(dueDate);
   const typeList = [
@@ -502,6 +554,9 @@ const [activityTypeID, setActivityTypeID] = useState(props.activity==undefined? 
         setActivityTypeID(props.activity==undefined? null:typeList.find((item)=>item.label==props.activity.activityType).value);
         setFeedback(props.activity==undefined? []:props.activity.feedback);
         setDistribution(props.activity==undefined? "":props.activity.distribution);
+        setSimulatedDistribution(props.activity==undefined? "":props.activity.distribution);
+        setSimulatedHours(props.activity==undefined? "":props.activity.estimated_time);
+        setSimulatedDueDate(props.activity==undefined? "":props.activity.due_date);
       }
       else{
         setTitle("");
@@ -516,13 +571,20 @@ const [activityTypeID, setActivityTypeID] = useState(props.activity==undefined? 
         setActivityTypeID("not set");
         setFeedback([]);
         setDistribution("");
+        setSimulatedDueDate("");
+        setSimulatedDistribution("");
+        setSimulatedHours("");
       }
     },[props.activity,props.newActivityFlag]);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-
+  const resetSimulation = () => {
+    setSimulatedDistribution(props.activity==undefined? "":props.activity.distribution);
+    setSimulatedHours(props.activity==undefined? "":props.activity.estimated_time);
+    setSimulatedDueDate(props.activity==undefined? "":props.activity.due_date);
+  }
   const deleteNotes= (text)=> {
     //console.log("notes");
     //console.log(notes);
@@ -659,8 +721,8 @@ const [activityTypeID, setActivityTypeID] = useState(props.activity==undefined? 
         <div className={classes.demo1}>
           <AntTabs value={props.value} onChange={props.handleChange} aria-label="ant example" style={{marginLeft:'27px',}}>
             <AntTab label="Details" disabled={props.newActivityFlag} style={{color: props.colour}}/>
+            <AntTab label="Simulate" disabled={props.newActivityFlag} style={{color: props.colour}}/>
             {props.edit > 0 ? <AntTab label="Edit"  style={{color: props.colour}}/> : null}
-
           </AntTabs>
       </div>
   :
@@ -750,7 +812,7 @@ const [activityTypeID, setActivityTypeID] = useState(props.activity==undefined? 
             <div style={{}}>
             <label For="dedicationTime" > Estimated Workload </label><br/>
               <div style={{verticalAlign:'middle', display:'flex'}}>
-                  <span style= {inputStyle} style= {{...inputStyle, lineHeight:'55px',marginRight:'4px'}}>around</span>
+                  <span style= {inputStyle} style= {{...inputStyle, lineHeight:'55px',marginRight:'4px'}}></span>
                   <TextField
                       id="dedicationTime"
                       style={{width:"56px",marginTop:'8px',marginBottom:'16px',}}
@@ -759,11 +821,11 @@ const [activityTypeID, setActivityTypeID] = useState(props.activity==undefined? 
                       value={props.activity.estimated_time}
                       variant="outlined"
                       />
-                  <span style={{...inputStyle, marginTop:'8px',lineHeight:'37px',height:'37px',padding:'0 4px',borderRadius:'0 8px 8px 0',backgroundColor:props.colour,color:"black"}}>hours</span>
+                  <span style={{...inputStyle, marginTop:'8px',lineHeight:'37px',height:'35.25px',padding:'0 4px',borderRadius:'0 8px 8px 0',backgroundColor:props.colour,color:"black"}}>Hours</span>
               </div>
             </div>
             <div style={{marginLeft:'24px'}}>
-              <label For="distribution"> Workload Distribution </label><br/>
+              <label For="distribution"> Estimated Workload Distribution </label><br/>
               <TextField
                       id="distribution"
                       style={{width:"160px",marginTop:'8px',marginBottom:'16px',}}
@@ -862,8 +924,78 @@ const [activityTypeID, setActivityTypeID] = useState(props.activity==undefined? 
             }
           </div>
           </TabPanel>
-
           <TabPanel  value={props.value} index={1}>
+            <div className = 'detailBox' style = {{color: props.colour}}>
+            <div style={{margin:'0px 14px', float:'left'}}>
+              <label For="coursechoice" > Course Selection </label><br/>
+                <div style={{marginTop: '10px'}}>
+                <FilterMenu id="coursechoice" label={props.courses.find((course)=>course.course_ID==selectedCourseForSimulation).course_name}
+                  options={courseFilterOptions} callback={setSelectedCourseForSimulation} default={false} colour={props.colour}/>
+                  </div>
+            </div>
+            <div style={{marginLeft:'24px', float:'left'}}>
+              <label For="simulatedDueDate" > Extension Date </label> <br/>
+              <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                    <KeyboardDatePicker
+                      disableToolbar
+                      variant="inline"
+                      format="dd/MM/yyyy"
+                      margin="normal"
+                      id="simulatedDueDate"
+                      style={{width:"135px",marginTop:'8px',marginBottom:'16px'}}
+                      InputProps={{style: inputStyle}}
+
+                      value={new Date(simulatedDueDate)}
+                      onChange={(date) =>{
+
+                        setSimulatedDueDate(date.getFullYear()
+                                            +'-'+("0" + (parseInt(date.getMonth())+1).toString()).slice(-2)
+                                            +'-'+("0" + date.getDate()).slice(-2)
+                                            +'T00:00:00' )
+                      }
+                        }
+                      KeyboardButtonProps={{
+                        'aria-label': 'change date',
+                      }}
+                    />
+                </MuiPickersUtilsProvider>
+              </div>
+              <div style={{marginLeft: "20px", float:'left'}}>
+                <label For="dedicationTime" > Estimated Workload </label><br/>
+                  <div style={{verticalAlign:'middle', display:'flex'}}>
+                      <span style= {inputStyle} style= {{...inputStyle, lineHeight:'55px',marginRight:'4px'}}></span>
+                      <TextField
+                          id="dedicationTime"
+                          style={{width:"56px",marginTop:'8px',marginBottom:'16px',}}
+                          InputProps={{style: {...inputStyle,borderRadius:'4px 0 0 4px'}}}
+                          size='small'
+                          value={simulatedHours}
+                          variant="outlined"
+                          onChange={(e) => setSimulatedHours(e.target.value)}
+                          />
+                      <span style= {inputStyle} style={{...inputStyle, marginTop:'8px',lineheight:'35px',verticalAlign: 'middle', height:'19.25px',padding:'8px 4px',borderRadius:'0 8px 8px 0', backgroundColor:props.colour, color:"black"}}>Hours</span>
+                  </div>
+              </div>
+              <div style={{marginLeft:'24px', marginRight: '80px', float:'left'}}>
+                <label For="simdistribution"> Simulated Workload Distribution </label><br/>
+                <FormControl component="fieldset" id = 'simdistribution' style = {{color:props.colour}}>
+                    <RadioGroup style = {{color:props.colour}} row aria-label="simdistribution" name="simdistribution" value={simulatedDistribution} onChange={(e)=>setSimulatedDistribution(e.target.value)}>
+                      <FormControlLabel color={props.colour} value="Linear" control={<Radio color={props.colour}/>} label="Linear" style = {{color:props.colour}}/>
+                      <span ><img src={LinearGraph} alt="Linear Graph" style = {{height:"45px"}}/></span>
+                      <FormControlLabel color={props.colour} value="Triangular" control={<Radio color={props.colour}/>} label="Triangular"style = {{color:props.colour}} />
+                      <span><img src={TriangulerGraph} alt="Triangular Graph" style = {{height:"45px"}}/></span>
+                    </RadioGroup>
+                  </FormControl>
+              </div>
+              <div>
+              <Button size = 'small' variant="contained" onClick={()=>resetSimulation()} style={{ borderRadius:'20px',backgroundColor: props.colour,textTransform:'none', float: 'left', marginRight: "10px", marginTop: "20px"}}> <u style={{color:'white'}}>Reset</u> </Button>
+              </div>
+              <div style = {{height: "70%", position: "relative",clear:"both"}}>
+              <SimulateGraph courseID = {selectedCourseForSimulation} activityID = {props.activity.activity_ID} start = {props.activity.start_date} end ={simulatedDueDate /*"2019-04-11T00:00:00"*/} distribution ={simulatedDistribution} hours = {simulatedHours} bin = "Day"/>
+              </div>
+            </div>
+          </TabPanel>
+          <TabPanel  value={props.value} index={2}>
             <div className = 'detailBox' style = {{color: props.colour}}>
             <div style={{margin:'5px',display:'flex'}}>
               <div>
@@ -963,7 +1095,7 @@ const [activityTypeID, setActivityTypeID] = useState(props.activity==undefined? 
                 <div style={{}}>
                 <label For="dedicationTime" > Estimated Workload </label><br/>
                   <div style={{verticalAlign:'middle', display:'flex'}}>
-                      <span style= {inputStyle} style= {{...inputStyle, lineHeight:'55px',marginRight:'4px'}}>around</span>
+                      <span style= {inputStyle} style= {{...inputStyle, lineHeight:'55px',marginRight:'4px'}}></span>
                       <TextField
                           id="dedicationTime"
                           style={{width:"56px",marginTop:'8px',marginBottom:'16px',}}
@@ -973,11 +1105,11 @@ const [activityTypeID, setActivityTypeID] = useState(props.activity==undefined? 
                           variant="outlined"
                           onChange={(e) => setEstimatedTime(e.target.value)}
                           />
-                      <span style={{...inputStyle, marginTop:'8px',lineHeight:'37px',height:'37px',padding:'0 4px',borderRadius:'0 8px 8px 0',backgroundColor:props.colour,color:"black"}}>hours</span>
+                      <span style={{...inputStyle, marginTop:'8px',lineHeight:'37px',height:'35.25px',padding:'0 4px',borderRadius:'0 8px 8px 0',backgroundColor:props.colour,color:"black"}}>Hours</span>
                   </div>
                 </div>
                 <div style={{marginLeft:'24px'}}>
-                <label For="distribution"> Workload Distribution </label><br/>
+                <label For="distribution"> Estimated Workload Distribution </label><br/>
                 <FormControl component="fieldset" id = 'distribution' style = {{color:props.colour}}>
                     <RadioGroup style = {{color:props.colour}} row aria-label="distribution" name="distribution" value={distribution} onChange={(e)=>setDistribution(e.target.value)}>
                       <FormControlLabel color={props.colour} value="Linear" control={<Radio color={props.colour}/>} label="Linear" style = {{color:props.colour}}/>
@@ -1200,7 +1332,7 @@ const [activityTypeID, setActivityTypeID] = useState(props.activity==undefined? 
           <div style={{}}>
           <label For="dedicationTime" > Estimated Workload </label><br/>
             <div style={{verticalAlign:'middle', display:'flex'}}>
-                <span style= {inputStyle} style= {{...inputStyle, lineHeight:'55px',marginRight:'4px'}}>around</span>
+                <span style= {inputStyle} style= {{...inputStyle, lineHeight:'55px',marginRight:'4px'}}></span>
                 <TextField
                     id="dedicationTime"
                     style={{width:"56px",marginTop:'8px',marginBottom:'16px',}}
@@ -1209,11 +1341,11 @@ const [activityTypeID, setActivityTypeID] = useState(props.activity==undefined? 
                     value={props.activity.estimated_time}
                     variant="outlined"
                     />
-                <span style={{...inputStyle, marginTop:'8px',lineHeight:'37px',height:'37px',padding:'0 4px',borderRadius:'0 8px 8px 0',backgroundColor:props.colour,color:"black"}}>hours</span>
+                <span style={{...inputStyle, marginTop:'8px',lineHeight:'37px',height:'35.25px',padding:'0 4px',borderRadius:'0 8px 8px 0',backgroundColor:props.colour,color:"black"}}>Hours</span>
             </div>
           </div>
           <div style={{marginLeft:'24px'}}>
-            <label For="distribution"> Workload Distribution </label><br/>
+            <label For="distribution"> Estimated Workload Distribution </label><br/>
             <TextField
                     id="distribution"
                     style={{width:"160px",marginTop:'8px',marginBottom:'16px',}}
@@ -1408,7 +1540,7 @@ export default function ActivityTab(props) {
       <div style = {{position:'relative', top:'27px', left:'35px', fontFamily: 'Rubik', fontStyle: 'normal', fontWeight: '300', fontSize: '12px',
 lineHeight: '17px', display: 'flex', alignItems: 'center', color: '#414141'}} > Mode </div>
         <div style = {{position:'relative', top:'30px',marginRight:'auto', marginLeft:'auto'}}>
-          <DetailBox newActivityFlag={newActivityFlag} value={detailBoxValue} handleChange= {handleChangeDetailBox} setState={props.setState} today={props.today} activity={activityInFocus} colour= {props.colour} edit = {props.edit} moduleID={props.moduleID}/>
+          <DetailBox newActivityFlag={newActivityFlag} value={detailBoxValue} handleChange= {handleChangeDetailBox} setState={props.setState} today={props.today} activity={activityInFocus} colour= {props.colour} edit = {props.edit} moduleID={props.moduleID} courses={props.courses}/>
         </div>
       </div>
     </div>
