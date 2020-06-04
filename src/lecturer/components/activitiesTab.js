@@ -23,6 +23,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
 import FormLabel from '@material-ui/core/FormLabel';
 import DateFnsUtils from '@date-io/date-fns';
+import SimulateGraph from './editActivityTimeline.js'
 import {
   TimePicker,
   MuiPickersUtilsProvider,
@@ -40,6 +41,9 @@ import TriangulerGraph from '../images/triangularGraph.svg';
 import invert from 'invert-color';
 import Switch from '@material-ui/core/Switch';
 import AcitvitiesIcon from '../components/iconsSVG/activitiesIcon';
+import Menu from '@material-ui/core/Menu';
+import Fade from '@material-ui/core/Fade';
+import ArrowDropDownRoundedIcon from '@material-ui/icons/ArrowDropDownRounded';
 
 function decreaseBrightness(hex, percent){
     // strip the leading # if it's there
@@ -58,6 +62,43 @@ function decreaseBrightness(hex, percent){
            ((0|(1<<8) + r  * (1-percent / 100)).toString(16)).substr(1) +
            ((0|(1<<8) + g  * (1-percent / 100)).toString(16)).substr(1) +
            ((0|(1<<8) + b  * (1-percent / 100)).toString(16)).substr(1);
+}
+function FilterMenu(props) {
+  ////console.log(props.options);
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const open = Boolean(anchorEl);
+  //console.log("props.options");
+  //console.log(props.options);
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+
+  };
+
+  const handleClose = (optionID) => {
+    setAnchorEl(null);
+    //console.log("handleClose");
+    // console.log(optionID);
+    // console.log(typeof optionID);
+    if(typeof optionID == 'number')
+      props.callback(optionID);
+  };
+  return (
+    <div>
+    <Button variant="contained" color="primary" aria-controls="fade-menu" aria-haspopup="true" onClick={handleClick}
+    style={{lineHeight:0, height: '24px',borderRadius:'12px',textTransform: 'none', padding:0, backgroundColor: props.default? '#F6F7FA':"#0153B4",}}
+    children ={<span style={{marginLeft:'10px',lineHeight:'0',color: props.default? '#0061D2':"#FFFFFF"}}>{props.label} <ArrowDropDownRoundedIcon style={{margin:0,verticalAlign:'middle'}}/> </span>}></Button>
+      <Menu
+        id="fade-menu"
+        anchorEl={anchorEl}
+        keepMounted
+        open={open}
+        onClose={handleClose}
+        TransitionComponent={Fade}
+      >
+        {props.options.map((option) => <MenuItem key={option.value} onClick={() =>handleClose(option.value)}>{option.label}</MenuItem>)}
+      </Menu>
+    </div>
+  );
 }
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -402,6 +443,15 @@ function DetailBox(props) {
   const [estimatedTime, setEstimatedTime] = useState(props.activity==undefined? "":props.activity.estimated_time);
   const [feedback, setFeedback] = useState(props.activity==undefined? []:props.activity.feedback);
   const [distribution,setDistribution] = useState(props.activity==undefined? "":props.activity.distribution)
+  const [simulatedDueDate, setSimulatedDueDate] = useState(props.activity==undefined? "":props.activity.due_date)
+  const [selectedCourseForSimulation, setSelectedCourseForSimulation] = useState(props.activity==undefined||props.courses.length<=0? "":props.courses[0].course_ID)
+  let courseFilterOptions=[]
+  if(props.activity!=undefined&&props.courses.length>0){
+    props.courses.map((course)=>courseFilterOptions.push({
+          value:course.course_ID,
+          label:course.course_name
+        }))
+  }
   // //console.log("due date");
   // //console.log(dueDate);
   const typeList = [
@@ -502,6 +552,7 @@ const [activityTypeID, setActivityTypeID] = useState(props.activity==undefined? 
         setActivityTypeID(props.activity==undefined? null:typeList.find((item)=>item.label==props.activity.activityType).value);
         setFeedback(props.activity==undefined? []:props.activity.feedback);
         setDistribution(props.activity==undefined? "":props.activity.distribution);
+        setSimulatedDueDate(props.activity==undefined? "":props.activity.due_date)
       }
       else{
         setTitle("");
@@ -516,6 +567,7 @@ const [activityTypeID, setActivityTypeID] = useState(props.activity==undefined? 
         setActivityTypeID("not set");
         setFeedback([]);
         setDistribution("");
+        setSimulatedDueDate("");
       }
     },[props.activity,props.newActivityFlag]);
 
@@ -659,8 +711,8 @@ const [activityTypeID, setActivityTypeID] = useState(props.activity==undefined? 
         <div className={classes.demo1}>
           <AntTabs value={props.value} onChange={props.handleChange} aria-label="ant example" style={{marginLeft:'27px',}}>
             <AntTab label="Details" disabled={props.newActivityFlag} style={{color: props.colour}}/>
+            <AntTab label="Simulate" disabled={props.newActivityFlag} style={{color: props.colour}}/>
             {props.edit > 0 ? <AntTab label="Edit"  style={{color: props.colour}}/> : null}
-
           </AntTabs>
       </div>
   :
@@ -763,7 +815,7 @@ const [activityTypeID, setActivityTypeID] = useState(props.activity==undefined? 
               </div>
             </div>
             <div style={{marginLeft:'24px'}}>
-              <label For="distribution"> Workload Distribution </label><br/>
+              <label For="distribution"> Estimated Workload Distribution </label><br/>
               <TextField
                       id="distribution"
                       style={{width:"160px",marginTop:'8px',marginBottom:'16px',}}
@@ -862,8 +914,55 @@ const [activityTypeID, setActivityTypeID] = useState(props.activity==undefined? 
             }
           </div>
           </TabPanel>
-
           <TabPanel  value={props.value} index={1}>
+            <div className = 'detailBox' style = {{color: props.colour}}>
+
+            <div style={{marginLeft:'24px', float:'left'}}>
+              <label For="simulatedDueDate" > Extension Date </label> <br/>
+              <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                    <KeyboardDatePicker
+                      disableToolbar
+                      variant="inline"
+                      format="dd/MM/yyyy"
+                      margin="normal"
+                      id="simulatedDueDate"
+                      style={{width:"135px",marginTop:'8px',marginBottom:'16px'}}
+                      InputProps={{style: inputStyle}}
+
+                      value={new Date(simulatedDueDate)}
+                      onChange={(date) =>{
+
+                        setSimulatedDueDate(date.getFullYear()
+                                            +'-'+("0" + (parseInt(date.getMonth())+1).toString()).slice(-2)
+                                            +'-'+("0" + date.getDate()).slice(-2)
+                                            +'T00:00:00' )
+                      }
+                        }
+                      KeyboardButtonProps={{
+                        'aria-label': 'change date',
+                      }}
+                    />
+                </MuiPickersUtilsProvider>
+              </div>
+              <div style={{margin:'8px auto 16px 24px', float:'left'}}>
+                <FilterMenu label={props.courses.find((course)=>course.course_ID==selectedCourseForSimulation).course_name}
+                  options={courseFilterOptions} callback={setSelectedCourseForSimulation} default={false}/>
+              </div>
+              
+              { props.courses.map((course) =>{
+                if(course.course_ID==selectedCourseForSimulation){
+                  return(
+                    <div style = {{height: "500px", position: "relative",clear:"both"}}>
+                    <SimulateGraph label = {course.course_name} courseID = {course.course_ID} activityID = {props.activity.activity_ID} start = {props.activity.start_date} end ={simulatedDueDate /*"2019-04-11T00:00:00"*/} bin = "Week"/>
+                    </div>
+                  )
+                }
+              }
+              )
+              }
+            </div>
+          </TabPanel>
+          <TabPanel  value={props.value} index={2}>
             <div className = 'detailBox' style = {{color: props.colour}}>
             <div style={{margin:'5px',display:'flex'}}>
               <div>
@@ -977,7 +1076,7 @@ const [activityTypeID, setActivityTypeID] = useState(props.activity==undefined? 
                   </div>
                 </div>
                 <div style={{marginLeft:'24px'}}>
-                <label For="distribution"> Workload Distribution </label><br/>
+                <label For="distribution"> Estimated Workload Distribution </label><br/>
                 <FormControl component="fieldset" id = 'distribution' style = {{color:props.colour}}>
                     <RadioGroup style = {{color:props.colour}} row aria-label="distribution" name="distribution" value={distribution} onChange={(e)=>setDistribution(e.target.value)}>
                       <FormControlLabel color={props.colour} value="Linear" control={<Radio color={props.colour}/>} label="Linear" style = {{color:props.colour}}/>
@@ -1213,7 +1312,7 @@ const [activityTypeID, setActivityTypeID] = useState(props.activity==undefined? 
             </div>
           </div>
           <div style={{marginLeft:'24px'}}>
-            <label For="distribution"> Workload Distribution </label><br/>
+            <label For="distribution"> Estimated Workload Distribution </label><br/>
             <TextField
                     id="distribution"
                     style={{width:"160px",marginTop:'8px',marginBottom:'16px',}}
@@ -1408,7 +1507,7 @@ export default function ActivityTab(props) {
       <div style = {{position:'relative', top:'27px', left:'35px', fontFamily: 'Rubik', fontStyle: 'normal', fontWeight: '300', fontSize: '12px',
 lineHeight: '17px', display: 'flex', alignItems: 'center', color: '#414141'}} > Mode </div>
         <div style = {{position:'relative', top:'30px',marginRight:'auto', marginLeft:'auto'}}>
-          <DetailBox newActivityFlag={newActivityFlag} value={detailBoxValue} handleChange= {handleChangeDetailBox} setState={props.setState} today={props.today} activity={activityInFocus} colour= {props.colour} edit = {props.edit} moduleID={props.moduleID}/>
+          <DetailBox newActivityFlag={newActivityFlag} value={detailBoxValue} handleChange= {handleChangeDetailBox} setState={props.setState} today={props.today} activity={activityInFocus} colour= {props.colour} edit = {props.edit} moduleID={props.moduleID} courses={props.courses}/>
         </div>
       </div>
     </div>

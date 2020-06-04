@@ -22,25 +22,28 @@ export default function SimpleMenu() {
 
   return (
     <div>
-      <div style={{float: 'left'}}>
-      <Button aria-controls="simple-menu" aria-haspopup="true" style={{height:"55px",display: 'flex'}} >
-        <img className="photo" src={require('../images/sugar.png')}/>
-      </Button>
-      </div>
 
 
 
-      <div style={{float: "right"}}>
+
+      <div style={{}}>
         <Button aria-controls="simple-menu" aria-haspopup="true" style={{height:"55px"}}>
-           <img className="photoU" src={require('../images/Team-Brasil-USP_LogoUSP.png')}/>
+           <img className="photoU" src={require('../images/logoGroup.svg')}/>
         </Button>
       </div>
-
+      {/*
         <div className="Tlogo">
             <Button aria-controls="simple-menu" aria-haspopup="true" style={{height:"55px", display: 'flex', margin:'0 auto', padding: 0}}>
                 <img className="photoT" src={require('../images/Trinity_White_Logo.png')}/>
             </Button>
         </div>
+        <div style={{float: 'left'}}>
+        <Button aria-controls="simple-menu" aria-haspopup="true" style={{height:"55px",display: 'flex'}} >
+          <img className="photo" src={require('../images/sugar.png')}/>
+        </Button>
+        </div>
+        */}
+
     </div>
   );
 }

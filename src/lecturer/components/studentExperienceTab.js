@@ -181,7 +181,8 @@ function FilterMenu(props) {
     setAnchorEl(null);
     //console.log("handleClose");
     //console.log(typeof optionID);
-    props.callback(optionID);
+    if(typeof optionID == 'number')
+      props.callback(optionID);
   };
   return (
     <div>

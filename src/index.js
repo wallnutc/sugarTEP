@@ -15,7 +15,7 @@ function prodCheck() {
     console.error = () => {};
     console.warn = () => {};
 }
-prodCheck();
+//prodCheck();
 ReactDOM.render(
   <React.StrictMode>
   <BrowserRouter>

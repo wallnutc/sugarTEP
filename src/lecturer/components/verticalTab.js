@@ -168,7 +168,7 @@ export default function VerticalTabs(props) {
           <LecturesTab setState={props.setState} today={props.today} activities={props.module.activities} colour = {props.module.colour} classes={props.module.classes} edit={props.module.edit} moduleID = {props.module.module_ID} contributors={contributors}/>
         </TabPanel>
         <TabPanel value={value} index={2}>
-            <ActivitiesTab setState={props.setState} handleChange={handleFocusAcitivityIDChange} focusID={focusAcitivityID} colour = {props.module.colour} today={props.today} activities={props.module.activities} edit={props.module.edit} moduleID = {props.module.module_ID}/>
+            <ActivitiesTab setState={props.setState} handleChange={handleFocusAcitivityIDChange} focusID={focusAcitivityID} colour = {props.module.colour} today={props.today} activities={props.module.activities} courses={props.module.courses} edit={props.module.edit} moduleID = {props.module.module_ID}/>
         </TabPanel>
         <TabPanel value={value} index={3}>
           <StudentExperienceTab moduleCode={props.module.module_code} colour = {props.module.colour} module_ID = {props.module.module_ID} module_name = {props.module.module_name}/>

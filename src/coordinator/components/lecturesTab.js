@@ -290,7 +290,7 @@ function SelectorBox(props) {
 
       <div className={classes.demo1}>
         <AntTabs value={value} onChange={handleChange} aria-label="ant example" centered>
-          <AntTab label="Upcoming" style={{color: props.colour, marginLeft: '30px'}}/>
+          <AntTab label="Upcoming" style={{color: props.colour}}/>
           <AntTab label="Past" style={{color: props.colour}}/>
         </AntTabs>
       </div>
