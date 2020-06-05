@@ -208,7 +208,7 @@ export function ActivityPanel(props) {
           </div>
 
           <div style={{margin:'17px 0'}}>
-            <span > Grading description </span>
+            <span > Marking Scheme </span>
             <div style = {{fontWeight: 300}}> {props.item.grading_description} </div>
           </div>
         </div>
