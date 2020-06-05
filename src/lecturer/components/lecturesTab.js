@@ -225,7 +225,7 @@ function SelectorBox(props) {
   const [value, setValue] = React.useState(0);
   const taughtLecturesSelectors = props.classes.filter((lecture) => new Date(lecture.date+'T'+lecture.end_time)< props.today
   ).map((lecture) =>
-  <div style = {{margin:'8px 0', color: lecture.date+lecture.start_time == props.inFocusID? 'black': invert(lecture.colour, true)}}>
+  <div style = {{margin:'8px 8px', color: lecture.date+lecture.start_time == props.inFocusID? 'black': invert(lecture.colour, true)}}>
   <Button fullWidth
   style = {{padding:0, height:'56px', borderRadius:'4px', border:'1px solid'+(lecture.date+lecture.start_time  == props.inFocusID? decreaseBrightness(lecture.colour,40): lecture.colour), backgroundColor: lecture.date+lecture.start_time  == props.inFocusID? decreaseBrightness(lecture.colour,40): lecture.colour }} onClick = { () =>  props.onClick(lecture.date+lecture.start_time)}  size = 'large'
   children={
@@ -254,7 +254,7 @@ function SelectorBox(props) {
 
   const scheduledLecturesSelectors = props.classes.filter((lecture) => new Date(lecture.date+'T'+lecture.end_time)>= props.today
   ).map((lecture) =>
-  <div style = {{margin:'8px 0', color: lecture.date+lecture.start_time == props.inFocusID? 'black': invert(lecture.colour, true)}}>
+  <div style = {{margin:'8px 8px', color: lecture.date+lecture.start_time == props.inFocusID? 'black': invert(lecture.colour, true)}}>
     <Button fullWidth
     style = {{padding:0, height:'56px', borderRadius:'4px', border:'1px solid'+(lecture.date+lecture.start_time  == props.inFocusID? decreaseBrightness(lecture.colour,40): lecture.colour), backgroundColor: lecture.date+lecture.start_time  == props.inFocusID? decreaseBrightness(lecture.colour,40): lecture.colour }} onClick = { () =>  props.onClick(lecture.date+lecture.start_time)}  size = 'large'
     children={
@@ -534,6 +534,7 @@ const saveNote = () => {
                       x.style.display = "inline-block";
                   });
   }
+
   if(props.lecture==undefined) return <div> All classes completed! </div>
   return (
     <div className={classes.root}>
@@ -595,74 +596,117 @@ const saveNote = () => {
       </TabPanel>
       <TabPanel  value={value} index={1}>
         <div className = 'detailBox' style = {{color: props.colour}}>
-        <span> Lecturer  </span><br/>
-        <TextField
-                id="classroom"
-                value={ props.lecture.lecturer}
-                style={{marginTop:'8px',marginBottom:'16px',}}
-                InputProps={{style: inputStyle}}
-                variant="outlined"
-                size='small'
-                InputProps={{
-                  readOnly: true,
-                }}/>
-          <div>
-
-            <span>{ props.lecture.title}</span>
-            <span> {props.lecture.time} </span>
+        <div style={{display:'flex'}}>
+        <div>
+          <span> Title  </span><br/>
+          <TextField
+                  style={{}}
+                  id="classroom"
+                  value={ props.lecture.title}
+                  style={{width:'250px',marginTop:'8px',marginBottom:'16px',backgroundColor:'#f9f9f9'}}
+                  variant="outlined"
+                  size='small'
+                  InputProps={{
+                    readOnly: true,
+                    style: inputStyle
+                  }}/>
           </div>
-          <div>
-            <span>Class Type: { props.lecture.activityType}</span>
-          </div>
-          <div>
-            <label For='description'> Content </label> <br/>
+          <div style={{marginLeft:'16px'}}>
+            <span> Lecturer  </span><br/>
             <TextField
-              multiline
-              id="description"
-              style={{marginTop:'8px',marginBottom:'16px',}}
-              value={props.lecture.description}
-              fullWidth
-              InputProps={{style: inputStyle}}
-              variant="outlined"
-              rows={5}
-              InputProps={{
-                readOnly: true,
-              }}/>
-          </div>
-          <div>
-            <span> Classroom </span><br/>
-            <TextField
+                    style={{}}
                     id="classroom"
-                    value={props.lecture.location}
-                    style={{marginTop:'8px',marginBottom:'16px',}}
-                    InputProps={{style: inputStyle}}
+                    value={ props.lecture.lecturer}
+                    style={{marginTop:'8px',marginBottom:'16px',backgroundColor:'#f9f9f9'}}
                     variant="outlined"
                     size='small'
                     InputProps={{
                       readOnly: true,
+                      style: inputStyle
                     }}/>
-
-          </div>
-          <div>
-            Activities
-          </div>
-          <div>
-            {props.lecture.linked_activities.length==0? <div>No Activities Linked</div>:
-              props.lecture.linked_activities.map((item)=>
-              <BootstrapButton  size = 'large' startIcon ={<TodayIcon color='action' style={{margin:'8px',fontSize: 40 }} />}
-                children={<div>
-                            <div style={{fontFamily: 'Rubik'}}>
-                              {item.activity_name}
-                            </div>
-                            <div style={{fontWeight:'300',fontSize: '14px'}}>
-                              <ScheduleIcon color='action' style={{verticalAlign:'middle',fontWeight:'300',fontSize: '14px'}} />
-                              <span style={{verticalAlign:'middle'}}>
-                              {item.end.split('T')[0]} </span></div></div>} />
-            )
-            }
-
-          </div>
-
+            </div>
+            <div style={{marginLeft:'16px'}}>
+              <span> Class Type  </span><br/>
+              <TextField
+                      style={{}}
+                      id="classroom"
+                      value={ props.lecture.activityType}
+                      style={{width:'100px',marginTop:'8px',marginBottom:'16px',backgroundColor:'#f9f9f9'}}
+                      variant="outlined"
+                      size='small'
+                      InputProps={{
+                        readOnly: true,
+                        style: inputStyle
+                      }}/>
+              </div>
+        </div>
+        <div>
+          <label For='description'> Content </label> <br/>
+          {<TextField
+            multiline
+            id="description"
+            style={{marginTop:'8px',marginBottom:'16px',backgroundColor:'#f9f9f9'}}
+            value={props.lecture.description}
+            fullWidth
+            variant="outlined"
+            rows={5}
+            InputProps={{
+              readOnly: true,
+              style:inputStyle
+            }}/>}
+        </div>
+        <div>
+          <label For='classroom'> Classroom </label><br/>
+          <TextField
+                  id="classroom"
+                  fullWidth
+                  value={props.lecture.location}
+                  style={{width:"160px",marginTop:'8px',marginBottom:'16px',backgroundColor:'#f9f9f9'}}
+                  variant="outlined"
+                  size='small'
+                  InputProps={{
+                    readOnly: true,
+                    style:inputStyle
+                  }}
+                />
+        </div>
+        <div style={{marginBottom:'4px'}}>
+          Activities
+        </div>
+        <div>
+        {props.lecture.linked_activities.length==0? <div style={{color:'#414141', fontSize:'12px',marginLeft:'8px'}}>No Activities Linked</div>:
+          props.lecture.linked_activities.map((item)=>
+          <BootstrapButton  size = 'large' startIcon ={<TodayIcon color='action' style={{margin:'8px',fontSize: 40 }} />}
+          fullWidth
+            children={<div>
+                        <div style={{fontFamily: 'Rubik'}}>
+                          {item.activity_name}
+                        </div>
+                        <div style={{fontWeight:'300',fontSize: '14px'}}>
+                          <ScheduleIcon color='action' style={{verticalAlign:'middle',fontWeight:'300',fontSize: '14px'}} />
+                          <span style={{verticalAlign:'middle'}}>
+                          {item.end.split('T')[0]} </span></div></div>} />
+        )
+        }
+        <div style={{margin:'8px 0px 4px 0px'}}>
+          Feedback Survey Topics
+        </div>
+        {props.lecture.feedback.length==0? <div style={{color:'#414141', fontSize:'12px'}}>No Feedback Set</div>:
+          props.lecture.feedback.map((item)=>
+            <div style={{margin:'5px',padding:'16px',background:'#efefef',borderRadius:'5px'}}>
+              <div style={{float:'right'}}>
+                <IconButton style={{padding:'2px'}} aria-label="delete"  onClick={()=>{setFeedback(feedback.filter((i)=>i.feedback_title!=item.feedback_title));}}>
+                  <ClearRoundedIcon  style={{fontSize:'17px'}}/>
+                </IconButton>
+              </div>
+              <div>
+              <div style={{margin:'0'}}><b>{item.feedback_title}</b></div>
+              <div style={{}}>{item.feedback_description}</div>
+              </div>
+            </div>
+          )
+        }
+        </div>
           <div style = {{margin:'10px 0'}}>
           {notes.map((note) => <div style={{margin:'8px'}}><TextField
                       multiline
@@ -693,32 +737,56 @@ const saveNote = () => {
       <div>
       <TabPanel  value={value} index={0}>
         <div className = 'detailBox' style = {{color: props.colour}}>
-        <span> Lecturer  </span><br/>
-        <TextField
-                style={{}}
-                id="classroom"
-                value={ props.lecture.lecturer}
-                style={{marginTop:'8px',marginBottom:'16px',backgroundColor:'#efefef'}}
-                InputProps={{style: inputStyle}}
-                variant="outlined"
-                size='small'
-                InputProps={{
-                  readOnly: true,
-                }}/>
-
+        <div style={{display:'flex'}}>
         <div>
-          <span> {props.lecture.title} | </span>
-          <span> {props.lecture.date} </span>
-        </div>
-        <div>
-          <span>Class Type: </span><span style= {{color: props.colour}}> {props.lecture.activityType}</span>
+          <span> Title  </span><br/>
+          <TextField
+                  style={{}}
+                  id="classroom"
+                  value={ props.lecture.title}
+                  style={{width:'250px',marginTop:'8px',marginBottom:'16px',backgroundColor:'#f9f9f9'}}
+                  variant="outlined"
+                  size='small'
+                  InputProps={{
+                    readOnly: true,
+                    style: inputStyle
+                  }}/>
+          </div>
+          <div style={{marginLeft:'16px'}}>
+            <span> Lecturer  </span><br/>
+            <TextField
+                    style={{}}
+                    id="classroom"
+                    value={ props.lecture.lecturer}
+                    style={{marginTop:'8px',marginBottom:'16px',backgroundColor:'#f9f9f9'}}
+                    variant="outlined"
+                    size='small'
+                    InputProps={{
+                      readOnly: true,
+                      style: inputStyle
+                    }}/>
+            </div>
+            <div style={{marginLeft:'16px'}}>
+              <span> Class Type  </span><br/>
+              <TextField
+                      style={{}}
+                      id="classroom"
+                      value={ props.lecture.activityType}
+                      style={{width:'100px',marginTop:'8px',marginBottom:'16px',backgroundColor:'#f9f9f9'}}
+                      variant="outlined"
+                      size='small'
+                      InputProps={{
+                        readOnly: true,
+                        style: inputStyle
+                      }}/>
+              </div>
         </div>
         <div>
           <label For='description'> Content </label> <br/>
           {<TextField
             multiline
             id="description"
-            style={{marginTop:'8px',marginBottom:'16px'  }}
+            style={{marginTop:'8px',marginBottom:'16px',backgroundColor:'#f9f9f9'}}
             value={props.lecture.description}
             fullWidth
             variant="outlined"
@@ -734,7 +802,7 @@ const saveNote = () => {
                   id="classroom"
                   fullWidth
                   value={props.lecture.location}
-                  style={{width:"160px",marginTop:'8px',marginBottom:'16px',}}
+                  style={{width:"160px",marginTop:'8px',marginBottom:'16px',backgroundColor:'#f9f9f9'}}
                   variant="outlined"
                   size='small'
                   InputProps={{
@@ -743,11 +811,11 @@ const saveNote = () => {
                   }}
                 />
         </div>
-        <div>
+        <div style={{marginBottom:'4px'}}>
           Activities
         </div>
         <div>
-        {props.lecture.linked_activities.length==0? <div>No Activities Linked</div>:
+        {props.lecture.linked_activities.length==0? <div style={{color:'#414141', fontSize:'12px',marginLeft:'8px'}}>No Activities Linked</div>:
           props.lecture.linked_activities.map((item)=>
           <BootstrapButton  size = 'large' startIcon ={<TodayIcon color='action' style={{margin:'8px',fontSize: 40 }} />}
           fullWidth
@@ -761,16 +829,25 @@ const saveNote = () => {
                           {item.end.split('T')[0]} </span></div></div>} />
       )
         }
-        <div style={{margin:'5px 0px'}}>
+        <div style={{margin:'8px 0px 4px 0px'}}>
           Feedback Survey Topics
         </div>
-        {props.lecture.feedback.length==0? <div>No Feedback Set</div>:
+        {props.lecture.feedback.length==0? <div style={{color:'#414141', fontSize:'12px'}}>No Feedback Set</div>:
           props.lecture.feedback.map((item)=>
-          <div style={{margin:'5px',padding:'5px',border:'1px solid gray',borderRadius:'5px'}}> <b>{item.feedback_title}</b> <br/>{item.feedback_description}  </div>
-        )
+            <div style={{margin:'5px',padding:'16px',background:'#efefef',borderRadius:'5px'}}>
+              <div style={{float:'right'}}>
+                <IconButton style={{padding:'2px'}} aria-label="delete"  onClick={()=>{setFeedback(feedback.filter((i)=>i.feedback_title!=item.feedback_title));}}>
+                  <ClearRoundedIcon  style={{fontSize:'17px'}}/>
+                </IconButton>
+              </div>
+              <div>
+              <div style={{margin:'0'}}><b>{item.feedback_title}</b></div>
+              <div style={{}}>{item.feedback_description}</div>
+              </div>
+            </div>
+          )
         }
         </div>
-
         </div>
       </TabPanel>
       <TabPanel  value={value} index={1}>
@@ -788,27 +865,41 @@ const saveNote = () => {
               InputProps={{
                 style:inputStyle
               }}
-              style={{marginTop:'8px',marginBottom:'16px', width:'380px' }}
+              style={{marginTop:'8px',marginBottom:'16px', width:'250px' }}
               onChange={(e)=>setTitle(e.target.value)}
               />
             </div>
             <div style={{marginLeft:'16px'}}>
-            <span > Lecturer  </span> <br/>
-            <TextField
-                style={{marginTop:'14px'}}
-                id="activityType"
-                select
-                value={lecturer.lecturer_name}
-                onChange={findLecturer}
-              >
-                {props.contributors.map((option) => (
-                  <MenuItem key={option.lecturer_ID} value={option.lecturer_name}>
-                    {option.lecturer_name}
-                  </MenuItem>
-                ))}
-              </TextField>
-
+              <span > Lecturer  </span> <br/>
+              <TextField
+                  size='small'
+                  variant='outlined'
+                  style={{marginTop:'8px'}}
+                  id="activityType"
+                  select
+                  InputProps={{style: inputStyle}}
+                  value={lecturer.lecturer_name}
+                  onChange={findLecturer}
+                >
+                  {props.contributors.map((option) => (
+                    <MenuItem key={option.lecturer_ID} value={option.lecturer_name}>
+                      {option.lecturer_name}
+                    </MenuItem>
+                  ))}
+                </TextField>
             </div>
+            <div style={{marginLeft:'16px'}}>
+              <span> Class Type  </span><br/>
+              <TextField
+                      style={{}}
+                      id="classroom"
+                      value={ props.lecture.activityType}
+                      style={{width:'100px',marginTop:'8px',marginBottom:'16px',backgroundColor:'#f9f9f9'}}
+                      InputProps={{style: inputStyle}}
+                      variant="outlined"
+                      size='small'
+                      />
+              </div>
           </div>
           <div>
             <span> Content </span> <br/>
@@ -831,7 +922,10 @@ const saveNote = () => {
             <TextField
                     id="classroom"
                     fullWidth
+                    size='small'
                     value={props.lecture.location}
+                    InputProps={{style: inputStyle}}
+                    style={{width:'100px',marginTop:'8px',marginBottom:'16px',backgroundColor:'#f9f9f9'}}
                     variant="outlined"
                   />
           </div>
@@ -918,7 +1012,6 @@ const saveNote = () => {
             </div>
             <div>
             <div style={{margin:'0'}}><b>{item.feedback_title}</b></div>
-
             <div style={{}}>{item.feedback_description}</div>
             </div>
              </div>
