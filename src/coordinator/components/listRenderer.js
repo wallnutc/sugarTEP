@@ -262,11 +262,11 @@ export function FeedbackSelectorPanel(props) {
             <div style = {{float:'left',position:'relative',left: 0,height:'100%', width:'56px',margin:0, borderRadius:'8px 0 0 8px',backgroundColor:'white'}}>
               <LectureIcon color='action' style={{fontSize:'45px', margin:'6px',color: props.color}} />
             </div>
-          <div style = {{overflow:'hidden',height:'100%',padding:'8px 16px', margin:'auto',fontFamily: 'Rubik', fontStyle: 'normal',color:  invert(props.color, true)}}>
-            <div style = {{fontWeight: 'normal', fontSize: '14px', lineHeight: '17px', position: 'relative',whiteSpace:'nowrap',overflow:'hidden',textOverflow:'ellipsis',color:  invert(props.color, true)}}>
+          <div style = {{overflow:'hidden',height:'100%',padding:'12px 16px', margin:'auto',fontFamily: 'Rubik', fontStyle: 'normal',color:'white'}}>
+            <div style = {{fontWeight: 'normal', fontSize: '14px', lineHeight: '17px', position: 'relative',whiteSpace:'nowrap',overflow:'hidden',textOverflow:'ellipsis'}}>
                 <b>{props.moduleName}</b>
             </div>
-            <div style = {{position: 'relative',fontSize: '12px', lineHeight: '24px',whiteSpace:'nowrap',overflow:'hidden',textOverflow:'ellipsis',color:  invert(props.color, true)}}>
+            <div style = {{position: 'relative',fontSize: '12px', lineHeight: '24px',whiteSpace:'nowrap',overflow:'hidden',textOverflow:'ellipsis'}}>
               {props.questionName}
             </div>
           </div>

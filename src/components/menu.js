@@ -28,7 +28,7 @@ export default function SimpleMenu() {
 
       <div style={{}}>
         <Button aria-controls="simple-menu" aria-haspopup="true" style={{height:"55px"}}>
-           <img className="photoU" src={require('../images/logoGroup.svg')}/>
+           <img className="photoU" style={{marginTop:'10px',height:'40px'}} src={require('../images/logoGroup.svg')}/>
         </Button>
       </div>
       {/*

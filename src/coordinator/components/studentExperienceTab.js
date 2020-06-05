@@ -225,7 +225,7 @@ function SelectorBox(props) {
         .then((response) => response.json())
         .then((responseJson) => {
           setStudents(responseJson);
-          filterOptions = [{value:-1,label:'All Courses'}];
+          filterOptions = [{value:-1,label:'All Cohorts'}];
           responseJson.Students.map((student)=>{
               if(filterOptions.find((option)=>option.value==student.course_ID)==undefined)
                 {filterOptions.push({value:student.course_ID, label:student.course_name})}
@@ -272,7 +272,7 @@ function SelectorBox(props) {
       <div className = 'selectorBox' >
       {Object.keys(students).length === 0 && students.constructor === Object? null:
         <div>
-        <FilterMenu label={props.filterState == -1 ? "Course":(filterOptions.find((option)=>option.value==props.filterState)).label}
+        <FilterMenu label={props.filterState == -1 ? "Cohort":(filterOptions.find((option)=>option.value==props.filterState)).label}
           options={filterOptions} callback={props.setFilterState} default={props.filterState==-1}/>
         {props.filterState == -1 ? students.Students.map((student)=>
           <div style = {{margin:'8px 0',color: 'white'}}>

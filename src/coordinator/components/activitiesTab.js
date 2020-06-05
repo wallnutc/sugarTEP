@@ -644,7 +644,7 @@ const [activityTypeID, setActivityTypeID] = useState(props.activity==undefined? 
                     alert("New activity was created");
                   }
                   else{
-                    alert("Your activity has been update");
+                    alert("Your activity has been updated.");
                   }
 
                 }
@@ -848,7 +848,7 @@ const [activityTypeID, setActivityTypeID] = useState(props.activity==undefined? 
                 />
                 </div>
                 <div>
-                <label For='grade_percentage'> % </label><br/>
+                <label For='grade_percentage'>Module Weight % </label><br/>
                 <TextField
                         id="grade_percentage"
                         style={{width:"60px",marginTop:'8px',marginBottom:'16px'}}
@@ -859,7 +859,7 @@ const [activityTypeID, setActivityTypeID] = useState(props.activity==undefined? 
                       />
               </div>
               <div style={{marginLeft:'24px'}}>
-                <label For="grading_description"> Grading Description </label> <br/>
+                <label For="grading_description"> Marking Scheme </label> <br/>
                 <TextField
                   id="grading_description"
                   InputProps={{style: inputStyle}}
@@ -910,7 +910,7 @@ const [activityTypeID, setActivityTypeID] = useState(props.activity==undefined? 
             {props.activity.feedback.length==0? <div style={{marginTop:'16px', marginDown:'16px'}}>No Feedback Set</div>:
               <div>
               <div style={{margin:'5px 0px'}}>
-                Feedback Questions
+                Feedback Survey Topics
               </div>
               {
                 props.activity.feedback.map((item) =>
@@ -927,7 +927,7 @@ const [activityTypeID, setActivityTypeID] = useState(props.activity==undefined? 
           <TabPanel  value={props.value} index={1}>
             <div className = 'detailBox' style = {{color: props.colour}}>
             <div style={{margin:'0px 14px', float:'left'}}>
-              <label For="coursechoice" > Course Selection </label><br/>
+              <label For="coursechoice" > Cohort Selection </label><br/>
                 <div style={{marginTop: '10px'}}>
                 <FilterMenu id="coursechoice" label={props.courses.find((course)=>course.course_ID==selectedCourseForSimulation).course_name}
                   options={courseFilterOptions} callback={setSelectedCourseForSimulation} default={false} colour={props.colour}/>
@@ -1132,7 +1132,7 @@ const [activityTypeID, setActivityTypeID] = useState(props.activity==undefined? 
                   />
                   </div>
                   <div>
-                  <label For='grade_percentage'> % </label><br/>
+                  <label For='grade_percentage'>Module Weight % </label><br/>
                   <TextField
                           id="grade_percentage"
                           style={{width:"60px",marginTop:'8px',marginBottom:'16px'}}
@@ -1145,7 +1145,7 @@ const [activityTypeID, setActivityTypeID] = useState(props.activity==undefined? 
                         />
                 </div>
                 <div style={{marginLeft:'24px'}}>
-                  <label For="grading_description"> Grading Description </label> <br/>
+                  <label For="grading_description"> Marking Scheme </label> <br/>
                   <TextField
                     id="grading_description"
                     InputProps={{style: inputStyle}}
@@ -1173,7 +1173,7 @@ const [activityTypeID, setActivityTypeID] = useState(props.activity==undefined? 
               </div>
 
             <div style={{margin:'10px 0px'}}>
-              <label For="select-feedback" style={{marginBottom:'8px'}}>Feedback Questions </label> <br/>
+              <label For="select-feedback" style={{marginBottom:'8px'}}>Add Feedback Survey Topics </label> <br/>
               <Select
                 labelId="select-feedback"
                 id="selectFeedback"
@@ -1368,7 +1368,7 @@ const [activityTypeID, setActivityTypeID] = useState(props.activity==undefined? 
               />
               </div>
               <div>
-              <label For='grade_percentage'> % </label><br/>
+              <label For='grade_percentage'>Module Weight % </label><br/>
               <TextField
                       id="grade_percentage"
                       style={{width:"60px",marginTop:'8px',marginBottom:'16px'}}
@@ -1379,7 +1379,7 @@ const [activityTypeID, setActivityTypeID] = useState(props.activity==undefined? 
                     />
             </div>
             <div style={{marginLeft:'24px'}}>
-              <label For="grading_description"> Grading Description </label> <br/>
+              <label For="grading_description"> Marking Scheme </label> <br/>
               <TextField
                 id="grading_description"
                 InputProps={{style: inputStyle}}
@@ -1430,7 +1430,7 @@ const [activityTypeID, setActivityTypeID] = useState(props.activity==undefined? 
           {props.activity.feedback.length==0? <div style={{marginTop:'16px', marginDown:'16px'}}>No Feedback Set</div>:
             <div>
             <div style={{margin:'5px 0px'}}>
-              Feedback Questions
+              Feedback Survey Topics
             </div>
             {
               props.activity.feedback.map((item) =>

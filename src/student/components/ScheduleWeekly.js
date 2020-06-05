@@ -11,8 +11,12 @@ import DraftsIcon from '@material-ui/icons/Drafts';
 import SendIcon from '@material-ui/icons/Send';
 import MenuBookIcon from '@material-ui/icons/MenuBook';
 import LectureIcon from '../components/iconsSVG/lectureIcon';
+import ActivityIcon from '../components/iconsSVG/activitiesIcon';
+import DayIcon from '../components/iconsSVG/myDayIcon';
 
 export default function ScheduleWeekly (props){
+  console.log(props.activities);
+  console.log(props.events);
   const offset = 6;
   const block =[];
   const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
@@ -24,21 +28,6 @@ export default function ScheduleWeekly (props){
   const endDay = String(props.week[6].getDate()).padStart(2, '0');
   const endMonth = monthNames[props.week[6].getMonth()];
 
-//console.log(props.events[0]==undefined);
-//console.log(props.events[0].start_time.split(':'));
-// const testTop = (45 + 41*(parseInt(props.events[0].start_time.split(':')[0]) + (parseInt(props.events[0].start_time.split(':')[1]))/60)).toString();
-// const testLeft = weekDayPosition[new Date(props.events[0].date).getDay()];
-// const testInterval =getInterval(props.events[0].start_time,props.events[0].end_time);
-// var testHeight =0;
-// if(interval>2){
-//   testHeight = 37+(testInterval)*39+(testInterval-2)*(testInterval-1)/2;
-// }
-// else{
-//   testHeight = 37+(testInterval)*39;
-// }
-// //console.log(testTop);
-// //console.log(testLeft);
-// //console.log(testHeight);
 function getInterval(start, end){
   const startArray=start.split(':');
   const endArray=end.split(':');
@@ -70,7 +59,6 @@ function getInterval(start, end){
     <div>
     <div className="weekHeader">{startMonth+' '+startDay+' - '+endMonth+' '+endDay}</div>
   <div className="scheduleContainer" >
-
     <div className="grid-container">
     <div className="hourTag">h</div>
     <div className="weekDay">S</div>
@@ -81,9 +69,6 @@ function getInterval(start, end){
     <div className="weekDay">F</div>
     <div className="weekDay">S</div>
     {props.week.map((i)=><div className="days">{String(i.getDate()).padStart(2, '0')}</div>)}
-    {/*
-
-      */}
     </div>
     <div className="grid-container">
 
@@ -107,32 +92,25 @@ function getInterval(start, end){
             <CustomizedMenus event={item} height={height+'px'}/>
           </div>
     })}
-    {/*
-      <div style={{backgroundColor:'red',borderRadius:'5px', width:'11%',position:'absolute', top:testTop+'px',left:testLeft}}>
-        <CustomizedMenus height={testHeight+'px'}/>
-      </div>
-      <div style={{backgroundColor:'red',borderRadius:'5px', width:'11%',position:'absolute', top:'168px',left:'8%'}}>
-        <CustomizedMenus height='76px'/>
-      </div>
-      <div style={{backgroundColor:'blue',borderRadius:'5px',width:'11%',position:'absolute', top:'60px',left:'21%'}}>
-        <CustomizedMenus height='140px'/>
-      </div>
-      <div style={{backgroundColor:'blue',borderRadius:'5px',width:'11%',position:'absolute', top:'159px',left:'34.5%'}}>
-        <CustomizedMenus height='50px'/>
-      </div>
-      <div style={{backgroundColor:'blue',borderRadius:'5px',width:'11%',position:'absolute', top:'159px',left:'48%'}}>
-        <CustomizedMenus height='50px'/>
-      </div>
-      <div style={{backgroundColor:'blue',borderRadius:'5px',width:'11%',position:'absolute', top:'159px',left:'61.2%'}}>
-        <CustomizedMenus height='50px'/>
-      </div>
-      <div style={{backgroundColor:'blue',borderRadius:'5px',width:'11%',position:'absolute', top:'159px',left:'74.5%'}}>
-        <CustomizedMenus height='50px'/>
-      </div>
-      <div style={{backgroundColor:'blue',borderRadius:'5px',width:'11%',position:'absolute', top:'159px',left:'87.7%'}}>
-        <CustomizedMenus height='50px'/>
-      </div>
-      */}
+
+    {props.activities.map((activity)=>{
+      console.log('Activity', activity.start_time, typeof(activity));
+      const top = (45 + 41*((parseInt(activity.start_time.split(':')[0])-offset) + (parseInt(activity.start_time.split(':')[1]))/60)).toString();
+      const left = weekDayPosition[activity.day];
+      const interval = getInterval(activity.start_time,activity.end_time);
+      var height =0;
+      if(interval<=0) return null;
+      if(interval>2){
+        height = 37+(interval-1)*39+(interval-2)*(interval-1)/2;
+      }
+      else {
+        height = 37+(interval-1)*39;
+      }
+
+      return    <div style={{backgroundColor:'red',borderRadius:'5px', width:'11%',position:'absolute', top:top+'px',left:left}}>
+            <CustomizedActivityMenus editSchedule={props.toggleActPopup}event={activity} height={height+'px'}/>
+          </div>
+    })}
 
     </div>
     </div>
@@ -190,8 +168,8 @@ function CustomizedMenus(props) {
         color="primary"
         onClick={handleClick}
 
-        style={{minWidth:'0',height:props.height, backgroundColor:props.event.colour }}
-        children={<div><LectureIcon style={{fontSize:'16px', margin:'0'}} /><span style={{fontSize:'8px'}}> {props.event.module_code}</span></div>}
+        style={{minWidth:'0',height:props.height, backgroundColor:'blue', margin:'0' }}
+        children={<div style={{height:'60%', marginTop: '20%', fontSize: 0}}><LectureIcon style={{fontSize:'16px'}} /><span style={{fontSize:'8px'}}> {props.event.module_code}</span></div>}
       />
       <StyledMenu
         id="customized-menu"
@@ -199,6 +177,7 @@ function CustomizedMenus(props) {
         keepMounted
         open={Boolean(anchorEl)}
         onClose={handleClose}
+        style={{zIndex:4000}}
       >
         <StyledMenuItem>
           <ListItemText>
@@ -207,6 +186,58 @@ function CustomizedMenus(props) {
           <div>{props.event.start_time.split(':')[0]+':'+props.event.start_time.split(':')[1]} - {props.event.end_time.split(':')[0]+':'+props.event.end_time.split(':')[1]}</div>
           <div>{props.event.location}</div>
           </div>
+          </ListItemText>
+        </StyledMenuItem>
+
+      </StyledMenu>
+    </div>
+  );
+}
+
+function CustomizedActivityMenus(props) {
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const handleActivityClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  return (
+    <div>
+      <Button
+      fullWidth
+        aria-controls="customized-menu"
+        aria-haspopup="true"
+        variant="contained"
+        color="primary"
+        onClick={handleActivityClick}
+
+        style={{minWidth:'0',height:props.height, backgroundColor:props.event.colour, margin:'0' }}
+  children={<div> {props.module != 'Personal'?
+    <div style={{height:'60%', marginTop: '20%', fontSize: 0}}><ActivityIcon style={{fontSize:'16px'}} /><span style={{fontSize:'8px'}}> {props.event.module_code}</span></div> :
+    <div style={{height:'60%', marginTop: '20%', fontSize: 0}}><DayIcon style={{fontSize:'16px'}} /><span style={{fontSize:'8px'}}>{props.module_code}</span></div>}
+  </div>}
+      />
+      <StyledMenu
+        id="customized-menu"
+        anchorEl={anchorEl}
+        keepMounted
+        open={Boolean(anchorEl)}
+        onClose={handleClose}
+        style={{zIndex:4000}}
+      >
+        <StyledMenuItem>
+          <ListItemText>
+          <div style={{height:'70px'}}>
+          <div >{props.event.module}</div>
+          <div >{props.event.name}</div>
+          <div>{props.event.start_time.split(':')[0]+':'+props.event.start_time.split(':')[1]} - {props.event.end_time.split(':')[0]+':'+props.event.end_time.split(':')[1]}</div>
+          </div>
+          <div style={{margin:'5px'}}>
+              <Button size = 'small' variant="contained" onClick={()=>{handleClose();props.editSchedule(props.event)}} style={{ borderRadius:'20px',backgroundColor: '#0061D2',textTransform:'none', float: 'right'}}> <u style={{color:'white'}}>Edit</u> </Button>
+              </div>
           </ListItemText>
         </StyledMenuItem>
 

@@ -9,7 +9,8 @@ import Card from "@material-ui/core/Card/Card";
 import {makeStyles} from "@material-ui/core/styles";
 import {Link} from 'react-router-dom';
 import './styles/mainFrame.css';
-import TopmenuBar from './components/menu'
+import TopmenuBar from './components/menu';
+import ReactPlayer from 'react-player';
 //import 'bootstrap/dist/css/bootstrap.min.css';
 import {
     BrowserView,
@@ -186,11 +187,14 @@ class App extends Component  {
 
                 </div>
 
-                <div className="CourseInfoBox">
+                <div className="CourseInfoBox" style={{margin:'0 auto 26px auto'}}>
                     <box>
                         <p className="infoTitle">About <b style={{color: '#003EAA'}}>ModuleM</b></p>
                         <p className='info'> ModuleM is a planning and communication tool that allows easy management of information regarding classes, assignments and all aspects of student learning - strengthening the academic-student partnership and optimising the university experience for everyone.</p>
                     </box>
+                </div>
+                <div style={{margin:'0 auto 56px auto'}}>
+                    <ReactPlayer url="https://www.youtube.com/embed/jlO8DQijGdc" style= {{margin:'auto'}}/>
                 </div>
             </div>
           );

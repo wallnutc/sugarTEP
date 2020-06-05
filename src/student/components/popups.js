@@ -9,6 +9,8 @@ import LikertScale from './scale';
 import IconButton from '@material-ui/core/IconButton';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import CheckCircleOutlineRoundedIcon from '@material-ui/icons/CheckCircleOutlineRounded';
+import { TimePicker,MuiPickersUtilsProvider} from "@material-ui/pickers";
+import DateFnsUtils from '@date-io/date-fns';
 
 export function ClassFeedbackPopup (props) {
   const [feedback, setFeedback] = useState(props.class.feedback.length==0 ? true:false);
@@ -264,5 +266,120 @@ return (
   }
 
 </div>
+);
+}
+
+export function CalendarActivityPopup (props) {
+  console.log("sdasdasd a")
+  console.log(props.activity);
+  const [weekDay,setWeekDay] = useState(props.activity.day);
+  const [start,setStart] = useState(new Date("2018-01-01T"+props.activity.start_time+":00"));
+  const [end, setEnd] = useState(new Date("2018-01-01T"+props.activity.end_time+":00"));
+
+  const updateActivitySlot = () =>{
+    const startTime=('0'+start.getHours()).slice(-2)+':'+('0'+start.getMinutes()).slice(-2)
+    const endTime=('0'+end.getHours()).slice(-2)+':'+('0'+end.getMinutes()).slice(-2)
+    console.log("update activity slot " + startTime + ' ' + endTime);
+    let data = {
+      id:props.activity.id,
+      name: props.activity.name,
+      module:props.activity.module,
+      module_code: props.activity.module_code,
+      day: weekDay,
+      start_time: startTime,
+      end_time: endTime,
+      colour: props.activity.colour
+    }
+    props.setActivity(data);
+    props.closePopup(false);
+  }
+
+
+  // const modifyStartTime = (time) => {
+  //   if(start[1]+time<60){
+  //     setStart([start[0],start[1]+time])
+  //   }
+  //   else{
+  //     setStart([start[0]+1,(start[1]+time)%60])
+  //   }
+  // }
+  // const modifyEndTime = (time) => {
+  // }
+return (
+  <div>
+    <div className='popup' style={{  position: 'fixed', width: '100%', height: '100%', top: 0,
+      left: 0, right: 0, bottom: 0, margin: 'auto', backgroundColor: 'rgba(0,0,0, 0.5)' }}>
+        <div className='ScrollBar' style={{overflowY:'scroll', overflowX:'hidden',scrollbarWidth: 'none',fontFamily: 'Rubik',position: 'absolute',left: '8%',  maxWidth: '400px',
+          right: '8%',   top: '18%', bottom: '20%',  margin: 'auto',borderRadius: '6px', background: '#F6F7FA' }}>
+          <IconButton onClick = {()=>props.closePopup()} size='small'
+          style={{position:'relative', margin:'8px'}} aria-label="delete" color="primary">
+              <ArrowBackIosIcon color='action'/>
+          </IconButton>
+
+          <div style={{background: 'white',margin:'5px',padding:'8px',boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.1)'}}>
+            <div style={{margin:'15px',display:'flex',justifyContent:'center', fontWeight: '700',fontSize: '15px', lineHeight: '17px'}}> Edit Activity Slot </div>
+
+            <div style={{margin:'16px 0', }}>
+            <Button variant="contained" style={{color:weekDay==0? "#FFFFFF":'#0061D2',margin:'4px',height: '24px',borderRadius:'12px',textTransform: 'none', padding:0,backgroundColor:weekDay==0? "#0153B4":'#F6F7FA',boxShadow:'0px 1px 4px rgba(0, 97, 210, 0.15)', textTransform:'none'}} disableElevation
+            onClick={()=>setWeekDay(0)}>
+              Sun
+            </Button>
+            <Button variant="contained" style={{color:weekDay==1? "#FFFFFF":'#0061D2',margin:'4px',height: '24px',borderRadius:'12px',textTransform: 'none', padding:0,backgroundColor:weekDay==1? "#0153B4":'#F6F7FA',boxShadow:'0px 1px 4px rgba(0, 97, 210, 0.15)', textTransform:'none'}} disableElevation
+            onClick={()=>setWeekDay(1)}>
+              Mon
+            </Button>
+            <Button variant="contained" style={{color:weekDay==2? "#FFFFFF":'#0061D2',margin:'4px',height: '24px',borderRadius:'12px',textTransform: 'none', padding:0,backgroundColor:weekDay==2? "#0153B4":'#F6F7FA', boxShadow:'0px 1px 4px rgba(0, 97, 210, 0.15)',textTransform:'none'}} disableElevation
+            onClick={()=>setWeekDay(2)}>
+              Tue
+            </Button>
+            <Button variant="contained" style={{color:weekDay==3? "#FFFFFF":'#0061D2',margin:'4px',height: '24px',borderRadius:'12px',textTransform: 'none', padding:0,backgroundColor:weekDay==3? "#0153B4":'#F6F7FA', boxShadow:'0px 1px 4px rgba(0, 97, 210, 0.15)',textTransform:'none'}} disableElevation
+            onClick={()=>setWeekDay(3)}>
+              Wed
+            </Button>
+            <Button variant="contained" style={{color:weekDay==4? "#FFFFFF":'#0061D2',margin:'4px',height: '24px',borderRadius:'12px',textTransform: 'none', padding:0,backgroundColor:weekDay==4? "#0153B4":'#F6F7FA', boxShadow:'0px 1px 4px rgba(0, 97, 210, 0.15)',textTransform:'none'}} disableElevation
+            onClick={()=>setWeekDay(4)}>
+              Thu
+            </Button>
+            <Button variant="contained" style={{color:weekDay==5? "#FFFFFF":'#0061D2',margin:'4px',height: '24px',borderRadius:'12px',textTransform: 'none', padding:0,backgroundColor:weekDay==5? "#0153B4":'#F6F7FA', boxShadow:'0px 1px 4px rgba(0, 97, 210, 0.15)',textTransform:'none'}} disableElevation
+            onClick={()=>setWeekDay(5)}>
+              Fri
+            </Button>
+            <Button variant="contained" style={{color:weekDay==6? "#FFFFFF":'#0061D2',margin:'4px',height: '24px',borderRadius:'12px',textTransform: 'none', padding:0,backgroundColor:weekDay==6? "#0153B4":'#F6F7FA', boxShadow:'0px 1px 4px rgba(0, 97, 210, 0.15)',textTransform:'none'}} disableElevation
+            onClick={()=>setWeekDay(6)}>
+              Sat
+            </Button>
+            </div>
+            <div style={{marginLeft:'8px'}}>Start</div>
+            <div style={{display:'flex',justifyContent:'center', marginBottom:'16px'}}>
+            <MuiPickersUtilsProvider utils={DateFnsUtils}>
+              <TimePicker
+                value={start}
+                onChange={setStart}
+              />
+              </MuiPickersUtilsProvider>
+            </div>
+
+            <div style={{marginLeft:'8px'}}>End</div>
+            <div style={{marginBottom:'16px',display:'flex',justifyContent:'center'}}>
+            <MuiPickersUtilsProvider utils={DateFnsUtils}>
+              <TimePicker
+                value={end}
+                onChange={setEnd}
+              />
+              </MuiPickersUtilsProvider>
+            </div>
+
+            <div style={{display:'flex',justifyContent:'center'}}>
+
+          </div>
+          </div>
+          <div style={{margin:'24px'}}>
+            <Button fullWidth onClick={updateActivitySlot}
+            style={{color:'white',lineHeight:0, height: '25px',borderRadius:'50px',textTransform: 'none', padding:0, backgroundColor:'#414141',}} children ={<span style={{inlineHeight:'0'}}>Save</span>}></Button>
+          </div>
+        </div>
+
+    </div>
+    </div>
 );
 }

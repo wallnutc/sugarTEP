@@ -3,7 +3,7 @@ import Header from "../components/header";
 import ListRenderer from "../components/listRenderer";
 import {LecturePanel,ActivityPanel} from "../components/listRenderer";
 import InfiniteScroll from "react-infinite-scroll-component";
-import {ClassFeedbackPopup,ActivityProgressPopup} from '../components/popups';
+import {ClassFeedbackPopup,ActivityProgressPopup,CalendarActivityPopup} from '../components/popups';
 import CalendarTodayIcon from '@material-ui/icons/CalendarToday';
 import { makeStyles, withStyles, useTheme } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
@@ -24,11 +24,54 @@ Date.prototype.getWeek = function(){
                      }, this )
           );
 }
+const scheduleActivities = [
+  {
+    id:1,
+    name: 'Leslies Cube Lab - Physics',
+    module: 'Activity',
+    module_code: 'PY1E04',
+    day: 1,
+    start_time: '14:00',
+    end_time: '17:00',
+    colour: 'grey'
+  },
+  {
+    id:2,
+    name: 'Leslies Cube Lab - Physics',
+    module: 'Activity',
+    module_code: 'PY1E04',
+    day: 3,
+    start_time: '15:00',
+    end_time: '16:00',
+    colour: 'grey'
+  },
+  {
+    id:3,
+    name: 'Swimming',
+    module: 'Personal',
+    module_code: 'Hobby',
+    day: 0,
+    start_time: '15:00',
+    end_time: '16:00',
+    colour: 'red'
+  },
+  {
+    id:4,
+    name: 'Football Practice',
+    module: 'Personal',
+    module_code: 'Hobby',
+    day: 2,
+    start_time: '19:00',
+    end_time: '21:00',
+    colour: 'red'
+  }
+]
+
 function MyDay (props) {
   const batch = 25;
   const activeActivities = props.activities.filter((item) => new Date(item.due_date) >= props.today  && item.submitted != 1 ); //&& new Date(item.start_date) <= new Date(today2)
   const [activities,setActivities] = useState(()=>activeActivities.length <=batch ? activeActivities:activeActivities.slice(0,batch))
-
+  const [fakeActivities, setFakeActivities] = useState(scheduleActivities);
   const [renderIndex, setRenderIndex] = useState(batch);
   const [hasMore,setHasMore] =  useState(true);
   const [setup,setSetup] = useState(true);
@@ -58,6 +101,8 @@ function MyDay (props) {
 const [popupClass,setPopupClass] = useState({})
 const [showPopupA,setShowPopupA] = useState(false);
 const [showPopupC,setShowPopupC] = useState(false);
+const [showPopupActSlot,setShowPopupActSlot] = useState(false);
+const [popupScheduleAct,setPopupScheduleAct] = useState({})
 const togglePopupClass = (lecture) => {
   if(!showPopupC) setPopupClass(lecture);
   setShowPopupC(!showPopupC);
@@ -67,6 +112,16 @@ const togglePopupActivity = (activity) => {
   setShowPopupA(!showPopupA);
 }
 
+const togglePopupScheduleActivity = (activity) => {
+  if(!showPopupActSlot) setPopupScheduleAct(activity);
+  setShowPopupActSlot(!showPopupActSlot);
+}
+
+const updateFakeActivities = (newActivity) => {
+  let tempAct = [];
+  fakeActivities.map((activity)=>{if(activity.id==newActivity.id){tempAct.push(newActivity)} else {tempAct.push(activity)} })
+  setFakeActivities(tempAct);
+}
 return (
   <div >
     <div className="header" style= {{width: '450px', margin: 'auto'}}>
@@ -95,7 +150,7 @@ return (
         {showPopupC ?
         <ClassFeedbackPopup
                   class={popupClass}
-                  closePopup={togglePopupClass}
+                  closePopup={togglePopupScheduleActivity}
         />  : null
         }
         {showPopupA ?
@@ -106,6 +161,15 @@ return (
                   closePopup={togglePopupActivity}
         />  : null
         }
+        {showPopupActSlot ?
+          <CalendarActivityPopup
+                  activity={popupScheduleAct}
+                  setActivity={props.updateFakeActivities}
+                  closePopup={setShowPopupActSlot}
+          />: null
+
+        }
+
       </div>
     </div>
     <div className="main" >
@@ -161,7 +225,7 @@ return (
       </div>
       </div>
       :<div style={{margin:'8px'}}>
-      {thisWeekClasses.length>0 ? <ScheduleWeekly events={thisWeekClasses}week={thisWeek}/> : null}
+      {thisWeekClasses.length>0 ? <ScheduleWeekly events={thisWeekClasses}week={thisWeek} activities={props.fakeActivities} toggleActPopup={togglePopupScheduleActivity}/> : null}
 
       </div>
 

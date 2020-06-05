@@ -154,14 +154,14 @@ function ModulePanel (props) {
                   <h2 style={titleStyle}> {props.module.module_code} - {props.module.module_name} </h2>
                 </div>
                   <div style = {{textAlign: 'justify', fontWeight: 'normal', fontSize: '14px', lineHeight: '17px'}}>
-                    <div style={{margin:'16px 0 ',color:props.module.colour}}> Description: </div>
+                    <div style={{margin:'16px 0 8px 0',color:props.module.colour}}> Description </div>
                     <div style = {{fontWeight: 300}}> {props.module.module_description==null||props.module.module_description==''? 'No description yet':props.module.module_description} </div>
-                    <div style = {{margin:'16px 0 ',color:props.module.colour}}> Professors: </div>
+                    <div style = {{margin:'16px 0 8px 0',color:props.module.colour}}> Professors </div>
                     <div style = {{fontWeight: 300}}> {props.module.module_lecturer} | {props.module.module_lecturer_email} </div>
-                    <div style = {{margin:'16px 0 ',color:props.module.colour}}> Module Workload: </div>
+                    <div style = {{margin:'16px 0 8px 0',color:props.module.colour}}> Module Workload </div>
                     <div style = {{width:'100%', height: '100%', textAlign: 'justify', fontWeight: 'normal', fontSize: '14px', lineHeight: '17px'}}>
                       <div style = {{fontWeight: 300,color:"black"}}> Total amount of workload which you are expected to have during the module, including lectures, activities and guided study time.</div>
-                      <div style = {{margin:'12px 0 0 0 ', fontWeight: 300, color:'#AFAFAF', paddingBottom:'5px'}}> Year breakdown by: </div>
+                      <div style = {{margin:'24px 0 0 0 ', fontWeight: 300, color:'#AFAFAF', paddingBottom:'5px'}}> Year breakdown by: </div>
                       <div >
                       <Button variant="contained" color="primary" aria-controls="fade-menu" aria-haspopup="true" onClick = {()=>setFilterState(0)}
                       style={{margin:'8px',lineHeight:0, height: '24px',borderRadius:'12px',textTransform: 'none', padding:0, backgroundColor: filterState==0? "#0153B4":'#F6F7FA',}}

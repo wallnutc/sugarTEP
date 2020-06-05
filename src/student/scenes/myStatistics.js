@@ -63,9 +63,9 @@ function MyStatistics (props) {
         </div>
         <div className="main" style = {{textAlign: 'center', marginTop:'144px'}}>
 
-          <div style = {{fontWeight: 300, width:'90%', height: '100%', textAlign: 'justify', display: 'inline-block', fontWeight: 'normal', fontSize: '14px', lineHeight: '17px'}}> Overview of the expected workload for your entire year, divided by module, activity type, hourly contribution and grade contribution.</div>
-          <div style = {{margin:'12px 0 0 5% ',padding:'10px', fontWeight: 300, color:'#AFAFAF',textAlign: 'justify' }}> breakdown by: </div>
-          <div >
+          <div style = {{fontWeight: 300, width:'90%', height: '100%', textAlign: 'justify', display: 'inline-block',color:'#414141', fontWeight: '300', fontSize: '14px', lineHeight: '17px'}}> Overview of the expected workload for your entire year, divided by module, activity type, hourly contribution and grade contribution.</div>
+          <div style = {{margin:'12px 0 0 16px ', fontWeight: 300, color:'#AFAFAF',textAlign: 'justify' }}> breakdown by </div>
+          <div style={{margin:'0 0 16px 8px',display:'flex', overflow:'scroll'}}>
 
           <Button variant="contained" color="primary" aria-controls="fade-menu" aria-haspopup="true" onClick = {()=>setFilterState(4)}
           style={{margin:'8px',lineHeight:0, height: '24px',borderRadius:'12px',textTransform: 'none', padding:0, backgroundColor: filterState==4? "#0153B4":'#F6F7FA',}}

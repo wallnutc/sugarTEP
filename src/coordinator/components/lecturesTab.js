@@ -418,7 +418,9 @@ function DetailBox(props) {
       //console.log("change feedback");
       //console.log(event.target.value);
     };
-
+  const findLecturer = (event) => {
+    setLecturer(props.lecture==undefined? "":props.contributors.find((lecturer)=>lecturer.lecturer_name==event.target.value));
+  }
   const deleteNotes= (text)=> {
   //console.log(notes);
   var index = -1
@@ -737,7 +739,7 @@ const saveNote = () => {
       )
         }
         <div style={{margin:'5px 0px'}}>
-          Feedback Questions
+          Feedback Survey Topics
         </div>
         {props.lecture.feedback.length==0? <div>No Feedback Set</div>:
           props.lecture.feedback.map((item)=>
@@ -756,7 +758,7 @@ const saveNote = () => {
               id="activityType"
               select
               value={lecturer.lecturer_name}
-              onChange={(e)=>setLecturer(e.target.value)}
+              onChange={findLecturer}
             >
               {props.contributors.map((option) => (
                 <MenuItem key={option.lecturer_ID} value={option.lecturer_name}>
@@ -851,7 +853,7 @@ const saveNote = () => {
           )
           }
           <div style={{margin:'5px 0px'}}>
-            Feedback Questions
+            Feedback Survey Topicspics
               <InputLabel id="select-feedback">Add Feedback</InputLabel>
               <Select
                 labelId="select-feedback"

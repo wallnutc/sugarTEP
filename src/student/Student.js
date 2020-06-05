@@ -16,6 +16,49 @@ import {
 } from "react-device-detect";
 import {MediaQuery} from 'react-responsive';
 const mainBlue = "#0061D2";
+const scheduleActivities = [
+  {
+    id:1,
+    name: 'Leslies Cube Lab - Physics',
+    module: 'Activity',
+    module_code: 'PY1E04',
+    day: 1,
+    start_time: '14:00',
+    end_time: '17:00',
+    colour: 'grey'
+  },
+  {
+    id:2,
+    name: 'Leslies Cube Lab - Physics',
+    module: 'Activity',
+    module_code: 'PY1E04',
+    day: 3,
+    start_time: '15:00',
+    end_time: '16:00',
+    colour: 'grey'
+  },
+  {
+    id:3,
+    name: 'Swimming',
+    module: 'Personal',
+    module_code: 'Hobby',
+    day: 0,
+    start_time: '15:00',
+    end_time: '16:00',
+    colour: 'red'
+  },
+  {
+    id:4,
+    name: 'Football Practice',
+    module: 'Personal',
+    module_code: 'Hobby',
+    day: 2,
+    start_time: '19:00',
+    end_time: '21:00',
+    colour: 'red'
+  }
+]
+
 
 function CoreSceneRenderer (props){
   window.scrollTo(0, 0);
@@ -25,7 +68,7 @@ function CoreSceneRenderer (props){
     case 'myActivities':
       return (<MyActivities filter={props.modules.modulesFilter} today={props.today} setState={props.setState} activities={props.modules.activities} student={props.student.student_ID}/>);
     case 'myDay':
-      return (<MyDay isLoaded = {props.isLoaded} today={props.today} activities={props.modules.activities} setState={props.setState} classes={props.modules.classes} student={props.student}/>);
+      return (<MyDay fakeActivities={props.fakeActivities} updateFakeActivities={props.updateFakeActivities} isLoaded = {props.isLoaded} today={props.today} activities={props.modules.activities} setState={props.setState} classes={props.modules.classes} student={props.student}/>);
     case 'myModules':
       return (<MyModules modules={props.modules.modules}/>);
     case 'myStatistics':
@@ -112,6 +155,7 @@ class Student extends Component  {
           modulesFilter:[],
           student:{},
           today: new Date('2019-03-14T00:00:00'),
+          fakeActivities: scheduleActivities,
 };
 
   changeCoreScene = (coreSceneIndex)=>{
@@ -237,7 +281,13 @@ saveClass(){
         }
       );
     }
-
+    updateFakeActivities(newActivity) {
+      let tempAct = [];
+      this.state.fakeActivities.map((activity)=>{if(activity.id==newActivity.id){tempAct.push(newActivity)} else {tempAct.push(activity)} })
+      this.setState({
+        fakeActivities:tempAct,
+      })
+    }
   renderContent = () => {
       return (
         <div>
@@ -249,7 +299,10 @@ saveClass(){
           </div>
 
           <div>
-            <CoreSceneRenderer coreScene={this.state.coreScene} isLoaded= {this.state.isLoaded} modules={this.state} student={this.state.student} setState={this.saveClass.bind(this)} today={this.state.today}/>
+            <CoreSceneRenderer coreScene={this.state.coreScene} isLoaded= {this.state.isLoaded} modules={this.state}
+              student={this.state.student} setState={this.saveClass.bind(this)}
+              today={this.state.today} fakeActivities={this.state.fakeActivities}
+              updateFakeActivities={this.updateFakeActivities.bind(this)}/>
           </div>
 
           <div className="BottomNavigation"  style={{maxWidth: '500px',width: '100%', margin:'auto'}} >

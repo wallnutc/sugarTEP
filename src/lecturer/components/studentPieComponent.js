@@ -22,7 +22,7 @@ function StudentPieComponent (props){
     
     if(response.pie != undefined){
         const data = response.pie;
-        var caption = "My Class by Courses";
+        var caption = "My Class by Cohorts";
         const datasource = {
           chart: {
             caption: caption,
@@ -31,7 +31,7 @@ function StudentPieComponent (props){
             showBorder: "0",
             showLabels: "0",
             showValues: "0",
-            legendCaption: "Courses",
+            legendCaption: "Cohorts",
             legendItemFontSize: "12",
             legendCaptionBold: "1",
             legendItemFont: "Rubik",

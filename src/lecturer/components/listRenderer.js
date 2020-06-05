@@ -80,7 +80,7 @@ const ProgressBar = withStyles({
 
 export function LecturePanel(props) {
   if(props.item == undefined){
-    return (<div style={{color: '#7E7E7E',padding:'7px 24px'}}>All classes completed !</div>);
+    return (<div style={{color: '#7E7E7E',padding:'7px 16px'}}>All classes completed !</div>);
   }
   const date = new Date(props.item.date+'T'+props.item.start_time);
   const day = String(date.getDate()).padStart(2, '0');
@@ -150,7 +150,7 @@ export function ActivityPanel(props) {
   const startDateMonth = String(dueDate.getMonth() + 1).padStart(2, '0');
   const startDateYear = dueDate.getFullYear();
   return (
-    <div style={{padding:'7px 24px'}}>
+    <div style={{padding:'7px 16px'}}>
     <ExpansionPanel style={{border:'1px solid '+props.item.colour  ,backgroundColor: props.item.colour, color: 'white'}}>
         <ExpansionPanelSummary  style = {{height:'56px',padding:0,alignItems:'normal'}}>
           <div style={{width:'100%'}}>

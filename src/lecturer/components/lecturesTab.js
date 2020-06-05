@@ -418,7 +418,9 @@ function DetailBox(props) {
       //console.log("change feedback");
       //console.log(event.target.value);
     };
-
+  const findLecturer = (event) => {
+    setLecturer(props.lecture==undefined? "":props.contributors.find((lecturer)=>lecturer.lecturer_name==event.target.value));
+  }
   const deleteNotes= (text)=> {
   //console.log(notes);
   var index = -1
@@ -459,7 +461,8 @@ function DetailBox(props) {
             activities: activities,
             lecturer: lecturer.lecturer_ID,
         };
-    //console.log(data);
+
+    console.log(data);
     //console.log(data.activities);
 
         fetch("https://mvroso.pythonanywhere.com/updateClass", {
@@ -592,7 +595,17 @@ const saveNote = () => {
       </TabPanel>
       <TabPanel  value={value} index={1}>
         <div className = 'detailBox' style = {{color: props.colour}}>
-        <div>Lecturer: { props.lecture.lecturer}</div>
+        <span> Lecturer  </span><br/>
+        <TextField
+                id="classroom"
+                value={ props.lecture.lecturer}
+                style={{marginTop:'8px',marginBottom:'16px',}}
+                InputProps={{style: inputStyle}}
+                variant="outlined"
+                size='small'
+                InputProps={{
+                  readOnly: true,
+                }}/>
           <div>
 
             <span>{ props.lecture.title}</span>
@@ -680,7 +693,19 @@ const saveNote = () => {
       <div>
       <TabPanel  value={value} index={0}>
         <div className = 'detailBox' style = {{color: props.colour}}>
-        <div>Lecturer: { props.lecture.lecturer}</div>
+        <span> Lecturer  </span><br/>
+        <TextField
+                style={{}}
+                id="classroom"
+                value={ props.lecture.lecturer}
+                style={{marginTop:'8px',marginBottom:'16px',backgroundColor:'#efefef'}}
+                InputProps={{style: inputStyle}}
+                variant="outlined"
+                size='small'
+                InputProps={{
+                  readOnly: true,
+                }}/>
+
         <div>
           <span> {props.lecture.title} | </span>
           <span> {props.lecture.date} </span>
@@ -737,7 +762,7 @@ const saveNote = () => {
       )
         }
         <div style={{margin:'5px 0px'}}>
-          Feedback Questions
+          Feedback Survey Topics
         </div>
         {props.lecture.feedback.length==0? <div>No Feedback Set</div>:
           props.lecture.feedback.map((item)=>
@@ -750,36 +775,40 @@ const saveNote = () => {
       </TabPanel>
       <TabPanel  value={value} index={1}>
         <div className = 'detailBox' style = {{color: props.colour}}>
-          <div>
-          <span> Lecturer:  </span>
-          <TextField
-              id="activityType"
-              select
-              value={lecturer.lecturer_name}
-              onChange={(e)=>setLecturer(e.target.value)}
-            >
-              {props.contributors.map((option) => (
-                <MenuItem key={option.lecturer_ID} value={option.lecturer_name}>
-                  {option.lecturer_name}
-                </MenuItem>
-              ))}
-            </TextField>
+        <div style={{display:'flex'}}>
 
-          </div>
-          <div style = {{margin:'8px'}}>
-          <span> Title </span> <br/>
-          <TextField
-            id="title"
-            value={title}
-            fullwidth
-            size='small'
-            variant="outlined"
-            InputProps={{
-              style:inputStyle
-            }}
-            style={{marginTop:'8px',marginBottom:'16px'  }}
-            onChange={(e)=>setTitle(e.target.value)}
-            />
+            <div style = {{}}>
+            <span > Title </span> <br/>
+            <TextField
+              id="title"
+              value={title}
+              fullwidth
+              size='small'
+              variant="outlined"
+              InputProps={{
+                style:inputStyle
+              }}
+              style={{marginTop:'8px',marginBottom:'16px', width:'380px' }}
+              onChange={(e)=>setTitle(e.target.value)}
+              />
+            </div>
+            <div style={{marginLeft:'16px'}}>
+            <span > Lecturer  </span> <br/>
+            <TextField
+                style={{marginTop:'14px'}}
+                id="activityType"
+                select
+                value={lecturer.lecturer_name}
+                onChange={findLecturer}
+              >
+                {props.contributors.map((option) => (
+                  <MenuItem key={option.lecturer_ID} value={option.lecturer_name}>
+                    {option.lecturer_name}
+                  </MenuItem>
+                ))}
+              </TextField>
+
+            </div>
           </div>
           <div>
             <span> Content </span> <br/>
@@ -806,10 +835,11 @@ const saveNote = () => {
                     variant="outlined"
                   />
           </div>
-          <div>
+          <div style={{marginTop:'16px'}}>
             Activities
-            <InputLabel id="select-activity">Link Activity</InputLabel>
+            <InputLabel style={{margin:'4px auto auto 17px', fontSize:'12px'}} id="select-activity">Link Activity</InputLabel>
             <Select
+              style={{marginLeft:'17px'}}
               labelId="select-activity"
               id="selectActivity"
               multiple
@@ -850,10 +880,11 @@ const saveNote = () => {
             </span>
           )
           }
-          <div style={{margin:'5px 0px'}}>
-            Feedback Questions
-              <InputLabel id="select-feedback">Add Feedback</InputLabel>
+          <div style={{margin:'16px 0px 8px 0px'}}>
+            Feedback Survey Topics
+              <InputLabel style={{margin:'4px auto auto 17px', fontSize:'12px'}} id="select-feedback">Add Feedback</InputLabel>
               <Select
+                style={{marginLeft:'17px'}}
                 labelId="select-feedback"
                 id="selectFeedback"
                 multiple
@@ -879,17 +910,24 @@ const saveNote = () => {
           </div>
           {feedback.length==0? <div></div>:
             feedback.map((item)=>
-            <div style={{margin:'5px',padding:'5px',border:'1px solid gray',borderRadius:'5px'}}> <b>{item.feedback_title}</b> <br/>{item.feedback_description}
-            <IconButton aria-label="delete"  onClick={()=>{setFeedback(feedback.filter((i)=>i.feedback_title!=item.feedback_title));}}>
-              <ClearRoundedIcon  />
-            </IconButton>
+            <div style={{margin:'5px',padding:'16px',background:'#efefef',borderRadius:'5px'}}>
+            <div style={{float:'right'}}>
+              <IconButton style={{padding:'2px'}} aria-label="delete"  onClick={()=>{setFeedback(feedback.filter((i)=>i.feedback_title!=item.feedback_title));}}>
+                <ClearRoundedIcon  style={{fontSize:'17px'}}/>
+              </IconButton>
+            </div>
+            <div>
+            <div style={{margin:'0'}}><b>{item.feedback_title}</b></div>
+
+            <div style={{}}>{item.feedback_description}</div>
+            </div>
              </div>
 
           )
           }
           </div>
           <div style={{margin:'15px'}}>
-          <Button fullWidth size = 'large' variant="contained" style = {{backgroundColor: props.colour, color: invert(props.colour, true)}} onClick={()=>saveClass()}> SAVE </Button>
+          <Button fullWidth size = 'large' variant="contained" style = {{borderRadius:'70px',backgroundColor: props.colour, color: invert(props.colour, true), textTransform:'none'}} onClick={()=>saveClass()}> Save </Button>
           </div>
         </div>
 

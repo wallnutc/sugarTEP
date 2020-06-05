@@ -90,12 +90,12 @@ export function LecturePanel(props) {
   return (
     <div style={{}}>
       <ExpansionPanel style={{border:'1px solid '+props.item.colour, backgroundColor:props.item.colour, color: 'white', opacity: new Date(props.item.date+'T00:00:00') < props.today? 0.5:1}} >
-          <ExpansionPanelSummary  style = {{height:'56px',padding:0,alignItems:'normal'}}>
+          <ExpansionPanelSummary  style = {{height:'58px',padding:0,alignItems:'normal'}}>
             <div style = {{width:'100%'}}>
-              <div style = {{float:'left',position:'relative',left: 0,height:'100%', width:'56px',margin:0, borderRadius:'8px 0 0 8px',backgroundColor:'white'}}>
-                <LectureIcon color='action' style={{fontSize:'45px', margin:'6px',color: props.item.colour}} />
+              <div style = {{float:'left',position:'relative',left: 0,height:'100%', width:'58px',margin:0, borderRadius:'8px 0 0 8px',backgroundColor:'white'}}>
+                <LectureIcon color='action' style={{fontSize:'41px', margin:'8.8px',color: props.item.colour}} />
               </div>
-            <div style = {{overflow:'hidden',padding:'5px 16px', margin:'auto',fontFamily: 'Rubik', fontStyle: 'normal'}}>
+            <div style = {{overflow:'hidden',padding:'7px 16px', margin:'auto',fontFamily: 'Rubik', fontStyle: 'normal'}}>
               <div>
                 <div style = {{fontWeight: 300, fontSize: '10px', lineHeight: '10px', whiteSpace:'nowrap',overflow:'hidden',textOverflow:'ellipsis'}} >
                   {props.item.module_code} - {props.item.module_name} | Prof. {props.item.module_lecturer}
@@ -113,16 +113,16 @@ export function LecturePanel(props) {
           </ExpansionPanelSummary>
       <ExpansionPanelDetails >
         <div style={{width:'100%'}} >
-            <div style = {{margin:'8px',fontWeight:'normal', fontSize: '15px', lineHeight: '15px'}}>
+            <div style = {{margin:'8px auto 8px 0',fontWeight:'normal', fontSize: '15px', lineHeight: '15px'}}>
               Description
             </div>
-            <div style = {{margin:'8px 8px 16px 8px',fontWeight: 300, fontSize: '13px', lineHeight: '15px'}}>
+            <div style = {{margin:'8px auto 16px 0',fontWeight: 300, fontSize: '13px', lineHeight: '15px'}}>
               {props.item.description}
             </div>
             <div>
             {new Date(props.item.date+'T00:00:00') > props.today ?<div>Survey Not Open</div>:
               <Button fullWidth onClick={()=>props.onClick(props.item)}
-              style={{lineHeight:0,float:'right',height: '18px',borderRadius:'9px',textTransform: 'none', padding:0, backgroundColor:'white',}} children ={<span style={{inlineHeight:'0',color:props.item.colour}}>Provide Feedback</span>}></Button>
+              style={{lineHeight:0,float:'right',height: '28px',borderRadius:'28px',textTransform: 'none', padding:0, backgroundColor:'white',}} children ={<span style={{inlineHeight:'0',color:props.item.colour}}>Provide Feedback</span>}></Button>
             }
             </div>
         </div>
@@ -147,8 +147,8 @@ export function ActivityPanel(props) {
       <ExpansionPanel style={{border:'1px solid '+props.item.colour  ,backgroundColor: props.item.colour, color: 'white', opacity: props.item.submitted == 1 ? 0.5:1}}>
           <ExpansionPanelSummary  style = {{height:'56px',padding:0,alignItems:'normal'}}>
             <div style={{width:'100%'}}>
-            <div style = {{float:'left',position:'relative',left: 0,height:'100%', width:'56px',margin:'0', borderRadius:'8px 0 0 8px',backgroundColor:'white'}}>
-              <AcitvitiesIcon style={{fontSize:'45px', margin:'6px',color: props.item.colour}}/>
+            <div style = {{float:'left',position:'relative',left: 0,height:'100%', width:'58px',margin:'0', borderRadius:'8px 0 0 8px',backgroundColor:'white'}}>
+              <AcitvitiesIcon style={{fontSize:'41px', margin:'8.5px',color: props.item.colour}}/>
             </div>
 
           <div style = {{overflow:'hidden', padding:'5px 16px', fontFamily: 'Rubik', fontStyle: 'normal'}}>
@@ -197,7 +197,7 @@ export function ActivityPanel(props) {
           <div style={{margin:'17px 0'}}>
             {props.item.submitted == 1 ?<div>Activity Finished</div>:
               <Button fullWidth onClick={()=>props.onClick(props.item)}
-              style={{lineHeight:0, height: '18px',borderRadius:'9px',textTransform: 'none', padding:0, backgroundColor:'white',}} children ={<span style={{inlineHeight:'0',color:props.item.colour}}>Update Progress</span>}></Button>
+              style={{lineHeight:0, height: '28px',borderRadius:'28px',textTransform: 'none', padding:0, backgroundColor:'white',}} children ={<span style={{inlineHeight:'0',color:props.item.colour}}>Update Progress</span>}></Button>
 
             }
             </div>

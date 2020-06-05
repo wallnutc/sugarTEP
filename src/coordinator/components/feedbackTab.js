@@ -383,7 +383,7 @@ function SelectorBox(props) {
           <div className = 'detailBoxCourse' style = {{color: props.colour}}>
 
             <div style = {{margin:'8px 0', height: '62%',position:'relative'}}>
-            { props.module.class_feedback.length==0 ? <div> No Feedback Questions Set</div>:
+            { props.module.class_feedback.length==0 ? <div> No Feedback Survey Topics Set</div>:
               props.module.class_feedback.map((item)=> <FeedbackPanelCourse moduleID={props.module.module_ID} colour={props.module.colour} questionName={item.feedback_title} description={item.feedback_description} type='class'/>)}
           
             <div style = {{margin:'10px 0',position:'relative'}}>
@@ -415,7 +415,7 @@ function SelectorBox(props) {
         <div className = 'detailBoxCourse' style = {{color: props.colour}}>
 
             <div style = {{margin:'8px 0', height: '62%',position:'relative'}}>
-            { props.module.activity_feedback.length==0 ? <div> No Feedback Questions Set</div>:
+            { props.module.activity_feedback.length==0 ? <div> No Feedback Survey Topicspics Set</div>:
               props.module.activity_feedback.map((item)=> <FeedbackPanelCourse moduleID={props.module.module_ID} colour={props.module.colour} questionName={item.feedback_title} description={item.feedback_description} type='activity'/>)}
 
             <div style = {{margin:'10px 0', position:'relative'}}>
