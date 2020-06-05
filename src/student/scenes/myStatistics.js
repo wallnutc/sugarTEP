@@ -65,11 +65,11 @@ function MyStatistics (props) {
 
           <div style = {{fontWeight: 300, width:'90%', height: '100%', textAlign: 'justify', display: 'inline-block',color:'#414141', fontWeight: '300', fontSize: '14px', lineHeight: '17px'}}> Overview of the expected workload for your entire year, divided by module, activity type, hourly contribution and grade contribution.</div>
           <div style = {{margin:'12px 0 0 16px ', fontWeight: 300, color:'#AFAFAF',textAlign: 'justify' }}> breakdown by </div>
-          <div style={{margin:'0 0 16px 8px',display:'flex', overflow:'scroll'}}>
+          <div style={{margin:'0 0 16px 8px'}}>
 
           <Button variant="contained" color="primary" aria-controls="fade-menu" aria-haspopup="true" onClick = {()=>setFilterState(4)}
           style={{margin:'8px',lineHeight:0, height: '24px',borderRadius:'12px',textTransform: 'none', padding:0, backgroundColor: filterState==4? "#0153B4":'#F6F7FA',}}
-          children ={<span style={{margin:'0 10px',lineHeight:'0',color:filterState==4? "#FFFFFF":'#0061D2'}}> Student Progress  </span>}></Button>
+          children ={<div style={{margin:'0 10px',lineHeight:'0',color:filterState==4? "#FFFFFF":'#0061D2'}}> Student Progress  </div>}></Button>
 
           <Button variant="contained" color="primary" aria-controls="fade-menu" aria-haspopup="true" onClick = {()=>setFilterState(0)}
           style={{margin:'8px',lineHeight:0, height: '24px',borderRadius:'12px',textTransform: 'none', padding:0, backgroundColor: filterState==0? "#0153B4":'#F6F7FA',}}

@@ -172,7 +172,7 @@ function SelectorBox(props) {
         Next Lecture
         </div>
         {
-        <div style = {{margin:'8px 0'}}>
+        <div style = {{margin:'8px 16px'}}>
           <LecturePanel changeTab={props.changeTab} item = {nextClass} />
         </div>
       }
@@ -180,7 +180,7 @@ function SelectorBox(props) {
       Next Activities
       </div>
       {props.activities.filter((activity) => new Date(activity.due_date)>= props.today).map((activity) =>
-        <div style = {{margin:'8px 0'}}>
+        <div style = {{margin:'8px 16px'}}>
         <ActivityPanel selectActivity={props.selectActivity} changeTab={props.changeTab} item={activity} />
               </div>)}
         </div>

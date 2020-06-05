@@ -150,7 +150,7 @@ return (
         {showPopupC ?
         <ClassFeedbackPopup
                   class={popupClass}
-                  closePopup={togglePopupScheduleActivity}
+                  closePopup={togglePopupClass}
         />  : null
         }
         {showPopupA ?

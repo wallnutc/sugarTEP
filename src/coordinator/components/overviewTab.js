@@ -168,19 +168,19 @@ function SelectorBox(props) {
       <div className={classes.demo1}>
       </div>
       <div className = 'selectorBox' style={{margin:'8px', borderRadius:'8px'}} >
-        <div style={{fontStyle:"normal", fontFamily:"Rubik"}}>
+        <div style={{marginLeft:'16px',fontStyle:"normal", fontFamily:"Rubik"}}>
         Next Lecture
         </div>
         {
-        <div style = {{margin:'8px 0'}}>
+        <div style = {{margin:'8px 16px'}}>
           <LecturePanel changeTab={props.changeTab} item = {nextClass} />
         </div>
       }
-      <div style={{fontStyle:"normal", fontFamily:"Rubik"}}>
+      <div style={{marginLeft:'16px',fontStyle:"normal", fontFamily:"Rubik"}}>
       Next Activities
       </div>
       {props.activities.filter((activity) => new Date(activity.due_date)>= props.today).map((activity) =>
-        <div style = {{margin:'8px 0'}}>
+        <div style = {{margin:'8px 16px'}}>
         <ActivityPanel selectActivity={props.selectActivity} changeTab={props.changeTab} item={activity} />
               </div>)}
         </div>
@@ -392,7 +392,7 @@ export default function OverviewTab(props) {
     <div style = {{margin:0,padding:0, maxWidth:'906px'}}>
       <div  style = {{float:'left',height:'500px',width: 'calc(100% - 608px)',}}>
 
-        <div style = {{position:'relative', top:'27px', left:'35px', fontFamily: 'Rubik', fontStyle: 'normal', fontWeight: '300', fontSize: '14px',
+        <div style = {{position:'relative', top:'27px', left:'16px', fontFamily: 'Rubik', fontStyle: 'normal', fontWeight: '300', fontSize: '14px',
  lineHeight: '17px', display: 'flex', alignItems: 'center', color: '#414141'}} >Upcoming </div>
 
       <div style = {{ position:'relative', top:'87px',marginRight:'auto', marginLeft:'auto'}}>
