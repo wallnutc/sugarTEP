@@ -181,14 +181,13 @@ function FilterMenu(props) {
     setAnchorEl(null);
     //console.log("handleClose");
     //console.log(typeof optionID);
-    if(typeof optionID == 'number')
-      props.callback(optionID);
+    props.callback(optionID);
   };
   return (
     <div>
     <Button variant="contained" color="primary" aria-controls="fade-menu" aria-haspopup="true" onClick={handleClick}
-    style={{lineHeight:0, height: '24px',borderRadius:'12px',textTransform: 'none', padding:0, backgroundColor: props.default? '#F6F7FA':props.colour,}}
-    children ={<span style={{marginLeft:'10px',lineHeight:'0',color: props.default? props.colour:"#FFFFFF"}}>{props.label} <ArrowDropDownRoundedIcon style={{margin:0,verticalAlign:'middle'}}/> </span>}></Button>
+    style={{lineHeight:0, height: '24px',borderRadius:'12px',textTransform: 'none', padding:0, backgroundColor: props.default? '#F6F7FA':"#0153B4",}}
+    children ={<span style={{marginLeft:'10px',lineHeight:'0',color: props.default? '#0061D2':"#FFFFFF"}}>{props.label} <ArrowDropDownRoundedIcon style={{margin:0,verticalAlign:'middle'}}/> </span>}></Button>
       <Menu
         id="fade-menu"
         anchorEl={anchorEl}
@@ -246,12 +245,12 @@ function SelectorBox(props) {
     props.tabChange(newValue);
   };
   return (
-    <div  className={classes.root} style = {{height:'400px',borderRight: '1px solid #C4C4C4'}}>
+    <div  className={classes.root} style = {{height:'400px',borderRight: '1px solid #C4C4C4',}}>
 
 
       <div className={classes.demo1}>
         <AntTabs value={value} onChange={handleChange} aria-label="ant example" centered>
-          <AntTab label={"Summary"} onClick={()=>props.selectStudent({})} style ={{color:props.colour, marginLeft: '30px'}}/>
+          <AntTab label={"Summary"} onClick={()=>props.selectStudent({})} style ={{color:props.colour}}/>
           <AntTab label="My Class" style ={{color:props.colour}}/>
         </AntTabs>
       </div>
@@ -261,24 +260,9 @@ function SelectorBox(props) {
         <div className = 'selectorBox' >
           {isLoaded? <div style={{fontSize: 'small'}}>
             <h3 style ={{color:props.colour}}>Breakdown by hours</h3>
-            {moduleExprience.ByHours.map((item)=>
-              <div style={{color:props.colour,margin:'5px',padding:'8px 16px',background:'#efefef',borderRadius:'5px'}}>
-                <div>
-                  <div style={{marginDown:'8px'}}><b >{item.label}</b></div>
-                  <div style={{}}>{item.value +' hours'}</div>
-                </div>
-              </div>
-              ) }
-
+            {moduleExprience.ByHours.map((item)=><div style={{margin:'5px',padding:'5px',border:'1px solid',borderColor: props.colour, borderRadius:'5px'}}><b style ={{color:props.colour}}>{item.label}</b><br/>{item.value} hours</div>) }
             <h3 style ={{color:props.colour}}>Breakdown by grade</h3>
-            {moduleExprience.ByGrade.map((item)=>
-              <div style={{color:props.colour,margin:'5px',padding:'8px 16px',background:'#efefef',borderRadius:'5px'}}>
-                <div>
-                  <div style={{marginDown:'8px'}}><b >{item.label}</b></div>
-                  <div style={{}}>{item.value}%</div>
-                </div>
-              </div>
-              ) }
+            {moduleExprience.ByGrade.map((item)=><div style={{margin:'5px',padding:'5px',border:'1px solid',borderColor: props.colour, borderRadius:'5px'}}><b style ={{color:props.colour}}>{item.label}</b><br/>{item.value}%</div>) }
 
             </div>:null}
 
@@ -288,7 +272,7 @@ function SelectorBox(props) {
       <div className = 'selectorBox' >
       {Object.keys(students).length === 0 && students.constructor === Object? null:
         <div>
-        <FilterMenu colour = {props.colour} label={props.filterState == -1 ? "Cohort":(filterOptions.find((option)=>option.value==props.filterState)).label}
+        <FilterMenu label={props.filterState == -1 ? "Cohort":(filterOptions.find((option)=>option.value==props.filterState)).label}
           options={filterOptions} callback={props.setFilterState} default={props.filterState==-1}/>
         {props.filterState == -1 ? students.Students.map((student)=>
           <div style = {{margin:'8px 0',color: 'white'}}>

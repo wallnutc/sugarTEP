@@ -173,15 +173,12 @@ saveClass(){
       return (
         <div >
           <div className = 'Menubar' style={{backgroundColor: mainBlue}}><TopMenuBar /></div>
-          {/*
-            <div style={{position:'fixed',top:'100px'}}></div>
-            <span className="CourseLogo1" style={{width:'150px', height:'155px', marginTop:'40px'}}>
-            <img src={require('./images/cc.png')} style={{width:'150px', height:'150px'}}/>
-            </span>
-            <span><h2 className="StaffTitle1" style = {{fontSize:30}}>ModuleM</h2></span>
-            */}
-
-            {this.state.isLoaded ? this.state.courses.map((course)=>  <div className = 'title' style= {{color: mainBlue, marginTop: '117px',marginLeft: '5%'}}>
+          <div style={{position:'fixed',top:'100px'}}></div>
+          <span className="CourseLogo1" style={{width:'150px', height:'155px', marginTop:'40px'}}>
+          <img src={require('./images/cc.png')} style={{width:'150px', height:'150px'}}/>
+          </span>
+          <span><h2 className="StaffTitle1" style = {{fontSize:30}}>ModuleM</h2></span>
+            {this.state.isLoaded ? this.state.courses.map((course)=>  <div className = 'title' style= {{color: mainBlue, marginTop: '30px',marginLeft: '5%'}}>
                 <p>{course.course_name}</p>
             </div>) :null}
 
@@ -194,11 +191,11 @@ saveClass(){
 
               </div>
 
-            {this.state.isLoaded ? <div className = 'title' style= {{color: mainBlue,marginLeft: '5%', marginTop:'60px'}}><p>Modules</p></div>
+            {this.state.isLoaded ? <div className = 'title' style= {{color: mainBlue,marginLeft: '5%'}}><p>Modules</p></div>
             :<div className = 'title' style= {{color: mainBlue}}><p>Loading Modules... </p></div>}
 
             <div className = 'moduleBox'>
-              {this.state.isLoaded ? this.state.modules.map((module)=> <div style ={{margin:'24px 0px'}}>
+              {this.state.isLoaded ? this.state.modules.map((module)=> <div style ={{margin:'50px 0px'}}>
                         <ExpansionPanel changePanel={this.changePanel.bind(this)} selectedModule={this.state.selectedModule} today={this.state.today} colour={mainBlue} module={module} setState={this.saveClass.bind(this)}/>
                         </div>)
                         :null }
@@ -206,7 +203,7 @@ saveClass(){
             </div>
 
             <div className = 'moduleBox'>
-              {this.state.isLoaded ? this.state.contmodules.map((module)=> <div style ={{margin:'24px 0px'}}>
+              {this.state.isLoaded ? this.state.contmodules.map((module)=> <div style ={{margin:'50px 0px'}}>
 
                         <ExpansionPanel changePanel={this.changePanel.bind(this)} selectedModule={this.state.selectedModule} today={this.state.today} colour={mainBlue} module={module} setState={this.saveClass.bind(this)}/>
                         </div>)

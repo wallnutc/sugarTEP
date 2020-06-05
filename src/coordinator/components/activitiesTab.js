@@ -286,11 +286,11 @@ function SelectorBox(props) {
       <TabPanel  value={value} index={0} >
         <div className = 'selectorBox' >
         {props.edit>0?
-          <div style = {{margin:'8px 8px',display:'flex',justifyContent:'center'}}>
+          <div style = {{margin:'8px 0',display:'flex',justifyContent:'center'}}>
           <BootstrapButton  size = 'small'
             style = {{backgroundColor:'#F6F7FA', height:'32px',borderRadius:'16px',borderColor:props.colour}}
             startIcon ={<AddCircleRoundedIcon style={{fontSize: 14, color:props.colour }} />}
-            onClick={()=> props.handleChange("add_activity",2)}
+            onClick={()=> props.handleChange("add_activity",1)}
             children={
               <div>
                 <div style={{fontFamily: 'Rubik', fontWeight:'300',fontSize: '12px', whiteSpace:'nowrap',overflow:'hidden',textOverflow:'ellipsis',color: props.colour}}>
@@ -304,7 +304,7 @@ function SelectorBox(props) {
 
 
         {props.activities.filter((activity) => new Date(activity.due_date)>= props.today).map((activity) =>
-          <div style = {{margin:'8px 8px'}}>
+          <div style = {{margin:'8px 0'}}>
           <Button  size = 'large' fullWidth
           style = {{padding:0,height:'56px',borderRadius:'4px',border:'1px solid '+ (activity.activity_ID == props.inFocusID? decreaseBrightness(activity.colour,40): activity.colour), backgroundColor: activity.activity_ID == props.inFocusID? decreaseBrightness(activity.colour,40): activity.colour}}
           onClick={()=> {props.onClick(activity.activity_ID);props.handleChange("activity_selected", 0)}}
@@ -333,7 +333,7 @@ function SelectorBox(props) {
       <TabPanel value={value} index={1}>
       <div className = 'selectorBox' >
       {props.activities.filter((activity) => new Date(activity.due_date)< props.today).map((activity) =>
-        <div style = {{margin:'8px 8px'}}>
+        <div style = {{margin:'8px 0'}}>
         <Button  size = 'large' fullWidth
         style = {{padding:0, height:'56px', borderRadius:'4px', border:'1px solid'+ (activity.activity_ID == props.inFocusID? decreaseBrightness(activity.colour,40): activity.colour), backgroundColor: activity.activity_ID == props.inFocusID? decreaseBrightness(activity.colour,40): activity.colour}}
         onClick={()=> {props.onClick(activity.activity_ID);props.handleChange("activity_selected", 0)}}
@@ -878,6 +878,7 @@ const [activityTypeID, setActivityTypeID] = useState(props.activity==undefined? 
               <TextField
                 multiline
                 id="description"
+                InputProps={{style: inputStyle}}
                 size='small'
                 value={props.activity.description==null? "":props.activity.description}
                 style={{width: '531px',marginTop:'8px',marginBottom:'16px'}}
@@ -885,7 +886,6 @@ const [activityTypeID, setActivityTypeID] = useState(props.activity==undefined? 
                 rows={5}
                 InputProps={{
                   readOnly: true,
-                  style: inputStyle
                 }}/>
             </div>
 
@@ -914,12 +914,9 @@ const [activityTypeID, setActivityTypeID] = useState(props.activity==undefined? 
               </div>
               {
                 props.activity.feedback.map((item) =>
-                <div style={{margin:'5px',padding:'16px',background:'#efefef',borderRadius:'5px'}}>
-                  <div>
-                    <div style={{margin:'0'}}><b>{item.feedback_title}</b></div>
-                    <div style={{}}>{item.feedback_description}</div>
-                  </div>
-                </div>
+                <div style={{margin:'5px',padding:'5px',border:'1px solid gray',borderRadius:'5px'}}>
+                  <b>{item.feedback_title}</b> <br/> {item.feedback_description}
+                 </div>
                 )
               }
 
@@ -1204,17 +1201,12 @@ const [activityTypeID, setActivityTypeID] = useState(props.activity==undefined? 
             </div>
             {feedback.length==0? <div></div>:
               feedback.map((item)=>
-              <div style={{margin:'5px',padding:'16px',background:'#efefef',borderRadius:'5px'}}>
-                <div style={{float:'right'}}>
-                  <IconButton style={{padding:'2px'}} aria-label="delete"  onClick={()=>{setFeedback(feedback.filter((i)=>i.feedback_title!=item.feedback_title));}}>
-                    <ClearRoundedIcon  style={{fontSize:'17px'}}/>
-                  </IconButton>
-                </div>
-                <div>
-                <div style={{margin:'0'}}><b>{item.feedback_title}</b></div>
-                <div style={{}}>{item.feedback_description}</div>
-                </div>
-              </div>
+              <div style={{margin:'5px',padding:'5px',border:'1px solid gray',borderRadius:'5px'}}> <b>{item.feedback_title}</b> <br/>{item.feedback_description}
+              <IconButton aria-label="delete"  onClick={()=>{setFeedback(feedback.filter((i)=>i.feedback_title!=item.feedback_title));}}>
+                <ClearRoundedIcon  />
+              </IconButton>
+               </div>
+
             )
             }
             <div style={{margin:'15px'}}>
@@ -1406,6 +1398,7 @@ const [activityTypeID, setActivityTypeID] = useState(props.activity==undefined? 
             <TextField
               multiline
               id="description"
+              InputProps={{style: inputStyle}}
               size='small'
               value={props.activity.description==null? "":props.activity.description}
               style={{width: '531px',marginTop:'8px',marginBottom:'16px'}}
@@ -1413,7 +1406,6 @@ const [activityTypeID, setActivityTypeID] = useState(props.activity==undefined? 
               rows={5}
               InputProps={{
                 readOnly: true,
-                style: inputStyle
               }}/>
           </div>
 
@@ -1442,12 +1434,9 @@ const [activityTypeID, setActivityTypeID] = useState(props.activity==undefined? 
             </div>
             {
               props.activity.feedback.map((item) =>
-              <div style={{margin:'5px',padding:'16px',background:'#efefef',borderRadius:'5px'}}>
-                <div>
-                  <div style={{margin:'0'}}><b>{item.feedback_title}</b></div>
-                  <div style={{}}>{item.feedback_description}</div>
-                </div>
-              </div>
+              <div style={{margin:'5px',padding:'5px',border:'1px solid gray',borderRadius:'5px'}}>
+                <b>{item.feedback_title}</b> <br/> {item.feedback_description}
+               </div>
               )
             }
 

@@ -90,7 +90,7 @@ export function LecturePanel(props) {
   const start = props.item.start_time.split(':');
   const end = props.item.end_time.split(':');
   return (
-    <div style={{}}>
+    <div style={{padding:'7px 24px'}}>
     <ExpansionPanel style={{border:'1px solid '+props.item.colour, backgroundColor:props.item.colour, color: 'white', opacity: new Date(props.item.date+'T00:00:00') < props.today? 0.5:1}} >
         <ExpansionPanelSummary  style = {{height:'56px',padding:0,alignItems:'normal'}}>
           <div style = {{width:'100%'}}>
@@ -150,7 +150,7 @@ export function ActivityPanel(props) {
   const startDateMonth = String(dueDate.getMonth() + 1).padStart(2, '0');
   const startDateYear = dueDate.getFullYear();
   return (
-    <div style={{}}>
+    <div style={{padding:'7px 16px'}}>
     <ExpansionPanel style={{border:'1px solid '+props.item.colour  ,backgroundColor: props.item.colour, color: 'white'}}>
         <ExpansionPanelSummary  style = {{height:'56px',padding:0,alignItems:'normal'}}>
           <div style={{width:'100%'}}>

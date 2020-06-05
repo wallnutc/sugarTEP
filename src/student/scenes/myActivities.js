@@ -19,6 +19,7 @@ import AcitvitiesIcon from '../components/iconsSVG/activitiesIcon';
 
 const mainBlue = "#0061D2";
 function MyActivities (props) {
+  console.log("Student",props);
   const batch = 25;
   const headerContent = {title:"My Activities", imgPath: require("../images/icons/myActivities.svg")};
   const [selectedDate, setSelectedDate] = useState(props.today);

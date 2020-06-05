@@ -36,19 +36,19 @@ export function ClassFeedbackPopup (props) {
     //console.log("ID: " + ID + " value: " + value);
   }
   const submitFeedback = () => {
-    const data = {
-      questions: questions,
-      answers: answers
-    };
-    //console.log(data);
-    fetch("https://mvroso.pythonAnywhere.com/updateFeedback", {
-                  method: "POST",
-                  cache: "no-cache",
-                  body: JSON.stringify(data),
-                  headers: new Headers({"content-type": "application/json"})
-              }).then(res => {
-                  console.log("Request complete! response:", res);
-              });
+    // const data = {
+    //   questions: questions,
+    //   answers: answers
+    // };
+    // //console.log(data);
+    // fetch("https://mvroso.pythonAnywhere.com/updateFeedback", {
+    //               method: "POST",
+    //               cache: "no-cache",
+    //               body: JSON.stringify(data),
+    //               headers: new Headers({"content-type": "application/json"})
+    //           }).then(res => {
+    //               //console.log("Request complete! response:", res);
+    //           });
 
     setFeedback(true);
 
@@ -146,24 +146,24 @@ export function ActivityProgressPopup (props) {
                    headers: new Headers({"content-type": "application/json"})
                }).then(res => {
                    props.setState();
-                   console.log("Request complete! response:", res);
+                   //console.log("Request complete! response:", res);
                });
     setFinished(true);
   }
   const submitFeedback = () => {
-    const data = {
-      questions: questions,
-      answers: answers
-    };
-    //console.log(data);
-    fetch("https://mvroso.pythonAnywhere.com/updateFeedback", {
-                  method: "POST",
-                  cache: "no-cache",
-                  body: JSON.stringify(data),
-                  headers: new Headers({"content-type": "application/json"})
-              }).then(res => {
-                  console.log("Request complete! response:", res);
-              });
+    // const data = {
+    //   questions: questions,
+    //   answers: answers
+    // };
+    // //console.log(data);
+    // fetch("https://mvroso.pythonAnywhere.com/updateFeedback", {
+    //               method: "POST",
+    //               cache: "no-cache",
+    //               body: JSON.stringify(data),
+    //               headers: new Headers({"content-type": "application/json"})
+    //           }).then(res => {
+    //               //console.log("Request complete! response:", res);
+    //           });
 
     setFeedback(true);
 

@@ -261,24 +261,9 @@ function SelectorBox(props) {
         <div className = 'selectorBox' >
           {isLoaded? <div style={{fontSize: 'small'}}>
             <h3 style ={{color:props.colour}}>Breakdown by hours</h3>
-            {moduleExprience.ByHours.map((item)=>
-              <div style={{color:props.colour,margin:'5px',padding:'8px 16px',background:'#efefef',borderRadius:'5px'}}>
-                <div>
-                  <div style={{marginDown:'8px'}}><b >{item.label}</b></div>
-                  <div style={{}}>{item.value +' hours'}</div>
-                </div>
-              </div>
-              ) }
-
+            {moduleExprience.ByHours.map((item)=><div style={{margin:'5px',padding:'5px',border:'1px solid',borderColor: props.colour, borderRadius:'5px'}}><b style ={{color:props.colour}}>{item.label}</b><br/>{item.value} hours</div>) }
             <h3 style ={{color:props.colour}}>Breakdown by grade</h3>
-            {moduleExprience.ByGrade.map((item)=>
-              <div style={{color:props.colour,margin:'5px',padding:'8px 16px',background:'#efefef',borderRadius:'5px'}}>
-                <div>
-                  <div style={{marginDown:'8px'}}><b >{item.label}</b></div>
-                  <div style={{}}>{item.value}%</div>
-                </div>
-              </div>
-              ) }
+            {moduleExprience.ByGrade.map((item)=><div style={{margin:'5px',padding:'5px',border:'1px solid',borderColor: props.colour, borderRadius:'5px'}}><b style ={{color:props.colour}}>{item.label}</b><br/>{item.value}%</div>) }
 
             </div>:null}
 
