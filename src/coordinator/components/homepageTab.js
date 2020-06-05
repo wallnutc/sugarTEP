@@ -262,9 +262,22 @@ return (
         <div className = 'selectorBox' style={{height: '530px'}}>
           {isLoaded? <div style={{fontSize: 'small'}}>
             <h3 style ={{color:props.colour}}>Breakdown by Module</h3>
-            {courseExprience.ByModule.map((item)=><div style={{margin:'5px',padding:'5px',border:'1px solid',borderColor: props.colour, borderRadius:'5px'}}><b style ={{color:props.colour}}>{item.label}</b><br/>{item.value} hours</div>) }
+            {courseExprience.ByModule.map((item)=>
+              <div style={{color:props.colour,margin:'5px',padding:'8px 16px',background:'#efefef',borderRadius:'5px'}}>
+                <div>
+                  <div style={{marginDown:'8px'}}><b >{item.label}</b></div>
+                  <div style={{}}>{item.value+' hours'}</div>
+                </div>
+              </div>
+              ) }
             <h3 style ={{color:props.colour}}>Breakdown by Activity Type</h3>
-            {courseExprience.ByActivity.map((item)=><div style={{margin:'5px',padding:'5px',border:'1px solid',borderColor: props.colour, borderRadius:'5px'}}><b style ={{color:props.colour}}>{item.label}</b><br/>{item.value} hours</div>) }
+            {courseExprience.ByActivity.map((item)=>
+              <div style={{color:props.colour,margin:'5px',padding:'8px 16px',background:'#efefef',borderRadius:'5px'}}>
+                <div>
+                  <div style={{marginDown:'8px'}}><b >{item.label}</b></div>
+                  <div style={{}}>{item.value}%</div>
+                </div>
+              </div>) }
 
             </div>:null}
         </div>

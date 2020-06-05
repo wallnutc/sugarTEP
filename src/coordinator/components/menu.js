@@ -6,7 +6,7 @@ import SettingsIcon from '@material-ui/icons/Settings';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import HomeIcon from '@material-ui/icons/Home';
 
-const mainBlue = "#0061D2";
+const mainBlue = "#003EAA";
 
 export default function SimpleMenu() {
 
@@ -35,23 +35,31 @@ export default function SimpleMenu() {
         <HomeIcon   />
       </Button>
       </div>
-
-      <div style={{float: "right"}}>
-        <Button aria-controls="simple-menu" aria-haspopup="true" style={{height:"55px", color: 'white'}} onClick={handleClick}  >
-          <SettingsIcon />
+      <div style={{marginLeft:'43%'}}>
+        <Button aria-controls="simple-menu" aria-haspopup="true" style={{height:"45px"}}>
+           <img className="photoU" style={{marginTop:'0',height:'40px'}} src={require('../images/logoGroup.svg')}/>
         </Button>
-        <Menu
-          id="simple-menu"
-          anchorEl={anchorEl}
-          keepMounted
-          open={Boolean(anchorEl)}
-          onClose={handleClose}
-        >
-          <MenuItem onClick={handleClose}>Profile</MenuItem>
-          <MenuItem onClick={handleClose}>My account</MenuItem>
-          <MenuItem onClick={handleClose}>Logout</MenuItem>
-        </Menu>
       </div>
+      {/*
+        <div style={{float: "right"}}>
+          <Button aria-controls="simple-menu" aria-haspopup="true" style={{height:"55px", color: 'white'}} onClick={handleClick}  >
+            <SettingsIcon />
+          </Button>
+          <Menu
+            id="simple-menu"
+            anchorEl={anchorEl}
+            keepMounted
+            open={Boolean(anchorEl)}
+            onClose={handleClose}
+          >
+            <MenuItem onClick={handleClose}>Profile</MenuItem>
+            <MenuItem onClick={handleClose}>My account</MenuItem>
+            <MenuItem onClick={handleClose}>Logout</MenuItem>
+          </Menu>
+        </div>
+
+        */}
+
     </div>
   );
 }
