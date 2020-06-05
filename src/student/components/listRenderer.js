@@ -141,9 +141,9 @@ export function ActivityPanel(props) {
   const dueDateYear = dueDate.getFullYear();
 
   const startDate = new Date(Date.parse(props.item.start_date));
-  const startDateDay = String(dueDate.getDate()).padStart(2, '0');
-  const startDateMonth = String(dueDate.getMonth() + 1).padStart(2, '0');
-  const startDateYear = dueDate.getFullYear();
+  const startDateDay = String(startDate.getDate()).padStart(2, '0');
+  const startDateMonth = String(startDate.getMonth() + 1).padStart(2, '0');
+  const startDateYear = startDate.getFullYear();
   return (
     <div style={{}}>
       <ExpansionPanel style={{border:'1px solid '+props.item.colour  ,backgroundColor: props.item.colour, color: 'white', opacity: props.item.submitted == 1 ? 0.5:1}} >
@@ -192,9 +192,9 @@ export function ActivityPanel(props) {
           </div>
           <div style={{width:'100%',verticalAlign:'middle',display: 'inline-block' }}>
             <div style={{position:'relative',top:'5px',width:'80%', float:'left', verticalAlign:'middle'}}>
-              <ProgressBar variant="determinate" value ={props.item.class_time_spent==null || props.item.estimated_time== null ? 5: 70*props.item.class_time_spent/props.item.estimated_time} />
+              <ProgressBar variant="determinate" value ={props.item.class_time_spent==null ||props.item.class_time_spent==0 || props.item.estimated_time== null || props.item.estimated_time== 0 ? 5: ((70*props.item.class_time_spent/props.item.estimated_time)<95? (70*props.item.class_time_spent/props.item.estimated_time): 90)} />
             </div>
-            <div style={{float:'right'}}> {props.item.class_time_spent} hours</div>
+            <div style={{float:'right'}}> {props.item.class_time_spent==null? 0:props.item.class_time_spent} hours</div>
           </div>
 
           <div style={{marginTop:'8px'}}>
@@ -202,7 +202,7 @@ export function ActivityPanel(props) {
           </div>
           <div style={{width:'100%',verticalAlign:'middle',display: 'inline-block' }}>
             <div style={{position:'relative',top:'5px',width:'80%', float:'left', verticalAlign:'middle'}}>
-              <ProgressBar variant="determinate"  value={props.item.time_spent==null || props.item.estimated_time== null ? 5: 70*props.item.time_spent/props.item.estimated_time} />
+              <ProgressBar variant="determinate"  value={props.item.time_spent==null ||props.item.time_spent==0 || props.item.estimated_time== null || props.item.estimated_time== 0 ? 5: ((70*props.item.time_spent/props.item.estimated_time)<95?(70*props.item.time_spent/props.item.estimated_time):90 )} />
             </div>
             <div style={{float:'right'}}> {props.item.time_spent==null? 0:props.item.time_spent} hours</div>
           </div>
@@ -222,7 +222,7 @@ export function ActivityPanel(props) {
 
           <div style={{margin:'12px 0'}}>
             <span > Grading description </span>
-            <div style = {{fontWeight: 300,color:'#595959'}}> {props.item.grading_description==null||props.props.item.grading_description==''? "none":props.item.grading_description} </div>
+            <div style = {{fontWeight: 300,color:'#595959'}}> {props.item.grading_description==null||props.item.grading_description==''? "none":props.item.grading_description} </div>
           </div>
 
         </div>

@@ -35,7 +35,7 @@ class App extends Component  {
                     </div>
                   */}
 
-                <p className="CourseName1" style={{margin:'80px auto 20px auto', fontSize:"24px"}}>Navigate <b style={{color:'#003EAA'}}>&nbsp;ModuleM&nbsp;</b> as a</p>
+                <p className="CourseName1" style={{margin:'80px auto 20px auto', fontSize:"24px"}}>Navigate <b style={{color:'#003EAA'}}>&nbsp;ModuleM&nbsp;</b> as a:</p>
 
                 <div>
                     <div style={{marginTop:'16px',addingTop:'2%',paddingBottom:'1%',maxWidth: 250, margin:'auto'}}><div><Link to={'/student'} style={{ textDecoration: 'none' }}>

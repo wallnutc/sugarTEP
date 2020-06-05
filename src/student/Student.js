@@ -15,7 +15,7 @@ import {
   isMobile
 } from "react-device-detect";
 import {MediaQuery} from 'react-responsive';
-const mainBlue = "#0061D2";
+const mainBlue = "#003EAA";
 const scheduleActivities = [
   {
     id:1,

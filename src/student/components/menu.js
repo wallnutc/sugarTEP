@@ -24,24 +24,33 @@ export default function SimpleMenu() {
       <Button aria-controls="simple-menu" aria-haspopup="true" style={{height:"55px", color: 'white'}} href="/" >
         <HomeIcon   />
       </Button>
+      </div>
 
-      </div>
-      <div style={{float: "right"}}>
-        <Button aria-controls="simple-menu" aria-haspopup="true" style={{height:"55px", color: 'white'}} onClick={handleClick}  >
-          <SettingsIcon />
-        </Button>
-        <Menu
-          id="simple-menu"
-          anchorEl={anchorEl}
-          keepMounted
-          open={Boolean(anchorEl)}
-          onClose={handleClose}
-        >
-          <MenuItem onClick={handleClose}>Profile</MenuItem>
-          <MenuItem onClick={handleClose}>My account</MenuItem>
-          <MenuItem onClick={handleClose}>Logout</MenuItem>
-        </Menu>
-      </div>
+
+      {/*
+        <div style={{marginLeft:'43%'}}>
+          <Button aria-controls="simple-menu" aria-haspopup="true" style={{height:"45px"}}>
+             <img className="photoU" style={{marginTop:'0',height:'40px'}} src={require('../images/logoGroup.svg')}/>
+          </Button>
+        </div>
+        <div style={{float: "right"}}>
+          <Button aria-controls="simple-menu" aria-haspopup="true" style={{height:"55px", color: 'white'}} onClick={handleClick}  >
+            <SettingsIcon />
+          </Button>
+          <Menu
+            id="simple-menu"
+            anchorEl={anchorEl}
+            keepMounted
+            open={Boolean(anchorEl)}
+            onClose={handleClose}
+          >
+            <MenuItem onClick={handleClose}>Profile</MenuItem>
+            <MenuItem onClick={handleClose}>My account</MenuItem>
+            <MenuItem onClick={handleClose}>Logout</MenuItem>
+          </Menu>
+        </div>
+        */}
+
     </div>
   );
 }
