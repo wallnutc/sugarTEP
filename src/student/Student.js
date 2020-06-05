@@ -15,7 +15,7 @@ import {
   isMobile
 } from "react-device-detect";
 import {MediaQuery} from 'react-responsive';
-const mainBlue = "#0061D2";
+const mainBlue = "#003EAA";
 const scheduleActivities = [
   {
     id:1,
@@ -62,12 +62,11 @@ const scheduleActivities = [
 
 function CoreSceneRenderer (props){
   window.scrollTo(0, 0);
-  console.log("CoreScene", props)
   switch(props.coreScene) {
     case 'lectures':
       return (<Lectures filter={props.modules.modulesFilter} today={props.today} classes={props.modules.classes}/>);
     case 'myActivities':
-      return (<MyActivities filter={props.modules.modulesFilter} today={props.today} setState={props.setState} activities={props.modules.activities} student={props.student}/>);
+      return (<MyActivities filter={props.modules.modulesFilter} today={props.today} setState={props.setState} activities={props.modules.activities} student={props.student.student_ID}/>);
     case 'myDay':
       return (<MyDay fakeActivities={props.fakeActivities} updateFakeActivities={props.updateFakeActivities} isLoaded = {props.isLoaded} today={props.today} activities={props.modules.activities} setState={props.setState} classes={props.modules.classes} student={props.student}/>);
     case 'myModules':
