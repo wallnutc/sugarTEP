@@ -17,9 +17,11 @@ function TimelineComponent(props){
        .catch((error) => {
          console.error(error);
        });
-  },[]);
+  },[props.courseID, props.bin, props.label, props.mode]);
   if(response.byActivity != undefined){
-    const data = response.byModule;
+    const data = null;
+    if (props.mode == "Module") data = response.byModule;
+    else  data = response.byActivity;
     const schema = response.schema;
     var binning = null;
     if (props.bin == "Month"){

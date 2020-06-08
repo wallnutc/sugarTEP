@@ -66,7 +66,7 @@ function CoreSceneRenderer (props){
     case 'lectures':
       return (<Lectures filter={props.modules.modulesFilter} today={props.today} classes={props.modules.classes}/>);
     case 'myActivities':
-      return (<MyActivities filter={props.modules.modulesFilter} today={props.today} setState={props.setState} activities={props.modules.activities} student={props.student.student_ID}/>);
+      return (<MyActivities filter={props.modules.modulesFilter} today={props.today} setState={props.setState} activities={props.modules.activities} student={props.student}/>);
     case 'myDay':
       return (<MyDay fakeActivities={props.fakeActivities} updateFakeActivities={props.updateFakeActivities} isLoaded = {props.isLoaded} today={props.today} activities={props.modules.activities} setState={props.setState} classes={props.modules.classes} student={props.student}/>);
     case 'myModules':
@@ -153,7 +153,7 @@ class Student extends Component  {
           classes:[],
           activities:[],
           modulesFilter:[],
-          student:{},
+          student:[],
           today: new Date('2019-03-14T00:00:00'),
           fakeActivities: scheduleActivities,
 };
