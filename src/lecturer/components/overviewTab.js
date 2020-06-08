@@ -326,14 +326,18 @@ function DetailBox(props) {
               <TabPanel  value={value} index={1}>
                 <div className = 'detailBox'>
                 {previousClass!=null? <div>
-                  Previous Class - {previousClass.title} - {previousClass.date + ' | ' + previousClass.start_time +'- '+previousClass.end_time }
+                  <div style={{margin:'16px auto 8px 24px',color:props.colour}}>
+                    Previous Class - {previousClass.title} - {previousClass.date.split("-")[2]+'/'+previousClass.date.split("-")[1] + ' | ' + previousClass.start_time.split(":")[0]+':'+previousClass.start_time.split(":")[1] +'- '+previousClass.end_time.split(":")[0]+':'+previousClass.end_time.split(":")[1] }
+                  </div>
                   {previousClass.feedback.length==0 ? <div> No feedback for this class</div>:
                     previousClass.feedback.map((item)=> <FeedbackPanel colour={props.colour} activityID={previousClass.class_ID} questionName={item.feedback_title} type='Class'/>)}
 
                   </div>: <div>No classes taught yet.</div>}
 
                 {previousActivity!=null? <div>
-                  Previous Activity - {previousActivity.title } - {previousActivity.due_date }
+                  <div style={{margin:'16px auto 8px 24px',color:props.colour}}>
+                    Previous Activity - {previousActivity.title } - {previousActivity.due_date.split('T')[0].split('-')[2]+'/'+previousActivity.due_date.split('T')[0].split('-')[1] + ' | ' + previousActivity.due_date.split('T')[1].split(':')[0] + ':' + previousActivity.due_date.split('T')[1].split(':')[1]}
+                  </div>
                   {previousActivity.feedback.map((item)=> <FeedbackPanel colour={props.colour} activityID={previousActivity.activity_ID} questionName={item.feedback_title} type='Activity'/>)}
                    </div>:<div>No past activities yet.</div>}
                 </div>
