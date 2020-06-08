@@ -19,7 +19,7 @@ function TimelineComponent(props){
        });
   },[props.courseID, props.bin, props.label, props.mode]);
   if(response.byActivity != undefined){
-    const data = null;
+    var data = null;
     if (props.mode == "Module") data = response.byModule;
     else  data = response.byActivity;
     const schema = response.schema;
